@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: radar-alertas-bot
+    env: python
+    buildCommand: pip install -r requirements_bot.txt
+    startCommand: python -m src.telegram_bot.bot_cloud
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_BOT_USERNAME
+        value: RadarAletasSubastas_bot
+      - key: TELEGRAM_CANAL_VIP_ID
+        value: "-1004355179430"
+      - key: TELEGRAM_CANAL_VIP_LINK
+        value: "https://t.me/+H9DxrDvgJLQ0YWY8"
+      - key: PRECIO_PROMOCION
+        value: "2.99"
+      - key: STRIPE_PAYMENT_LINK
+        value: "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00"

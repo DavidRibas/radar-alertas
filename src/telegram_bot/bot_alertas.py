@@ -29,6 +29,7 @@ load_dotenv()
 
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "TU_TOKEN_AQUI")
 CANAL_VIP_ID = os.getenv("TELEGRAM_CANAL_VIP_ID", "@canal_vip_demo")
+CANAL_VIP_LINK = os.getenv("TELEGRAM_CANAL_VIP_LINK", "https://t.me/+H9DxrDvgJLQ0YWY8")
 CANAL_FREE_ID = os.getenv("TELEGRAM_CANAL_FREE_ID", "@canal_free_demo")
 PRECIO_PROMO = os.getenv("PRECIO_PROMOCION", "2.99")
 STRIPE_LINK = os.getenv("STRIPE_PAYMENT_LINK", "https://buy.stripe.com/demo")
@@ -52,7 +53,7 @@ async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if es_vip:
         mensaje += f"⭐ *Tu estado:* MIEMBRO VIP ACTIVO (Hasta: {estado.get('fecha_fin_suscripcion')[:10]})\n"
         teclado = [
-            [InlineKeyboardButton("✈️ Ir al Canal VIP Privado", url="https://t.me/c/radar_vip_enlace")],
+            [InlineKeyboardButton("✈️ Ir al Canal VIP Privado", url=CANAL_VIP_LINK)],
             [InlineKeyboardButton("📊 Consultar Mi Suscripción", callback_data="mi_estado")]
         ]
     else:
@@ -124,7 +125,7 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     elif data == "volver_inicio":
         teclado = [
-            [InlineKeyboardButton("⭐ Desbloquear Canal VIP (14,99 €/mes)", callback_data="pagar_vip")],
+            [InlineKeyboardButton(f"⭐ Desbloquear Canal VIP ({PRECIO_PROMO} €/mes)", callback_data="pagar_vip")],
             [InlineKeyboardButton("ℹ️ ¿Cómo funciona?", callback_data="info_servicio")],
             [InlineKeyboardButton("📊 Mi Cuenta", callback_data="mi_estado")]
         ]

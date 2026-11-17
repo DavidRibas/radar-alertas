@@ -27,3 +27,7 @@ session/
 # IDE
 .vscode/
 .idea/
+
+# Base de datos local
+data/*.db
+data/*.sqlite
