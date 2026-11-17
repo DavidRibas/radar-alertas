@@ -33,6 +33,9 @@ CANAL_VIP_LINK = os.getenv("TELEGRAM_CANAL_VIP_LINK", "https://t.me/+H9DxrDvgJLQ
 CANAL_FREE_ID = os.getenv("TELEGRAM_CANAL_FREE_ID", "@canal_free_demo")
 PRECIO_PROMO = os.getenv("PRECIO_PROMOCION", "2.99")
 STRIPE_LINK = os.getenv("STRIPE_PAYMENT_LINK", "https://buy.stripe.com/demo")
+STRIPE_LINK_SUBASTAS = os.getenv("STRIPE_LINK_SUBASTAS", STRIPE_LINK)
+STRIPE_LINK_AYUDAS = os.getenv("STRIPE_LINK_AYUDAS", STRIPE_LINK)
+STRIPE_LINK_PACK_TOTAL = os.getenv("STRIPE_LINK_PACK_TOTAL", STRIPE_LINK)
 
 async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Maneja el comando /start con menú interactivo de botones."""
@@ -80,17 +83,17 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if data == "pagar_vip":
         texto = (
-            "🚀 *Pase Mensual RadarAlertas VIP*\n\n"
-            "Con tu suscripción mensual obtienes:\n"
-            "• Alertas inmediatas de subastas judiciales en tu móvil.\n"
-            "• Enlaces directos a los expedientes oficiales del BOE.\n"
-            "• Datos catastrales y cruce de precios con el mercado.\n"
-            "• Sin permanencia: cancela con 1 clic cuando quieras.\n\n"
-            f"🔥 *Precio promocional:* solo *{PRECIO_PROMO} € / mes* (antes 14,99 €)\n"
-            "Facturación mensual segura con tarjeta, Apple Pay o Google Pay."
+            "🚀 *Planes de Acceso Oficial a RadarAlertas VIP*\n\n"
+            "Elige la suscripción que mejor se adapte a tus intereses:\n\n"
+            "🏠 *Canal Subastas Judiciales:* Inmuebles al -50%, vehículos y embargos.\n"
+            "💰 *Canal Ayudas y Subvenciones:* Dinero a fondo perdido y trámites de sede.\n"
+            "📑 *Canal Licitaciones y Empleo:* Contratos para autónomos y plazas exprés.\n\n"
+            "🔥 *Recomendado:* El *Pack Total VIP* te da acceso simultáneo a todos los canales por solo 2 € más."
         )
         teclado = [
-            [InlineKeyboardButton(f"💳 Pagar {PRECIO_PROMO} € (Stripe Seguro)", url=STRIPE_LINK)],
+            [InlineKeyboardButton("🔥 PACK TOTAL VIP (Todas las Alertas) - 4,99 €/mes", url=STRIPE_LINK_PACK_TOTAL)],
+            [InlineKeyboardButton("🏠 Solo Subastas Judiciales (2,99 €/mes)", url=STRIPE_LINK_SUBASTAS)],
+            [InlineKeyboardButton("💰 Solo Ayudas y Subvenciones (2,99 €/mes)", url=STRIPE_LINK_AYUDAS)],
             [InlineKeyboardButton("🔙 Volver", callback_data="volver_inicio")]
         ]
         await query.edit_message_text(texto, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
