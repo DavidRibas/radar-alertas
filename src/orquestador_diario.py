@@ -97,6 +97,8 @@ async def ejecutar_ciclo_diario(provincia: str = "28"):
     import requests
     token = os.getenv("TELEGRAM_BOT_TOKEN")
     canal_vip = os.getenv("TELEGRAM_CANAL_VIP_ID")
+    admin_id = os.getenv("TELEGRAM_ADMIN_USER_ID")
+
     if token and canal_vip and canal_vip != "@canal_vip_demo":
         try:
             url_msg = f"https://api.telegram.org/bot{token}/sendMessage"
@@ -104,6 +106,30 @@ async def ejecutar_ciclo_diario(provincia: str = "28"):
             print(f"✈️ ¡Alerta VIP enviada en directo a tu canal de Telegram ({canal_vip})!")
         except Exception as e:
             print(f"⚠️ No se pudo enviar el mensaje a Telegram: {e}")
+
+    # Enviar el vídeo y el texto de TikTok al Telegram personal de David
+    if token and admin_id and ruta_video.exists():
+        try:
+            print(f"📱 Enviando vídeo de TikTok a tu Telegram personal ({admin_id})...")
+            url_video = f"https://api.telegram.org/bot{token}/sendVideo"
+            caption = (
+                f"🎬 *¡Vídeo de TikTok listo para publicar!*\n\n"
+                f"📍 *Subasta:* {chollo['localidad']}\n"
+                f"💰 *Ahorro:* -{chollo['ahorro_porcentaje']}% ({chollo['precio_salida_formato']})\n\n"
+                f"📋 *Copia y pega este texto en tu TikTok:*\n"
+                f"🚨 Oportunidad judicial en {chollo['localidad']} con un {chollo['ahorro_porcentaje']}% de descuento sobre tasación.\n"
+                f"Ficha técnica, cargas y enlace oficial en el link de la bio 👆\n"
+                f"#subastas #boe #inversion #madrid #chollos"
+            )
+            with open(ruta_video, "rb") as vf:
+                requests.post(
+                    url_video,
+                    data={"chat_id": admin_id, "caption": caption, "parse_mode": "Markdown"},
+                    files={"video": vf}
+                )
+            print("✅ ¡Vídeo y texto recibidos en tu móvil con éxito!")
+        except Exception as e:
+            print(f"⚠️ No se pudo enviar el vídeo al Telegram de David: {e}")
 
     registrar_alerta_enviada(id_sub, chollo["titulo"], chollo["precio_salida_formato"])
 
