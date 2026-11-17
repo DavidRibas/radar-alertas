@@ -17,3 +17,9 @@ services:
         value: "2.99"
       - key: STRIPE_PAYMENT_LINK
         value: "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00"
+      - key: STRIPE_LINK_SUBASTAS
+        value: "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00"
+      - key: STRIPE_LINK_AYUDAS
+        value: "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00"
+      - key: STRIPE_LINK_PACK_TOTAL
+        value: "https://buy.stripe.com/14A4gA0g6a3Fgt9a2VcQU01"

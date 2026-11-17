@@ -32,10 +32,10 @@ CANAL_VIP_ID = os.getenv("TELEGRAM_CANAL_VIP_ID", "@canal_vip_demo")
 CANAL_VIP_LINK = os.getenv("TELEGRAM_CANAL_VIP_LINK", "https://t.me/+H9DxrDvgJLQ0YWY8")
 CANAL_FREE_ID = os.getenv("TELEGRAM_CANAL_FREE_ID", "@canal_free_demo")
 PRECIO_PROMO = os.getenv("PRECIO_PROMOCION", "2.99")
-STRIPE_LINK = os.getenv("STRIPE_PAYMENT_LINK", "https://buy.stripe.com/demo")
-STRIPE_LINK_SUBASTAS = os.getenv("STRIPE_LINK_SUBASTAS", STRIPE_LINK)
-STRIPE_LINK_AYUDAS = os.getenv("STRIPE_LINK_AYUDAS", STRIPE_LINK)
-STRIPE_LINK_PACK_TOTAL = os.getenv("STRIPE_LINK_PACK_TOTAL", STRIPE_LINK)
+STRIPE_LINK = os.getenv("STRIPE_PAYMENT_LINK", "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00")
+STRIPE_LINK_SUBASTAS = os.getenv("STRIPE_LINK_SUBASTAS", "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00")
+STRIPE_LINK_AYUDAS = os.getenv("STRIPE_LINK_AYUDAS", "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00")
+STRIPE_LINK_PACK_TOTAL = os.getenv("STRIPE_LINK_PACK_TOTAL", "https://buy.stripe.com/14A4gA0g6a3Fgt9a2VcQU01")
 
 async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Maneja el comando /start con menú interactivo de botones."""
