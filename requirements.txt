@@ -1,0 +1,19 @@
+# Síntesis de voz gratuita (Microsoft Edge Neural TTS)
+edge-tts>=6.1.10
+
+# Manipulación de imagen y vídeo
+Pillow>=10.2.0
+moviepy>=1.0.3
+
+# Extracción de datos y peticiones HTTP
+requests>=2.31.0
+beautifulsoup4>=4.12.3
+playwright>=1.42.0
+
+# Telegram Bot y Pagos
+python-telegram-bot>=21.0
+
+# Utilidades y configuración
+python-dotenv>=1.0.1
+pydantic>=2.6.0
+asyncio

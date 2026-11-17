@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# Output y temporales
+output/
+temp/
+*.mp4
+*.mp3
+*.wav
+
+# Secretos y credenciales
+.env
+.env.local
+tokens/
+cookies.json
+credentials.json
+session/
+
+# IDE
+.vscode/
+.idea/
