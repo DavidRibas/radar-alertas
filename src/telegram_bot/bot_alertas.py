@@ -30,6 +30,8 @@ load_dotenv()
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "TU_TOKEN_AQUI")
 CANAL_VIP_ID = os.getenv("TELEGRAM_CANAL_VIP_ID", "@canal_vip_demo")
 CANAL_FREE_ID = os.getenv("TELEGRAM_CANAL_FREE_ID", "@canal_free_demo")
+PRECIO_PROMO = os.getenv("PRECIO_PROMOCION", "2.99")
+STRIPE_LINK = os.getenv("STRIPE_PAYMENT_LINK", "https://buy.stripe.com/demo")
 
 async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Maneja el comando /start con menú interactivo de botones."""
@@ -56,10 +58,11 @@ async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         mensaje += (
             "🔒 *Acceso exclusivo:* Suscríbete para recibir todas las alertas completas "
-            "con direcciones exactas, referencias catastrales y enlaces oficiales al expediente."
+            "con direcciones exactas, referencias catastrales y enlaces oficiales al expediente.\n\n"
+            f"🔥 *OFERTA DE LANZAMIENTO:* Solo *{PRECIO_PROMO} € / mes* (Primeros 100 miembros)"
         )
         teclado = [
-            [InlineKeyboardButton("⭐ Desbloquear Canal VIP (6,99 €/mes)", callback_data="pagar_vip")],
+            [InlineKeyboardButton(f"⭐ Desbloquear VIP ({PRECIO_PROMO} €/mes)", callback_data="pagar_vip")],
             [InlineKeyboardButton("ℹ️ ¿Cómo funciona el servicio?", callback_data="info_servicio")],
             [InlineKeyboardButton("📊 Mi Cuenta", callback_data="mi_estado")]
         ]
@@ -82,10 +85,11 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "• Enlaces directos a los expedientes oficiales del BOE.\n"
             "• Datos catastrales y cruce de precios con el mercado.\n"
             "• Sin permanencia: cancela con 1 clic cuando quieras.\n\n"
-            "💳 *Precio de lanzamiento:* solo *6,99 € / mes* (Facturación recurrente segura vía Stripe)"
+            f"🔥 *Precio promocional:* solo *{PRECIO_PROMO} € / mes* (antes 14,99 €)\n"
+            "Facturación mensual segura con tarjeta, Apple Pay o Google Pay."
         )
         teclado = [
-            [InlineKeyboardButton("💳 Pagar 14,99 € (Stripe Checkout Seguro)", url="https://buy.stripe.com/test_demo_enlace")],
+            [InlineKeyboardButton(f"💳 Pagar {PRECIO_PROMO} € (Stripe Seguro)", url=STRIPE_LINK)],
             [InlineKeyboardButton("🔙 Volver", callback_data="volver_inicio")]
         ]
         await query.edit_message_text(texto, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
