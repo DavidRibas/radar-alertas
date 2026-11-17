@@ -87,10 +87,23 @@ async def ejecutar_ciclo_diario(provincia: str = "28"):
     duraciones = [3.5, 5.0, 6.5, 7.0]
     ensamblar_video_cinematico([e1, e2, e3, e4], duraciones, ruta_audio, ruta_ass, ruta_video)
 
-    # 3. Formateo de los mensajes para Telegram
-    print("\n[Paso 3/3] Formateando alertas de Telegram...")
+    # 3. Formateo y publicación de los mensajes para Telegram
+    print("\n[Paso 3/3] Formateando y enviando alertas de Telegram...")
     post_vip = formatear_post_vip(chollo)
     post_free = formatear_post_gratuito(chollo)
+
+    # Publicar automáticamente en el Canal VIP si está configurado
+    import os
+    import requests
+    token = os.getenv("TELEGRAM_BOT_TOKEN")
+    canal_vip = os.getenv("TELEGRAM_CANAL_VIP_ID")
+    if token and canal_vip and canal_vip != "@canal_vip_demo":
+        try:
+            url_msg = f"https://api.telegram.org/bot{token}/sendMessage"
+            requests.post(url_msg, json={"chat_id": canal_vip, "text": post_vip, "parse_mode": "Markdown"})
+            print(f"✈️ ¡Alerta VIP enviada en directo a tu canal de Telegram ({canal_vip})!")
+        except Exception as e:
+            print(f"⚠️ No se pudo enviar el mensaje a Telegram: {e}")
 
     registrar_alerta_enviada(id_sub, chollo["titulo"], chollo["precio_salida_formato"])
 
