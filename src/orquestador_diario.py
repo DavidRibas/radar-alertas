@@ -25,6 +25,7 @@ from src.video_generator.generador_visual_earth import (
     generar_locucion_y_subtitulos,
     convertir_srt_a_ass,
     ensamblar_video_cinematico,
+    obtener_duracion_audio,
     OUTPUT_DIR
 )
 
@@ -84,7 +85,16 @@ async def ejecutar_ciclo_diario(provincia: str = "28"):
     await generar_locucion_y_subtitulos(guion_dinamico, ruta_audio, ruta_srt)
     convertir_srt_a_ass(ruta_srt, ruta_ass)
 
-    duraciones = [3.5, 5.0, 6.5, 7.0]
+    # Cálculo dinámico de duraciones según el audio real para que NUNCA se corte el final
+    duracion_real_audio = obtener_duracion_audio(ruta_audio)
+    dur_e1 = 3.5
+    dur_e2 = 5.0
+    dur_e3 = 6.5
+    # La escena final de Telegram dura todo lo que falte de audio + 2.0 segundos de respiro
+    dur_e4 = max(7.0, (duracion_real_audio - (dur_e1 + dur_e2 + dur_e3)) + 2.0)
+    duraciones = [dur_e1, dur_e2, dur_e3, dur_e4]
+    print(f"⏱️ Audio detectado: {duracion_real_audio:.1f}s -> Duración total vídeo: {sum(duraciones):.1f}s")
+
     ensamblar_video_cinematico([e1, e2, e3, e4], duraciones, ruta_audio, ruta_ass, ruta_video)
 
     # 3. Formateo y publicación de los mensajes para Telegram

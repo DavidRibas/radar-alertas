@@ -33,6 +33,22 @@ def obtener_ruta_ffmpeg() -> str:
         return str(winget_path)
     return "ffmpeg"
 
+def obtener_duracion_audio(ruta_audio: Path) -> float:
+    """Calcula con precisión milimétrica la duración del audio para que jamás se corte el final."""
+    try:
+        ffmpeg_bin = obtener_ruta_ffmpeg()
+        cmd = [ffmpeg_bin, "-i", str(ruta_audio), "-f", "null", "-"]
+        res = subprocess.run(cmd, stderr=subprocess.PIPE, stdout=subprocess.PIPE, text=True)
+        for line in res.stderr.splitlines():
+            if "Duration:" in line:
+                partes = line.split("Duration:")[1].split(",")[0].strip()
+                h, m, s = partes.split(":")
+                return float(h) * 3600 + float(m) * 60 + float(s)
+    except Exception:
+        pass
+    return 28.5
+
+
 def texto_centrado_auto(draw: ImageDraw.ImageDraw, texto: str, rect: list, font_file: str, max_size: int, color: tuple, padding_x: int = 30):
     """
     Ajusta automáticamente el tamaño de fuente para que el texto NUNCA se salga del cuadro
@@ -277,9 +293,9 @@ def ensamblar_video_cinematico(escenas: list, duraciones: list, ruta_audio: Path
         ffmpeg_bin, "-y",
         "-i", str(video_raw),
         "-i", str(ruta_audio),
-        "-filter_complex", f"[0:v]subtitles='{ass_escaped}'[vout]",
+        "-filter_complex", f"[0:v]subtitles='{ass_escaped}'[vout];[1:a]apad=pad_dur=2.0[aout]",
         "-map", "[vout]",
-        "-map", "1:a",
+        "-map", "[aout]",
         "-c:v", "libx264", "-c:a", "aac", "-b:a", "192k",
         "-shortest",
         str(ruta_final)
@@ -307,7 +323,13 @@ async def main():
     await generar_locucion_y_subtitulos(GUION_VISUAL, ruta_audio, ruta_srt)
     convertir_srt_a_ass(ruta_srt, ruta_ass)
 
-    duraciones = [3.5, 5.0, 6.5, 7.0]
+    duracion_real_audio = obtener_duracion_audio(ruta_audio)
+    dur_e1 = 3.5
+    dur_e2 = 5.0
+    dur_e3 = 6.5
+    dur_e4 = max(7.0, (duracion_real_audio - (dur_e1 + dur_e2 + dur_e3)) + 2.0)
+    duraciones = [dur_e1, dur_e2, dur_e3, dur_e4]
+
     ensamblar_video_cinematico([e1, e2, e3, e4], duraciones, ruta_audio, ruta_ass, ruta_final)
 
 if __name__ == "__main__":
