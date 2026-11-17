@@ -59,7 +59,7 @@ async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "con direcciones exactas, referencias catastrales y enlaces oficiales al expediente."
         )
         teclado = [
-            [InlineKeyboardButton("⭐ Desbloquear Canal VIP (14,99 €/mes)", callback_data="pagar_vip")],
+            [InlineKeyboardButton("⭐ Desbloquear Canal VIP (6,99 €/mes)", callback_data="pagar_vip")],
             [InlineKeyboardButton("ℹ️ ¿Cómo funciona el servicio?", callback_data="info_servicio")],
             [InlineKeyboardButton("📊 Mi Cuenta", callback_data="mi_estado")]
         ]
@@ -82,7 +82,7 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "• Enlaces directos a los expedientes oficiales del BOE.\n"
             "• Datos catastrales y cruce de precios con el mercado.\n"
             "• Sin permanencia: cancela con 1 clic cuando quieras.\n\n"
-            "💳 *Precio:* 14,99 € / mes (Facturación recurrente segura vía Stripe)"
+            "💳 *Precio de lanzamiento:* solo *6,99 € / mes* (Facturación recurrente segura vía Stripe)"
         )
         teclado = [
             [InlineKeyboardButton("💳 Pagar 14,99 € (Stripe Checkout Seguro)", url="https://buy.stripe.com/test_demo_enlace")],
