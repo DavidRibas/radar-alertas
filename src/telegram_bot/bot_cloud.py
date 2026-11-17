@@ -8,10 +8,14 @@ import asyncio
 from pathlib import Path
 from dotenv import load_dotenv
 from aiohttp import web
+from telegram import Update
 from telegram.ext import (
     ApplicationBuilder,
     CommandHandler,
-    CallbackQueryHandler
+    CallbackQueryHandler,
+    MessageHandler,
+    ChatMemberHandler,
+    filters
 )
 
 from src.telegram_bot.database import inicializar_bd
@@ -19,6 +23,8 @@ from src.telegram_bot.bot_alertas import (
     comando_start,
     comando_activar_manual,
     manejar_callback,
+    manejar_mensaje_general,
+    manejar_chat_member,
     TELEGRAM_TOKEN
 )
 
@@ -46,10 +52,12 @@ async def main():
     app.add_handler(CommandHandler("start", comando_start))
     app.add_handler(CommandHandler("activar", comando_activar_manual))
     app.add_handler(CallbackQueryHandler(manejar_callback))
+    app.add_handler(ChatMemberHandler(manejar_chat_member, ChatMemberHandler.MY_CHAT_MEMBER))
+    app.add_handler(MessageHandler(filters.ALL, manejar_mensaje_general))
 
     await app.initialize()
     await app.start()
-    await app.updater.start_polling()
+    await app.updater.start_polling(allowed_updates=Update.ALL_TYPES)
     print("✅ Bot de Telegram escuchando mensajes...")
 
     # 2. Servidor web HTTP para keep-alive en la nube

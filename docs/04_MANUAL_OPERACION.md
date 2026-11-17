@@ -1,90 +1,70 @@
 # Manual de Operación y Negocio - RadarAlertas 🚀
 
-Este documento resume la operativa diaria del negocio automatizado **RadarAlertas**, cómo funciona el sistema, cómo escalar los ingresos y la operativa técnica.
+Este documento resume la operativa diaria del negocio automatizado **RadarAlertas**, cómo funciona el sistema multicanal, cómo escalar los ingresos y la operativa técnica.
 
 ---
 
-## 1. El Circuito del Negocio (100% Autónomo)
+## 1. El Ecosistema de las 4 Verticales
 
 ```
-[ BOE Oficial cada mañana ]
-            │
-            ▼ (Extractor Python)
-[ Detección de Inmuebles con >50% descuento ]
-            │
-            ├─────────────────────────────────────────┐
-            ▼                                         ▼
-[ Generador de Vídeo TikTok/Reels/Shorts ]    [ Canal Privado VIP Telegram ]
-   - Zoom 3D satelital (Google Earth)             - Ficha técnica completa
-   - Vistas de dron y fotos de fachada/interior   - Enlace oficial al BOE
-   - Subtítulos dinámicos y voz IA                - Datos catastrales y cargas
-            │
-            ▼
-[ Publicación en Redes Sociales (Orgánico) ]
-            │
-            ▼
-[ Tráfico hacia @RadarAletasSubastas_bot ]
-            │
-            ▼
-[ Cobro Mensual Stripe (2,99 €/mes recurrentes) ]
-            │
-            ▼
-[ Ingreso directo en tu Cuenta Bancaria (IBAN) ]
+                            ┌─────────────────────────────────┐
+                            │      MARCA: RADARALERTAS        │
+                            │   (TikTok / Instagram / Reels)  │
+                            └─────────────────────────────────┘
+                                             │
+      ┌──────────────────────┬───────────────┴───────────────┬──────────────────────┐
+      ▼                      ▼                               ▼                      ▼
+┌──────────────┐      ┌──────────────┐                ┌──────────────┐      ┌──────────────┐
+│  SUBASTAS    │      │    AYUDAS    │                │ LICITACIONES │      │   EMPLEO     │
+│ JUDICIALES   │      │ Y SUBVENCION │                │  PÚBLICAS    │      │  PÚBLICO     │
+│ (Inmuebles,  │      │(A fondo per- │                │ (Contratos   │      │(Oposiciones  │
+│  vehículos)  │      │ dido, pymes) │                │  menores)    │      │  y bolsas)   │
+└──────────────┘      └──────────────┘                └──────────────┘      └──────────────┘
+      │                      │                               │                      │
+      └──────────────────────┴───────────────┬───────────────┴──────────────────────┘
+                                             ▼
+                               ┌───────────────────────────┐
+                               │   BOT ÚNICO INTELIGENTE   │
+                               │ @RadarAletasSubastas_bot  │
+                               ├───────────────────────────┤
+                               │ • VIP Subastas (2,99€/mes)│
+                               │ • VIP Ayudas   (2,99€/mes)│
+                               │ • PACK TOTAL   (4,99€/mes)│
+                               └───────────────────────────┘
 ```
 
 ---
 
-## 2. Configuración Oficial en Producción
+## 2. Horarios de Ejecución Automática (Windows Task Scheduler)
 
-* **Bot Oficial de Telegram:** [@RadarAletasSubastas_bot](https://t.me/RadarAletasSubastas_bot)
-* **Canal Privado VIP:** [RadarAlertas VIP](https://t.me/+H9DxrDvgJLQ0YWY8) (ID: `-1004355179430`)
-* **Pasarela de Pago Stripe (Modo Real):** [https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00](https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00)
-* **Precio Promoción de Lanzamiento:** 2,99 € / mes recurrente.
+El orquestador en tu PC se despierta 3 veces al día y rota inteligentemente según la hora:
+* ⏰ **09:00 AM — 🏠 Subastas Judiciales:** Rastrea el BOE, genera el vídeo 3D Earth y publica en VIP Subastas.
+* ⏰ **14:00 PM — 💰 Ayudas y Subvenciones:** Rastrea la BDNS oficial, genera el vídeo con fondos fotográficos reales y publica en VIP Ayudas.
+* ⏰ **18:30 PM — 📑 Licitaciones y Empleo:** Extrae contratos del Estado y bolsas de trabajo urgentes.
 
----
-
-## 3. Operativa Diaria
-
-### A. Ejecución Automática (Sin que tengas que hacer nada)
-* Está registrada la tarea programada en Windows **`RadarAlertasDiario`**.
-* Se ejecuta automáticamente **3 veces al día**:
-  - **09:00 AM** (Apertura matinal de expedientes)
-  - **14:00 PM** (Actualización de mediodía)
-  - **18:30 PM** (Cierre de jornada)
-* Extrae las subastas del día, genera el vídeo en formato vertical en la carpeta `output/` y publica la alerta técnica en el canal VIP. Si no hay novedades, termina en 2 segundos sin duplicar.
-
-### B. Ejecución Manual bajo demanda
-* Si un día quieres forzar la búsqueda o generar un nuevo vídeo al instante:
-  - Doble clic en `c:\Ideas\radar-alertas\run_diario.bat`
-* Si quieres mantener el bot interactivo atendiendo altas en Telegram:
-  - Doble clic en `c:\Ideas\radar-alertas\run_bot.bat`
+Cada vez que genera un vídeo, **te lo envía automáticamente a tu chat privado de Telegram** con el texto listo para copiar.
 
 ---
 
-## 4. Estrategia de Publicación en Redes (Para captar clientes)
+## 3. Configuración de Canales y Planes (Modelo de Canales Temáticos)
 
-Cada día que se genere un vídeo en `output/`:
-
-1. **Dónde subirlo:**
-   - TikTok (canal principal de mayor alcance orgánico sin seguidores).
-   - Instagram Reels.
-   - YouTube Shorts.
-2. **Biografía del perfil:**
-   > *"Alertas de chollos judiciales del BOE en tiempo real 🏠⚖️ Accede al radar oficial gratis:* 👉 `t.me/RadarAletasSubastas_bot`*"*
-3. **Texto del vídeo (Copy):**
-   > *"🚨 Piso en subasta en Madrid con un 60% de descuento sobre el precio de mercado.*
-   > *Ficha técnica, cargas y enlace oficial en el link de la bio 👆.*
-   > *#subastas #inversion #inmobiliaria #boe #oportunidades #madrid"*
+| Canal / Vertical | Temática | Precio Individual | Precio en PACK |
+| :--- | :--- | :---: | :---: |
+| **Canal 1 (Activo)** | Subastas Judiciales e Inmuebles | 2,99 € / mes | Incluido |
+| **Canal 2** | Ayudas y Subvenciones a Fondo Perdido | 2,99 € / mes | Incluido |
+| **Canal 3** | Licitaciones y Contratos Públicos | 2,99 € / mes | Incluido |
+| **Canal 4** | Empleo Público y Oposiciones | 2,99 € / mes | Incluido |
+| **🔥 PACK TOTAL VIP** | **Acceso Simultáneo a los 4 Canales** | — | **4,99 € / mes** *(Recomendado)* |
 
 ---
 
-## 5. Proyección de Ingresos (Modelo Recurrente)
+## 4. Proyección de Ingresos con el Pack Total
 
-| Suscriptores VIP | Ingreso Mensual Bruto (2,99 €/mes) | Anualizado (MRR x 12) |
+Al ofrecer el Pack Total por solo 2 € más que un canal suelto, el 70-80% de los suscriptores eligen el Pack:
+
+| Suscriptores | Ingreso Mensual Bruto (4,99 €/mes) | Anualizado (MRR x 12) |
 | :---: | :---: | :---: |
-| **50** | 149,50 € / mes | 1.794 € / año |
-| **150** | 448,50 € / mes | 5.382 € / año |
-| **350** | 1.046,50 € / mes | 12.558 € / año |
-| **1.000** | 2.990,00 € / mes | 35.880 € / año |
-
-*Nota: Una vez validado este canal con los primeros 100 miembros, el precio estándar subirá a 9,99 €/mes o 14,99 €/mes, multiplicando por 3 o 5 los ingresos con la misma base de usuarios.*
+| **50** | 249,50 € / mes | 2.994 € / año |
+| **150** | 748,50 € / mes | 8.982 € / año |
+| **350** | 1.746,50 € / mes | 20.958 € / año |
+| **1.000** | 4.990,00 € / mes | 59.880 € / año |

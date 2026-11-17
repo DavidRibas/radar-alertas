@@ -15,7 +15,10 @@ from telegram.ext import (
     CommandHandler,
     CallbackQueryHandler,
     ContextTypes,
-    PreCheckoutQueryHandler
+    PreCheckoutQueryHandler,
+    MessageHandler,
+    ChatMemberHandler,
+    filters
 )
 
 from src.telegram_bot.database import (
@@ -36,6 +39,7 @@ STRIPE_LINK = os.getenv("STRIPE_PAYMENT_LINK", "https://buy.stripe.com/5kQdRa6Eu
 STRIPE_LINK_SUBASTAS = os.getenv("STRIPE_LINK_SUBASTAS", "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00")
 STRIPE_LINK_AYUDAS = os.getenv("STRIPE_LINK_AYUDAS", "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00")
 STRIPE_LINK_PACK_TOTAL = os.getenv("STRIPE_LINK_PACK_TOTAL", "https://buy.stripe.com/14A4gA0g6a3Fgt9a2VcQU01")
+ADMIN_ID = os.getenv("TELEGRAM_ADMIN_USER_ID", "5674459275")
 
 async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Maneja el comando /start con menú interactivo de botones."""
@@ -134,6 +138,68 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ]
         await query.edit_message_text("Selecciona una opción del menú:", reply_markup=InlineKeyboardMarkup(teclado))
 
+async def manejar_chat_member(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Detecta cuando el bot es añadido o modificado como administrador en un canal."""
+    chat = update.effective_chat
+    if chat and chat.type == "channel":
+        print(f"🎯 CANAL DETECTADO POR ADMINISTRADOR: '{chat.title}' ID: {chat.id}")
+        if ADMIN_ID:
+            try:
+                await context.bot.send_message(
+                    chat_id=int(ADMIN_ID),
+                    text=f"🎯 *¡Canal Detectado al Añadir Bot como Admin!*\n\n"
+                         f"📌 *Nombre:* {chat.title}\n"
+                         f"🆔 *ID:* `{chat.id}`\n\n"
+                         f"Copia este ID para configurarlo en el sistema.",
+                    parse_mode="Markdown"
+                )
+            except Exception as e:
+                print(f"Error avisando a admin: {e}")
+
+async def manejar_mensaje_general(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Detecta canales cuando el bot está dentro o cuando se le reenvía un mensaje."""
+    # 1. Si alguien escribe en un canal donde el bot es admin
+    if update.channel_post:
+        chat = update.channel_post.chat
+        print(f"🎯 CANAL DETECTADO POR POST: '{chat.title}' ID: {chat.id}")
+        if ADMIN_ID:
+            try:
+                await context.bot.send_message(
+                    chat_id=int(ADMIN_ID),
+                    text=f"🎯 *¡Canal Detectado por Mensaje!*\n\n"
+                         f"📌 *Nombre:* {chat.title}\n"
+                         f"🆔 *ID:* `{chat.id}`\n\n"
+                         f"Copia este ID para configurarlo.",
+                    parse_mode="Markdown"
+                )
+            except Exception as e:
+                print(f"Error avisando a admin: {e}")
+        return
+
+    msg = update.effective_message
+    if not msg:
+        return
+
+    # 2. Reenvíos desde un canal (soporta Telegram v20 y v21+)
+    origen_chat = None
+    if hasattr(msg, "forward_origin") and msg.forward_origin:
+        origen_chat = getattr(msg.forward_origin, "chat", None)
+    elif msg.forward_from_chat:
+        origen_chat = msg.forward_from_chat
+
+    if origen_chat:
+        await msg.reply_text(
+            f"🎯 *Canal detectado con éxito:*\n\n"
+            f"📌 *Nombre:* {origen_chat.title}\n"
+            f"🆔 *ID:* `{origen_chat.id}`",
+            parse_mode="Markdown"
+        )
+        return
+
+    # 3. Mensaje de texto normal directo al bot
+    if msg.text and not msg.text.startswith("/"):
+        await msg.reply_text("¡Hola! Usa /start para ver el menú principal de RadarAlertas.")
+
 async def comando_activar_manual(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Comando de administrador para activar VIP de prueba a un usuario: /activar <user_id>"""
     if not context.args:
@@ -159,8 +225,10 @@ def main():
     app.add_handler(CommandHandler("start", comando_start))
     app.add_handler(CommandHandler("activar", comando_activar_manual))
     app.add_handler(CallbackQueryHandler(manejar_callback))
+    app.add_handler(ChatMemberHandler(manejar_chat_member, ChatMemberHandler.MY_CHAT_MEMBER))
+    app.add_handler(MessageHandler(filters.ALL, manejar_mensaje_general))
 
-    app.run_polling()
+    app.run_polling(allowed_updates=Update.ALL_TYPES)
 
 if __name__ == "__main__":
     main()

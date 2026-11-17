@@ -1,7 +1,7 @@
 """
-Script de utilidad para detectar automáticamente el ID numérico de tu Canal VIP de Telegram.
+Detector Automático de Canales de Telegram para RadarAlertas
+Detecta todos los canales donde el bot ha sido añadido como administrador.
 """
-import asyncio
 import os
 import requests
 from dotenv import load_dotenv
@@ -9,22 +9,35 @@ from dotenv import load_dotenv
 load_dotenv()
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 
-def obtener_canal_id():
+def detectar_todos_los_canales():
     url = f"https://api.telegram.org/bot{TOKEN}/getUpdates"
     r = requests.get(url).json()
-    print("Buscando eventos recientes del bot...")
+    canales = {}
+    
     for item in r.get("result", []):
-        # Si fue añadido a un canal
+        chat = None
         if "my_chat_member" in item:
             chat = item["my_chat_member"]["chat"]
-            print(f"🎯 ¡Canal detectado!: '{chat.get('title')}' con ID: {chat.get('id')}")
-            return chat.get("id")
-        if "channel_post" in item:
+        elif "channel_post" in item:
             chat = item["channel_post"]["chat"]
-            print(f"🎯 ¡Canal detectado por mensaje!: '{chat.get('title')}' con ID: {chat.get('id')}")
-            return chat.get("id")
-    print("Aún no se ha detectado el canal. Escribe cualquier mensaje de prueba en el canal para que el bot lo lea.")
-    return None
+        
+        if chat and chat.get("type") == "channel":
+            cid = chat.get("id")
+            title = chat.get("title")
+            canales[cid] = title
+            
+    print("\n" + "=" * 55)
+    print("📡 CANALES DE TELEGRAM DETECTADOS:")
+    print("=" * 55)
+    if canales:
+        for cid, title in canales.items():
+            print(f"✅ Canal: '{title}'  --->  ID: {cid}")
+    else:
+        print("⚠️ No se han detectado eventos recientes de canales.")
+        print("👉 Recuerda: Crea el canal, añade a @RadarAletasSubastas_bot como admin")
+        print("   y escribe un mensaje cualquiera ('hola') en el canal.")
+    print("=" * 55)
+    return canales
 
 if __name__ == "__main__":
-    obtener_canal_id()
+    detectar_todos_los_canales()
