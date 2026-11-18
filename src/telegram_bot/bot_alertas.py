@@ -65,6 +65,27 @@ async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
     registrar_o_actualizar_usuario(user.id, user.username, user.first_name)
 
+    # Si viene con parámetro deep link de la landing page o redes (ej: /start guia_gratis)
+    if context.args and any("guia" in str(arg).lower() for arg in context.args):
+        registrar_descarga_guia(user.id)
+        ruta_pdf = Path(__file__).resolve().parent.parent.parent / "assets" / "Guia_Subastas_Judiciales_RadarAlertas.pdf"
+        if ruta_pdf.exists():
+            cap = (
+                f"🎁 *¡Hola {user.first_name}! Aquí tienes tu Guía Oficial de Subastas y Embargos en PDF.*\n\n"
+                "📖 *En este manual práctico aprenderás:*\n"
+                "• Cómo funciona el portal del BOE y la fianza del 5%.\n"
+                "• El secreto del Art. 674 LEC: qué cargas se cancelan a 0 €.\n"
+                "• Cómo pujar por coches y vehículos desde 500 €.\n\n"
+                "👇 Aquí tienes también el menú interactivo para consultar oportunidades:"
+            )
+            with open(ruta_pdf, "rb") as doc:
+                await update.message.reply_document(
+                    document=doc,
+                    filename="Guia_Subastas_Judiciales_RadarAlertas.pdf",
+                    caption=cap,
+                    parse_mode="Markdown"
+                )
+
     estado = obtener_estado_usuario(user.id)
     es_vip = estado and estado.get("suscripcion_activa") == 1
 

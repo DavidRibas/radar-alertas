@@ -248,17 +248,30 @@ async def ciclo_vehiculos():
 async def main():
     inicializar_bd()
     purgar_archivos_antiguos(dias=3)
-    hora = datetime.datetime.now().hour
-    print(f"⏰ Hora del sistema: {hora}:00")
+    now = datetime.datetime.now()
+    hora = now.hour
+    dia_semana = now.weekday()  # 5 = Sábado, 6 = Domingo
+    print(f"⏰ Hora del sistema: {hora}:00 (Día de la semana: {dia_semana})")
 
-    # Selección horaria según la hora de ejecución
+    # Fin de semana: Los juzgados cierran, emitimos el Especial Fin de Semana
+    if dia_semana in (5, 6):
+        print("🏖️ Modo Fin de Semana activo: Compilando Top 5 semanal...")
+        from src.especial_fin_de_semana import emitir_especial_fin_de_semana
+        emitir_especial_fin_de_semana()
+        return
+
+    # Selección horaria según la hora de ejecución en días laborables
     if hora < 12:
         # Mañana: Subastas de Inmuebles y Vehículos
         await ciclo_subastas()
         await ciclo_vehiculos()
-    elif 12 <= hora < 17:
+    elif 12 <= hora < 16:
         # Mediodía: Ayudas y Subvenciones
         await ciclo_ayudas()
+    elif 16 <= hora < 18:
+        # 16:30 - 17:00: Alerta de Urgencia (Cierres del día)
+        from src.radar_urgencia import emitir_alerta_urgencia
+        emitir_alerta_urgencia()
     else:
         # Tarde: Licitaciones y Empleo
         await ciclo_licitaciones_y_empleo()
@@ -278,6 +291,9 @@ if __name__ == "__main__":
         elif modo == "urgencia":
             from src.radar_urgencia import emitir_alerta_urgencia
             emitir_alerta_urgencia()
+        elif modo in ("finde", "semanal"):
+            from src.especial_fin_de_semana import emitir_especial_fin_de_semana
+            emitir_especial_fin_de_semana()
         elif modo == "todas":
             asyncio.run(ciclo_subastas())
             asyncio.run(ciclo_vehiculos())

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RadarAlertas • Monitor Oficial de Subastas, Embargos y Ayudas del Estado</title>
+    <meta name="description" content="Accede a inmuebles con más del 50% de descuento, vehículos embargados desde 500 € y ayudas públicas del BOE en tiempo real.">
+    <!-- Open Graph / Meta para Redes Sociales -->
+    <meta property="og:title" content="RadarAlertas • Oportunidades Oficiales del BOE">
+    <meta property="og:description" content="Subastas de pisos, chalets, coches y ayudas directas del Estado sin intermediarios.">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#0b132b">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0b132b;
+            --bg-card: #141f3d;
+            --bg-card-hover: #1c2b54;
+            --primary: #3b82f6;
+            --primary-glow: rgba(59, 130, 246, 0.35);
+            --accent-green: #22c55e;
+            --accent-gold: #f59e0b;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.08);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            background-image: radial-gradient(circle at 50% 10%, rgba(59, 130, 246, 0.18), transparent 45%),
+                              radial-gradient(circle at 80% 80%, rgba(34, 197, 94, 0.10), transparent 40%);
+            padding: 24px 16px 60px;
+        }
+        .container {
+            width: 100%;
+            max-width: 520px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        /* Header institucional */
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(34, 197, 94, 0.12);
+            border: 1px solid rgba(34, 197, 94, 0.35);
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #4ade80;
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.2);
+        }
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pulse 1.8s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+        .logo-box {
+            width: 76px;
+            height: 76px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 38px;
+            box-shadow: 0 12px 30px var(--primary-glow);
+            margin-bottom: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        h1 {
+            font-size: 26px;
+            font-weight: 800;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+        .verified-tag {
+            color: #60a5fa;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 12px;
+        }
+        p.desc {
+            font-size: 15px;
+            color: var(--text-muted);
+            text-align: center;
+            line-height: 1.5;
+            margin-bottom: 28px;
+            padding: 0 10px;
+        }
+        /* Botones de acción principales */
+        .links-stack {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-bottom: 34px;
+        }
+        .btn-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 16px 20px;
+            border-radius: 18px;
+            text-decoration: none;
+            color: var(--text-light);
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-link:hover, .btn-link:active {
+            background: var(--bg-card-hover);
+            transform: translateY(-2px);
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+        }
+        .btn-lead {
+            background: linear-gradient(135deg, #1e3a8a, #1d4ed8);
+            border: 1px solid rgba(96, 165, 250, 0.4);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+        }
+        .btn-vip {
+            background: linear-gradient(135deg, #b45309, #d97706);
+            border: 1px solid rgba(251, 191, 36, 0.5);
+            box-shadow: 0 8px 25px rgba(217, 119, 6, 0.3);
+        }
+        .btn-content {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-align: left;
+        }
+        .btn-icon {
+            font-size: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-titles {
+            display: flex;
+            flex-direction: column;
+        }
+        .btn-title {
+            font-size: 15px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        .btn-subtitle {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 3px;
+        }
+        .btn-arrow {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.4);
+            transition: transform 0.2s;
+        }
+        .btn-link:hover .btn-arrow {
+            transform: translateX(3px);
+            color: var(--text-light);
+        }
+        /* Sección de 5 Canales Oficiales */
+        .section-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-bottom: 14px;
+            align-self: flex-start;
+        }
+        .channels-grid {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        .channel-card {
+            background: rgba(20, 31, 61, 0.5);
+            border: 1px solid var(--border-color);
+            padding: 14px 12px;
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .channel-card-span2 {
+            grid-column: span 2;
+        }
+        .ch-icon {
+            font-size: 22px;
+        }
+        .ch-title {
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .ch-desc {
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.3;
+        }
+        /* Trust Badges */
+        .trust-banner {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px dashed rgba(148, 163, 184, 0.2);
+            padding: 16px;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 24px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        footer {
+            font-size: 12px;
+            color: #64748b;
+            text-align: center;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Live Status Badge -->
+        <div class="live-badge">
+            <span class="pulse-dot"></span>
+            RADAR EN DIRECTO • BOE Y BDNS
+        </div>
+
+        <!-- Logo & Header -->
+        <div class="logo-box">📡</div>
+        <h1>RadarAlertas Oficial</h1>
+        <div class="verified-tag">
+            <span>🛡️ Verificado por Boletines Oficiales</span>
+        </div>
+        <p class="desc">
+            Monitorizamos cada día el BOE, la BDNS y la Seguridad Social para avisarte de pisos al -70%, coches desde 500 € y ayudas públicas a fondo perdido.
+        </p>
+
+        <!-- Botones de Acción (High Conversion Links) -->
+        <div class="links-stack">
+            <!-- 1. Lead Magnet PDF Gratis -->
+            <a href="https://t.me/RadarAletasSubastas_bot?start=guia_gratis" class="btn-link btn-lead">
+                <div class="btn-content">
+                    <div class="btn-icon">🎁</div>
+                    <div class="btn-titles">
+                        <span class="btn-title">Descargar Guía en PDF (Gratis)</span>
+                        <span class="btn-subtitle">Cómo pujar en subastas sin riesgo de deudas</span>
+                    </div>
+                </div>
+                <div class="btn-arrow">➔</div>
+            </a>
+
+            <!-- 2. Canal Telegram Gratuito -->
+            <a href="https://t.me/+JoX17328N-VkMWVk" class="btn-link">
+                <div class="btn-content">
+                    <div class="btn-icon">📢</div>
+                    <div class="btn-titles">
+                        <span class="btn-title">Canal Gratuito de Muestras</span>
+                        <span class="btn-subtitle">Alertas diarias y cierres urgentes de hoy</span>
+                    </div>
+                </div>
+                <div class="btn-arrow">➔</div>
+            </a>
+
+            <!-- 3. Acceso a los 5 Canales VIP -->
+            <a href="https://t.me/RadarAletasSubastas_bot" class="btn-link btn-vip">
+                <div class="btn-content">
+                    <div class="btn-icon">⭐</div>
+                    <div class="btn-titles">
+                        <span class="btn-title">Desbloquear Canales VIP (2,99 €)</span>
+                        <span class="btn-subtitle">Expedientes completos, matrículas y catastro</span>
+                    </div>
+                </div>
+                <div class="btn-arrow">➔</div>
+            </a>
+        </div>
+
+        <!-- Sección de Cobertura Oficial -->
+        <div class="section-title">Nuestras 5 Verticales Oficiales</div>
+        <div class="channels-grid">
+            <div class="channel-card">
+                <span class="ch-icon">🏠</span>
+                <span class="ch-title">Subastas Inmuebles</span>
+                <span class="ch-desc">Pisos y chalets con más del 50% de ahorro auditados sin cargas.</span>
+            </div>
+            <div class="channel-card">
+                <span class="ch-icon">🚗</span>
+                <span class="ch-title">Vehículos Embargados</span>
+                <span class="ch-desc">Coches, furgonetas y motos oficiales desde 500 € con inspección previa.</span>
+            </div>
+            <div class="channel-card">
+                <span class="ch-icon">💰</span>
+                <span class="ch-title">Ayudas y Subvenciones</span>
+                <span class="ch-desc">Dinero a fondo perdido de la BDNS con trámites directos.</span>
+            </div>
+            <div class="channel-card">
+                <span class="ch-icon">📑</span>
+                <span class="ch-title">Licitaciones Menores</span>
+                <span class="ch-desc">Contratos del Estado abiertos a pymes y autónomos con cobro garantizado.</span>
+            </div>
+            <div class="channel-card channel-card-span2">
+                <span class="ch-icon">💼</span>
+                <span class="ch-title">Empleo Público y Oposiciones</span>
+                <span class="ch-desc">Plazas fijas del BOE y bolsas urgentes con retribución oficial de +2.150 €/mes.</span>
+            </div>
+        </div>
+
+        <!-- Garantías de Seguridad -->
+        <div class="trust-banner">
+            <div class="trust-item">
+                <span>⚖️</span>
+                <span>Fuentes 100% legales (BOE, BOJA, BOCM, DOGC y BDNS).</span>
+            </div>
+            <div class="trust-item">
+                <span>🛡️</span>
+                <span>Fianza del 5% consignada directamente ante el Ministerio de Justicia.</span>
+            </div>
+            <div class="trust-item">
+                <span>⚡</span>
+                <span>Sin intermediarios ni comisiones abusivas por participar.</span>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            © 2026 RadarAlertas • Algoritmos de Monitorización Oficial<br>
+            Plataforma informativa independiente de fuentes abiertas del Estado.
+        </footer>
+    </div>
+</body>
+</html>
