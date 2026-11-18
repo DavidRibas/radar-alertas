@@ -28,6 +28,10 @@ def formatear_post_vip(s: dict) -> str:
     if url_calendar:
         linea_calendar = f"⏰ [Guardar en mi Google Calendar (Aviso 2h antes)]({url_calendar})\n"
 
+    linea_rentabilidad = ""
+    if s.get("alquiler_estimado_mes", 0) > 0 and s.get("roi_alquiler", 0) > 0:
+        linea_rentabilidad = f"📈 *Potencial Inversor:* Alquiler est. ~{s['alquiler_estimado_mes']} €/mes | *ROI Bruto:* {s['roi_alquiler']}% anual\n"
+
     return f"""🚨 *NUEVA SUBASTA JUDICIAL DETECTADA EN MADRID* 🚨
 
 {score_txt}
@@ -40,6 +44,7 @@ def formatear_post_vip(s: dict) -> str:
 🟢 *Precio de Salida:* *{s.get('precio_salida_formato', '0 €')}*
 📉 *Descuento estimado:* *{s.get('ahorro_porcentaje', 0)}%*
 💵 *Fianza para pujar (BOE):* *{s.get('deposito', '5%')}* _(Depósito 5% oficial reembolsable al 100% si no ganas)_
+{linea_rentabilidad}
 
 🔍 *AUDITORÍA JUDICIAL Y OCUPACIÓN:*
 • *Estado Posesorio:* {sit_pos}
@@ -70,6 +75,7 @@ def formatear_post_gratuito(s: dict, bot_username: str = "RadarAlertasBot") -> s
 
 🔒 *DATOS PROTEGIDOS PARA MIEMBROS VIP:*
 • Dirección exacta con enlace directo a Google Street View.
+• Estimación de rentabilidad de alquiler (ROI anual).
 • Estado de ocupación auditado (libre vs ocupado).
 • Ficha catastral oficial con metros cuadrados y planos.
 • Enlace judicial directo al BOE para pujar.

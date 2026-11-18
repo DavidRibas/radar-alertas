@@ -174,6 +174,14 @@ def obtener_detalle_subasta(id_subasta: str) -> Optional[Dict]:
     query_maps = urllib.parse.quote_plus(f"{dir_completa}, España")
     url_maps = f"https://www.google.com/maps/search/?api=1&query={query_maps}"
 
+    # Cálculo de Potencial de Alquiler y Rentabilidad Bruta (ROI %)
+    alquiler_estimado_mes = 0
+    roi_alquiler = 0.0
+    if valor_referencia > 0:
+        alquiler_estimado_mes = max(400, int(round((valor_referencia * 0.065) / 12, -1)))
+        if precio_salida > 0:
+            roi_alquiler = round(((alquiler_estimado_mes * 12) / precio_salida) * 100, 1)
+
     # URL Oficial Sede del Catastro
     url_catastro = None
     if ref_catastral and len(ref_catastral) >= 14 and "no consta" not in ref_catastral.lower():
@@ -237,6 +245,8 @@ def obtener_detalle_subasta(id_subasta: str) -> Optional[Dict]:
         "url_catastro": url_catastro,
         "url_idealista": url_idealista,
         "url_calendar": url_calendar,
+        "alquiler_estimado_mes": alquiler_estimado_mes,
+        "roi_alquiler": roi_alquiler,
         "score_oportunidad": score,
         "score_badge": score_badge,
         "valor_referencia": valor_referencia,

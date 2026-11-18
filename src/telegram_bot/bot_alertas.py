@@ -63,6 +63,11 @@ STRIPE_LINK_VEHICULOS = os.getenv("STRIPE_LINK_VEHICULOS", "https://buy.stripe.c
 STRIPE_LINK_PACK_TOTAL = os.getenv("STRIPE_LINK_PACK_TOTAL", "https://buy.stripe.com/14A4gA0g6a3Fgt9a2VcQU01")
 ADMIN_ID = os.getenv("TELEGRAM_ADMIN_USER_ID", "5674459275")
 
+def con_ref(link: str, user_id: int) -> str:
+    """Añade el ID de Telegram como client_reference_id al enlace de Stripe."""
+    sep = "&" if "?" in link else "?"
+    return f"{link}{sep}client_reference_id={user_id}"
+
 async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Maneja el comando /start con menú interactivo de botones y soporte para referidos."""
     user = update.effective_user
@@ -78,10 +83,8 @@ async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 if res_ref.get("valido"):
                     total = res_ref.get("total_referidos", 1)
                     if res_ref.get("desbloquea_premio"):
-                        # Activar suscripción VIP por 30 días
                         activar_suscripcion_vip(inviter_id, plan="referidos_3_amigos", dias=30)
                         marcar_premio_referidos_entregado(inviter_id)
-                        # Generar enlace de invitación de un solo uso
                         invite_link = CANAL_VIP_LINK
                         try:
                             l_obj = await context.bot.create_chat_invite_link(
@@ -125,26 +128,54 @@ async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
             except Exception as e:
                 print(f"Error procesando referido: {e}")
 
-    # 2. Si viene con parámetro deep link de la landing page o redes (ej: /start guia_gratis)
-    if context.args and any("guia" in str(arg).lower() for arg in context.args):
-        registrar_descarga_guia(user.id)
-        ruta_pdf = Path(__file__).resolve().parent.parent.parent / "assets" / "Guia_Subastas_Judiciales_RadarAlertas.pdf"
-        if ruta_pdf.exists():
-            cap = (
-                f"🎁 *¡Hola {user.first_name}! Aquí tienes tu Guía Oficial de Subastas y Embargos en PDF.*\n\n"
-                "📖 *En este manual práctico aprenderás:*\n"
-                "• Cómo funciona el portal del BOE y la fianza del 5%.\n"
-                "• El secreto del Art. 674 LEC: qué cargas se cancelan a 0 €.\n"
-                "• Cómo pujar por coches y vehículos desde 500 €.\n\n"
-                "👇 Aquí tienes también el menú interactivo para consultar oportunidades:"
-            )
-            with open(ruta_pdf, "rb") as doc:
-                await update.message.reply_document(
-                    document=doc,
-                    filename="Guia_Subastas_Judiciales_RadarAlertas.pdf",
-                    caption=cap,
-                    parse_mode="Markdown"
+    # 2. Si viene con parámetro deep link de la landing page o redes
+    if context.args:
+        args_text = " ".join(str(arg).lower() for arg in context.args)
+        
+        # Deep link Guía de Coches
+        if "coche" in args_text or "vehiculo" in args_text:
+            if "guia" in args_text:
+                registrar_descarga_guia(user.id)
+                ruta_pdf_c = Path(__file__).resolve().parent.parent.parent / "assets" / "Guia_Coches_Embargados_RadarAlertas.pdf"
+                if not ruta_pdf_c.exists():
+                    from src.lead_magnet.generador_guia_coches_pdf import compilar_guia_coches_pdf
+                    compilar_guia_coches_pdf(ruta_pdf_c)
+                cap_c = (
+                    f"🎁 *¡Hola {user.first_name}! Aquí tienes tu Guía Oficial de Coches y Vehículos Embargados en PDF.*\n\n"
+                    "📖 *En este manual práctico aprenderás:*\n"
+                    "• Cómo pujar en el BOE por coches, motos y furgonetas desde 500 €.\n"
+                    "• Inspección en depósitos judiciales y auditoría de informe DGT.\n"
+                    "• Cancelación de precintos y cargas por Decreto Judicial (Art. 674 LEC).\n\n"
+                    "👇 Aquí tienes también el menú interactivo para consultar oportunidades:"
                 )
+                with open(ruta_pdf_c, "rb") as doc:
+                    await update.message.reply_document(
+                        document=doc,
+                        filename="Guia_Coches_Embargados_RadarAlertas.pdf",
+                        caption=cap_c,
+                        parse_mode="Markdown"
+                    )
+
+        # Deep link Guía de Subastas Inmuebles
+        elif any("guia" in str(arg).lower() for arg in context.args):
+            registrar_descarga_guia(user.id)
+            ruta_pdf = Path(__file__).resolve().parent.parent.parent / "assets" / "Guia_Subastas_Judiciales_RadarAlertas.pdf"
+            if ruta_pdf.exists():
+                cap = (
+                    f"🎁 *¡Hola {user.first_name}! Aquí tienes tu Guía Oficial de Subastas y Embargos en PDF.*\n\n"
+                    "📖 *En este manual práctico aprenderás:*\n"
+                    "• Cómo funciona el portal del BOE y la fianza del 5%.\n"
+                    "• El secreto del Art. 674 LEC: qué cargas se cancelan a 0 €.\n"
+                    "• Cómo pujar por inmuebles desde el ordenador sin riesgos.\n\n"
+                    "👇 Aquí tienes también el menú interactivo para consultar oportunidades:"
+                )
+                with open(ruta_pdf, "rb") as doc:
+                    await update.message.reply_document(
+                        document=doc,
+                        filename="Guia_Subastas_Judiciales_RadarAlertas.pdf",
+                        caption=cap,
+                        parse_mode="Markdown"
+                    )
 
     estado = obtener_estado_usuario(user.id)
     es_vip = estado and estado.get("suscripcion_activa") == 1
@@ -152,11 +183,11 @@ async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     mensaje = (
         f"👋 ¡Hola {user.first_name}! Bienvenido a *RadarAlertas*.\n\n"
         "Monitorizamos cada día fuentes oficiales del Estado con algoritmos inteligentes:\n"
-        "🏠 *Subastas Judiciales:* Inmuebles con más del 50% de ahorro y sin cargas.\n"
-        "🚗 *Vehículos Embargados:* Coches y furgonetas verificados por matrícula.\n"
-        "💰 *Ayudas y Subvenciones:* Dinero a fondo perdido (BDNS) con trámites directos.\n"
-        "📑 *Licitaciones Públicas:* Contratos menores de obras, servicios y suministros.\n"
-        "💼 *Empleo Público:* Plazas urgentes y bolsas de trabajo en el BOE.\n\n"
+        "🏠 *Subastas Inmuebles:* Pisos al -50% con Street View, Catastro y ROI.\n"
+        "🚗 *Vehículos Embargados:* Coches y furgonetas verificados por matrícula desde 500 €.\n"
+        "💰 *Ayudas y Subvenciones:* Fondos a fondo perdido (BDNS) con calendario.\n"
+        "📑 *Licitaciones Públicas:* Contratos del Estado con pliegos oficiales.\n"
+        "💼 *Empleo Público:* Plazas urgentes y convocatorias fijas (+2.150 €/mes).\n\n"
     )
 
     if es_vip:
@@ -169,25 +200,33 @@ async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
             [InlineKeyboardButton("💰 Ayudas VIP", url=CANAL_AYUDAS_LINK), InlineKeyboardButton("📑 Licitaciones VIP", url=CANAL_LICITACIONES_LINK)],
             [InlineKeyboardButton("💼 Empleo VIP", url=CANAL_EMPLEO_LINK)],
             [InlineKeyboardButton("🔍 Buscar Chollos por Provincia", callback_data="menu_provincias")],
-            [InlineKeyboardButton("🎁 Descargar Guía Gratuita en PDF", callback_data="descargar_guia")],
+            [InlineKeyboardButton("🎁 Guías Prácticas Gratuitas (PDF)", callback_data="descargar_guia")],
             [InlineKeyboardButton("👥 Ganar 1 Mes VIP Gratis (Invitar Amigos)", callback_data="menu_referidos")],
             [InlineKeyboardButton("📊 Mi Suscripción", callback_data="mi_estado")]
         ]
     else:
         mensaje += (
             "🔒 *Acceso exclusivo:* Suscríbete para recibir alertas en tiempo real "
-            "con expedientes completos, referencias catastrales y enlaces oficiales.\n\n"
+            "con expedientes completos, referencias catastrales, Street View y enlaces oficiales.\n\n"
             f"🔥 *Suscripciones individuales por {PRECIO_PROMO} € / mes* o el *Pack Total por 4,99 € / mes*."
         )
         teclado = [
-            [InlineKeyboardButton("⭐ Desbloquear Canales VIP", callback_data="pagar_vip")],
-            [InlineKeyboardButton("🎁 Descargar Guía Gratuita en PDF", callback_data="descargar_guia")],
+            [InlineKeyboardButton("📺 Explorar los 5 Canales VIP", callback_data="escaparate_canales")],
+            [InlineKeyboardButton("🔥 Desbloquear Todo (Pack Total 4,99 €/m)", callback_data="pagar_vip")],
+            [InlineKeyboardButton("🎁 Descargar Guías Gratuitas en PDF", callback_data="descargar_guia")],
             [InlineKeyboardButton("👥 Ganar VIP Gratis (Invitar 3 Amigos)", callback_data="menu_referidos")],
             [InlineKeyboardButton("🔍 Buscar Chollos por Provincia", callback_data="menu_provincias")],
             [InlineKeyboardButton("📢 Canal Gratuito de Muestras", url=CANAL_FREE_LINK)],
             [InlineKeyboardButton("ℹ️ ¿Cómo funciona el servicio?", callback_data="info_servicio")],
             [InlineKeyboardButton("📊 Mi Cuenta", callback_data="mi_estado")]
         ]
+
+    # Botón exclusivo para David (Administrador)
+    if str(user.id) == str(ADMIN_ID):
+        teclado.insert(0, [InlineKeyboardButton("📊 Panel de Estadísticas (Admin)", callback_data="ver_stats")])
+
+    reply_markup = InlineKeyboardMarkup(teclado)
+    await update.message.reply_text(mensaje, parse_mode="Markdown", reply_markup=reply_markup)
 
     # Botón exclusivo para David (Administrador)
     if str(user.id) == str(ADMIN_ID):
@@ -203,28 +242,32 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     data = query.data
     user = query.from_user
 
-    if data == "pagar_vip":
+    if data in ("escaparate_canales", "pagar_vip"):
         texto = (
-            "🚀 *Planes de Acceso Oficial a RadarAlertas VIP*\n\n"
-            "Puedes suscribirte a cualquier canal individual por **2,99 € / mes**, o desbloquear los 5 canales con el **Pack Total** ahorrando un 66%:\n\n"
-            "🏠 *Canal Subastas Inmobiliarias:* Pisos al -50%, chalets y locales.\n"
-            "🚗 *Canal Vehículos Embargados:* Coches, motos y furgonetas desde 500 €.\n"
-            "💰 *Canal Ayudas y Subvenciones:* Dinero a fondo perdido y trámites de sede.\n"
-            "📑 *Canal Licitaciones Públicas:* Contratos menores de obras, servicios e IT.\n"
-            "💼 *Canal Empleo y Oposiciones:* Plazas fijas, bolsas urgentes y convocatorias.\n\n"
-            "💡 *Recomendación:* El Pack Total te da acceso ilimitado a las 5 verticales por solo 4,99 €/mes."
+            "📺 *ESCAPARATE OFICIAL DE CANALES RADARALERTAS* 📺\n\n"
+            "Monitorizamos fuentes oficiales las 24 horas del día. Elige el canal específico para tu perfil o desbloquea todo con el **Pack Total** ahorrando un 66%:\n\n"
+            "🏠 *1. Subastas de Inmuebles (2,99 €/mes)*\n"
+            "• Pisos y chalets con >50% de descuento y sin cargas.\n"
+            "• Enlaces directos a Google Street View, Catastro y ROI de alquiler.\n\n"
+            "🚗 *2. Vehículos Embargados (2,99 €/mes)*\n"
+            "• Coches, motos y furgonetas desde 500 € en depósitos judiciales.\n"
+            "• Verificación de cargas DGT y comparador de cotización en Coches.net.\n\n"
+            "💰 *3. Ayudas y Subvenciones (2,99 €/mes)*\n"
+            "• Dinero a fondo perdido de la BDNS para autónomos y pymes.\n"
+            "• Acceso a sede electrónica y recordatorio 1 clic en Google Calendar.\n\n"
+            "📑 *4. Licitaciones Públicas (2,99 €/mes)*\n"
+            "• Contratos menores de obras, servicios y tecnología.\n"
+            "• Descarga directa de pliegos y condiciones oficiales en PDF.\n\n"
+            "💼 *5. Empleo Público y Oposiciones (2,99 €/mes)*\n"
+            "• Convocatorias fijas y bolsas urgentes del BOE (+2.150 €/mes).\n\n"
+            "🔥 *OFERTA ESPECIAL:* Desbloquea los **5 CANALES VIP por solo 4,99 €/mes**."
         )
-        def con_ref(link: str) -> str:
-            sep = "&" if "?" in link else "?"
-            return f"{link}{sep}client_reference_id={user.id}"
-
         teclado = [
-            [InlineKeyboardButton("🏠 Solo Subastas Inmuebles (2,99 €/mes)", url=con_ref(STRIPE_LINK_SUBASTAS))],
-            [InlineKeyboardButton("🚗 Solo Vehículos Embargados (2,99 €/mes)", url=con_ref(STRIPE_LINK_VEHICULOS))],
-            [InlineKeyboardButton("💰 Solo Ayudas y Subvenciones (2,99 €/mes)", url=con_ref(STRIPE_LINK_AYUDAS))],
-            [InlineKeyboardButton("📑 Solo Licitaciones Públicas (2,99 €/mes)", url=con_ref(STRIPE_LINK_LICITACIONES))],
-            [InlineKeyboardButton("💼 Solo Empleo y Oposiciones (2,99 €/mes)", url=con_ref(STRIPE_LINK_EMPLEO))],
-            [InlineKeyboardButton("🔥 PACK TOTAL: LOS 5 CANALES (4,99 €/mes) 🔥", url=con_ref(STRIPE_LINK_PACK_TOTAL))],
+            [InlineKeyboardButton("🏠 Inmuebles (2,99 €/m)", url=con_ref(STRIPE_LINK_SUBASTAS, user.id)), InlineKeyboardButton("🚗 Vehículos (2,99 €/m)", url=con_ref(STRIPE_LINK_VEHICULOS, user.id))],
+            [InlineKeyboardButton("💰 Ayudas (2,99 €/m)", url=con_ref(STRIPE_LINK_AYUDAS, user.id)), InlineKeyboardButton("📑 Licitaciones (2,99 €/m)", url=con_ref(STRIPE_LINK_LICITACIONES, user.id))],
+            [InlineKeyboardButton("💼 Empleo Público (2,99 €/m)", url=con_ref(STRIPE_LINK_EMPLEO, user.id))],
+            [InlineKeyboardButton("🔥 PACK TOTAL: LOS 5 CANALES (4,99 €/m) 🔥", url=con_ref(STRIPE_LINK_PACK_TOTAL, user.id))],
+            [InlineKeyboardButton("📢 Canal Gratuito de Muestras", url=CANAL_FREE_LINK)],
             [InlineKeyboardButton("🔙 Volver", callback_data="volver_inicio")]
         ]
         await query.edit_message_text(texto, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
@@ -266,7 +309,24 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.edit_message_text(texto, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
 
     elif data == "descargar_guia":
-        await query.answer("Enviando guía oficial en PDF...")
+        texto = (
+            "🎁 *BIBLIOTECA DE GUÍAS PRÁCTICAS RADARALERTAS (PDF)* 🎁\n\n"
+            "Descarga de forma 100% gratuita nuestros manuales prácticos oficiales para aprender a invertir con éxito:\n\n"
+            "📖 *1. Guía Subastas Judiciales e Inmuebles del BOE*\n"
+            "Aprende a pujar por pisos y chalets al -50%, cómo funciona el depósito del 5% del BOE y el secreto del Art. 674 LEC para cancelar cargas a 0 €.\n\n"
+            "🚗 *2. Guía Coches y Vehículos Embargados*\n"
+            "Cómo adquirir turismos y furgonetas desde 500 € en depósitos judiciales, verificación de informe DGT y cancelación de precintos legales.\n\n"
+            "👇 *Elige la guía que deseas recibir al instante:*"
+        )
+        teclado = [
+            [InlineKeyboardButton("📖 Descargar Guía Inmuebles (PDF)", callback_data="descargar_guia_pisos")],
+            [InlineKeyboardButton("🚗 Descargar Guía Coches Embargados (PDF)", callback_data="descargar_guia_coches")],
+            [InlineKeyboardButton("🔙 Volver al Menú", callback_data="volver_inicio")]
+        ]
+        await query.edit_message_text(texto, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
+
+    elif data == "descargar_guia_pisos":
+        await query.answer("Enviando Guía de Inmuebles...")
         registrar_descarga_guia(user.id)
         ruta_pdf = Path(__file__).resolve().parent.parent.parent / "assets" / "Guia_Subastas_Judiciales_RadarAlertas.pdf"
         if not ruta_pdf.exists():
@@ -274,17 +334,17 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             compilar_guia_pdf(ruta_pdf)
 
         cap = (
-            "🎁 *¡Aquí tienes tu Guía Oficial de Subastas y Embargos!*\n\n"
+            "🎁 *¡Aquí tienes tu Guía Oficial de Subastas Judiciales e Inmuebles!*\n\n"
             "📖 *En este manual práctico aprenderás:*\n"
             "• Cómo funciona el portal del BOE y la devolución del 5% del depósito.\n"
             "• El secreto del Art. 674 LEC: qué cargas se cancelan y cuáles se pagan.\n"
-            "• Cómo pujar por coches y vehículos desde 500 € con inspección previa.\n\n"
+            "• Auditoría anti-okupas y cálculo del precio máximo de puja.\n\n"
             "🚀 *¿Quieres que nuestro algoritmo te avise de chollos limpios cada día?*\n"
             "Únete a nuestros canales VIP exclusivos."
         )
         teclado = [
-            [InlineKeyboardButton("⭐ Desbloquear Canales VIP (desde 2,99 €/mes)", callback_data="pagar_vip")],
-            [InlineKeyboardButton("📢 Canal Gratuito de Muestras", url=CANAL_FREE_LINK)],
+            [InlineKeyboardButton("⭐ Desbloquear Canales VIP", callback_data="pagar_vip")],
+            [InlineKeyboardButton("🚗 Descargar También Guía de Coches", callback_data="descargar_guia_coches")],
             [InlineKeyboardButton("🔙 Volver al Menú", callback_data="volver_inicio")]
         ]
         with open(ruta_pdf, "rb") as doc:
@@ -293,6 +353,38 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 document=doc,
                 filename="Guia_Subastas_Judiciales_RadarAlertas.pdf",
                 caption=cap,
+                parse_mode="Markdown",
+                reply_markup=InlineKeyboardMarkup(teclado)
+            )
+
+    elif data == "descargar_guia_coches":
+        await query.answer("Enviando Guía de Coches Embargados...")
+        registrar_descarga_guia(user.id)
+        ruta_pdf_c = Path(__file__).resolve().parent.parent.parent / "assets" / "Guia_Coches_Embargados_RadarAlertas.pdf"
+        if not ruta_pdf_c.exists():
+            from src.lead_magnet.generador_guia_coches_pdf import compilar_guia_coches_pdf
+            compilar_guia_coches_pdf(ruta_pdf_c)
+
+        cap_c = (
+            "🎁 *¡Aquí tienes tu Guía Oficial de Coches y Vehículos Embargados!*\n\n"
+            "📖 *En este manual práctico aprenderás:*\n"
+            "• Cómo pujar en el BOE por coches, motos y furgonetas desde 500 €.\n"
+            "• Auditoría de informe DGT y depósitos judiciales.\n"
+            "• Cancelación de precintos y cargas por Decreto Judicial (Art. 674 LEC).\n\n"
+            "🚀 *¿Quieres recibir avisos de vehículos filtrados cada día?*\n"
+            "Únete a nuestro canal VIP de Motor."
+        )
+        teclado = [
+            [InlineKeyboardButton("🚗 Activar Canal Vehículos (2,99 €/m)", url=con_ref(STRIPE_LINK_VEHICULOS, user.id))],
+            [InlineKeyboardButton("🔥 Pack Total: 5 Canales (4,99 €/m)", url=con_ref(STRIPE_LINK_PACK_TOTAL, user.id))],
+            [InlineKeyboardButton("🔙 Volver al Menú", callback_data="volver_inicio")]
+        ]
+        with open(ruta_pdf_c, "rb") as doc:
+            await context.bot.send_document(
+                chat_id=user.id,
+                document=doc,
+                filename="Guia_Coches_Embargados_RadarAlertas.pdf",
+                caption=cap_c,
                 parse_mode="Markdown",
                 reply_markup=InlineKeyboardMarkup(teclado)
             )
@@ -397,8 +489,9 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     elif data == "volver_inicio":
         teclado = [
-            [InlineKeyboardButton("⭐ Desbloquear Canales VIP", callback_data="pagar_vip")],
-            [InlineKeyboardButton("🎁 Descargar Guía Gratuita en PDF", callback_data="descargar_guia")],
+            [InlineKeyboardButton("📺 Explorar los 5 Canales VIP", callback_data="escaparate_canales")],
+            [InlineKeyboardButton("🔥 Desbloquear Todo (Pack Total 4,99 €/m)", callback_data="pagar_vip")],
+            [InlineKeyboardButton("🎁 Descargar Guías Gratuitas en PDF", callback_data="descargar_guia")],
             [InlineKeyboardButton("👥 Ganar VIP Gratis (Invitar 3 Amigos)", callback_data="menu_referidos")],
             [InlineKeyboardButton("🔍 Buscar Chollos por Provincia", callback_data="menu_provincias")],
             [InlineKeyboardButton("📢 Canal Gratuito de Muestras", url=CANAL_FREE_LINK)],

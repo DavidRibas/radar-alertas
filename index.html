@@ -218,6 +218,20 @@
             display: flex;
             flex-direction: column;
             gap: 6px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s ease;
+        }
+        .channel-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-blue);
+            background: rgba(30, 48, 90, 0.6);
+        }
+        .ch-action {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin-top: auto;
         }
         .channel-card-span2 {
             grid-column: span 2;
@@ -281,19 +295,31 @@
 
         <!-- Botones de Acción (High Conversion Links) -->
         <div class="links-stack">
-            <!-- 1. Lead Magnet PDF Gratis -->
+            <!-- 1. Lead Magnet Subastas PDF -->
             <a href="https://t.me/RadarAletasSubastas_bot?start=guia_gratis" class="btn-link btn-lead">
                 <div class="btn-content">
                     <div class="btn-icon">🎁</div>
                     <div class="btn-titles">
-                        <span class="btn-title">Descargar Guía en PDF (Gratis)</span>
+                        <span class="btn-title">Guía Gratis: Subastas Judiciales</span>
                         <span class="btn-subtitle">Cómo pujar en subastas sin riesgo de deudas</span>
                     </div>
                 </div>
                 <div class="btn-arrow">➔</div>
             </a>
 
-            <!-- 2. Canal Telegram Gratuito -->
+            <!-- 2. Lead Magnet Motor: Guía Coches Embargados PDF -->
+            <a href="https://t.me/RadarAletasSubastas_bot?start=guia_coches" class="btn-link">
+                <div class="btn-content">
+                    <div class="btn-icon">🚗</div>
+                    <div class="btn-titles">
+                        <span class="btn-title">Guía Gratis: Coches Embargados</span>
+                        <span class="btn-subtitle">Subastas de vehículos desde 500 € y verificación DGT</span>
+                    </div>
+                </div>
+                <div class="btn-arrow">➔</div>
+            </a>
+
+            <!-- 3. Canal Telegram Gratuito -->
             <a href="https://t.me/+JoX17328N-VkMWVk" class="btn-link">
                 <div class="btn-content">
                     <div class="btn-icon">📢</div>
@@ -305,13 +331,13 @@
                 <div class="btn-arrow">➔</div>
             </a>
 
-            <!-- 3. Acceso a los 5 Canales VIP -->
+            <!-- 4. Acceso a los 5 Canales VIP -->
             <a href="https://t.me/RadarAletasSubastas_bot" class="btn-link btn-vip">
                 <div class="btn-content">
                     <div class="btn-icon">⭐</div>
                     <div class="btn-titles">
                         <span class="btn-title">Desbloquear Canales VIP (2,99 €)</span>
-                        <span class="btn-subtitle">Expedientes completos, matrículas y catastro</span>
+                        <span class="btn-subtitle">Expedientes completos, Street View y catastro</span>
                     </div>
                 </div>
                 <div class="btn-arrow">➔</div>
@@ -319,33 +345,38 @@
         </div>
 
         <!-- Sección de Cobertura Oficial -->
-        <div class="section-title">Nuestras 5 Verticales Oficiales</div>
+        <div class="section-title">Nuestras 5 Verticales Oficiales (Toca para explorar)</div>
         <div class="channels-grid">
-            <div class="channel-card">
+            <a href="https://t.me/RadarAletasSubastas_bot?start=canal_inmuebles" class="channel-card">
                 <span class="ch-icon">🏠</span>
                 <span class="ch-title">Subastas Inmuebles</span>
-                <span class="ch-desc">Pisos y chalets con más del 50% de ahorro auditados sin cargas.</span>
-            </div>
-            <div class="channel-card">
+                <span class="ch-desc">Pisos y chalets al -50% con Street View, Catastro y ROI de alquiler.</span>
+                <span class="ch-action">Ver canal ➔</span>
+            </a>
+            <a href="https://t.me/RadarAletasSubastas_bot?start=canal_coches" class="channel-card">
                 <span class="ch-icon">🚗</span>
                 <span class="ch-title">Vehículos Embargados</span>
-                <span class="ch-desc">Coches, furgonetas y motos oficiales desde 500 € con inspección previa.</span>
-            </div>
-            <div class="channel-card">
+                <span class="ch-desc">Coches, furgonetas y motos oficiales desde 500 € con informe DGT.</span>
+                <span class="ch-action">Ver canal ➔</span>
+            </a>
+            <a href="https://t.me/RadarAletasSubastas_bot?start=canal_ayudas" class="channel-card">
                 <span class="ch-icon">💰</span>
                 <span class="ch-title">Ayudas y Subvenciones</span>
-                <span class="ch-desc">Dinero a fondo perdido de la BDNS con trámites directos.</span>
-            </div>
-            <div class="channel-card">
+                <span class="ch-desc">Dinero a fondo perdido de la BDNS con trámite y Google Calendar.</span>
+                <span class="ch-action">Ver canal ➔</span>
+            </a>
+            <a href="https://t.me/RadarAletasSubastas_bot?start=canal_licitaciones" class="channel-card">
                 <span class="ch-icon">📑</span>
                 <span class="ch-title">Licitaciones Menores</span>
-                <span class="ch-desc">Contratos del Estado abiertos a pymes y autónomos con cobro garantizado.</span>
-            </div>
-            <div class="channel-card channel-card-span2">
+                <span class="ch-desc">Contratos del Estado para autónomos y pymes con pliegos en PDF.</span>
+                <span class="ch-action">Ver canal ➔</span>
+            </a>
+            <a href="https://t.me/RadarAletasSubastas_bot?start=canal_empleo" class="channel-card channel-card-span2">
                 <span class="ch-icon">💼</span>
                 <span class="ch-title">Empleo Público y Oposiciones</span>
                 <span class="ch-desc">Plazas fijas del BOE y bolsas urgentes con retribución oficial de +2.150 €/mes.</span>
-            </div>
+                <span class="ch-action">Ver canal ➔</span>
+            </a>
         </div>
 
         <!-- Garantías de Seguridad -->
