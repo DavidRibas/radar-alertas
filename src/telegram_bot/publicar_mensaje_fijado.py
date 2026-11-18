@@ -35,7 +35,7 @@ def publicar_y_fijar_bienvenida():
     teclado = {
         "inline_keyboard": [
             [
-                {"text": "🤖 Abrir el Bot y Auditar Subastas en Privado", "url": f"https://t.me/{BOT_USERNAME}"}
+                {"text": "🤖 Abrir el Bot de RadarAlertas", "url": f"https://t.me/{BOT_USERNAME}"}
             ],
             [
                 {"text": "🎁 Guías Gratis en PDF", "url": f"https://t.me/{BOT_USERNAME}?start=guia_gratis"},

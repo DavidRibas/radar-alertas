@@ -225,15 +225,11 @@ async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 InlineKeyboardButton("🔥 PACK TOTAL: 5 CANALES (4,99 €/m) 🔥", callback_data="pagar_vip")
             ],
             [
-                InlineKeyboardButton("🎁 Guías Gratis en PDF", callback_data="descargar_guia"),
-                InlineKeyboardButton("👥 Ganar VIP Gratis", callback_data="menu_referidos")
-            ],
-            [
                 InlineKeyboardButton("🔍 Chollos por Provincia", callback_data="menu_provincias"),
-                InlineKeyboardButton("📢 Ver Alertas en Directo", url=CANAL_FREE_LINK)
+                InlineKeyboardButton("🎁 Guías Gratis en PDF", callback_data="descargar_guia")
             ],
             [
-                InlineKeyboardButton("🔎 Auditar Subasta BOE", callback_data="pedir_auditoria"),
+                InlineKeyboardButton("📢 Ver Alertas en Directo", url=CANAL_FREE_LINK),
                 InlineKeyboardButton("📊 Mi Cuenta", callback_data="mi_estado")
             ]
         ]
@@ -791,15 +787,11 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     InlineKeyboardButton("🔥 PACK TOTAL: 5 CANALES (4,99 €/m) 🔥", callback_data="pagar_vip")
                 ],
                 [
-                    InlineKeyboardButton("🎁 Guías Gratis en PDF", callback_data="descargar_guia"),
-                    InlineKeyboardButton("👥 Ganar VIP Gratis", callback_data="menu_referidos")
-                ],
-                [
                     InlineKeyboardButton("🔍 Chollos por Provincia", callback_data="menu_provincias"),
-                    InlineKeyboardButton("📢 Ver Alertas en Directo", url=CANAL_FREE_LINK)
+                    InlineKeyboardButton("🎁 Guías Gratis en PDF", callback_data="descargar_guia")
                 ],
                 [
-                    InlineKeyboardButton("🔎 Auditar Subasta BOE", callback_data="pedir_auditoria"),
+                    InlineKeyboardButton("📢 Ver Alertas en Directo", url=CANAL_FREE_LINK),
                     InlineKeyboardButton("📊 Mi Cuenta", callback_data="mi_estado")
                 ]
             ]
@@ -913,13 +905,17 @@ async def manejar_mensaje_general(update: Update, context: ContextTypes.DEFAULT_
         else:
             teclado_alt = [
                 [
-                    InlineKeyboardButton("⚡ Probar Piso (Madrid)", callback_data="auditar_exp_SUB-JA-2024-224419"),
-                    InlineKeyboardButton("⚡ Probar Coche (Porsche)", callback_data="auditar_exp_SUB-JV-2026-268142")
+                    InlineKeyboardButton("🏠 Ver Canales y Alertas", callback_data="volver_inicio"),
+                    InlineKeyboardButton("🔍 Chollos por Provincia", callback_data="menu_provincias")
                 ],
-                [InlineKeyboardButton("🔙 Menú Principal", callback_data="volver_inicio")]
+                [
+                    InlineKeyboardButton("🎁 Guías Gratis en PDF", callback_data="descargar_guia"),
+                    InlineKeyboardButton("🔥 Pack Total VIP (4,99 €)", callback_data="pagar_vip")
+                ]
             ]
             await msg.reply_text(
-                f"👋 ¡Hola {msg.from_user.first_name}! Puedes pegarme aquí cualquier enlace o número de expediente del BOE (ejemplo: `SUB-JA-2024-224419`) para auditarlo al instante, o usar el menú:",
+                f"👋 ¡Hola {msg.from_user.first_name}! Bienvenido a *RadarAlertas*.\n\n"
+                "Selecciona una opción del menú interactivo para empezar:",
                 parse_mode="Markdown",
                 reply_markup=InlineKeyboardMarkup(teclado_alt)
             )
