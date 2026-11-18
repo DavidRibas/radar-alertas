@@ -35,17 +35,18 @@ def publicar_y_fijar_bienvenida():
     teclado = {
         "inline_keyboard": [
             [
-                {"text": "🎁 Descargar Guía Oficial en PDF (Gratis)", "url": f"https://t.me/{BOT_USERNAME}?start=guia_gratis"}
+                {"text": "🤖 Abrir el Bot y Auditar Subastas en Privado", "url": f"https://t.me/{BOT_USERNAME}"}
             ],
             [
-                {"text": "👥 Ganar 1 Mes VIP Gratis (Invitar 3 amigos)", "url": f"https://t.me/{BOT_USERNAME}?start=ref_invitar"}
+                {"text": "🎁 Guías Gratis en PDF", "url": f"https://t.me/{BOT_USERNAME}?start=guia_gratis"},
+                {"text": "🔍 Chollos por Provincia", "url": f"https://t.me/{BOT_USERNAME}?start=provincias"}
             ],
             [
-                {"text": "🔍 Buscar Chollos por Provincia", "url": f"https://t.me/{BOT_USERNAME}?start=provincias"}
+                {"text": "👥 Ganar Mes VIP Gratis", "url": f"https://t.me/{BOT_USERNAME}?start=ref_invitar"},
+                {"text": "⭐ Canales VIP", "url": f"https://t.me/{BOT_USERNAME}?start=vip"}
             ],
             [
-                {"text": "⭐ Desbloquear Canales VIP (2,99 €/mes)", "url": f"https://t.me/{BOT_USERNAME}?start=vip"},
-                {"text": "🌐 Web Oficial", "url": WEB_URL}
+                {"text": "🌐 Web Oficial de RadarAlertas", "url": WEB_URL}
             ]
         ]
     }

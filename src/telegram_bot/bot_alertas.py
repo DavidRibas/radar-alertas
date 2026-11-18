@@ -229,8 +229,12 @@ async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 InlineKeyboardButton("👥 Ganar VIP Gratis", callback_data="menu_referidos")
             ],
             [
-                InlineKeyboardButton("📢 Ver Alertas en Directo (Gratis)", url=CANAL_FREE_LINK),
-                InlineKeyboardButton("🔍 Chollos por Provincia", callback_data="menu_provincias")
+                InlineKeyboardButton("🔍 Chollos por Provincia", callback_data="menu_provincias"),
+                InlineKeyboardButton("📢 Ver Alertas en Directo", url=CANAL_FREE_LINK)
+            ],
+            [
+                InlineKeyboardButton("🔎 Auditar Subasta BOE", callback_data="pedir_auditoria"),
+                InlineKeyboardButton("📊 Mi Cuenta", callback_data="mi_estado")
             ]
         ]
 
@@ -406,6 +410,24 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 [InlineKeyboardButton("⭐ Desbloquear Canales VIP (desde 2,99 €)", callback_data="pagar_vip")],
                 [InlineKeyboardButton("🔙 Volver al Menú Principal", callback_data="volver_inicio")]
             ]
+        await query.edit_message_text(texto, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
+
+    elif data == "pedir_auditoria":
+        texto = (
+            "🔎 *AUDITOR JUDICIAL INSTANTÁNEO DEL BOE* 🔎\n"
+            "━━━━━━━━━━━━━━━━━━━━\n\n"
+            "¿Has visto una subasta y quieres saber si es un chollo o una trampa con okupas o deudas?\n\n"
+            "👉 *Solo tienes que escribirme o pegarme aquí el enlace o código del BOE.*\n"
+            "Ejemplo: `SUB-JA-2024-224419`\n\n"
+            "Nuestro algoritmo lo analizará en 3 segundos y te dirá:\n"
+            "• Descuento real sobre tasación oficial\n"
+            "• Estado de ocupación y riesgo de okupas\n"
+            "• Fianza legal del 5% requerida (Art. 669.1 LEC)\n"
+            "• Enlace a Google Street View y Catastro\n"
+            "• Rentabilidad estimada de alquiler (ROI anual)\n\n"
+            "👇 _Pega tu código aquí abajo en el chat o vuelve al menú:_"
+        )
+        teclado = [[InlineKeyboardButton("🔙 Volver al Menú Principal", callback_data="volver_inicio")]]
         await query.edit_message_text(texto, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
 
     elif data == "info_servicio":
@@ -680,8 +702,12 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     InlineKeyboardButton("👥 Ganar VIP Gratis", callback_data="menu_referidos")
                 ],
                 [
-                    InlineKeyboardButton("📢 Ver Alertas en Directo (Gratis)", url=CANAL_FREE_LINK),
-                    InlineKeyboardButton("🔍 Chollos por Provincia", callback_data="menu_provincias")
+                    InlineKeyboardButton("🔍 Chollos por Provincia", callback_data="menu_provincias"),
+                    InlineKeyboardButton("📢 Ver Alertas en Directo", url=CANAL_FREE_LINK)
+                ],
+                [
+                    InlineKeyboardButton("🔎 Auditar Subasta BOE", callback_data="pedir_auditoria"),
+                    InlineKeyboardButton("📊 Mi Cuenta", callback_data="mi_estado")
                 ]
             ]
 
