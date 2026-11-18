@@ -44,6 +44,8 @@ PRECIO_PROMO = os.getenv("PRECIO_PROMOCION", "2.99")
 STRIPE_LINK = os.getenv("STRIPE_PAYMENT_LINK", "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00")
 STRIPE_LINK_SUBASTAS = os.getenv("STRIPE_LINK_SUBASTAS", "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00")
 STRIPE_LINK_AYUDAS = os.getenv("STRIPE_LINK_AYUDAS", "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00")
+STRIPE_LINK_LICITACIONES = os.getenv("STRIPE_LINK_LICITACIONES", "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00")
+STRIPE_LINK_EMPLEO = os.getenv("STRIPE_LINK_EMPLEO", "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00")
 STRIPE_LINK_PACK_TOTAL = os.getenv("STRIPE_LINK_PACK_TOTAL", "https://buy.stripe.com/14A4gA0g6a3Fgt9a2VcQU01")
 ADMIN_ID = os.getenv("TELEGRAM_ADMIN_USER_ID", "5674459275")
 
@@ -102,13 +104,16 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "Elige la suscripción que mejor se adapte a tus intereses:\n\n"
             "🏠 *Canal Subastas Judiciales:* Inmuebles al -50%, vehículos y embargos.\n"
             "💰 *Canal Ayudas y Subvenciones:* Dinero a fondo perdido y trámites de sede.\n"
-            "📑 *Canal Licitaciones y Empleo:* Contratos para autónomos y plazas exprés.\n\n"
-            "🔥 *Recomendado:* El *Pack Total VIP* te da acceso simultáneo a todos los canales por solo 2 € más."
+            "📑 *Canal Licitaciones Públicas:* Contratos menores de obras, servicios e IT.\n"
+            "💼 *Canal Empleo y Oposiciones:* Plazas fijas, bolsas urgentes y convocatorias.\n\n"
+            "🔥 *Recomendado:* El *Pack Total VIP* te da acceso simultáneo a los 4 canales por solo 4,99 €/mes (ahorras un 60%)."
         )
         teclado = [
-            [InlineKeyboardButton("🔥 PACK TOTAL VIP (Todas las Alertas) - 4,99 €/mes", url=STRIPE_LINK_PACK_TOTAL)],
+            [InlineKeyboardButton("🔥 PACK TOTAL VIP (Todos los Canales) - 4,99 €/mes", url=STRIPE_LINK_PACK_TOTAL)],
             [InlineKeyboardButton("🏠 Solo Subastas Judiciales (2,99 €/mes)", url=STRIPE_LINK_SUBASTAS)],
             [InlineKeyboardButton("💰 Solo Ayudas y Subvenciones (2,99 €/mes)", url=STRIPE_LINK_AYUDAS)],
+            [InlineKeyboardButton("📑 Solo Licitaciones Públicas (2,99 €/mes)", url=STRIPE_LINK_LICITACIONES)],
+            [InlineKeyboardButton("💼 Solo Empleo y Oposiciones (2,99 €/mes)", url=STRIPE_LINK_EMPLEO)],
             [InlineKeyboardButton("🔙 Volver", callback_data="volver_inicio")]
         ]
         await query.edit_message_text(texto, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
