@@ -37,12 +37,21 @@ from src.telegram_bot.bot_alertas import (
 load_dotenv()
 
 async def handle_ping(request):
-    """Endpoint de salud para que la nube sepa que el servicio está activo."""
+    """Endpoint de salud para que la nube y UptimeRobot sepan que el servicio está activo."""
     return web.json_response({
         "status": "online",
         "service": "RadarAlertas Telegram Bot 24/7",
         "bot": "@RadarAletasSubastas_bot"
     })
+
+async def handle_landing_page(request):
+    """Sirve la Landing Page oficial en la raíz del servidor."""
+    ruta_html = Path(__file__).resolve().parent.parent.parent / "docs" / "index.html"
+    if not ruta_html.exists():
+        ruta_html = Path(__file__).resolve().parent.parent.parent / "index.html"
+    if ruta_html.exists():
+        return web.Response(text=ruta_html.read_text(encoding="utf-8"), content_type="text/html")
+    return web.json_response({"status": "online", "service": "RadarAlertas Landing"})
 
 async def tarea_retargeting_periodica(app):
     """Revisa periódicamente si hay usuarios que descargaron la guía hace 24h para enviarles un seguimiento."""
@@ -108,10 +117,11 @@ async def main():
     # Lanzar tarea de retargeting en segundo plano
     asyncio.create_task(tarea_retargeting_periodica(app))
 
-    # 2. Servidor web HTTP para keep-alive en la nube
+    # 2. Servidor web HTTP para la Landing Page y keep-alive en la nube
     puerto = int(os.getenv("PORT", 8080))
     server = web.Application()
-    server.router.add_get("/", handle_ping)
+    server.router.add_get("/", handle_landing_page)
+    server.router.add_get("/ping", handle_ping)
     server.router.add_get("/healthz", handle_ping)
 
     runner = web.AppRunner(server)
