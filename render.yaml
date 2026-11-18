@@ -26,9 +26,9 @@ services:
       - key: TELEGRAM_CANAL_EMPLEO_LINK
         value: "https://t.me/+S46Itb8Avi9iNmFk"
       - key: TELEGRAM_CANAL_VEHICULOS_ID
-        value: "-1004355179430"
+        value: "-1004491031420"
       - key: TELEGRAM_CANAL_VEHICULOS_LINK
-        value: "https://t.me/+miVPfMylHboyMzM0"
+        value: "https://t.me/+rre7hII7bqhkNTdk"
       - key: TELEGRAM_CANAL_FREE_ID
         value: "-1004345947331"
       - key: TELEGRAM_CANAL_FREE_LINK

@@ -225,7 +225,7 @@ async def ciclo_vehiculos():
     ruta_video = OUTPUT_DIR / f"{id_sub}_VEHICULO_FINAL.mp4"
     await generar_video_vehiculo_visual(v, ruta_video)
 
-    canal_veh = os.getenv("TELEGRAM_CANAL_VEHICULOS_ID", CANAL_VIP)
+    canal_veh = os.getenv("TELEGRAM_CANAL_VEHICULOS_ID", "-1004491031420")
     post_vip = formatear_post_vehiculo_vip(v)
     enviar_alerta_telegram(canal_veh, post_vip)
 
