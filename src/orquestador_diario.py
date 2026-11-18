@@ -27,10 +27,10 @@ from src.extractores.licitaciones_contratos import obtener_licitaciones_reciente
 from src.extractores.empleo_oposiciones import obtener_empleo_publico_reciente
 
 from src.telegram_bot.database import inicializar_bd, registrar_alerta_enviada, ya_fue_enviada
-from src.telegram_bot.formateador import formatear_post_vip
-from src.telegram_bot.formateador_ayudas import formatear_post_ayuda_vip
-from src.telegram_bot.formateador_licitaciones import formatear_post_licitacion_vip
-from src.telegram_bot.formateador_empleo import formatear_post_empleo_vip
+from src.telegram_bot.formateador import formatear_post_vip, formatear_post_gratuito
+from src.telegram_bot.formateador_ayudas import formatear_post_ayuda_vip, formatear_post_ayuda_gratuito
+from src.telegram_bot.formateador_licitaciones import formatear_post_licitacion_vip, formatear_post_licitacion_gratuito
+from src.telegram_bot.formateador_empleo import formatear_post_empleo_vip, formatear_post_empleo_gratuito
 
 from src.video_generator.generador_visual_earth import (
     preparar_escena_1_satelite,
@@ -48,6 +48,7 @@ from src.video_generator.generador_visual_ayudas import generar_video_ayuda_visu
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 ADMIN_ID = os.getenv("TELEGRAM_ADMIN_USER_ID")
 CANAL_VIP = os.getenv("TELEGRAM_CANAL_VIP_ID")
+CANAL_FREE = os.getenv("TELEGRAM_CANAL_FREE_ID")
 
 def enviar_alerta_telegram(canal_id: str, texto_markdown: str):
     """Envía la alerta al canal VIP correspondiente."""
@@ -121,6 +122,9 @@ async def ciclo_subastas(provincia: str = "28"):
     # Publicar y enviar al móvil
     post = formatear_post_vip(chollo)
     enviar_alerta_telegram(CANAL_VIP, post)
+    if CANAL_FREE:
+        post_free = formatear_post_gratuito(chollo)
+        enviar_alerta_telegram(CANAL_FREE, post_free)
     registrar_alerta_enviada(id_sub, chollo["titulo"], chollo["precio_salida_formato"])
 
     caption = (
@@ -148,6 +152,9 @@ async def ciclo_ayudas():
     post = formatear_post_ayuda_vip(ayuda)
     canal_ayudas = os.getenv("TELEGRAM_CANAL_AYUDAS_ID", CANAL_VIP)
     enviar_alerta_telegram(canal_ayudas, post)
+    if CANAL_FREE:
+        post_free = formatear_post_ayuda_gratuito(ayuda)
+        enviar_alerta_telegram(CANAL_FREE, post_free)
     registrar_alerta_enviada(id_ayuda, ayuda["titulo"], ayuda["presupuesto_formato"])
 
     caption = (
@@ -167,6 +174,9 @@ async def ciclo_licitaciones_y_empleo():
         post_lic = formatear_post_licitacion_vip(lic)
         canal_lic = os.getenv("TELEGRAM_CANAL_LICITACIONES_ID", CANAL_VIP)
         enviar_alerta_telegram(canal_lic, post_lic)
+        if CANAL_FREE:
+            post_free = formatear_post_licitacion_gratuito(lic)
+            enviar_alerta_telegram(CANAL_FREE, post_free)
 
     empleos = obtener_empleo_publico_reciente()
     if empleos:
@@ -174,6 +184,9 @@ async def ciclo_licitaciones_y_empleo():
         post_em = formatear_post_empleo_vip(em)
         canal_em = os.getenv("TELEGRAM_CANAL_EMPLEO_ID", CANAL_VIP)
         enviar_alerta_telegram(canal_em, post_em)
+        if CANAL_FREE:
+            post_free = formatear_post_empleo_gratuito(em)
+            enviar_alerta_telegram(CANAL_FREE, post_free)
 
 async def main():
     inicializar_bd()

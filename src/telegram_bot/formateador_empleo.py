@@ -24,5 +24,5 @@ def formatear_post_empleo_gratuito(em: Dict) -> str:
         f"🏛️ *Organismo:* {em['organismo']}\n"
         f"📋 *Plazas:* {em['titulo'][:120]}...\n\n"
         "🔒 *Bases completas, requisitos y plazos de inscripción* en el canal VIP.\n"
-        "👉 Entra en @RadarAletasSubastas_bot para acceder."
+        "👉 [Toca aquí para abrir el Bot y acceder a las bases](https://t.me/RadarAletasSubastas_bot)."
     )

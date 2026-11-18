@@ -24,5 +24,5 @@ def formatear_post_licitacion_gratuito(lic: Dict) -> str:
         f"🏛️ *Organismo:* {lic['organismo']}\n"
         f"📋 *Objeto:* {lic['titulo'][:120]}...\n\n"
         "🔒 *Descarga los pliegos y condiciones oficiales* en nuestro canal VIP.\n"
-        "👉 Entra en @RadarAletasSubastas_bot para desbloquearlo."
+        "👉 [Toca aquí para abrir el Bot y desbloquear los pliegos](https://t.me/RadarAletasSubastas_bot)."
     )

@@ -31,5 +31,5 @@ def formatear_post_ayuda_gratuito(ayuda: Dict) -> str:
         f"🏛️ *Organismo:* {ayuda['organismo']}\n"
         f"👥 *Perfil:* {ayuda['beneficiarios']}\n\n"
         "🔒 *El enlace directo al trámite y los requisitos completos* están disponibles en el canal VIP.\n\n"
-        "👉 Entra en @RadarAletasSubastas_bot para desbloquear todos los expedientes oficiales."
+        "👉 [Toca aquí para abrir el Bot y desbloquear](https://t.me/RadarAletasSubastas_bot) todos los expedientes oficiales."
     )

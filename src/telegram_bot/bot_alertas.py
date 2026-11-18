@@ -40,6 +40,8 @@ CANAL_LICITACIONES_ID = os.getenv("TELEGRAM_CANAL_LICITACIONES_ID", "-1004308901
 CANAL_LICITACIONES_LINK = os.getenv("TELEGRAM_CANAL_LICITACIONES_LINK", "https://t.me/+SoEJ3dNfqdRlY2I0")
 CANAL_EMPLEO_ID = os.getenv("TELEGRAM_CANAL_EMPLEO_ID", "-1004292956298")
 CANAL_EMPLEO_LINK = os.getenv("TELEGRAM_CANAL_EMPLEO_LINK", "https://t.me/+S46Itb8Avi9iNmFk")
+CANAL_FREE_ID = os.getenv("TELEGRAM_CANAL_FREE_ID", "-1004345947331")
+CANAL_FREE_LINK = os.getenv("TELEGRAM_CANAL_FREE_LINK", "https://t.me/+JoX17328N-VkMWVk")
 
 PRECIO_PROMO = os.getenv("PRECIO_PROMOCION", "2.99")
 STRIPE_LINK = os.getenv("STRIPE_PAYMENT_LINK", "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00")
@@ -85,6 +87,7 @@ async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         teclado = [
             [InlineKeyboardButton("⭐ Desbloquear Canales VIP", callback_data="pagar_vip")],
+            [InlineKeyboardButton("📢 Canal Gratuito de Muestras", url=CANAL_FREE_LINK)],
             [InlineKeyboardButton("ℹ️ ¿Cómo funciona el servicio?", callback_data="info_servicio")],
             [InlineKeyboardButton("📊 Mi Cuenta", callback_data="mi_estado")]
         ]
