@@ -32,7 +32,9 @@ from src.telegram_bot.database import (
     marcar_retargeting_enviado,
     registrar_referido,
     obtener_estadisticas_referidos,
-    marcar_premio_referidos_entregado
+    marcar_premio_referidos_entregado,
+    guardar_provincia_favorita,
+    obtener_provincia_favorita
 )
 from src.extractores.boe_inmuebles import buscar_subastas_inmuebles, obtener_detalle_subasta
 from src.extractores.boe_vehiculos import buscar_subastas_vehiculos, obtener_detalle_vehiculo
@@ -556,12 +558,37 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 + "\n\n🔒 *Los enlaces directos de puja, referencias catastrales y matrículas se publican en tiempo real en los Canales VIP.*"
             )
 
+        # Botón de alerta de provincia en 1 clic
+        prov_actual = obtener_provincia_favorita(user.id)
+        teclado = []
+        if nom_prov != "España":
+            if prov_actual and prov_actual.lower() == nom_prov.lower():
+                teclado.append([InlineKeyboardButton(f"✅ Recibiendo alertas de {nom_prov}", callback_data=f"activada_prov_{nom_prov}")])
+            else:
+                teclado.append([InlineKeyboardButton(f"🔔 Avisarme de chollos en {nom_prov} (Gratis)", callback_data=f"activar_prov_{nom_prov}")])
+
+        teclado.extend([
+            [InlineKeyboardButton("⭐ Desbloquear Canales VIP", callback_data="pagar_vip")],
+            [InlineKeyboardButton("📍 Buscar en otra Provincia", callback_data="menu_provincias")],
+            [InlineKeyboardButton("🔙 Volver al Menú", callback_data="volver_inicio")]
+        ])
+        await query.edit_message_text(res_txt, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
+
+    elif data.startswith("activar_prov_"):
+        prov_nom = data.replace("activar_prov_", "").strip()
+        guardar_provincia_favorita(user.id, prov_nom)
+        await query.answer(f"🔔 ¡Listo! Te avisaremos de oportunidades en {prov_nom} a coste 0,00 €.", show_alert=True)
         teclado = [
+            [InlineKeyboardButton(f"✅ Recibiendo alertas de {prov_nom}", callback_data=f"activada_prov_{prov_nom}")],
             [InlineKeyboardButton("⭐ Desbloquear Canales VIP", callback_data="pagar_vip")],
             [InlineKeyboardButton("📍 Buscar en otra Provincia", callback_data="menu_provincias")],
             [InlineKeyboardButton("🔙 Volver al Menú", callback_data="volver_inicio")]
         ]
-        await query.edit_message_text(res_txt, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
+        await query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup(teclado))
+
+    elif data.startswith("activada_prov_"):
+        prov_nom = data.replace("activada_prov_", "").strip()
+        await query.answer(f"Ya tienes activadas las alertas para {prov_nom}.", show_alert=True)
 
     elif data == "menu_referidos":
         stats = obtener_estadisticas_referidos(user.id)
@@ -718,9 +745,83 @@ async def manejar_mensaje_general(update: Update, context: ContextTypes.DEFAULT_
         )
         return
 
-    # 3. Mensaje de texto normal directo al bot
+    # 3. Mensaje de texto normal directo al bot (Auditor Exprés de Subastas)
     if msg.text and not msg.text.startswith("/"):
-        await msg.reply_text("¡Hola! Usa /start para ver el menú principal de RadarAlertas.")
+        import re
+        txt = msg.text.strip()
+        m = re.search(r"(SUB-[A-Z0-9-]+)", txt, re.IGNORECASE)
+        if m:
+            id_sub = m.group(1).upper()
+            msg_espera = await msg.reply_text(f"⏳ *Auditoría en curso:* Consultando expediente `{id_sub}` en el BOE...", parse_mode="Markdown")
+            
+            # Buscar en inmuebles o vehículos
+            det = obtener_detalle_subasta(id_sub)
+            es_inmueble = True
+            if not det or not det.get("direccion") or det.get("direccion") == "España":
+                det_v = obtener_detalle_vehiculo(id_sub)
+                if det_v and det_v.get("precio_salida", 0) > 0:
+                    det = det_v
+                    es_inmueble = False
+
+            if det:
+                score_badge = det.get("score_badge", "⭐ 8.5/10 (Oportunidad)")
+                tasacion = det.get("valor_referencia_formato", "No consta")
+                salida = det.get("precio_salida_formato", "0 €")
+                ahorro = det.get("ahorro_porcentaje", 0)
+                deposito = det.get("deposito", "5% LEC")
+                
+                if es_inmueble:
+                    sit_pos = det.get("situacion_posesoria", "⚪ No especificada")
+                    dir_txt = det.get("direccion", "España")
+                    url_maps = det.get("url_maps", "")
+                    url_cat = det.get("url_catastro", "")
+                    roi = det.get("roi_alquiler", 0)
+                    alquiler = det.get("alquiler_estimado_mes", 0)
+                    
+                    lineas_extra = f"📍 *Dirección:* `{dir_txt}`\n"
+                    if url_maps:
+                        lineas_extra += f"🗺️ [Ver Fachada en Google Street View]({url_maps})\n"
+                    if url_cat:
+                        lineas_extra += f"📑 [Consultar Ficha en Sede Catastro]({url_cat})\n"
+                    if roi > 0:
+                        lineas_extra += f"📈 *Potencial Inversor:* Alquiler est. ~{alquiler} €/mes | *ROI Bruto:* {roi}% anual\n"
+                    lineas_extra += f"🔍 *Estado Posesorio:* {sit_pos}\n"
+                else:
+                    lineas_extra = (
+                        f"🚗 *Vehículo:* {det.get('titulo', 'Vehículo')}\n"
+                        f"📍 *Depósito:* {det.get('lugar_deposito', 'Consultar juzgado')}\n"
+                        f"🛡️ *Cargas DGT:* Cancelables mediante Decreto Judicial (Art. 674 LEC)\n"
+                    )
+
+                res = (
+                    f"🔍 *INFORME DE AUDITORÍA EXPRÉS (BOE)* 🔍\n"
+                    f"━━━━━━━━━━━━━━━━━━━━\n"
+                    f"{score_badge}\n\n"
+                    f"🆔 *Expediente:* `{id_sub}`\n"
+                    f"{lineas_extra}"
+                    f"💰 *Valor Oficial de Tasación:* {tasacion}\n"
+                    f"🟢 *Precio de Salida:* *{salida}* (-{ahorro}% dto.)\n"
+                    f"💵 *Fianza legal (5%):* *{deposito}* _(Reembolsable al 100% si no ganas)_\n"
+                    f"⏳ *Cierre de pujas:* {det.get('fecha_fin', 'Próximos días')}\n\n"
+                    f"🔗 [Abrir Expediente Oficial en subastas.boe.es]({det.get('url_oficial')})\n\n"
+                    f"⭐ _Para recibir alertas automáticas como esta en tu provincia, activa tu suscripción VIP._"
+                )
+                teclado_aud = [
+                    [InlineKeyboardButton("⭐ Desbloquear Canales VIP (2,99 €/m)", callback_data="pagar_vip")],
+                    [InlineKeyboardButton("🔙 Menú Principal", callback_data="volver_inicio")]
+                ]
+                await msg_espera.edit_text(res, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado_aud))
+            else:
+                await msg_espera.edit_text(
+                    f"⚠️ No pudimos obtener el detalle del expediente `{id_sub}`. Es posible que la subasta haya concluido o el BOE no tenga habilitada la consulta pública para este lote.\n\n"
+                    "Usa /start para consultar oportunidades activas.",
+                    parse_mode="Markdown"
+                )
+        else:
+            await msg.reply_text(
+                f"👋 ¡Hola {msg.from_user.first_name}! Puedes pegarme aquí cualquier enlace o número de expediente del BOE (ejemplo: `SUB-JA-2026-XXXX`) para que lo audite al instante, o usar el comando /start para ver el menú principal.",
+                parse_mode="Markdown"
+            )
 
 async def comando_activar_manual(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Comando de administrador para activar VIP de prueba a un usuario: /activar <user_id>"""

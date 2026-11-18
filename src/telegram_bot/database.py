@@ -69,6 +69,10 @@ def inicializar_bd():
         cursor.execute("ALTER TABLE usuarios ADD COLUMN aviso_renovacion_enviado INTEGER DEFAULT 0;")
     except Exception:
         pass
+    try:
+        cursor.execute("ALTER TABLE usuarios ADD COLUMN provincia_favorita TEXT;")
+    except Exception:
+        pass
 
     # 4. Tabla de referidos y afiliados virales
     cursor.execute("""
@@ -357,6 +361,39 @@ def procesar_suscripciones_vencidas() -> List[Dict]:
         conn.commit()
     conn.close()
     return vencidos
+
+def guardar_provincia_favorita(user_id: int, provincia: str):
+    """Guarda la provincia preferida del usuario para enviarle alertas personalizadas."""
+    conn = obtener_conexion()
+    cursor = conn.cursor()
+    cursor.execute("""
+        UPDATE usuarios 
+        SET provincia_favorita = ?
+        WHERE user_id = ?;
+    """, (provincia, user_id))
+    conn.commit()
+    conn.close()
+
+def obtener_provincia_favorita(user_id: int) -> Optional[str]:
+    """Obtiene la provincia configurada por el usuario."""
+    conn = obtener_conexion()
+    cursor = conn.cursor()
+    cursor.execute("SELECT provincia_favorita FROM usuarios WHERE user_id = ?;", (user_id,))
+    row = cursor.fetchone()
+    conn.close()
+    return row[0] if row and row[0] else None
+
+def obtener_usuarios_por_provincia(provincia: str) -> List[int]:
+    """Devuelve los IDs de los usuarios que han activado alertas para esa provincia."""
+    conn = obtener_conexion()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT user_id FROM usuarios 
+        WHERE LOWER(provincia_favorita) = LOWER(?);
+    """, (provincia,))
+    filas = cursor.fetchall()
+    conn.close()
+    return [f[0] for f in filas]
 
 def ya_fue_enviada(id_subasta: str) -> bool:
     """Comprueba si una subasta ya se envió a los canales."""

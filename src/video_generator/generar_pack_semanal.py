@@ -19,61 +19,66 @@ def empaquetar_semana():
     print("📦 GENERADOR DE PACK SEMANAL DE CONTENIDO - RADARALERTAS")
     print("=" * 60)
 
-    # 1. Definir los vídeos clave disponibles
+    # 1. Definir los vídeos clave disponibles con ganchos virales de alto impacto
     catalogo = [
         {
             "dia": "01_LUNES_Subasta_Inmueble",
             "origen": OUTPUT_DIR / "subasta_tiktok_EARTH_PERFECTO.mp4",
-            "titulo": "🚨 Subasta Judicial en Madrid: Piso tasado con -65% de descuento",
+            "titulo": "❌ Idealista: 260.000 € vs ✅ BOE: 75.000 € (Piso en Madrid)",
             "copy": (
-                "🚨 SUBASTA JUDICIAL EN EL BOE\n"
-                "Inmueble verificado con cargas canceladas según Art. 674 LEC.\n"
-                "👉 Descarga la Guía Gratuita y entra al Radar en el enlace de la bio.\n\n"
-                "#subastasboe #inversioninmobiliaria #chollos #vivienda #madrid"
+                "❌ IDEALISTA: 260.000 € vs ✅ BOE: 75.000 €\n\n"
+                "Subasta judicial en Madrid con un 65% de ahorro y cargas canceladas por Ley (Art. 674 LEC).\n"
+                "📖 Descarga la Guía Práctica Oficial en PDF y entra al radar gratis en el enlace del perfil.\n\n"
+                "📌 Pinned Comment: 'Te he dejado la Guía Oficial en PDF en el link de mi perfil para que aprendas a pujar sin cometer errores.'\n\n"
+                "#subastasboe #idealista #inversioninmobiliaria #chollos #vivienda #madrid #espana"
             )
         },
         {
             "dia": "02_MARTES_Coche_Embargado",
             "origen": OUTPUT_DIR / "vehiculo_ULTRA_VISUAL.mp4",
-            "titulo": "🚗 Coche Embargado por el Estado desde 980 €",
+            "titulo": "⚠️ NO compres coche usado antes de ver este embargo del BOE",
             "copy": (
-                "🚗 COCHES Y VEHÍCULOS EMBARGADOS POR EL ESTADO\n"
-                "Salidas públicas en el portal del BOE desde solo 980 €.\n"
-                "👉 Consulta todos los lotes y depósitos en el enlace de la bio.\n\n"
-                "#coches #embargos #subastas #oportunidad #motor"
+                "⚠️ NO COMPRES COCHE USADO ANTES DE VER ESTO\n\n"
+                "Turismos, SUV y furgonetas embargadas por juzgados y Seguridad Social desde 980 €.\n"
+                "🚗 Descarga la Guía Oficial de Coches Embargados en el enlace de la bio.\n\n"
+                "📌 Pinned Comment: 'Tienes la Guía de Coches Embargados paso a paso gratis en el link de mi perfil.'\n\n"
+                "#coches #embargos #subastas #cochesdesegundamano #chollos #motor #dgt"
             )
         },
         {
             "dia": "03_MIERCOLES_Ayuda_Fondo_Perdido",
             "origen": OUTPUT_DIR / "ayuda_ULTRA_VISUAL_942802.mp4",
-            "titulo": "💰 Subvención a Fondo Perdido aprobada en el BDNS",
+            "titulo": "💸 El Estado da hasta 20.000 € a fondo perdido y casi nadie lo pide",
             "copy": (
-                "💰 AYUDAS Y SUBVENCIONES OFICIALES\n"
-                "Fondos públicos abiertos para autónomos, pymes y particulares.\n"
-                "👉 Recibe avisos directos en Telegram desde el enlace de la bio.\n\n"
-                "#ayudas #subvenciones #autonomos #emprendedores #dinero"
+                "💸 EL ESTADO DA HASTA 20.000 € A FONDO PERDIDO\n\n"
+                "Convocatoria oficial abierta en la Base de Datos Nacional de Subvenciones para autónomos y pymes.\n"
+                "💰 Activa las alertas de dinero público gratis en el enlace de la bio.\n\n"
+                "📌 Pinned Comment: 'El enlace directo a la sede electrónica oficial está en nuestro canal gratuito del perfil.'\n\n"
+                "#ayudas #subvenciones #autonomos #emprendedores #dinero #negocios"
             )
         },
         {
             "dia": "04_JUEVES_Licitacion_Publica",
             "origen": OUTPUT_DIR / "licitacion_ULTRA_VISUAL.mp4",
-            "titulo": "📑 Contrato Público del Estado: Oportunidad para profesionales",
+            "titulo": "📑 Cómo facturar 15.000 € a la Administración Pública sin ser funcionario",
             "copy": (
-                "📑 LICITACIONES Y CONTRATOS MENORES DEL ESTADO\n"
-                "Obras, suministros y servicios públicos sin intermediarios.\n"
-                "👉 Toda la información en el enlace de la bio.\n\n"
-                "#licitaciones #contratospublicos #empresas #negocios #boe"
+                "📑 CONTRATOS MENORES DEL ESTADO ABIERTOS A AUTÓNOMOS\n\n"
+                "Servicios, obras, mantenimiento y tecnología con cobro garantizado por el Estado.\n"
+                "👉 Recibe los pliegos oficiales en el enlace de la bio.\n\n"
+                "📌 Pinned Comment: 'Todos los pliegos en PDF oficiales están disponibles en el radar del perfil.'\n\n"
+                "#licitaciones #contratospublicos #pymes #autonomos #empresas #boe"
             )
         },
         {
             "dia": "05_VIERNES_Empleo_Oposiciones",
             "origen": OUTPUT_DIR / "empleo_ULTRA_VISUAL.mp4",
-            "titulo": "💼 Plazas Urgentes de Empleo Público en el BOE",
+            "titulo": "🚨 Bolsas urgentes y plazas del BOE con sueldo de +2.150 € al mes",
             "copy": (
-                "💼 EMPLEO PÚBLICO Y BOLSAS DE TRABAJO\n"
-                "Nuevas plazas convocadas hoy en el Boletín Oficial del Estado.\n"
-                "👉 Enlace en la bio para ver requisitos y plazos de inscripción.\n\n"
-                "#empleopublico #oposiciones #trabajo #empleo #boe"
+                "🚨 PLAZAS URGENTES DEL BOE CON +2.150 € AL MES\n\n"
+                "Nuevas convocatorias fijas y temporales con plazo de inscripción abierto hoy.\n"
+                "💼 Consulta requisitos y resoluciones oficiales en el link del perfil.\n\n"
+                "📌 Pinned Comment: 'Entra al canal gratuito en el enlace del perfil para ver las convocatorias de hoy.'\n\n"
+                "#empleopublico #oposiciones #trabajo #empleo #sueldo #boe"
             )
         }
     ]
