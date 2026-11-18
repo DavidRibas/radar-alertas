@@ -29,7 +29,10 @@ from src.telegram_bot.database import (
     obtener_metricas_globales,
     registrar_descarga_guia,
     obtener_usuarios_para_retargeting,
-    marcar_retargeting_enviado
+    marcar_retargeting_enviado,
+    registrar_referido,
+    obtener_estadisticas_referidos,
+    marcar_premio_referidos_entregado
 )
 from src.extractores.boe_inmuebles import buscar_subastas_inmuebles, obtener_detalle_subasta
 from src.extractores.boe_vehiculos import buscar_subastas_vehiculos, obtener_detalle_vehiculo
@@ -61,11 +64,68 @@ STRIPE_LINK_PACK_TOTAL = os.getenv("STRIPE_LINK_PACK_TOTAL", "https://buy.stripe
 ADMIN_ID = os.getenv("TELEGRAM_ADMIN_USER_ID", "5674459275")
 
 async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Maneja el comando /start con menú interactivo de botones."""
+    """Maneja el comando /start con menú interactivo de botones y soporte para referidos."""
     user = update.effective_user
     registrar_o_actualizar_usuario(user.id, user.username, user.first_name)
 
-    # Si viene con parámetro deep link de la landing page o redes (ej: /start guia_gratis)
+    # 1. Comprobar si viene con enlace de referido: /start ref_123456
+    if context.args:
+        primer_arg = str(context.args[0]).strip()
+        if primer_arg.startswith("ref_"):
+            try:
+                inviter_id = int(primer_arg.replace("ref_", ""))
+                res_ref = registrar_referido(inviter_id, user.id)
+                if res_ref.get("valido"):
+                    total = res_ref.get("total_referidos", 1)
+                    if res_ref.get("desbloquea_premio"):
+                        # Activar suscripción VIP por 30 días
+                        activar_suscripcion_vip(inviter_id, plan="referidos_3_amigos", dias=30)
+                        marcar_premio_referidos_entregado(inviter_id)
+                        # Generar enlace de invitación de un solo uso
+                        invite_link = CANAL_VIP_LINK
+                        try:
+                            l_obj = await context.bot.create_chat_invite_link(
+                                chat_id=CANAL_VIP_ID,
+                                member_limit=1,
+                                name=f"Premio Referidos {inviter_id}"
+                            )
+                            invite_link = l_obj.invite_link
+                        except Exception:
+                            pass
+                        premio_msg = (
+                            "🎉🔥 *¡ENHORABUENA! HAS GANADO 1 MES VIP TOTAL GRATIS* 🔥🎉\n\n"
+                            f"Tu amigo *{user.first_name}* se acaba de unir con tu enlace.\n"
+                            "¡Has completado el objetivo de *3 amigos recomendados*!\n\n"
+                            "⭐ *Tu acceso VIP TOTAL (Inmuebles, Vehículos, Ayudas, Licitaciones y Empleo) ha sido activado por 30 días a coste 0,00 €.*\n\n"
+                            f"👉 Entra aquí a tu canal VIP exclusivo:\n{invite_link}\n\n"
+                            "¡Muchísimas gracias por ayudar a crecer RadarAlertas!"
+                        )
+                        try:
+                            await context.bot.send_message(chat_id=inviter_id, text=premio_msg, parse_mode="Markdown")
+                            if str(ADMIN_ID) != str(inviter_id):
+                                await context.bot.send_message(
+                                    chat_id=ADMIN_ID,
+                                    text=f"🏆 *¡Objetivo de Referidos Alcanzado!*\nEl usuario `{inviter_id}` ha traído a 3 personas y se le ha activado 1 mes VIP gratis automáticamente.",
+                                    parse_mode="Markdown"
+                                )
+                        except Exception as e:
+                            print(f"Error notificando premio al invitador: {e}")
+                    else:
+                        falta = max(0, 3 - total)
+                        notif_msg = (
+                            "🎉 *¡Un amigo se acaba de unir con tu enlace!*\n\n"
+                            f"👤 *{user.first_name}* se ha registrado en RadarAlertas.\n"
+                            f"📊 *Progreso:* Llevas *{total}/3* amigos.\n"
+                            f"Te falta(n) solo *{falta}* para desbloquear tu *Mes VIP Gratis*."
+                        )
+                        try:
+                            await context.bot.send_message(chat_id=inviter_id, text=notif_msg, parse_mode="Markdown")
+                        except Exception as e:
+                            print(f"Error enviando notificación al invitador: {e}")
+            except Exception as e:
+                print(f"Error procesando referido: {e}")
+
+    # 2. Si viene con parámetro deep link de la landing page o redes (ej: /start guia_gratis)
     if context.args and any("guia" in str(arg).lower() for arg in context.args):
         registrar_descarga_guia(user.id)
         ruta_pdf = Path(__file__).resolve().parent.parent.parent / "assets" / "Guia_Subastas_Judiciales_RadarAlertas.pdf"
@@ -93,6 +153,7 @@ async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"👋 ¡Hola {user.first_name}! Bienvenido a *RadarAlertas*.\n\n"
         "Monitorizamos cada día fuentes oficiales del Estado con algoritmos inteligentes:\n"
         "🏠 *Subastas Judiciales:* Inmuebles con más del 50% de ahorro y sin cargas.\n"
+        "🚗 *Vehículos Embargados:* Coches y furgonetas verificados por matrícula.\n"
         "💰 *Ayudas y Subvenciones:* Dinero a fondo perdido (BDNS) con trámites directos.\n"
         "📑 *Licitaciones Públicas:* Contratos menores de obras, servicios y suministros.\n"
         "💼 *Empleo Público:* Plazas urgentes y bolsas de trabajo en el BOE.\n\n"
@@ -109,17 +170,19 @@ async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
             [InlineKeyboardButton("💼 Empleo VIP", url=CANAL_EMPLEO_LINK)],
             [InlineKeyboardButton("🔍 Buscar Chollos por Provincia", callback_data="menu_provincias")],
             [InlineKeyboardButton("🎁 Descargar Guía Gratuita en PDF", callback_data="descargar_guia")],
+            [InlineKeyboardButton("👥 Ganar 1 Mes VIP Gratis (Invitar Amigos)", callback_data="menu_referidos")],
             [InlineKeyboardButton("📊 Mi Suscripción", callback_data="mi_estado")]
         ]
     else:
         mensaje += (
             "🔒 *Acceso exclusivo:* Suscríbete para recibir alertas en tiempo real "
             "con expedientes completos, referencias catastrales y enlaces oficiales.\n\n"
-            f"🔥 *Suscripciones desde solo {PRECIO_PROMO} € / mes* o el *Pack Total por 4,99 € / mes*."
+            f"🔥 *Suscripciones individuales por {PRECIO_PROMO} € / mes* o el *Pack Total por 4,99 € / mes*."
         )
         teclado = [
             [InlineKeyboardButton("⭐ Desbloquear Canales VIP", callback_data="pagar_vip")],
             [InlineKeyboardButton("🎁 Descargar Guía Gratuita en PDF", callback_data="descargar_guia")],
+            [InlineKeyboardButton("👥 Ganar VIP Gratis (Invitar 3 Amigos)", callback_data="menu_referidos")],
             [InlineKeyboardButton("🔍 Buscar Chollos por Provincia", callback_data="menu_provincias")],
             [InlineKeyboardButton("📢 Canal Gratuito de Muestras", url=CANAL_FREE_LINK)],
             [InlineKeyboardButton("ℹ️ ¿Cómo funciona el servicio?", callback_data="info_servicio")],
@@ -299,10 +362,44 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ]
         await query.edit_message_text(res_txt, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
 
+    elif data == "menu_referidos":
+        stats = obtener_estadisticas_referidos(user.id)
+        bot_user = context.bot.username or "RadarAletasSubastas_bot"
+        ref_link = f"https://t.me/{bot_user}?start=ref_{user.id}"
+        total = stats.get("total_referidos", 0)
+        premio = stats.get("premio_otorgado", False)
+        
+        texto_compartir = "¡Mira los chollos y coches embargados del BOE que encuentra este radar gratis!"
+        url_compartir = f"https://t.me/share/url?url={ref_link}&text={texto_compartir}"
+        
+        txt = (
+            "🎁 *PROGRAMA DE REFERIDOS: 1 MES VIP TOTAL GRATIS*\n\n"
+            "Comparte RadarAlertas con amigos interesados en chollos, coches o subastas y "
+            "consigue tu suscripción VIP Total (valorada en *4,99 €/mes*) a *coste 0,00 €*.\n\n"
+            "📋 *¿Cómo funciona?*\n"
+            "1. Pasa tu enlace exclusivo a tus amigos o compártelo en grupos.\n"
+            "2. En cuanto *3 personas* se unan a través de tu link, el sistema te activará automáticamente *30 días de VIP Total*.\n\n"
+            f"🔗 *Tu Enlace Personal de Invitación:*\n`{ref_link}`\n\n"
+            f"📊 *Tu Marcador en Tiempo Real:*\n"
+            f"• Amigos registrados: *{total} de 3*\n"
+        )
+        if premio or total >= 3:
+            txt += "• Estado del premio: 🏆 *¡Objetivo cumplido! Tu mes VIP gratuito está activo.*\n"
+        else:
+            txt += f"• Te faltan: ⏳ *{3 - total} amigo(s)* para desbloquear tu mes gratis.\n"
+
+        teclado = [
+            [InlineKeyboardButton("📤 Compartir en Telegram (1 Clic)", url=url_compartir)],
+            [InlineKeyboardButton("⭐ Desbloquear Ahora por 2,99 €/mes", callback_data="pagar_vip")],
+            [InlineKeyboardButton("🔙 Volver al Menú", callback_data="volver_inicio")]
+        ]
+        await query.edit_message_text(txt, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
+
     elif data == "volver_inicio":
         teclado = [
             [InlineKeyboardButton("⭐ Desbloquear Canales VIP", callback_data="pagar_vip")],
             [InlineKeyboardButton("🎁 Descargar Guía Gratuita en PDF", callback_data="descargar_guia")],
+            [InlineKeyboardButton("👥 Ganar VIP Gratis (Invitar 3 Amigos)", callback_data="menu_referidos")],
             [InlineKeyboardButton("🔍 Buscar Chollos por Provincia", callback_data="menu_provincias")],
             [InlineKeyboardButton("📢 Canal Gratuito de Muestras", url=CANAL_FREE_LINK)],
             [InlineKeyboardButton("ℹ️ ¿Cómo funciona el servicio?", callback_data="info_servicio")],
@@ -311,6 +408,41 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if str(user.id) == str(ADMIN_ID):
             teclado.insert(0, [InlineKeyboardButton("📊 Panel de Estadísticas (Admin)", callback_data="ver_stats")])
         await query.edit_message_text("Selecciona una opción del menú:", reply_markup=InlineKeyboardMarkup(teclado))
+
+async def comando_invitar(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Muestra el panel de referidos y enlace personal de invitación."""
+    user = update.effective_user
+    stats = obtener_estadisticas_referidos(user.id)
+    bot_user = context.bot.username or "RadarAletasSubastas_bot"
+    ref_link = f"https://t.me/{bot_user}?start=ref_{user.id}"
+    total = stats.get("total_referidos", 0)
+    premio = stats.get("premio_otorgado", False)
+    
+    texto_compartir = "¡Mira los chollos y coches embargados del BOE que encuentra este radar gratis!"
+    url_compartir = f"https://t.me/share/url?url={ref_link}&text={texto_compartir}"
+    
+    txt = (
+        "🎁 *PROGRAMA DE REFERIDOS: 1 MES VIP TOTAL GRATIS*\n\n"
+        "Comparte RadarAlertas con amigos interesados en chollos, coches o subastas y "
+        "consigue tu suscripción VIP Total (valorada en *4,99 €/mes*) a *coste 0,00 €*.\n\n"
+        "📋 *¿Cómo funciona?*\n"
+        "1. Pasa tu enlace exclusivo a tus amigos o compártelo en grupos.\n"
+        "2. En cuanto *3 personas* se unan a través de tu link, el sistema te activará automáticamente *30 días de VIP Total*.\n\n"
+        f"🔗 *Tu Enlace Personal de Invitación:*\n`{ref_link}`\n\n"
+        f"📊 *Tu Marcador en Tiempo Real:*\n"
+        f"• Amigos registrados: *{total} de 3*\n"
+    )
+    if premio or total >= 3:
+        txt += "• Estado del premio: 🏆 *¡Objetivo cumplido! Tu mes VIP gratuito está activo.*\n"
+    else:
+        txt += f"• Te faltan: ⏳ *{3 - total} amigo(s)* para desbloquear tu mes gratis.\n"
+
+    teclado = [
+        [InlineKeyboardButton("📤 Compartir en Telegram (1 Clic)", url=url_compartir)],
+        [InlineKeyboardButton("⭐ Desbloquear Ahora por 2,99 €/mes", callback_data="pagar_vip")],
+        [InlineKeyboardButton("🔙 Menú Principal", callback_data="volver_inicio")]
+    ]
+    await update.effective_message.reply_text(txt, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
 
 async def manejar_chat_member(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Detecta cuando el bot es añadido o modificado como administrador en un canal."""

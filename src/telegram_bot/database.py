@@ -44,7 +44,7 @@ def inicializar_bd():
     );
     """)
 
-    # Columnas opcionales para retargeting inteligente
+    # Columnas opcionales para retargeting inteligente y referidos
     try:
         cursor.execute("ALTER TABLE usuarios ADD COLUMN descargo_guia INTEGER DEFAULT 0;")
     except Exception:
@@ -57,6 +57,25 @@ def inicializar_bd():
         cursor.execute("ALTER TABLE usuarios ADD COLUMN retargeting_enviado INTEGER DEFAULT 0;")
     except Exception:
         pass
+    try:
+        cursor.execute("ALTER TABLE usuarios ADD COLUMN referido_por INTEGER DEFAULT NULL;")
+    except Exception:
+        pass
+    try:
+        cursor.execute("ALTER TABLE usuarios ADD COLUMN premio_referidos_otorgado INTEGER DEFAULT 0;")
+    except Exception:
+        pass
+
+    # 4. Tabla de referidos y afiliados virales
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS referidos (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        inviter_id INTEGER,
+        invited_id INTEGER UNIQUE,
+        fecha TEXT,
+        recompensa_entregada INTEGER DEFAULT 0
+    );
+    """)
 
     # 3. Tabla de pagos y transacciones de Stripe
     cursor.execute("""
@@ -191,6 +210,94 @@ def registrar_pago_stripe(session_id: str, user_id: Optional[int], email: str, a
     INSERT OR REPLACE INTO pagos_stripe (session_id, user_id, customer_email, amount_total, currency, plan, fecha_pago, estado)
     VALUES (?, ?, ?, ?, ?, ?, ?, 'completado');
     """, (session_id, user_id, email, amount, currency, plan, ahora))
+    conn.commit()
+    conn.close()
+
+def registrar_referido(inviter_id: int, invited_id: int) -> Dict:
+    """
+    Registra que un nuevo usuario (invited_id) se unió gracias a (inviter_id).
+    Evita auto-invitaciones y duplicados.
+    Retorna el estado de la operación y el total acumulado por el invitador.
+    """
+    if inviter_id == invited_id:
+        return {"valido": False, "motivo": "auto_invitacion"}
+
+    conn = obtener_conexion()
+    cursor = conn.cursor()
+
+    # Comprobar si ya existe en la tabla de referidos
+    cursor.execute("SELECT inviter_id FROM referidos WHERE invited_id = ?;", (invited_id,))
+    existe = cursor.fetchone()
+    if existe:
+        conn.close()
+        return {"valido": False, "motivo": "ya_referido"}
+
+    ahora = datetime.now().isoformat()
+    try:
+        cursor.execute("""
+        INSERT INTO referidos (inviter_id, invited_id, fecha, recompensa_entregada)
+        VALUES (?, ?, ?, 0);
+        """, (inviter_id, invited_id, ahora))
+
+        cursor.execute("""
+        UPDATE usuarios SET referido_por = ? WHERE user_id = ?;
+        """, (inviter_id, invited_id))
+
+        # Contar cuántos referidos lleva el invitador
+        cursor.execute("SELECT COUNT(*) FROM referidos WHERE inviter_id = ?;", (inviter_id,))
+        total_referidos = cursor.fetchone()[0]
+
+        cursor.execute("SELECT premio_referidos_otorgado FROM usuarios WHERE user_id = ?;", (inviter_id,))
+        fila_user = cursor.fetchone()
+        premio_otorgado = (fila_user[0] == 1) if fila_user else False
+
+        conn.commit()
+        conn.close()
+
+        desbloquea_premio = (total_referidos >= 3) and (not premio_otorgado)
+
+        return {
+            "valido": True,
+            "total_referidos": total_referidos,
+            "desbloquea_premio": desbloquea_premio
+        }
+    except Exception as e:
+        conn.close()
+        return {"valido": False, "motivo": str(e)}
+
+def obtener_estadisticas_referidos(user_id: int) -> Dict:
+    """Devuelve los referidos conseguidos por un usuario y si ya ha cobrado su mes VIP gratis."""
+    conn = obtener_conexion()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT COUNT(*) FROM referidos WHERE inviter_id = ?;", (user_id,))
+    total = cursor.fetchone()[0]
+
+    cursor.execute("SELECT premio_referidos_otorgado, suscripcion_activa, fecha_fin_suscripcion FROM usuarios WHERE user_id = ?;", (user_id,))
+    row = cursor.fetchone()
+    premio = False
+    vip_activo = False
+    fecha_fin = None
+    if row:
+        premio = bool(row[0])
+        vip_activo = bool(row[1])
+        fecha_fin = row[2]
+
+    conn.close()
+    return {
+        "total_referidos": total,
+        "premio_otorgado": premio,
+        "faltan": max(0, 3 - total),
+        "vip_activo": vip_activo,
+        "fecha_fin": fecha_fin
+    }
+
+def marcar_premio_referidos_entregado(user_id: int):
+    """Marca en la ficha del usuario que ya se le entregó su mes gratis por referidos."""
+    conn = obtener_conexion()
+    cursor = conn.cursor()
+    cursor.execute("UPDATE usuarios SET premio_referidos_otorgado = 1 WHERE user_id = ?;", (user_id,))
+    cursor.execute("UPDATE referidos SET recompensa_entregada = 1 WHERE inviter_id = ?;", (user_id,))
     conn.commit()
     conn.close()
 

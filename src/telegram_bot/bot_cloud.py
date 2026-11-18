@@ -29,6 +29,7 @@ from src.telegram_bot.bot_alertas import (
     comando_start,
     comando_stats,
     comando_activar_manual,
+    comando_invitar,
     manejar_callback,
     manejar_mensaje_general,
     manejar_chat_member,
@@ -211,6 +212,8 @@ async def main():
     app.add_handler(CommandHandler("start", comando_start))
     app.add_handler(CommandHandler("stats", comando_stats))
     app.add_handler(CommandHandler("activar", comando_activar_manual))
+    app.add_handler(CommandHandler("invitar", comando_invitar))
+    app.add_handler(CommandHandler("referidos", comando_invitar))
     app.add_handler(CallbackQueryHandler(manejar_callback))
     app.add_handler(ChatMemberHandler(manejar_chat_member, ChatMemberHandler.MY_CHAT_MEMBER))
     app.add_handler(MessageHandler(filters.ALL, manejar_mensaje_general))
