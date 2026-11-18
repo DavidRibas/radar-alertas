@@ -92,6 +92,10 @@ async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
             [InlineKeyboardButton("📊 Mi Cuenta", callback_data="mi_estado")]
         ]
 
+    # Botón exclusivo para David (Administrador)
+    if str(user.id) == str(ADMIN_ID):
+        teclado.insert(0, [InlineKeyboardButton("📊 Panel de Estadísticas (Admin)", callback_data="ver_stats")])
+
     reply_markup = InlineKeyboardMarkup(teclado)
     await update.message.reply_text(mensaje, parse_mode="Markdown", reply_markup=reply_markup)
 
@@ -147,6 +151,14 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "3. En cuanto se detecta una oportunidad, se publica en el Canal VIP con la ficha técnica completa.\n"
             "4. Si te interesa el inmueble, utilizas el enlace directo para inscribirte y pujar en el portal judicial."
         )
+        teclado = [[InlineKeyboardButton("🔙 Volver", callback_data="volver_inicio")]]
+        await query.edit_message_text(texto, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
+
+    elif data == "ver_stats":
+        if str(user.id) != str(ADMIN_ID):
+            await query.answer("Acceso denegado", show_alert=True)
+            return
+        texto = await generar_texto_stats(context)
         teclado = [[InlineKeyboardButton("🔙 Volver", callback_data="volver_inicio")]]
         await query.edit_message_text(texto, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
 
@@ -232,22 +244,33 @@ async def comando_activar_manual(update: Update, context: ContextTypes.DEFAULT_T
     except Exception as e:
         await update.message.reply_text(f"Error: {e}")
 
-async def comando_stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Muestra el panel de control y métricas del negocio solo al administrador."""
-    user = update.effective_user
-    if str(user.id) != str(ADMIN_ID):
-        await update.message.reply_text("⛔ Este comando es exclusivo para el administrador del sistema.")
-        return
-
+async def generar_texto_stats(context: ContextTypes.DEFAULT_TYPE) -> str:
+    """Genera el texto de estadísticas del negocio con los miembros reales de cada canal."""
     m = obtener_metricas_globales()
-    
-    # Calcular facturación recurrente mensual (MRR) estimada
+
     mrr = 0.0
     for plan, count in m["desglose_planes"].items():
         if "total" in plan.lower() or "pack" in plan.lower():
             mrr += count * 4.99
         else:
             mrr += count * 2.99
+
+    canales = [
+        ("🏠 Subastas VIP", CANAL_VIP_ID),
+        ("💰 Ayudas VIP", CANAL_AYUDAS_ID),
+        ("📑 Licitaciones VIP", CANAL_LICITACIONES_ID),
+        ("💼 Empleo VIP", CANAL_EMPLEO_ID),
+        ("📢 Canal Gratuito", CANAL_FREE_ID)
+    ]
+    conteo_lineas = []
+    for nombre, cid in canales:
+        try:
+            cnt = await context.bot.get_chat_member_count(cid)
+            conteo_lineas.append(f"• {nombre}: *{cnt} miembros*")
+        except Exception:
+            conteo_lineas.append(f"• {nombre}: *Activo*")
+
+    conteo_str = "\n".join(conteo_lineas)
 
     texto = (
         "📊 *PANEL DE CONTROL - RADARALERTAS*\n"
@@ -258,17 +281,24 @@ async def comando_stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"• Suscriptores VIP activos: *{m['vip_activos']}*\n\n"
         "💶 *Facturación Recurrente (MRR):*\n"
         f"• MRR Estimado: *{mrr:.2f} € / mes*\n\n"
+        "👥 *Miembros Reales en Canales:*\n"
+        f"{conteo_str}\n\n"
         "📡 *Actividad de Emisión:*\n"
         f"• Oportunidades enviadas hoy: *{m['alertas_hoy']}*\n"
         f"• Histórico total alertas: *{m['total_alertas']}*\n\n"
-        "🛰️ *Canales VIP Conectados (4):*\n"
-        f"• 🏠 Subastas: `{CANAL_VIP_ID}`\n"
-        f"• 💰 Ayudas: `{CANAL_AYUDAS_ID}`\n"
-        f"• 📑 Licitaciones: `{CANAL_LICITACIONES_ID}`\n"
-        f"• 💼 Empleo: `{CANAL_EMPLEO_ID}`\n\n"
         "🟢 *Estado Servidor:* Online 24/7 (Render Cloud)\n"
         "━━━━━━━━━━━━━━━━━━━━"
     )
+    return texto
+
+async def comando_stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Muestra el panel de control y métricas del negocio solo al administrador."""
+    user = update.effective_user
+    if str(user.id) != str(ADMIN_ID):
+        await update.message.reply_text("⛔ Este comando es exclusivo para el administrador del sistema.")
+        return
+
+    texto = await generar_texto_stats(context)
     await update.message.reply_text(texto, parse_mode="Markdown")
 
 def main():
