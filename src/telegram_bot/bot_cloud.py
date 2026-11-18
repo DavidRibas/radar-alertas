@@ -179,7 +179,7 @@ async def tarea_retargeting_periodica(app):
                 )
                 teclado = [
                     [InlineKeyboardButton("⭐ Desbloquear Canales VIP (2,99 €/mes)", callback_data="pagar_vip")],
-                    [InlineKeyboardButton("📢 Ver Muestras en Canal Gratuito", url=CANAL_FREE_LINK)]
+                    [InlineKeyboardButton("📢 Ver Alertas en Directo (Gratis)", url=CANAL_FREE_LINK)]
                 ]
                 try:
                     await app.bot.send_message(
@@ -247,7 +247,7 @@ async def tarea_renovaciones_periodica(app):
                 )
                 teclado = [
                     [InlineKeyboardButton("⭐ Reactivar mi Pase VIP", callback_data="pagar_vip")],
-                    [InlineKeyboardButton("📢 Canal Gratuito de Muestras", url=CANAL_FREE_LINK)]
+                    [InlineKeyboardButton("📢 Ver Alertas en Directo (Gratis)", url=CANAL_FREE_LINK)]
                 ]
                 try:
                     await app.bot.send_message(

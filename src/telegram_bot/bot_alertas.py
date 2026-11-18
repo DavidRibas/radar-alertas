@@ -227,7 +227,7 @@ async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 InlineKeyboardButton("👥 Ganar VIP Gratis", callback_data="menu_referidos")
             ],
             [
-                InlineKeyboardButton("📢 Canal de Muestras (Gratis)", url=CANAL_FREE_LINK),
+                InlineKeyboardButton("📢 Ver Alertas en Directo (Gratis)", url=CANAL_FREE_LINK),
                 InlineKeyboardButton("🔍 Chollos por Provincia", callback_data="menu_provincias")
             ]
         ]
@@ -271,7 +271,7 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             [InlineKeyboardButton("💰 Ayudas (2,99 €/m)", url=con_ref(STRIPE_LINK_AYUDAS, user.id)), InlineKeyboardButton("📑 Licitaciones (2,99 €/m)", url=con_ref(STRIPE_LINK_LICITACIONES, user.id))],
             [InlineKeyboardButton("💼 Empleo Público (2,99 €/m)", url=con_ref(STRIPE_LINK_EMPLEO, user.id))],
             [InlineKeyboardButton("🔥 PACK TOTAL: LOS 5 CANALES (4,99 €/m) 🔥", url=con_ref(STRIPE_LINK_PACK_TOTAL, user.id))],
-            [InlineKeyboardButton("📢 Canal Gratuito de Muestras", url=CANAL_FREE_LINK)],
+            [InlineKeyboardButton("📢 Ver Alertas en Directo (Gratis)", url=CANAL_FREE_LINK)],
             [InlineKeyboardButton("🔙 Volver", callback_data="volver_inicio")]
         ]
         await query.edit_message_text(texto, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
@@ -617,7 +617,7 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 InlineKeyboardButton("👥 Ganar VIP Gratis", callback_data="menu_referidos")
             ],
             [
-                InlineKeyboardButton("📢 Canal de Muestras (Gratis)", url=CANAL_FREE_LINK),
+                InlineKeyboardButton("📢 Ver Alertas en Directo (Gratis)", url=CANAL_FREE_LINK),
                 InlineKeyboardButton("🔍 Chollos por Provincia", callback_data="menu_provincias")
             ]
         ]
