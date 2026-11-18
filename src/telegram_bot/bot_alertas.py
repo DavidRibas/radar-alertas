@@ -119,21 +119,21 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if data == "pagar_vip":
         texto = (
             "🚀 *Planes de Acceso Oficial a RadarAlertas VIP*\n\n"
-            "Elige la suscripción que mejor se adapte a tus intereses:\n\n"
+            "Puedes suscribirte a cualquier canal individual por **2,99 € / mes**, o desbloquear los 5 canales con el **Pack Total** ahorrando un 66%:\n\n"
             "🏠 *Canal Subastas Inmobiliarias:* Pisos al -50%, chalets y locales.\n"
             "🚗 *Canal Vehículos Embargados:* Coches, motos y furgonetas desde 500 €.\n"
             "💰 *Canal Ayudas y Subvenciones:* Dinero a fondo perdido y trámites de sede.\n"
             "📑 *Canal Licitaciones Públicas:* Contratos menores de obras, servicios e IT.\n"
             "💼 *Canal Empleo y Oposiciones:* Plazas fijas, bolsas urgentes y convocatorias.\n\n"
-            "🔥 *Recomendado:* El *Pack Total VIP* te da acceso simultáneo a los 5 canales por solo 4,99 €/mes (ahorras un 66%)."
+            "💡 *Recomendación:* El Pack Total te da acceso ilimitado a las 5 verticales por solo 4,99 €/mes."
         )
         teclado = [
-            [InlineKeyboardButton("🔥 PACK TOTAL VIP (Todos los Canales) - 4,99 €/mes", url=STRIPE_LINK_PACK_TOTAL)],
             [InlineKeyboardButton("🏠 Solo Subastas Inmuebles (2,99 €/mes)", url=STRIPE_LINK_SUBASTAS)],
             [InlineKeyboardButton("🚗 Solo Vehículos Embargados (2,99 €/mes)", url=STRIPE_LINK_VEHICULOS)],
             [InlineKeyboardButton("💰 Solo Ayudas y Subvenciones (2,99 €/mes)", url=STRIPE_LINK_AYUDAS)],
             [InlineKeyboardButton("📑 Solo Licitaciones Públicas (2,99 €/mes)", url=STRIPE_LINK_LICITACIONES)],
             [InlineKeyboardButton("💼 Solo Empleo y Oposiciones (2,99 €/mes)", url=STRIPE_LINK_EMPLEO)],
+            [InlineKeyboardButton("🔥 PACK TOTAL: LOS 5 CANALES (4,99 €/mes) 🔥", url=STRIPE_LINK_PACK_TOTAL)],
             [InlineKeyboardButton("🔙 Volver", callback_data="volver_inicio")]
         ]
         await query.edit_message_text(texto, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
