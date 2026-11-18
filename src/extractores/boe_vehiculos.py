@@ -9,6 +9,33 @@ import urllib.parse
 import requests
 from bs4 import BeautifulSoup
 from typing import List, Dict, Optional
+from datetime import datetime, timedelta
+
+def generar_enlace_google_calendar_vehiculo(titulo: str, fecha_fin_str: str, lugar: str, id_subasta: str, url_oficial: str) -> str:
+    """Genera un enlace de 1 clic para añadir la fecha de cierre de la subasta a Google Calendar."""
+    end_dt = None
+    m_iso = re.search(r"(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})", fecha_fin_str)
+    if m_iso:
+        y, mo, d, h, mi, s = map(int, m_iso.groups())
+        end_dt = datetime(y, mo, d, h, mi, s)
+    else:
+        m_es = re.search(r"(\d{2})-(\d{2})-(\d{4})\s+(\d{2}):(\d{2})", fecha_fin_str)
+        if m_es:
+            d, mo, y, h, mi = map(int, m_es.groups())
+            end_dt = datetime(y, mo, d, h, mi, 0)
+
+    if not end_dt:
+        end_dt = datetime.now() + timedelta(days=7, hours=18)
+
+    start_dt = end_dt - timedelta(hours=2)
+    fmt = "%Y%m%dT%H%M%SZ"
+    dates_param = f"{start_dt.strftime(fmt)}/{end_dt.strftime(fmt)}"
+
+    t_enc = urllib.parse.quote_plus(f"⏰ Cierre Subasta BOE Coche: {titulo[:35]}")
+    d_enc = urllib.parse.quote_plus(f"Vehículo en Subasta Oficial del BOE.\nExpediente: {id_subasta}\n👉 Enlace para pujar: {url_oficial}")
+    loc_enc = urllib.parse.quote_plus(lugar or "España")
+
+    return f"https://calendar.google.com/calendar/render?action=TEMPLATE&text={t_enc}&dates={dates_param}&details={d_enc}&location={loc_enc}"
 
 BOE_SEARCH_URL = "https://subastas.boe.es/subastas_ava.php"
 BOE_BASE_URL = "https://subastas.boe.es/"
@@ -181,6 +208,20 @@ def obtener_detalle_vehiculo(id_subasta: str) -> Optional[Dict]:
     query_maps = urllib.parse.quote_plus(f"{lugar_busqueda}, España")
     url_maps = f"https://www.google.com/maps/search/?api=1&query={query_maps}"
 
+    # URL Comparador de Precios en Coches.net
+    query_coche = urllib.parse.quote_plus(f"coches net segunda mano {marca} {modelo}".strip())
+    url_coches_net = f"https://www.google.com/search?q={query_coche}"
+
+    # URL 1-Clic Google Calendar con Alarma
+    fecha_fin_raw = datos_gen.get("fecha de conclusión", "Consultar en portal")
+    url_calendar = generar_enlace_google_calendar_vehiculo(
+        titulo=titulo_comercial,
+        fecha_fin_str=fecha_fin_raw,
+        lugar=f"{deposito_lugar}, {provincia}",
+        id_subasta=id_subasta,
+        url_oficial=url_gen
+    )
+
     # Score de Oportunidad RadarAlertas (1 a 10)
     score = 5.0
     if ahorro_pct >= 60:
@@ -218,6 +259,8 @@ def obtener_detalle_vehiculo(id_subasta: str) -> Optional[Dict]:
         "provincia": provincia,
         "deposito_lugar": deposito_lugar,
         "url_maps": url_maps,
+        "url_coches_net": url_coches_net,
+        "url_calendar": url_calendar,
         "score_oportunidad": score,
         "score_badge": score_badge,
         "visitable": visitable,

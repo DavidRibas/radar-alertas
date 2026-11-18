@@ -12,9 +12,18 @@ def formatear_post_vehiculo_vip(v: Dict) -> str:
 
     score_txt = v.get("score_badge", "⭐ 8.5/10 (Oportunidad Oro 🏆)")
     url_maps = v.get("url_maps", "")
+    url_coches = v.get("url_coches_net", "")
+    url_calendar = v.get("url_calendar", "")
+
     linea_deposito = f"🏢 *Depósito:* `{v['deposito_lugar']}`"
     if url_maps:
         linea_deposito += f" • [📍 Ver en Google Maps]({url_maps})"
+
+    linea_mercado = ""
+    if url_coches:
+        linea_mercado += f"🏷️ [Comparar Precios en Coches.net]({url_coches})\n"
+    if url_calendar:
+        linea_mercado += f"⏰ [Guardar en mi Google Calendar (Aviso 2h antes)]({url_calendar})\n"
 
     texto = (
         "🚗 *NUEVO VEHÍCULO EN SUBASTA PÚBLICA DETECTADO* 🚗\n\n"
@@ -22,6 +31,7 @@ def formatear_post_vehiculo_vip(v: Dict) -> str:
         f"🚙 *Modelo:* {v['titulo']}\n"
         f"📍 *Provincia:* {v['provincia']}\n"
         f"{linea_deposito}\n"
+        f"{linea_mercado}"
         f"🏷️ *Matrícula:* `{v['matricula']}`\n"
         f"🔢 *Bastidor:* `{v['bastidor']}`\n"
         f"📅 *Año Matriculación:* {v['fecha_matriculacion']}\n"

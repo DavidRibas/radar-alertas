@@ -9,6 +9,8 @@ def formatear_post_vip(s: dict) -> str:
     visitable = s.get('visitable', 'No consta')
     url_maps = s.get('url_maps', '')
     url_catastro = s.get('url_catastro')
+    url_idealista = s.get('url_idealista', '')
+    url_calendar = s.get('url_calendar', '')
 
     linea_catastro = f"📑 *Catastro:* `{s.get('referencia_catastral', 'Consultar expediente')}`"
     if url_catastro:
@@ -18,6 +20,14 @@ def formatear_post_vip(s: dict) -> str:
     if url_maps:
         linea_maps = f"📍 [Ver Fachada y Entorno en Google Street View]({url_maps})\n"
 
+    linea_idealista = ""
+    if url_idealista:
+        linea_idealista = f"📊 [Comparar Precios de Mercado en Idealista]({url_idealista})\n"
+
+    linea_calendar = ""
+    if url_calendar:
+        linea_calendar = f"⏰ [Guardar en mi Google Calendar (Aviso 2h antes)]({url_calendar})\n"
+
     return f"""🚨 *NUEVA SUBASTA JUDICIAL DETECTADA EN MADRID* 🚨
 
 {score_txt}
@@ -25,7 +35,7 @@ def formatear_post_vip(s: dict) -> str:
 📍 *Inmueble:* {s.get('titulo', 'Vivienda')}
 📮 *Dirección:* `{s.get('direccion', 'Madrid')}`
 {linea_maps}{linea_catastro}
-
+{linea_idealista}{linea_calendar}
 💰 *Valor de Tasación Oficial:* {s.get('valor_referencia_formato', '0 €')}
 🟢 *Precio de Salida:* *{s.get('precio_salida_formato', '0 €')}*
 📉 *Descuento estimado:* *{s.get('ahorro_porcentaje', 0)}%*
