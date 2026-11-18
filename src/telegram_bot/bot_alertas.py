@@ -389,15 +389,23 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             texto = (
                 f"✅ *Estado:* Suscripción VIP Activa\n"
                 f"📅 *Válida hasta:* {estado.get('fecha_fin_suscripcion')[:10]}\n"
-                f"💎 *Plan:* {estado.get('plan')}"
+                f"💎 *Plan:* {estado.get('plan')}\n\n"
+                f"Tienes acceso ilimitado a las alertas completas con Street View, Catastro y enlaces judiciales."
             )
+            teclado = [
+                [InlineKeyboardButton("📺 Acceder a mis Canales VIP", callback_data="volver_inicio")],
+                [InlineKeyboardButton("🔙 Volver al Menú Principal", callback_data="volver_inicio")]
+            ]
         else:
             texto = (
                 "❌ *Estado:* Cuenta Gratuita\n\n"
-                "Aún no tienes activado el pase al Canal VIP.\n"
-                "Para desbloquear los expedientes completos y enlaces del BOE, activa tu suscripción."
+                "Aún no tienes activada la suscripción a los Canales VIP.\n"
+                "Actívala desde solo 2,99 € al mes para recibir expedientes completos, referencias catastrales, Street View y enlaces directos para pujar."
             )
-        teclado = [[InlineKeyboardButton("⭐ Activar Pase VIP", callback_data="pagar_vip")]]
+            teclado = [
+                [InlineKeyboardButton("⭐ Desbloquear Canales VIP (desde 2,99 €)", callback_data="pagar_vip")],
+                [InlineKeyboardButton("🔙 Volver al Menú Principal", callback_data="volver_inicio")]
+            ]
         await query.edit_message_text(texto, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
 
     elif data == "info_servicio":
@@ -624,33 +632,67 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.edit_message_text(txt, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
 
     elif data == "volver_inicio":
-        teclado = [
-            [
-                InlineKeyboardButton("🏠 Canal Inmuebles", callback_data="ver_canal_inmuebles"),
-                InlineKeyboardButton("🚗 Canal Vehículos", callback_data="ver_canal_vehiculos")
-            ],
-            [
-                InlineKeyboardButton("💰 Canal Ayudas", callback_data="ver_canal_ayudas"),
-                InlineKeyboardButton("📑 Canal Licitaciones", callback_data="ver_canal_licitaciones")
-            ],
-            [
-                InlineKeyboardButton("💼 Canal Empleo Público", callback_data="ver_canal_empleo")
-            ],
-            [
-                InlineKeyboardButton("🔥 PACK TOTAL: 5 CANALES (4,99 €/m) 🔥", callback_data="pagar_vip")
-            ],
-            [
-                InlineKeyboardButton("🎁 Guías Gratis en PDF", callback_data="descargar_guia"),
-                InlineKeyboardButton("👥 Ganar VIP Gratis", callback_data="menu_referidos")
-            ],
-            [
-                InlineKeyboardButton("📢 Ver Alertas en Directo (Gratis)", url=CANAL_FREE_LINK),
-                InlineKeyboardButton("🔍 Chollos por Provincia", callback_data="menu_provincias")
+        estado = obtener_estado_usuario(user.id)
+        es_vip = estado and estado.get("suscripcion_activa") == 1
+
+        if es_vip:
+            plan = estado.get("plan", "VIP")
+            texto_inicio = (
+                f"👋 ¡Hola de nuevo, {user.first_name}!\n\n"
+                f"⭐ *Tu estado:* MIEMBRO VIP ACTIVO ({plan}) - Válido hasta: {estado.get('fecha_fin_suscripcion')[:10]}\n\n"
+                "👇 *Accede directamente a tus canales VIP exclusivos:*"
+            )
+            teclado = [
+                [InlineKeyboardButton("🏠 Subastas VIP", url=CANAL_VIP_LINK), InlineKeyboardButton("🚗 Vehículos VIP", url=CANAL_VEHICULOS_LINK)],
+                [InlineKeyboardButton("💰 Ayudas VIP", url=CANAL_AYUDAS_LINK), InlineKeyboardButton("📑 Licitaciones VIP", url=CANAL_LICITACIONES_LINK)],
+                [InlineKeyboardButton("💼 Empleo VIP", url=CANAL_EMPLEO_LINK)],
+                [InlineKeyboardButton("🔍 Chollos por Provincia", callback_data="menu_provincias"), InlineKeyboardButton("🎁 Guías Gratis en PDF", callback_data="descargar_guia")],
+                [InlineKeyboardButton("👥 Ganar Mes VIP (Invitar)", callback_data="menu_referidos"), InlineKeyboardButton("📊 Mi Suscripción", callback_data="mi_estado")]
             ]
-        ]
+        else:
+            texto_inicio = (
+                f"👋 ¡Hola {user.first_name}! Bienvenido a *RadarAlertas*.\n\n"
+                "Monitorizamos cada día fuentes oficiales del Estado con algoritmos inteligentes:\n"
+                "🏠 *Subastas Inmuebles:* Pisos al -50% con Street View, Catastro y ROI.\n"
+                "🚗 *Vehículos Embargados:* Coches y furgonetas verificados por matrícula desde 500 €.\n"
+                "💰 *Ayudas y Subvenciones:* Fondos a fondo perdido (BDNS) con calendario.\n"
+                "📑 *Licitaciones Públicas:* Contratos del Estado con pliegos oficiales.\n"
+                "💼 *Empleo Público:* Plazas urgentes y convocatorias fijas (+2.150 € al mes).\n\n"
+                "👇 *Elige directamente el canal de alertas que te interesa:*"
+            )
+            teclado = [
+                [
+                    InlineKeyboardButton("🏠 Canal Inmuebles", callback_data="ver_canal_inmuebles"),
+                    InlineKeyboardButton("🚗 Canal Vehículos", callback_data="ver_canal_vehiculos")
+                ],
+                [
+                    InlineKeyboardButton("💰 Canal Ayudas", callback_data="ver_canal_ayudas"),
+                    InlineKeyboardButton("📑 Canal Licitaciones", callback_data="ver_canal_licitaciones")
+                ],
+                [
+                    InlineKeyboardButton("💼 Canal Empleo Público", callback_data="ver_canal_empleo")
+                ],
+                [
+                    InlineKeyboardButton("🔥 PACK TOTAL: 5 CANALES (4,99 €/m) 🔥", callback_data="pagar_vip")
+                ],
+                [
+                    InlineKeyboardButton("🎁 Guías Gratis en PDF", callback_data="descargar_guia"),
+                    InlineKeyboardButton("👥 Ganar VIP Gratis", callback_data="menu_referidos")
+                ],
+                [
+                    InlineKeyboardButton("📢 Ver Alertas en Directo (Gratis)", url=CANAL_FREE_LINK),
+                    InlineKeyboardButton("🔍 Chollos por Provincia", callback_data="menu_provincias")
+                ]
+            ]
+
         if str(user.id) == str(ADMIN_ID):
             teclado.insert(0, [InlineKeyboardButton("📊 Panel de Estadísticas (Admin)", callback_data="ver_stats")])
-        await query.edit_message_text("Selecciona una opción del menú:", reply_markup=InlineKeyboardMarkup(teclado))
+
+        reply_markup = InlineKeyboardMarkup(teclado)
+        try:
+            await query.edit_message_text(texto_inicio, parse_mode="Markdown", reply_markup=reply_markup)
+        except Exception:
+            await context.bot.send_message(chat_id=user.id, text=texto_inicio, parse_mode="Markdown", reply_markup=reply_markup)
 
 async def comando_invitar(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Muestra el panel de referidos y enlace personal de invitación."""
