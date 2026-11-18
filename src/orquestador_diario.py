@@ -25,12 +25,14 @@ from src.extractores.boe_inmuebles import buscar_subastas_inmuebles, filtrar_mej
 from src.extractores.ayudas_subvenciones import obtener_convocatorias_recientes, filtrar_mejores_ayudas
 from src.extractores.licitaciones_contratos import obtener_licitaciones_recientes
 from src.extractores.empleo_oposiciones import obtener_empleo_publico_reciente
+from src.extractores.boe_vehiculos import buscar_subastas_vehiculos, filtrar_mejores_vehiculos
 
 from src.telegram_bot.database import inicializar_bd, registrar_alerta_enviada, ya_fue_enviada
 from src.telegram_bot.formateador import formatear_post_vip, formatear_post_gratuito
 from src.telegram_bot.formateador_ayudas import formatear_post_ayuda_vip, formatear_post_ayuda_gratuito
 from src.telegram_bot.formateador_licitaciones import formatear_post_licitacion_vip, formatear_post_licitacion_gratuito
 from src.telegram_bot.formateador_empleo import formatear_post_empleo_vip, formatear_post_empleo_gratuito
+from src.telegram_bot.formateador_vehiculos import formatear_post_vehiculo_vip, formatear_post_vehiculo_gratuito
 
 from src.video_generator.generador_visual_earth import (
     preparar_escena_1_satelite,
@@ -46,6 +48,7 @@ from src.video_generator.generador_visual_earth import (
 from src.video_generator.generador_visual_ayudas import generar_video_ayuda_visual
 from src.video_generator.generador_visual_licitaciones import generar_video_licitacion_visual
 from src.video_generator.generador_visual_empleo import generar_video_empleo_visual
+from src.video_generator.generador_visual_vehiculos import generar_video_vehiculo_visual
 from src.utils.limpiador_disco import purgar_archivos_antiguos, limpiar_temporales_render
 
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
@@ -207,6 +210,41 @@ async def ciclo_licitaciones_y_empleo():
             post_free = formatear_post_empleo_gratuito(em)
             enviar_alerta_telegram(CANAL_FREE, post_free)
 
+async def ciclo_vehiculos():
+    print("\n" + "="*50 + "\n🚗 [VERTICAL 5] VEHÍCULOS Y COCHES EMBARGADOS (BOE)\n" + "="*50)
+    ids = buscar_subastas_vehiculos(limite=15)
+    if not ids:
+        print("⚠️ No hay subastas de vehículos nuevas.")
+        return
+    mejores = filtrar_mejores_vehiculos(ids, max_resultados=1)
+    if not mejores:
+        return
+    v = mejores[0]
+    id_sub = v["id_subasta"]
+
+    ruta_video = OUTPUT_DIR / f"{id_sub}_VEHICULO_FINAL.mp4"
+    await generar_video_vehiculo_visual(v, ruta_video)
+
+    canal_veh = os.getenv("TELEGRAM_CANAL_VEHICULOS_ID", CANAL_VIP)
+    post_vip = formatear_post_vehiculo_vip(v)
+    enviar_alerta_telegram(canal_veh, post_vip)
+
+    if CANAL_FREE:
+        post_free = formatear_post_vehiculo_gratuito(v)
+        enviar_alerta_telegram(CANAL_FREE, post_free)
+
+    registrar_alerta_enviada(id_sub, v["titulo"], v["precio_salida_formato"])
+
+    caption = (
+        f"🚗 *Vehículo en Subasta Pública ({v['titulo']})*\n\n"
+        f"📋 *Copia este texto en TikTok/Instagram:*\n"
+        f"🚨 Coche embargado en subasta oficial del BOE. Salida desde {v['precio_salida_formato']} (ahorro del -{v['ahorro_porcentaje']}%).\n"
+        f"Ficha oficial, matrícula y detalles de inspección en el link de la bio 👆\n"
+        f"#coches #subastas #embargos #chollos #boe"
+    )
+    enviar_video_al_admin(ruta_video, caption)
+    limpiar_temporales_render()
+
 async def main():
     inicializar_bd()
     purgar_archivos_antiguos(dias=3)
@@ -215,8 +253,9 @@ async def main():
 
     # Selección horaria según la hora de ejecución
     if hora < 12:
-        # Mañana: Subastas
+        # Mañana: Subastas de Inmuebles y Vehículos
         await ciclo_subastas()
+        await ciclo_vehiculos()
     elif 12 <= hora < 17:
         # Mediodía: Ayudas y Subvenciones
         await ciclo_ayudas()
@@ -230,12 +269,15 @@ if __name__ == "__main__":
         modo = sys.argv[1].lower()
         if modo == "subastas":
             asyncio.run(ciclo_subastas())
+        elif modo == "vehiculos":
+            asyncio.run(ciclo_vehiculos())
         elif modo == "ayudas":
             asyncio.run(ciclo_ayudas())
         elif modo == "licitaciones":
             asyncio.run(ciclo_licitaciones_y_empleo())
         elif modo == "todas":
             asyncio.run(ciclo_subastas())
+            asyncio.run(ciclo_vehiculos())
             asyncio.run(ciclo_ayudas())
             asyncio.run(ciclo_licitaciones_y_empleo())
     else:

@@ -1,7 +1,7 @@
 """
-Generador de Vídeos Verticales para Licitaciones Públicas y Contratos Menores (BOE Sección 5A).
-Produce vídeos dinámicos en formato 9:16 (TikTok / Reels / Shorts) con fotografía real,
-tipografía de alto impacto, locución neuronal Edge-TTS y subtítulos dinámicos sincronizados.
+Generador de Vídeos Verticales ULTRA-VISUALES para Licitaciones Públicas y Contratos Menores (BOE Sección 5A).
+Estética cinematográfica 9:16 para TikTok y Reels con tipografía gigante,
+notificación de contrato adjudicado, fotos reales y ganchos visuales irresistibles.
 """
 import os
 import shutil
@@ -25,148 +25,134 @@ from src.video_generator.generador_visual_earth import (
 from src.video_generator.generador_visual_ayudas import preparar_fondo_con_overlay
 
 def crear_escena_licitacion_1_contrato(lic: dict, ruta_salida: Path):
-    """Escena 1: Gancho visual de contrato oficial para autónomos y pymes."""
+    """Escena 1: Gancho ultra-visual de factura/pago oficial del Estado con dinero gigante."""
     ancho, alto = 1080, 1920
-    img = preparar_fondo_con_overlay(TEMPLATES_DIR / "licitacion_contrato_oficial.jpg", ancho, alto, oscurecer=130)
+    img = preparar_fondo_con_overlay(TEMPLATES_DIR / "licitacion_contrato_oficial.jpg", ancho, alto, oscurecer=120)
     draw = ImageDraw.Draw(img)
 
     # 1. Badge superior de Alerta
     badge_rect = [100, 200, 980, 295]
-    draw.rounded_rectangle(badge_rect, radius=24, fill=(37, 99, 235)) # Azul institucional
-    texto_centrado_auto(draw, "🚨 CONTRATO PÚBLICO DEL ESTADO", badge_rect, "arialbd.ttf", 38, (255, 255, 255))
+    draw.rounded_rectangle(badge_rect, radius=24, fill=(220, 38, 38))
+    texto_centrado_auto(draw, "🚨 CONTRATO PÚBLICO DEL ESTADO", badge_rect, "arialbd.ttf", 40, (255, 255, 255))
 
-    # 2. Tarjeta Central tipo Notificación Oficial
-    card_rect = [70, 360, 1010, 1250]
-    draw.rounded_rectangle(card_rect, radius=32, fill=(15, 23, 42, 235), outline=(59, 130, 246), width=3)
+    # 2. Tarjeta Central tipo Notificación de Contrato Oficial
+    noti_rect = [80, 620, 1000, 1060]
+    draw.rounded_rectangle(noti_rect, radius=32, fill=(15, 23, 42), outline=(59, 130, 246), width=5)
 
-    # Sub-badge
-    cat_rect = [120, 420, 960, 500]
-    draw.rounded_rectangle(cat_rect, radius=18, fill=(30, 58, 138))
-    texto_centrado_auto(draw, "💼 OPORTUNIDAD PARA AUTÓNOMOS Y PYMES", cat_rect, "arialbd.ttf", 32, (147, 197, 253))
+    draw.text((540, 675), "🏛️ ADJUDICACIÓN DE FONDOS PÚBLICOS", font=ImageFont.truetype("arialbd.ttf", 30), fill=(147, 197, 253), anchor="mm")
+    draw.text((540, 775), "CONTRATO MENOR", font=ImageFont.truetype("arialbd.ttf", 78), fill=(250, 204, 21), anchor="mm")
+    draw.text((540, 870), "PAGO GARANTIZADO POR EL ESTADO", font=ImageFont.truetype("arialbd.ttf", 34), fill=(241, 245, 249), anchor="mm")
 
-    # Organismo
-    org = lic.get("organismo", "ADMINISTRACIÓN PÚBLICA").upper()
-    org_lineas = [org[i:i+35] for i in range(0, min(len(org), 70), 35)]
-    y_org = 540
-    for linea in org_lineas:
-        draw.text((120, y_org), f"🏛️ {linea}", font=ImageFont.truetype("arialbd.ttf", 32), fill=(248, 250, 252))
-        y_org += 48
+    sello_rect = [130, 930, 950, 1020]
+    draw.rounded_rectangle(sello_rect, radius=20, fill=(20, 83, 45), outline=(34, 197, 94), width=3)
+    draw.text((540, 975), "✅ ABIERTO A AUTÓNOMOS Y PYMES", font=ImageFont.truetype("arialbd.ttf", 34), fill=(187, 247, 208), anchor="mm")
 
-    # Objeto del contrato
-    draw.text((120, 680), "📋 OBJETO DE LA LICITACIÓN:", font=ImageFont.truetype("arialbd.ttf", 30), fill=(251, 191, 36))
-    titulo = lic.get("titulo", "Servicios y Suministros Oficiales")
-    titulo_limpio = titulo.replace("Anuncio de formalización de contratos de: ", "").replace("Resolución de ", "")
-    palabras = titulo_limpio.split()
-    lineas_titulo = []
-    actual = []
-    for p in palabras:
-        actual.append(p)
-        if len(" ".join(actual)) > 36:
-            lineas_titulo.append(" ".join(actual[:-1]))
-            actual = [p]
-    if actual:
-        lineas_titulo.append(" ".join(actual))
-
-    y_tit = 740
-    for l in lineas_titulo[:4]:
-        draw.text((120, y_tit), l, font=ImageFont.truetype("arial.ttf", 32), fill=(226, 232, 240))
-        y_tit += 48
-
-    # Sello de Abierto a Empresas
-    sello_rect = [120, 1020, 960, 1160]
-    draw.rounded_rectangle(sello_rect, radius=24, fill=(16, 185, 129))
-    draw.text((160, 1045), "✅ PLIEGOS OFICIALES BOE SECCIÓN 5A", font=ImageFont.truetype("arialbd.ttf", 34), fill=(255, 255, 255))
-    draw.text((160, 1100), "Abierto a autónomos y empresas inscritas", font=ImageFont.truetype("arial.ttf", 28), fill=(240, 253, 244))
-
-    # Badge inferior de Urgencia
-    urg_rect = [120, 1340, 960, 1440]
-    draw.rounded_rectangle(urg_rect, radius=20, fill=(245, 158, 11))
-    texto_centrado_auto(draw, "⚡ PLAZO ABIERTO PARA PRESENTAR OFERTA", urg_rect, "arialbd.ttf", 32, (15, 23, 42))
+    # 3. Píldora inferior del Organismo
+    org = lic.get("organismo", "ADMINISTRACIÓN DEL ESTADO")[:50]
+    sub_rect = [100, 1220, 980, 1340]
+    draw.rounded_rectangle(sub_rect, radius=22, fill=(30, 41, 59), outline=(148, 163, 184), width=2)
+    texto_centrado_auto(draw, f"🏛️ {org.upper()}", sub_rect, "arialbd.ttf", 34, (255, 255, 255))
 
     img.save(ruta_salida, quality=95)
 
 def crear_escena_licitacion_2_requisitos(lic: dict, ruta_salida: Path):
-    """Escena 2: Requisitos y cómo presentar ofertas."""
+    """Escena 2: Foto real de autónomo trabajando con 3 checks gigantes."""
     ancho, alto = 1080, 1920
-    img = preparar_fondo_con_overlay(TEMPLATES_DIR / "ayuda_autonomo_trabajando.jpg", ancho, alto, oscurecer=140)
+    img = preparar_fondo_con_overlay(TEMPLATES_DIR / "ayuda_autonomo_trabajando.jpg", ancho, alto, oscurecer=130)
     draw = ImageDraw.Draw(img)
 
-    head_rect = [100, 200, 980, 290]
-    draw.rounded_rectangle(head_rect, radius=20, fill=(30, 58, 138))
-    texto_centrado_auto(draw, "📑 CONDICIONES DE LA LICITACIÓN", head_rect, "arialbd.ttf", 36, (255, 255, 255))
+    badge_rect = [100, 200, 980, 295]
+    draw.rounded_rectangle(badge_rect, radius=24, fill=(37, 99, 235))
+    texto_centrado_auto(draw, "🎯 ¿QUIÉN PUEDE COBRARLO?", badge_rect, "arialbd.ttf", 40, (255, 255, 255))
 
-    card_rect = [80, 360, 1000, 1320]
-    draw.rounded_rectangle(card_rect, radius=30, fill=(15, 23, 42, 235), outline=(59, 130, 246), width=2)
+    card_rect = [80, 580, 1000, 1160]
+    draw.rounded_rectangle(card_rect, radius=32, fill=(15, 23, 42), outline=(59, 130, 246), width=5)
 
-    items = [
-        ("👥 ¿Quién puede pujar / optar?", "Autónomos, pymes y profesionales del sector."),
-        ("📑 Documentación exigida:", "Pliegos técnicos y administrativos publicados hoy en BOE."),
-        ("⚖️ Criterio de adjudicación:", "Precio y memoria técnica simplificada."),
-        ("🔒 Cómo descargar pliego:", "Disponible enlace directo en RadarAlertas VIP.")
+    checks = [
+        ("✅ AUTÓNOMOS Y PEQUEÑAS EMPRESAS", "No necesitas ser una multinacional"),
+        ("✅ SERVICIOS, OBRAS, REFORMAS O IT", "Múltiples sectores convocados hoy"),
+        ("✅ FACTURACIÓN DIRECTA AL ESTADO", "Cobro asegurado con pliego oficial")
     ]
+    y_pos = 650
+    for tit, sub in checks:
+        draw.text((120, y_pos), tit, font=ImageFont.truetype("arialbd.ttf", 36), fill=(251, 191, 36))
+        draw.text((120, y_pos + 46), sub, font=ImageFont.truetype("arial.ttf", 30), fill=(226, 232, 240))
+        y_pos += 120
 
-    y_pos = 430
-    for tit, desc in items:
-        draw.text((130, y_pos), tit, font=ImageFont.truetype("arialbd.ttf", 32), fill=(251, 191, 36))
-        y_pos += 46
-        draw.text((130, y_pos), desc, font=ImageFont.truetype("arial.ttf", 28), fill=(226, 232, 240))
-        y_pos += 80
-
-    call_rect = [120, 1150, 960, 1260]
-    draw.rounded_rectangle(call_rect, radius=20, fill=(16, 185, 129))
-    texto_centrado_auto(draw, "🚀 EXPEDIENTE VERIFICADO SIN TRABAS", call_rect, "arialbd.ttf", 32, (255, 255, 255))
+    sello_rect = [120, 1030, 960, 1120]
+    draw.rounded_rectangle(sello_rect, radius=20, fill=(30, 58, 138), outline=(96, 165, 250), width=2)
+    draw.text((540, 1075), "⚡ 0 € DE COSTE PARA PRESENTARTE", font=ImageFont.truetype("arialbd.ttf", 32), fill=(219, 234, 254), anchor="mm")
 
     img.save(ruta_salida, quality=95)
 
-def crear_escena_licitacion_3_cta(ruta_salida: Path):
-    """Escena 3: Pantalla de llamada a la acción hacia el canal de Telegram."""
+def crear_escena_licitacion_3_plazo(lic: dict, ruta_salida: Path):
+    """Escena 3: Reloj de urgencia y llamada al pliego técnico."""
+    ancho, alto = 1080, 1920
+    img = preparar_fondo_con_overlay(TEMPLATES_DIR / "licitacion_contrato_oficial.jpg", ancho, alto, oscurecer=130)
+    draw = ImageDraw.Draw(img)
+
+    badge_rect = [100, 200, 980, 295]
+    draw.rounded_rectangle(badge_rect, radius=24, fill=(234, 179, 8))
+    texto_centrado_auto(draw, "⏳ PLAZO DE PRESENTACIÓN ABIERTO", badge_rect, "arialbd.ttf", 38, (15, 23, 42))
+
+    card_rect = [80, 600, 1000, 1140]
+    draw.rounded_rectangle(card_rect, radius=32, fill=(15, 23, 42), outline=(234, 179, 8), width=5)
+
+    draw.text((540, 680), "PUBLICADO EN BOE SECCIÓN 5A", font=ImageFont.truetype("arialbd.ttf", 34), fill=(148, 163, 184), anchor="mm")
+    draw.text((540, 780), "EXPEDIENTE OFICIAL", font=ImageFont.truetype("arialbd.ttf", 52), fill=(248, 250, 252), anchor="mm")
+    draw.text((540, 870), f"ID: {lic.get('id_licitacion', 'BOE-5A')}", font=ImageFont.truetype("arialbd.ttf", 44), fill=(250, 204, 21), anchor="mm")
+
+    box_btn = [120, 970, 960, 1080]
+    draw.rounded_rectangle(box_btn, radius=20, fill=(185, 28, 28))
+    draw.text((540, 1025), "🚨 DESCARGA EL PLIEGO TÉCNICO EN PDF", font=ImageFont.truetype("arialbd.ttf", 32), fill=(255, 255, 255), anchor="mm")
+
+    img.save(ruta_salida, quality=95)
+
+def crear_escena_licitacion_4_cta(ruta_salida: Path):
+    """Escena 4: Pantalla final de RadarAlertas Telegram."""
     ancho, alto = 1080, 1920
     img = Image.new("RGB", (ancho, alto), (11, 15, 25))
     draw = ImageDraw.Draw(img)
 
-    banner_rect = [80, 300, 1000, 420]
+    banner_rect = [80, 320, 1000, 440]
     draw.rounded_rectangle(banner_rect, radius=24, fill=(37, 99, 235))
-    texto_centrado_auto(draw, "📡 RADAR DE LICITACIONES DEL ESTADO", banner_rect, "arialbd.ttf", 38, (255, 255, 255))
+    texto_centrado_auto(draw, "📡 RADARALERTAS TELEGRAM", banner_rect, "arialbd.ttf", 42, (255, 255, 255))
 
-    # Cuadro principal
-    box_rect = [80, 480, 1000, 1350]
-    draw.rounded_rectangle(box_rect, radius=32, fill=(15, 23, 42), outline=(59, 130, 246), width=3)
+    card_rect = [80, 520, 1000, 1340]
+    draw.rounded_rectangle(card_rect, radius=32, fill=(15, 23, 42), outline=(59, 130, 246), width=4)
 
-    draw.text((140, 550), "📲 PLIEGO OFICIAL COMPLETO EN TELEGRAM", font=ImageFont.truetype("arialbd.ttf", 34), fill=(251, 191, 36))
+    draw.text((540, 600), "📲 ACCESO AL EXPEDIENTE", font=ImageFont.truetype("arialbd.ttf", 38), fill=(251, 191, 36), anchor="mm")
 
     beneficios = [
-        "✅ Descarga del PDF oficial de pliegos y condiciones",
+        "✅ Pliego técnico completo en PDF",
         "✅ Enlace directo a la mesa de contratación",
-        "✅ Alertas diarias de contratos menores y suministros",
-        "✅ Filtro directo para autónomos y pymes"
+        "✅ Requisitos y modelo de presupuesto",
+        "✅ Alertas diarias de contratos menores"
     ]
-    y_b = 660
+    y_b = 700
     for b in beneficios:
-        draw.text((140, y_b), b, font=ImageFont.truetype("arial.ttf", 30), fill=(248, 250, 252))
+        draw.text((140, y_b), b, font=ImageFont.truetype("arial.ttf", 32), fill=(248, 250, 252))
         y_b += 95
 
-    # Botón Telegram
-    tg_btn = [120, 1120, 960, 1260]
-    draw.rounded_rectangle(tg_btn, radius=28, fill=(37, 99, 235))
-    draw.text((220, 1150), "👉 ENTRA AL LINK DE LA BIO", font=ImageFont.truetype("arialbd.ttf", 44), fill=(255, 255, 255))
-    draw.text((290, 1205), "Canal Telegram: @radar_alertas", font=ImageFont.truetype("arial.ttf", 28), fill=(219, 234, 254))
+    btn_rect = [120, 1140, 960, 1260]
+    draw.rounded_rectangle(btn_rect, radius=24, fill=(37, 99, 235))
+    draw.text((540, 1180), "👉 TOCA EL LINK DE LA BIO", font=ImageFont.truetype("arialbd.ttf", 44), fill=(255, 255, 255), anchor="mm")
+    draw.text((540, 1228), "Canal Telegram: @radar_alertas", font=ImageFont.truetype("arial.ttf", 26), fill=(219, 234, 254), anchor="mm")
 
     img.save(ruta_salida, quality=95)
 
 async def generar_locucion_licitacion(lic: dict, ruta_mp3: Path, ruta_srt: Path):
-    """Genera la locución con voz profesional de Edge-TTS."""
-    org = lic.get("organismo", "la administración")
-    tit = lic.get("titulo", "servicios del estado")
-    tit_breve = tit.replace("Anuncio de formalización de contratos de: ", "").replace("Resolución de ", "")[:90]
+    """Genera la locución persuasiva y concisa con Edge-TTS."""
+    org = lic.get("organismo", "el Estado")[:40]
+    tit = lic.get("titulo", "servicios y contratos").replace("Anuncio de formalización de contratos de: ", "")[:65]
 
     guion = (
         f"Atención si eres autónomo o tienes una pequeña empresa. "
-        f"El Boletín Oficial del Estado acaba de publicar una nueva licitación pública. "
-        f"El organismo convocante es {org}. "
-        f"Se trata de {tit_breve}. "
-        f"El contrato está abierto para presentación de ofertas y requisitos simplificados. "
-        f"Tienes el pliego oficial en PDF y el enlace para optar en nuestro canal de Telegram. "
-        f"Toca el enlace de nuestro perfil para acceder al expediente completo."
+        f"El Boletín Oficial del Estado acaba de publicar un nuevo contrato público. "
+        f"Convocado por {org} para {tit}. "
+        f"Es un contrato con adjudicación directa y requisitos abiertos para pequeñas empresas. "
+        f"El pliego técnico oficial en PDF y el enlace para presentar tu oferta están en nuestro canal de Telegram. "
+        f"Entra al link de nuestro perfil para acceder al expediente."
     )
 
     comunicador = edge_tts.Communicate(guion, voice="es-ES-AlvaroNeural", rate="+6%")
@@ -182,15 +168,17 @@ async def generar_locucion_licitacion(lic: dict, ruta_mp3: Path, ruta_srt: Path)
         f_srt.write(sub_maker.get_srt())
 
 async def generar_video_licitacion_visual(lic: dict, ruta_salida_mp4: Path):
-    """Orquesta la creación de imágenes, locución, subtítulos y ensamblado cinemático del vídeo."""
-    id_lic = lic.get("id_licitacion", "lic_01")
+    """Genera el vídeo ultra-visual de Licitaciones en formato vertical 9:16."""
+    id_lic = lic.get("id_licitacion", "lic").replace("-", "_")
     e1 = OUTPUT_DIR / f"lic_{id_lic}_e1.png"
     e2 = OUTPUT_DIR / f"lic_{id_lic}_e2.png"
     e3 = OUTPUT_DIR / f"lic_{id_lic}_e3.png"
+    e4 = OUTPUT_DIR / f"lic_{id_lic}_e4.png"
 
     crear_escena_licitacion_1_contrato(lic, e1)
     crear_escena_licitacion_2_requisitos(lic, e2)
-    crear_escena_licitacion_3_cta(e3)
+    crear_escena_licitacion_3_plazo(lic, e3)
+    crear_escena_licitacion_4_cta(e4)
 
     ruta_audio = OUTPUT_DIR / f"lic_{id_lic}_audio.mp3"
     ruta_srt = OUTPUT_DIR / f"lic_{id_lic}_sub.srt"
@@ -199,17 +187,17 @@ async def generar_video_licitacion_visual(lic: dict, ruta_salida_mp4: Path):
     await generar_locucion_licitacion(lic, ruta_audio, ruta_srt)
     convertir_srt_a_ass(ruta_srt, ruta_ass)
 
-    # 3 escenas calculadas para sincronizar con la locución
     dur_audio = obtener_duracion_audio(ruta_audio)
     d1 = 5.0
-    d2 = 6.0
-    d3 = max(4.0, (dur_audio - 11.0) + 2.0)
+    d2 = 5.0
+    d3 = 5.0
+    d4 = max(4.0, (dur_audio - 15.0) + 2.0)
 
     ensamblar_video_cinematico(
-        [e1, e2, e3],
-        [d1, d2, d3],
+        [e1, e2, e3, e4],
+        [d1, d2, d3, d4],
         ruta_audio,
         ruta_ass,
         ruta_salida_mp4
     )
-    print(f"✅ [Vídeo Licitaciones] Generado con éxito: {ruta_salida_mp4.name} ({dur_audio:.1f}s)")
+    print(f"🎬 [Vídeo Licitaciones ULTRA-VISUAL] Generado: {ruta_salida_mp4.name} ({dur_audio:.1f}s)")

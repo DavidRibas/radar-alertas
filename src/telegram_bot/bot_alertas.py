@@ -40,6 +40,8 @@ CANAL_LICITACIONES_ID = os.getenv("TELEGRAM_CANAL_LICITACIONES_ID", "-1004308901
 CANAL_LICITACIONES_LINK = os.getenv("TELEGRAM_CANAL_LICITACIONES_LINK", "https://t.me/+SoEJ3dNfqdRlY2I0")
 CANAL_EMPLEO_ID = os.getenv("TELEGRAM_CANAL_EMPLEO_ID", "-1004292956298")
 CANAL_EMPLEO_LINK = os.getenv("TELEGRAM_CANAL_EMPLEO_LINK", "https://t.me/+S46Itb8Avi9iNmFk")
+CANAL_VEHICULOS_ID = os.getenv("TELEGRAM_CANAL_VEHICULOS_ID", "-1004355179430")
+CANAL_VEHICULOS_LINK = os.getenv("TELEGRAM_CANAL_VEHICULOS_LINK", "https://t.me/+miVPfMylHboyMzM0")
 CANAL_FREE_ID = os.getenv("TELEGRAM_CANAL_FREE_ID", "-1004345947331")
 CANAL_FREE_LINK = os.getenv("TELEGRAM_CANAL_FREE_LINK", "https://t.me/+JoX17328N-VkMWVk")
 
@@ -49,6 +51,7 @@ STRIPE_LINK_SUBASTAS = os.getenv("STRIPE_LINK_SUBASTAS", "https://buy.stripe.com
 STRIPE_LINK_AYUDAS = os.getenv("STRIPE_LINK_AYUDAS", "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00")
 STRIPE_LINK_LICITACIONES = os.getenv("STRIPE_LINK_LICITACIONES", "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00")
 STRIPE_LINK_EMPLEO = os.getenv("STRIPE_LINK_EMPLEO", "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00")
+STRIPE_LINK_VEHICULOS = os.getenv("STRIPE_LINK_VEHICULOS", "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00")
 STRIPE_LINK_PACK_TOTAL = os.getenv("STRIPE_LINK_PACK_TOTAL", "https://buy.stripe.com/14A4gA0g6a3Fgt9a2VcQU01")
 ADMIN_ID = os.getenv("TELEGRAM_ADMIN_USER_ID", "5674459275")
 
@@ -110,15 +113,17 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         texto = (
             "🚀 *Planes de Acceso Oficial a RadarAlertas VIP*\n\n"
             "Elige la suscripción que mejor se adapte a tus intereses:\n\n"
-            "🏠 *Canal Subastas Judiciales:* Inmuebles al -50%, vehículos y embargos.\n"
+            "🏠 *Canal Subastas Inmobiliarias:* Pisos al -50%, chalets y locales.\n"
+            "🚗 *Canal Vehículos Embargados:* Coches, motos y furgonetas desde 500 €.\n"
             "💰 *Canal Ayudas y Subvenciones:* Dinero a fondo perdido y trámites de sede.\n"
             "📑 *Canal Licitaciones Públicas:* Contratos menores de obras, servicios e IT.\n"
             "💼 *Canal Empleo y Oposiciones:* Plazas fijas, bolsas urgentes y convocatorias.\n\n"
-            "🔥 *Recomendado:* El *Pack Total VIP* te da acceso simultáneo a los 4 canales por solo 4,99 €/mes (ahorras un 60%)."
+            "🔥 *Recomendado:* El *Pack Total VIP* te da acceso simultáneo a los 5 canales por solo 4,99 €/mes (ahorras un 66%)."
         )
         teclado = [
             [InlineKeyboardButton("🔥 PACK TOTAL VIP (Todos los Canales) - 4,99 €/mes", url=STRIPE_LINK_PACK_TOTAL)],
-            [InlineKeyboardButton("🏠 Solo Subastas Judiciales (2,99 €/mes)", url=STRIPE_LINK_SUBASTAS)],
+            [InlineKeyboardButton("🏠 Solo Subastas Inmuebles (2,99 €/mes)", url=STRIPE_LINK_SUBASTAS)],
+            [InlineKeyboardButton("🚗 Solo Vehículos Embargados (2,99 €/mes)", url=STRIPE_LINK_VEHICULOS)],
             [InlineKeyboardButton("💰 Solo Ayudas y Subvenciones (2,99 €/mes)", url=STRIPE_LINK_AYUDAS)],
             [InlineKeyboardButton("📑 Solo Licitaciones Públicas (2,99 €/mes)", url=STRIPE_LINK_LICITACIONES)],
             [InlineKeyboardButton("💼 Solo Empleo y Oposiciones (2,99 €/mes)", url=STRIPE_LINK_EMPLEO)],
@@ -257,6 +262,7 @@ async def generar_texto_stats(context: ContextTypes.DEFAULT_TYPE) -> str:
 
     canales = [
         ("🏠 Subastas VIP", CANAL_VIP_ID),
+        ("🚗 Vehículos VIP", CANAL_VEHICULOS_ID),
         ("💰 Ayudas VIP", CANAL_AYUDAS_ID),
         ("📑 Licitaciones VIP", CANAL_LICITACIONES_ID),
         ("💼 Empleo VIP", CANAL_EMPLEO_ID),
