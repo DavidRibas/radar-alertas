@@ -44,6 +44,9 @@ from src.video_generator.generador_visual_earth import (
     OUTPUT_DIR
 )
 from src.video_generator.generador_visual_ayudas import generar_video_ayuda_visual
+from src.video_generator.generador_visual_licitaciones import generar_video_licitacion_visual
+from src.video_generator.generador_visual_empleo import generar_video_empleo_visual
+from src.utils.limpiador_disco import purgar_archivos_antiguos, limpiar_temporales_render
 
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 ADMIN_ID = os.getenv("TELEGRAM_ADMIN_USER_ID")
@@ -135,6 +138,7 @@ async def ciclo_subastas(provincia: str = "28"):
         f"#subastas #boe #inversion #madrid #chollos"
     )
     enviar_video_al_admin(ruta_video, caption)
+    limpiar_temporales_render()
 
 async def ciclo_ayudas():
     print("\n" + "="*50 + "\n💰 [VERTICAL 2] AYUDAS Y SUBVENCIONES BDNS\n" + "="*50)
@@ -165,6 +169,7 @@ async def ciclo_ayudas():
         f"#ayudas #subvenciones #autonomos #pymes #negocios"
     )
     enviar_video_al_admin(ruta_video, caption)
+    limpiar_temporales_render()
 
 async def ciclo_licitaciones_y_empleo():
     print("\n" + "="*50 + "\n📑 [VERTICAL 3 y 4] LICITACIONES Y EMPLEO BOE\n" + "="*50)
@@ -178,6 +183,20 @@ async def ciclo_licitaciones_y_empleo():
             post_free = formatear_post_licitacion_gratuito(lic)
             enviar_alerta_telegram(CANAL_FREE, post_free)
 
+        # Generar vídeo para Licitaciones
+        id_lic = lic.get("id_licitacion", "lic").replace("-", "_")
+        ruta_video_lic = OUTPUT_DIR / f"licitacion_{id_lic}_FINAL.mp4"
+        await generar_video_licitacion_visual(lic, ruta_video_lic)
+        cap_lic = (
+            f"💼 *Contrato del Estado ({lic.get('organismo', 'Administración')[:35]})*\n\n"
+            f"📋 *Copia este texto en TikTok/Instagram:*\n"
+            f"💼 Nueva licitación pública en el BOE para autónomos y pymes.\n"
+            f"Descarga el pliego técnico oficial en el link del perfil 👆\n"
+            f"#licitaciones #autonomos #pymes #contratos #boe"
+        )
+        enviar_video_al_admin(ruta_video_lic, cap_lic)
+        limpiar_temporales_render()
+
     empleos = obtener_empleo_publico_reciente()
     if empleos:
         em = empleos[0]
@@ -190,6 +209,7 @@ async def ciclo_licitaciones_y_empleo():
 
 async def main():
     inicializar_bd()
+    purgar_archivos_antiguos(dias=3)
     hora = datetime.datetime.now().hour
     print(f"⏰ Hora del sistema: {hora}:00")
 
@@ -205,6 +225,7 @@ async def main():
         await ciclo_licitaciones_y_empleo()
 
 if __name__ == "__main__":
+    purgar_archivos_antiguos(dias=3)
     if len(sys.argv) > 1:
         modo = sys.argv[1].lower()
         if modo == "subastas":

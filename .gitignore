@@ -31,3 +31,7 @@ session/
 # Base de datos local
 data/*.db
 data/*.sqlite
+
+# Logs
+*.log
+logs_diario.txt
