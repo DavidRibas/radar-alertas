@@ -870,20 +870,6 @@ async def manejar_mensaje_general(update: Update, context: ContextTypes.DEFAULT_
     """Detecta canales cuando el bot está dentro o cuando se le reenvía un mensaje."""
     # 1. Si alguien escribe en un canal donde el bot es admin
     if update.channel_post:
-        chat = update.channel_post.chat
-        print(f"🎯 CANAL DETECTADO POR POST: '{chat.title}' ID: {chat.id}")
-        if ADMIN_ID:
-            try:
-                await context.bot.send_message(
-                    chat_id=int(ADMIN_ID),
-                    text=f"🎯 *¡Canal Detectado por Mensaje!*\n\n"
-                         f"📌 *Nombre:* {chat.title}\n"
-                         f"🆔 *ID:* `{chat.id}`\n\n"
-                         f"Copia este ID para configurarlo.",
-                    parse_mode="Markdown"
-                )
-            except Exception as e:
-                print(f"Error avisando a admin: {e}")
         return
 
     msg = update.effective_message
