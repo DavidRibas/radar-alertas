@@ -32,8 +32,14 @@ load_dotenv()
 
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "TU_TOKEN_AQUI")
 CANAL_VIP_ID = os.getenv("TELEGRAM_CANAL_VIP_ID", "@canal_vip_demo")
-CANAL_VIP_LINK = os.getenv("TELEGRAM_CANAL_VIP_LINK", "https://t.me/+H9DxrDvgJLQ0YWY8")
-CANAL_FREE_ID = os.getenv("TELEGRAM_CANAL_FREE_ID", "@canal_free_demo")
+CANAL_VIP_LINK = os.getenv("TELEGRAM_CANAL_VIP_LINK", "https://t.me/+miVPfMylHboyMzM0")
+CANAL_AYUDAS_ID = os.getenv("TELEGRAM_CANAL_AYUDAS_ID", "-1004437054989")
+CANAL_AYUDAS_LINK = os.getenv("TELEGRAM_CANAL_AYUDAS_LINK", "https://t.me/+sSZjzzP5XediMDc0")
+CANAL_LICITACIONES_ID = os.getenv("TELEGRAM_CANAL_LICITACIONES_ID", "-1004308901950")
+CANAL_LICITACIONES_LINK = os.getenv("TELEGRAM_CANAL_LICITACIONES_LINK", "https://t.me/+SoEJ3dNfqdRlY2I0")
+CANAL_EMPLEO_ID = os.getenv("TELEGRAM_CANAL_EMPLEO_ID", "-1004292956298")
+CANAL_EMPLEO_LINK = os.getenv("TELEGRAM_CANAL_EMPLEO_LINK", "https://t.me/+S46Itb8Avi9iNmFk")
+
 PRECIO_PROMO = os.getenv("PRECIO_PROMOCION", "2.99")
 STRIPE_LINK = os.getenv("STRIPE_PAYMENT_LINK", "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00")
 STRIPE_LINK_SUBASTAS = os.getenv("STRIPE_LINK_SUBASTAS", "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00")
@@ -51,26 +57,31 @@ async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     mensaje = (
         f"👋 ¡Hola {user.first_name}! Bienvenido a *RadarAlertas*.\n\n"
-        "Monitorizamos cada día el *Boletín Oficial del Estado (BOE)* con algoritmos que detectan:\n"
-        "🏠 Subastas judiciales con más del 50% de ahorro.\n"
-        "⚖️ Verificación previa de cargas hipotecarias.\n"
-        "📊 Cruce con precios de venta reales de mercado.\n\n"
+        "Monitorizamos cada día fuentes oficiales del Estado con algoritmos inteligentes:\n"
+        "🏠 *Subastas Judiciales:* Inmuebles con más del 50% de ahorro y sin cargas.\n"
+        "💰 *Ayudas y Subvenciones:* Dinero a fondo perdido (BDNS) con trámites directos.\n"
+        "📑 *Licitaciones Públicas:* Contratos menores de obras, servicios y suministros.\n"
+        "💼 *Empleo Público:* Plazas urgentes y bolsas de trabajo en el BOE.\n\n"
     )
 
     if es_vip:
-        mensaje += f"⭐ *Tu estado:* MIEMBRO VIP ACTIVO (Hasta: {estado.get('fecha_fin_suscripcion')[:10]})\n"
+        plan = estado.get("plan", "VIP")
+        mensaje += f"⭐ *Tu estado:* MIEMBRO VIP ACTIVO ({plan}) - Válido hasta: {estado.get('fecha_fin_suscripcion')[:10]}\n\n"
+        mensaje += "👇 *Accede a tus canales VIP exclusivos:*"
+        
         teclado = [
-            [InlineKeyboardButton("✈️ Ir al Canal VIP Privado", url=CANAL_VIP_LINK)],
-            [InlineKeyboardButton("📊 Consultar Mi Suscripción", callback_data="mi_estado")]
+            [InlineKeyboardButton("🏠 Canal Subastas VIP", url=CANAL_VIP_LINK), InlineKeyboardButton("💰 Canal Ayudas VIP", url=CANAL_AYUDAS_LINK)],
+            [InlineKeyboardButton("📑 Canal Licitaciones VIP", url=CANAL_LICITACIONES_LINK), InlineKeyboardButton("💼 Canal Empleo VIP", url=CANAL_EMPLEO_LINK)],
+            [InlineKeyboardButton("📊 Mi Suscripción", callback_data="mi_estado")]
         ]
     else:
         mensaje += (
-            "🔒 *Acceso exclusivo:* Suscríbete para recibir todas las alertas completas "
-            "con direcciones exactas, referencias catastrales y enlaces oficiales al expediente.\n\n"
-            f"🔥 *OFERTA DE LANZAMIENTO:* Solo *{PRECIO_PROMO} € / mes* (Primeros 100 miembros)"
+            "🔒 *Acceso exclusivo:* Suscríbete para recibir alertas en tiempo real "
+            "con expedientes completos, referencias catastrales y enlaces oficiales.\n\n"
+            f"🔥 *Suscripciones desde solo {PRECIO_PROMO} € / mes* o el *Pack Total por 4,99 € / mes*."
         )
         teclado = [
-            [InlineKeyboardButton(f"⭐ Desbloquear VIP ({PRECIO_PROMO} €/mes)", callback_data="pagar_vip")],
+            [InlineKeyboardButton("⭐ Desbloquear Canales VIP", callback_data="pagar_vip")],
             [InlineKeyboardButton("ℹ️ ¿Cómo funciona el servicio?", callback_data="info_servicio")],
             [InlineKeyboardButton("📊 Mi Cuenta", callback_data="mi_estado")]
         ]

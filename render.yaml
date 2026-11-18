@@ -12,7 +12,19 @@ services:
       - key: TELEGRAM_CANAL_VIP_ID
         value: "-1004355179430"
       - key: TELEGRAM_CANAL_VIP_LINK
-        value: "https://t.me/+H9DxrDvgJLQ0YWY8"
+        value: "https://t.me/+miVPfMylHboyMzM0"
+      - key: TELEGRAM_CANAL_AYUDAS_ID
+        value: "-1004437054989"
+      - key: TELEGRAM_CANAL_AYUDAS_LINK
+        value: "https://t.me/+sSZjzzP5XediMDc0"
+      - key: TELEGRAM_CANAL_LICITACIONES_ID
+        value: "-1004308901950"
+      - key: TELEGRAM_CANAL_LICITACIONES_LINK
+        value: "https://t.me/+SoEJ3dNfqdRlY2I0"
+      - key: TELEGRAM_CANAL_EMPLEO_ID
+        value: "-1004292956298"
+      - key: TELEGRAM_CANAL_EMPLEO_LINK
+        value: "https://t.me/+S46Itb8Avi9iNmFk"
       - key: PRECIO_PROMOCION
         value: "2.99"
       - key: STRIPE_PAYMENT_LINK
