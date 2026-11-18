@@ -122,5 +122,39 @@ def ya_fue_enviada(id_subasta: str) -> bool:
     conn.close()
     return existe
 
+def obtener_metricas_globales() -> Dict:
+    """Calcula las métricas operativas del negocio para el comando /stats del administrador."""
+    conn = obtener_conexion()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT COUNT(*) FROM usuarios;")
+    total_usuarios = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM usuarios WHERE DATE(fecha_alta) = DATE('now');")
+    usuarios_hoy = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM usuarios WHERE suscripcion_activa = 1;")
+    vip_activos = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM alertas_enviadas;")
+    total_alertas = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM alertas_enviadas WHERE DATE(fecha_envio) = DATE('now');")
+    alertas_hoy = cursor.fetchone()[0]
+
+    cursor.execute("SELECT plan, COUNT(*) FROM usuarios WHERE suscripcion_activa = 1 GROUP BY plan;")
+    desglose_planes = {row[0]: row[1] for row in cursor.fetchall()}
+
+    conn.close()
+
+    return {
+        "total_usuarios": total_usuarios,
+        "usuarios_hoy": usuarios_hoy,
+        "vip_activos": vip_activos,
+        "total_alertas": total_alertas,
+        "alertas_hoy": alertas_hoy,
+        "desglose_planes": desglose_planes
+    }
+
 if __name__ == "__main__":
     inicializar_bd()

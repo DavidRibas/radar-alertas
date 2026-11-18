@@ -25,7 +25,8 @@ from src.telegram_bot.database import (
     inicializar_bd,
     registrar_o_actualizar_usuario,
     activar_suscripcion_vip,
-    obtener_estado_usuario
+    obtener_estado_usuario,
+    obtener_metricas_globales
 )
 
 load_dotenv()
@@ -228,6 +229,45 @@ async def comando_activar_manual(update: Update, context: ContextTypes.DEFAULT_T
     except Exception as e:
         await update.message.reply_text(f"Error: {e}")
 
+async def comando_stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Muestra el panel de control y métricas del negocio solo al administrador."""
+    user = update.effective_user
+    if str(user.id) != str(ADMIN_ID):
+        await update.message.reply_text("⛔ Este comando es exclusivo para el administrador del sistema.")
+        return
+
+    m = obtener_metricas_globales()
+    
+    # Calcular facturación recurrente mensual (MRR) estimada
+    mrr = 0.0
+    for plan, count in m["desglose_planes"].items():
+        if "total" in plan.lower() or "pack" in plan.lower():
+            mrr += count * 4.99
+        else:
+            mrr += count * 2.99
+
+    texto = (
+        "📊 *PANEL DE CONTROL - RADARALERTAS*\n"
+        "━━━━━━━━━━━━━━━━━━━━\n\n"
+        "👥 *Métricas de Usuarios:*\n"
+        f"• Total registrados en bot: *{m['total_usuarios']}*\n"
+        f"• Nuevos registros hoy: *+{m['usuarios_hoy']}*\n"
+        f"• Suscriptores VIP activos: *{m['vip_activos']}*\n\n"
+        "💶 *Facturación Recurrente (MRR):*\n"
+        f"• MRR Estimado: *{mrr:.2f} € / mes*\n\n"
+        "📡 *Actividad de Emisión:*\n"
+        f"• Oportunidades enviadas hoy: *{m['alertas_hoy']}*\n"
+        f"• Histórico total alertas: *{m['total_alertas']}*\n\n"
+        "🛰️ *Canales VIP Conectados (4):*\n"
+        f"• 🏠 Subastas: `{CANAL_VIP_ID}`\n"
+        f"• 💰 Ayudas: `{CANAL_AYUDAS_ID}`\n"
+        f"• 📑 Licitaciones: `{CANAL_LICITACIONES_ID}`\n"
+        f"• 💼 Empleo: `{CANAL_EMPLEO_ID}`\n\n"
+        "🟢 *Estado Servidor:* Online 24/7 (Render Cloud)\n"
+        "━━━━━━━━━━━━━━━━━━━━"
+    )
+    await update.message.reply_text(texto, parse_mode="Markdown")
+
 def main():
     inicializar_bd()
     if TELEGRAM_TOKEN == "TU_TOKEN_AQUI":
@@ -239,6 +279,7 @@ def main():
     app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
 
     app.add_handler(CommandHandler("start", comando_start))
+    app.add_handler(CommandHandler("stats", comando_stats))
     app.add_handler(CommandHandler("activar", comando_activar_manual))
     app.add_handler(CallbackQueryHandler(manejar_callback))
     app.add_handler(ChatMemberHandler(manejar_chat_member, ChatMemberHandler.MY_CHAT_MEMBER))
