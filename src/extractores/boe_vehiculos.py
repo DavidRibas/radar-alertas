@@ -5,6 +5,7 @@ por Juzgados, Seguridad Social y Ayuntamientos.
 Extrae marca, modelo, matrícula, año, tasación, puja mínima y depósito.
 """
 import re
+import urllib.parse
 import requests
 from bs4 import BeautifulSoup
 from typing import List, Dict, Optional
@@ -175,6 +176,37 @@ def obtener_detalle_vehiculo(id_subasta: str) -> Optional[Dict]:
     if not titulo_comercial or titulo_comercial == "VEHÍCULO":
         titulo_comercial = desc_raw[:45]
 
+    # URL Google Maps al depósito judicial
+    lugar_busqueda = deposito_lugar if len(deposito_lugar) > 5 and "judicial" not in deposito_lugar.lower() else f"Depósito vehículos {provincia}"
+    query_maps = urllib.parse.quote_plus(f"{lugar_busqueda}, España")
+    url_maps = f"https://www.google.com/maps/search/?api=1&query={query_maps}"
+
+    # Score de Oportunidad RadarAlertas (1 a 10)
+    score = 5.0
+    if ahorro_pct >= 60:
+        score += 3.0
+    elif ahorro_pct >= 40:
+        score += 2.0
+    elif ahorro_pct >= 20:
+        score += 1.0
+
+    if marca and marca.upper() in ["MERCEDES", "BMW", "AUDI", "VOLKSWAGEN", "TOYOTA"]:
+        score += 1.0
+
+    if matricula and len(matricula) >= 6 and "no consta" not in matricula.lower():
+        score += 0.5
+
+    if "si" in visitable.lower():
+        score += 0.5
+
+    score = min(9.9, max(1.0, round(score, 1)))
+    if score >= 8.5:
+        score_badge = f"⭐ {score}/10 (Oportunidad Oro 🏆)"
+    elif score >= 7.0:
+        score_badge = f"⭐ {score}/10 (Oportunidad Plata 🥈)"
+    else:
+        score_badge = f"⭐ {score}/10 (Oportunidad Interesante)"
+
     return {
         "id_subasta": id_subasta,
         "titulo": titulo_comercial,
@@ -185,6 +217,9 @@ def obtener_detalle_vehiculo(id_subasta: str) -> Optional[Dict]:
         "fecha_matriculacion": fecha_mat,
         "provincia": provincia,
         "deposito_lugar": deposito_lugar,
+        "url_maps": url_maps,
+        "score_oportunidad": score,
+        "score_badge": score_badge,
         "visitable": visitable,
         "cargas": cargas[:250],
         "descripcion": desc_raw[:300],

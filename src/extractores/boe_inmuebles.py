@@ -3,6 +3,7 @@ Extractor oficial de subastas de inmuebles del BOE (subastas.boe.es).
 Busca subastas activas, extrae dirección, tasación, puja mínima, referencia catastral y calcula el score de oportunidad.
 """
 import re
+import urllib.parse
 import requests
 from bs4 import BeautifulSoup
 from typing import List, Dict, Optional
@@ -123,17 +124,79 @@ def obtener_detalle_subasta(id_subasta: str) -> Optional[Dict]:
     direccion = datos_bien.get("dirección", "")
     localidad = datos_bien.get("localidad", "Madrid")
     cp = datos_bien.get("código postal", "")
-    ref_catastral = datos_bien.get("referencia catastral", "No consta")
+    ref_catastral = datos_bien.get("referencia catastral", "No consta").strip()
     descripcion = datos_bien.get("descripción", "")
+
+    # Auditoría de Ocupación / Situación Posesoria
+    sit_raw = datos_bien.get("situación posesoria", "No consta").strip()
+    sit_lower = sit_raw.lower()
+    if any(k in sit_lower for k in ["libre", "desocupad", "vacia", "vacía"]):
+        situacion_formato = "🟢 Libre de ocupantes (Desocupada)"
+    elif any(k in sit_lower for k in ["arrendad", "alquiler", "inquilino"]):
+        situacion_formato = "🔴 Con contrato de arrendamiento previo"
+    elif any(k in sit_lower for k in ["ejecutad", "demandad"]):
+        situacion_formato = "🟡 Ocupada por el ejecutado (desalojo ordinario Art. 675 LEC)"
+    elif "ocupad" in sit_lower:
+        situacion_formato = "🟡 Ocupada (requiere posesión judicial)"
+    else:
+        situacion_formato = "⚪ No especificada en edicto (consultar juzgado)"
+
+    visitable = datos_bien.get("visitable", "No consta").strip()
+
+    # URL Google Maps / Street View
+    dir_completa = f"{direccion}, {cp} {localidad}".strip(" ,")
+    query_maps = urllib.parse.quote_plus(f"{dir_completa}, España")
+    url_maps = f"https://www.google.com/maps/search/?api=1&query={query_maps}"
+
+    # URL Oficial Sede del Catastro
+    url_catastro = None
+    if ref_catastral and len(ref_catastral) >= 14 and "no consta" not in ref_catastral.lower():
+        url_catastro = f"https://www1.sedecatastro.gob.es/CYCAssist/ConsultaBien.aspx?refcat={ref_catastral}"
+
+    # Algoritmo de Calificación de Oportunidad (Score 1 a 10)
+    score = 5.0
+    if ahorro_pct >= 60:
+        score += 3.0
+    elif ahorro_pct >= 40:
+        score += 2.0
+    elif ahorro_pct >= 25:
+        score += 1.0
+
+    if deposito > 0 and deposito <= 5000:
+        score += 1.0
+    elif deposito <= 12000:
+        score += 0.5
+
+    if "🟢" in situacion_formato:
+        score += 1.0
+    elif "🔴" in situacion_formato:
+        score -= 1.5
+
+    if url_catastro:
+        score += 0.5
+
+    score = min(9.9, max(1.0, round(score, 1)))
+    if score >= 8.5:
+        score_badge = f"⭐ {score}/10 (Oportunidad Oro 🏆)"
+    elif score >= 7.0:
+        score_badge = f"⭐ {score}/10 (Oportunidad Plata 🥈)"
+    else:
+        score_badge = f"⭐ {score}/10 (Oportunidad Moderada)"
 
     return {
         "id_subasta": id_subasta,
         "titulo": f"Inmueble en {localidad} ({cp})",
-        "direccion": f"{direccion}, {cp} {localidad}".strip(" ,"),
+        "direccion": dir_completa,
         "localidad": localidad,
         "codigo_postal": cp,
         "referencia_catastral": ref_catastral,
         "descripcion": descripcion[:200] + "..." if len(descripcion) > 200 else descripcion,
+        "situacion_posesoria": situacion_formato,
+        "visitable": visitable,
+        "url_maps": url_maps,
+        "url_catastro": url_catastro,
+        "score_oportunidad": score,
+        "score_badge": score_badge,
         "valor_referencia": valor_referencia,
         "valor_referencia_formato": f"{valor_referencia:,.0f} €".replace(",", "."),
         "precio_salida": precio_salida,

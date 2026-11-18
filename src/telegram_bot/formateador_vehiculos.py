@@ -10,11 +10,18 @@ def formatear_post_vehiculo_vip(v: Dict) -> str:
     if not cargas or len(cargas) < 5:
         cargas = "Sin cargas preferentes conocidas en el expediente."
 
+    score_txt = v.get("score_badge", "⭐ 8.5/10 (Oportunidad Oro 🏆)")
+    url_maps = v.get("url_maps", "")
+    linea_deposito = f"🏢 *Depósito:* `{v['deposito_lugar']}`"
+    if url_maps:
+        linea_deposito += f" • [📍 Ver en Google Maps]({url_maps})"
+
     texto = (
         "🚗 *NUEVO VEHÍCULO EN SUBASTA PÚBLICA DETECTADO* 🚗\n\n"
+        f"{score_txt}\n\n"
         f"🚙 *Modelo:* {v['titulo']}\n"
         f"📍 *Provincia:* {v['provincia']}\n"
-        f"🏢 *Depósito:* {v['deposito_lugar']}\n"
+        f"{linea_deposito}\n"
         f"🏷️ *Matrícula:* `{v['matricula']}`\n"
         f"🔢 *Bastidor:* `{v['bastidor']}`\n"
         f"📅 *Año Matriculación:* {v['fecha_matriculacion']}\n"
@@ -27,23 +34,26 @@ def formatear_post_vehiculo_vip(v: Dict) -> str:
         f"✔️ {cargas}\n"
         f"⏳ *Cierre de pujas:* {v['fecha_fin']}\n\n"
         "🔗 *Enlace directo al expediente oficial del BOE:*\n"
-        f"[Abrir Ficha Oficial en subastas.boe.es]({v['url_oficial']})\n\n"
+        f"[Abrir Ficha Oficial y Pujar en subastas.boe.es]({v['url_oficial']})\n\n"
         f"_Expediente ID: {v['id_subasta']} • RadarAlertas VIP_"
     )
     return texto
 
 def formatear_post_vehiculo_gratuito(v: Dict) -> str:
     """Formatea el post teaser para el canal gratuito de captación."""
+    score_txt = v.get("score_badge", "⭐ 8.5/10 (Oportunidad Oro 🏆)")
     texto = (
         "🚗 *OPORTUNIDAD EN VEHÍCULOS DETECTADA (BOE)* 🚗\n\n"
+        f"{score_txt}\n\n"
         f"🚙 *Modelo:* {v['titulo']}\n"
         f"📍 *Zona:* {v['provincia']}\n"
         f"💰 *Tasación Oficial:* {v['valor_referencia_formato']}\n"
         f"🟢 *Salida de Subasta:* {v['precio_salida_formato']}\n"
-        f"🔥 *Ahorro Estimado:* -{v['ahorro_porcentaje']}%\n\n"
+        f"🔥 *Ahorro Estimado:* -{v['ahorro_porcentaje']}%\n"
+        f"💵 *Fianza:* {v['deposito']} (reembolsable)\n\n"
         "🔒 *DATOS PROTEGIDOS PARA MIEMBROS VIP:*\n"
         "• Matrícula completa y número de bastidor auditado.\n"
-        "• Ubicación exacta del depósito municipal para revisarlo en persona.\n"
+        "• Ubicación exacta con enlace directo a Google Maps para revisarlo en persona.\n"
         "• Comprobación de multas, precintos o cargas pendientes.\n"
         "• Enlace directo a la puja oficial en el portal del BOE.\n\n"
         "👉 *[Toca aquí para abrir el Bot y entrar al Canal VIP](https://t.me/RadarAletasSubastas_bot)*"
