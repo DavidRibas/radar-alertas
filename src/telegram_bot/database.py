@@ -65,6 +65,10 @@ def inicializar_bd():
         cursor.execute("ALTER TABLE usuarios ADD COLUMN premio_referidos_otorgado INTEGER DEFAULT 0;")
     except Exception:
         pass
+    try:
+        cursor.execute("ALTER TABLE usuarios ADD COLUMN aviso_renovacion_enviado INTEGER DEFAULT 0;")
+    except Exception:
+        pass
 
     # 4. Tabla de referidos y afiliados virales
     cursor.execute("""
@@ -117,7 +121,7 @@ def activar_suscripcion_vip(user_id: int, plan: str = "mensual_15e", dias: int =
     fecha_fin = (datetime.now() + timedelta(days=dias)).isoformat()
     cursor.execute("""
     UPDATE usuarios
-    SET suscripcion_activa = 1, plan = ?, fecha_fin_suscripcion = ?
+    SET suscripcion_activa = 1, plan = ?, fecha_fin_suscripcion = ?, aviso_renovacion_enviado = 0
     WHERE user_id = ?;
     """, (plan, fecha_fin, user_id))
     conn.commit()
@@ -300,6 +304,59 @@ def marcar_premio_referidos_entregado(user_id: int):
     cursor.execute("UPDATE referidos SET recompensa_entregada = 1 WHERE inviter_id = ?;", (user_id,))
     conn.commit()
     conn.close()
+
+def obtener_usuarios_para_recordatorio_renovacion() -> List[Dict]:
+    """Devuelve usuarios activos cuya suscripción vence en los próximos 3 días y no han sido avisados."""
+    conn = obtener_conexion()
+    cursor = conn.cursor()
+    ahora = datetime.now()
+    limite_aviso = (ahora + timedelta(days=3)).isoformat()
+    ahora_iso = ahora.isoformat()
+
+    cursor.execute("""
+    SELECT user_id, first_name, username, plan, fecha_fin_suscripcion
+    FROM usuarios
+    WHERE suscripcion_activa = 1
+      AND fecha_fin_suscripcion <= ?
+      AND fecha_fin_suscripcion > ?
+      AND (aviso_renovacion_enviado = 0 OR aviso_renovacion_enviado IS NULL);
+    """, (limite_aviso, ahora_iso))
+
+    filas = [dict(row) for row in cursor.fetchall()]
+    conn.close()
+    return filas
+
+def marcar_aviso_renovacion_enviado(user_id: int):
+    """Marca que ya se avisó al usuario sobre el vencimiento próximo de su suscripción."""
+    conn = obtener_conexion()
+    cursor = conn.cursor()
+    cursor.execute("UPDATE usuarios SET aviso_renovacion_enviado = 1 WHERE user_id = ?;", (user_id,))
+    conn.commit()
+    conn.close()
+
+def procesar_suscripciones_vencidas() -> List[Dict]:
+    """Detecta suscripciones que han llegado a su fecha fin y las pasa a estado inactivo."""
+    conn = obtener_conexion()
+    cursor = conn.cursor()
+    ahora_iso = datetime.now().isoformat()
+    cursor.execute("""
+    SELECT user_id, first_name, username, plan
+    FROM usuarios
+    WHERE suscripcion_activa = 1
+      AND fecha_fin_suscripcion < ?;
+    """, (ahora_iso,))
+    vencidos = [dict(row) for row in cursor.fetchall()]
+
+    if vencidos:
+        cursor.execute("""
+        UPDATE usuarios
+        SET suscripcion_activa = 0
+        WHERE suscripcion_activa = 1
+          AND fecha_fin_suscripcion < ?;
+        """, (ahora_iso,))
+        conn.commit()
+    conn.close()
+    return vencidos
 
 def ya_fue_enviada(id_subasta: str) -> bool:
     """Comprueba si una subasta ya se envió a los canales."""

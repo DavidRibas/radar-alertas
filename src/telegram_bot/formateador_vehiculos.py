@@ -22,7 +22,7 @@ def formatear_post_vehiculo_vip(v: Dict) -> str:
         f"💰 *Valor de Tasación:* {v['valor_referencia_formato']}\n"
         f"🟢 *Precio de Salida:* {v['precio_salida_formato']}\n"
         f"📉 *Descuento estimado:* {v['ahorro_porcentaje']}%\n"
-        f"🔒 *Depósito obligatorio:* {v['deposito']}\n\n"
+        f"💵 *Fianza para pujar (BOE):* *{v['deposito']}* _(Depósito 5% oficial reembolsable si no ganas)_\n\n"
         "⚖️ *Dictamen de Cargas y Estado:*\n"
         f"✔️ {cargas}\n"
         f"⏳ *Cierre de pujas:* {v['fecha_fin']}\n\n"

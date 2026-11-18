@@ -13,7 +13,7 @@ def formatear_post_vip(s: dict) -> str:
 💰 *Valor de Tasación / Subasta:* {s.get('valor_referencia_formato', '0 €')}
 🟢 *Precio de Salida:* *{s.get('precio_salida_formato', '0 €')}*
 📉 *Descuento estimado:* *{s.get('ahorro_porcentaje', 0)}%*
-🔒 *Depósito obligatorio:* {s.get('deposito', '0 €')}
+💵 *Fianza para pujar (BOE):* *{s.get('deposito', '5%')}* _(Depósito 5% legal reembolsable al 100% si no ganas)_
 
 ⚖️ *Dictamen de Cargas:*
 ✔ Expediente analizado sin cargas hipotecarias preferentes conocidas.

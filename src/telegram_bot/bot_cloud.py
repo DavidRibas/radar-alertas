@@ -23,7 +23,10 @@ from src.telegram_bot.database import (
     obtener_usuarios_para_retargeting,
     marcar_retargeting_enviado,
     activar_suscripcion_vip,
-    registrar_pago_stripe
+    registrar_pago_stripe,
+    obtener_usuarios_para_recordatorio_renovacion,
+    marcar_aviso_renovacion_enviado,
+    procesar_suscripciones_vencidas
 )
 from src.telegram_bot.bot_alertas import (
     comando_start,
@@ -195,6 +198,72 @@ async def tarea_retargeting_periodica(app):
         except Exception as e:
             print("Error en bucle de retargeting:", e)
 
+async def tarea_renovaciones_periodica(app):
+    """Revisa periódicamente si hay suscripciones VIP próximas a caducar (3 días) o recién vencidas."""
+    print("🔁 Motor de renovaciones automáticas y anti-churn iniciado...")
+    while True:
+        try:
+            await asyncio.sleep(3600)  # Cada 1 hora
+            # 1. Avisar a usuarios cuyo VIP vence en menos de 72 horas
+            proximos = obtener_usuarios_para_recordatorio_renovacion()
+            for u in proximos:
+                uid = u["user_id"]
+                nombre = u.get("first_name", "amigo")
+                plan = u.get("plan", "VIP")
+                fecha_fin_str = str(u.get("fecha_fin_suscripcion", ""))[:10]
+
+                msg = (
+                    f"⏰ *Aviso de Renovación de Suscripción VIP*\n\n"
+                    f"Hola {nombre}, te recordamos que tu suscripción *{plan}* vence el próximo *{fecha_fin_str}* (en menos de 3 días).\n\n"
+                    "Para seguir recibiendo los expedientes completos del BOE, coches embargados y ayudas directas sin interrupciones, "
+                    "puedes renovar con un solo clic:"
+                )
+                teclado = [
+                    [InlineKeyboardButton("⭐ Renovar mi Suscripción VIP", callback_data="pagar_vip")],
+                    [InlineKeyboardButton("👥 Ganar Mes Gratis Invitando Amigos", callback_data="menu_referidos")]
+                ]
+                try:
+                    await app.bot.send_message(
+                        chat_id=uid,
+                        text=msg,
+                        parse_mode="Markdown",
+                        reply_markup=InlineKeyboardMarkup(teclado)
+                    )
+                    marcar_aviso_renovacion_enviado(uid)
+                    print(f"⏰ Recordatorio de renovación enviado a usuario {uid} ({nombre})")
+                except Exception as e_user:
+                    print(f"No se pudo enviar aviso de renovación a {uid}: {e_user}")
+                    marcar_aviso_renovacion_enviado(uid)
+
+            # 2. Gestionar suscripciones que han llegado a su fecha de vencimiento
+            vencidos = procesar_suscripciones_vencidas()
+            for v in vencidos:
+                uid = v["user_id"]
+                nombre = v.get("first_name", "amigo")
+                msg_vencido = (
+                    f"⚠️ *Tu Suscripción VIP ha finalizado*\n\n"
+                    f"Hola {nombre}, tu acceso a los canales VIP de RadarAlertas ha expirado.\n\n"
+                    "Si deseas reactivar tus alertas para no perderte los chollos y subastas de esta semana:"
+                )
+                teclado = [
+                    [InlineKeyboardButton("⭐ Reactivar mi Pase VIP", callback_data="pagar_vip")],
+                    [InlineKeyboardButton("📢 Canal Gratuito de Muestras", url=CANAL_FREE_LINK)]
+                ]
+                try:
+                    await app.bot.send_message(
+                        chat_id=uid,
+                        text=msg_vencido,
+                        parse_mode="Markdown",
+                        reply_markup=InlineKeyboardMarkup(teclado)
+                    )
+                    print(f"🔒 Notificación de vencimiento enviada a {uid}")
+                except Exception as e_v:
+                    print(f"No se pudo notificar vencimiento a {uid}: {e_v}")
+        except asyncio.CancelledError:
+            break
+        except Exception as e:
+            print("Error en bucle de renovaciones:", e)
+
 async def main():
     inicializar_bd()
 
@@ -223,8 +292,9 @@ async def main():
     await app.updater.start_polling(allowed_updates=Update.ALL_TYPES)
     print("✅ Bot de Telegram escuchando mensajes...")
 
-    # Lanzar tarea de retargeting en segundo plano
+    # Lanzar tareas en segundo plano (retargeting y renovaciones anti-churn)
     asyncio.create_task(tarea_retargeting_periodica(app))
+    asyncio.create_task(tarea_renovaciones_periodica(app))
 
     # 2. Servidor web HTTP para la Landing Page, Webhook de Stripe y keep-alive en la nube
     puerto = int(os.getenv("PORT", 8080))
