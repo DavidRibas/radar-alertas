@@ -51,6 +51,7 @@ async def handle_ping(request):
     return web.json_response({
         "status": "online",
         "service": "RadarAlertas Telegram Bot 24/7",
+        "version": "v2.5-webhook",
         "bot": "@RadarAletasSubastas_bot"
     })
 
