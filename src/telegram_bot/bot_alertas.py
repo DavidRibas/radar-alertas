@@ -28,6 +28,8 @@ from src.telegram_bot.database import (
     obtener_estado_usuario,
     obtener_metricas_globales
 )
+from src.extractores.boe_inmuebles import buscar_subastas_inmuebles, obtener_detalle_subasta
+from src.extractores.boe_vehiculos import buscar_subastas_vehiculos, obtener_detalle_vehiculo
 
 load_dotenv()
 
@@ -78,8 +80,11 @@ async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         mensaje += "👇 *Accede a tus canales VIP exclusivos:*"
         
         teclado = [
-            [InlineKeyboardButton("🏠 Canal Subastas VIP", url=CANAL_VIP_LINK), InlineKeyboardButton("💰 Canal Ayudas VIP", url=CANAL_AYUDAS_LINK)],
-            [InlineKeyboardButton("📑 Canal Licitaciones VIP", url=CANAL_LICITACIONES_LINK), InlineKeyboardButton("💼 Canal Empleo VIP", url=CANAL_EMPLEO_LINK)],
+            [InlineKeyboardButton("🏠 Subastas VIP", url=CANAL_VIP_LINK), InlineKeyboardButton("🚗 Vehículos VIP", url=CANAL_VEHICULOS_LINK)],
+            [InlineKeyboardButton("💰 Ayudas VIP", url=CANAL_AYUDAS_LINK), InlineKeyboardButton("📑 Licitaciones VIP", url=CANAL_LICITACIONES_LINK)],
+            [InlineKeyboardButton("💼 Empleo VIP", url=CANAL_EMPLEO_LINK)],
+            [InlineKeyboardButton("🔍 Buscar Chollos por Provincia", callback_data="menu_provincias")],
+            [InlineKeyboardButton("🎁 Descargar Guía Gratuita en PDF", callback_data="descargar_guia")],
             [InlineKeyboardButton("📊 Mi Suscripción", callback_data="mi_estado")]
         ]
     else:
@@ -90,6 +95,8 @@ async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         teclado = [
             [InlineKeyboardButton("⭐ Desbloquear Canales VIP", callback_data="pagar_vip")],
+            [InlineKeyboardButton("🎁 Descargar Guía Gratuita en PDF", callback_data="descargar_guia")],
+            [InlineKeyboardButton("🔍 Buscar Chollos por Provincia", callback_data="menu_provincias")],
             [InlineKeyboardButton("📢 Canal Gratuito de Muestras", url=CANAL_FREE_LINK)],
             [InlineKeyboardButton("ℹ️ ¿Cómo funciona el servicio?", callback_data="info_servicio")],
             [InlineKeyboardButton("📊 Mi Cuenta", callback_data="mi_estado")]
@@ -167,12 +174,113 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         teclado = [[InlineKeyboardButton("🔙 Volver", callback_data="volver_inicio")]]
         await query.edit_message_text(texto, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
 
+    elif data == "descargar_guia":
+        await query.answer("Enviando guía oficial en PDF...")
+        ruta_pdf = Path(__file__).resolve().parent.parent.parent / "assets" / "Guia_Subastas_Judiciales_RadarAlertas.pdf"
+        if not ruta_pdf.exists():
+            from src.lead_magnet.generador_guia_pdf import compilar_guia_pdf
+            compilar_guia_pdf(ruta_pdf)
+
+        cap = (
+            "🎁 *¡Aquí tienes tu Guía Oficial de Subastas y Embargos!*\n\n"
+            "📖 *En este manual práctico aprenderás:*\n"
+            "• Cómo funciona el portal del BOE y la devolución del 5% del depósito.\n"
+            "• El secreto del Art. 674 LEC: qué cargas se cancelan y cuáles se pagan.\n"
+            "• Cómo pujar por coches y vehículos desde 500 € con inspección previa.\n\n"
+            "🚀 *¿Quieres que nuestro algoritmo te avise de chollos limpios cada día?*\n"
+            "Únete a nuestros canales VIP exclusivos."
+        )
+        teclado = [
+            [InlineKeyboardButton("⭐ Desbloquear Canales VIP (desde 2,99 €/mes)", callback_data="pagar_vip")],
+            [InlineKeyboardButton("📢 Canal Gratuito de Muestras", url=CANAL_FREE_LINK)],
+            [InlineKeyboardButton("🔙 Volver al Menú", callback_data="volver_inicio")]
+        ]
+        with open(ruta_pdf, "rb") as doc:
+            await context.bot.send_document(
+                chat_id=user.id,
+                document=doc,
+                filename="Guia_Subastas_Judiciales_RadarAlertas.pdf",
+                caption=cap,
+                parse_mode="Markdown",
+                reply_markup=InlineKeyboardMarkup(teclado)
+            )
+
+    elif data == "menu_provincias":
+        texto = (
+            "📍 *Buscador Oficial de Chollos por Provincia*\n\n"
+            "Selecciona tu zona para consultar oportunidades activas hoy en el BOE "
+            "(subastas de inmuebles y vehículos en celebración):"
+        )
+        teclado = [
+            [InlineKeyboardButton("📍 Madrid", callback_data="buscar_prov_28"), InlineKeyboardButton("📍 Barcelona", callback_data="buscar_prov_08")],
+            [InlineKeyboardButton("📍 Valencia", callback_data="buscar_prov_46"), InlineKeyboardButton("📍 Sevilla", callback_data="buscar_prov_41")],
+            [InlineKeyboardButton("📍 Málaga", callback_data="buscar_prov_29"), InlineKeyboardButton("📍 Alicante", callback_data="buscar_prov_03")],
+            [InlineKeyboardButton("🇪🇸 Toda España", callback_data="buscar_prov_all")],
+            [InlineKeyboardButton("🔙 Volver", callback_data="volver_inicio")]
+        ]
+        await query.edit_message_text(texto, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
+
+    elif data.startswith("buscar_prov_"):
+        prov_cod = data.replace("buscar_prov_", "")
+        prov_map = {
+            "28": "Madrid", "08": "Barcelona", "46": "Valencia",
+            "41": "Sevilla", "29": "Málaga", "03": "Alicante", "all": "Toda España"
+        }
+        nom_prov = prov_map.get(prov_cod, "España")
+        cod_filtro = "" if prov_cod == "all" else prov_cod
+
+        await query.answer(f"Consultando oportunidades en {nom_prov}...")
+
+        # Consultar subastas activas
+        ids_inm = buscar_subastas_inmuebles(provincia_cod=cod_filtro, limite=2)
+        ids_veh = buscar_subastas_vehiculos(provincia_cod=cod_filtro, limite=2)
+
+        lineas = []
+        for i_id in ids_inm[:2]:
+            det = obtener_detalle_subasta(i_id)
+            if det:
+                lineas.append(
+                    f"🏠 *{det['titulo']}*\n"
+                    f"• Tasación: {det['valor_referencia_formato']} -> Salida: *{det['precio_salida_formato']}* (-{det['ahorro_porcentaje']}%)\n"
+                    f"• Expediente ID: `{det['id_subasta']}`"
+                )
+
+        for v_id in ids_veh[:2]:
+            v_det = obtener_detalle_vehiculo(v_id)
+            if v_det:
+                lineas.append(
+                    f"🚗 *{v_det['titulo']} ({v_det['provincia']})*\n"
+                    f"• Tasación: {v_det['valor_referencia_formato']} -> Salida: *{v_det['precio_salida_formato']}* (-{v_det['ahorro_porcentaje']}%)\n"
+                    f"• Expediente ID: `{v_det['id_subasta']}`"
+                )
+
+        if not lineas:
+            res_txt = f"⚠️ Actualmente no constan expedientes abiertos con descuento en {nom_prov}. Revisa el canal gratuito o consulta Toda España."
+        else:
+            res_txt = (
+                f"🔎 *OPORTUNIDADES DESTACADAS EN {nom_prov.upper()}:*\n\n"
+                + "\n\n".join(lineas)
+                + "\n\n🔒 *Los enlaces directos de puja, referencias catastrales y matrículas se publican en tiempo real en los Canales VIP.*"
+            )
+
+        teclado = [
+            [InlineKeyboardButton("⭐ Desbloquear Canales VIP", callback_data="pagar_vip")],
+            [InlineKeyboardButton("📍 Buscar en otra Provincia", callback_data="menu_provincias")],
+            [InlineKeyboardButton("🔙 Volver al Menú", callback_data="volver_inicio")]
+        ]
+        await query.edit_message_text(res_txt, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
+
     elif data == "volver_inicio":
         teclado = [
-            [InlineKeyboardButton(f"⭐ Desbloquear Canal VIP ({PRECIO_PROMO} €/mes)", callback_data="pagar_vip")],
-            [InlineKeyboardButton("ℹ️ ¿Cómo funciona?", callback_data="info_servicio")],
+            [InlineKeyboardButton("⭐ Desbloquear Canales VIP", callback_data="pagar_vip")],
+            [InlineKeyboardButton("🎁 Descargar Guía Gratuita en PDF", callback_data="descargar_guia")],
+            [InlineKeyboardButton("🔍 Buscar Chollos por Provincia", callback_data="menu_provincias")],
+            [InlineKeyboardButton("📢 Canal Gratuito de Muestras", url=CANAL_FREE_LINK)],
+            [InlineKeyboardButton("ℹ️ ¿Cómo funciona el servicio?", callback_data="info_servicio")],
             [InlineKeyboardButton("📊 Mi Cuenta", callback_data="mi_estado")]
         ]
+        if str(user.id) == str(ADMIN_ID):
+            teclado.insert(0, [InlineKeyboardButton("📊 Panel de Estadísticas (Admin)", callback_data="ver_stats")])
         await query.edit_message_text("Selecciona una opción del menú:", reply_markup=InlineKeyboardMarkup(teclado))
 
 async def manejar_chat_member(update: Update, context: ContextTypes.DEFAULT_TYPE):
