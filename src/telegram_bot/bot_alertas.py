@@ -151,13 +151,17 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "💼 *Canal Empleo y Oposiciones:* Plazas fijas, bolsas urgentes y convocatorias.\n\n"
             "💡 *Recomendación:* El Pack Total te da acceso ilimitado a las 5 verticales por solo 4,99 €/mes."
         )
+        def con_ref(link: str) -> str:
+            sep = "&" if "?" in link else "?"
+            return f"{link}{sep}client_reference_id={user.id}"
+
         teclado = [
-            [InlineKeyboardButton("🏠 Solo Subastas Inmuebles (2,99 €/mes)", url=STRIPE_LINK_SUBASTAS)],
-            [InlineKeyboardButton("🚗 Solo Vehículos Embargados (2,99 €/mes)", url=STRIPE_LINK_VEHICULOS)],
-            [InlineKeyboardButton("💰 Solo Ayudas y Subvenciones (2,99 €/mes)", url=STRIPE_LINK_AYUDAS)],
-            [InlineKeyboardButton("📑 Solo Licitaciones Públicas (2,99 €/mes)", url=STRIPE_LINK_LICITACIONES)],
-            [InlineKeyboardButton("💼 Solo Empleo y Oposiciones (2,99 €/mes)", url=STRIPE_LINK_EMPLEO)],
-            [InlineKeyboardButton("🔥 PACK TOTAL: LOS 5 CANALES (4,99 €/mes) 🔥", url=STRIPE_LINK_PACK_TOTAL)],
+            [InlineKeyboardButton("🏠 Solo Subastas Inmuebles (2,99 €/mes)", url=con_ref(STRIPE_LINK_SUBASTAS))],
+            [InlineKeyboardButton("🚗 Solo Vehículos Embargados (2,99 €/mes)", url=con_ref(STRIPE_LINK_VEHICULOS))],
+            [InlineKeyboardButton("💰 Solo Ayudas y Subvenciones (2,99 €/mes)", url=con_ref(STRIPE_LINK_AYUDAS))],
+            [InlineKeyboardButton("📑 Solo Licitaciones Públicas (2,99 €/mes)", url=con_ref(STRIPE_LINK_LICITACIONES))],
+            [InlineKeyboardButton("💼 Solo Empleo y Oposiciones (2,99 €/mes)", url=con_ref(STRIPE_LINK_EMPLEO))],
+            [InlineKeyboardButton("🔥 PACK TOTAL: LOS 5 CANALES (4,99 €/mes) 🔥", url=con_ref(STRIPE_LINK_PACK_TOTAL))],
             [InlineKeyboardButton("🔙 Volver", callback_data="volver_inicio")]
         ]
         await query.edit_message_text(texto, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))

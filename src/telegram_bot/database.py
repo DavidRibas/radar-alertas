@@ -58,6 +58,20 @@ def inicializar_bd():
     except Exception:
         pass
 
+    # 3. Tabla de pagos y transacciones de Stripe
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS pagos_stripe (
+        session_id TEXT PRIMARY KEY,
+        user_id INTEGER,
+        customer_email TEXT,
+        amount_total REAL,
+        currency TEXT,
+        plan TEXT,
+        fecha_pago TEXT,
+        estado TEXT DEFAULT 'completado'
+    );
+    """)
+
     conn.commit()
     conn.close()
     print("✅ Base de datos SQLite inicializada en data/radar_usuarios.db")
@@ -165,6 +179,18 @@ def marcar_retargeting_enviado(user_id: int):
     SET retargeting_enviado = 1 
     WHERE user_id = ?;
     """, (user_id,))
+    conn.commit()
+    conn.close()
+
+def registrar_pago_stripe(session_id: str, user_id: Optional[int], email: str, amount: float, currency: str, plan: str):
+    """Guarda en SQLite la confirmación del pago recibido vía Webhook de Stripe."""
+    conn = obtener_conexion()
+    cursor = conn.cursor()
+    ahora = datetime.now().isoformat()
+    cursor.execute("""
+    INSERT OR REPLACE INTO pagos_stripe (session_id, user_id, customer_email, amount_total, currency, plan, fecha_pago, estado)
+    VALUES (?, ?, ?, ?, ?, ?, ?, 'completado');
+    """, (session_id, user_id, email, amount, currency, plan, ahora))
     conn.commit()
     conn.close()
 
