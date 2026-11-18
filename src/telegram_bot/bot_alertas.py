@@ -187,7 +187,7 @@ async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "🚗 *Vehículos Embargados:* Coches y furgonetas verificados por matrícula desde 500 €.\n"
         "💰 *Ayudas y Subvenciones:* Fondos a fondo perdido (BDNS) con calendario.\n"
         "📑 *Licitaciones Públicas:* Contratos del Estado con pliegos oficiales.\n"
-        "💼 *Empleo Público:* Plazas urgentes y convocatorias fijas (+2.150 €/mes).\n\n"
+        "💼 *Empleo Público:* Plazas urgentes y convocatorias fijas (+2.150 € al mes).\n\n"
     )
 
     if es_vip:
@@ -199,34 +199,31 @@ async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
             [InlineKeyboardButton("🏠 Subastas VIP", url=CANAL_VIP_LINK), InlineKeyboardButton("🚗 Vehículos VIP", url=CANAL_VEHICULOS_LINK)],
             [InlineKeyboardButton("💰 Ayudas VIP", url=CANAL_AYUDAS_LINK), InlineKeyboardButton("📑 Licitaciones VIP", url=CANAL_LICITACIONES_LINK)],
             [InlineKeyboardButton("💼 Empleo VIP", url=CANAL_EMPLEO_LINK)],
-            [InlineKeyboardButton("🔍 Buscar Chollos por Provincia", callback_data="menu_provincias")],
-            [InlineKeyboardButton("🎁 Guías Prácticas Gratuitas (PDF)", callback_data="descargar_guia")],
-            [InlineKeyboardButton("👥 Ganar 1 Mes VIP Gratis (Invitar Amigos)", callback_data="menu_referidos")],
-            [InlineKeyboardButton("📊 Mi Suscripción", callback_data="mi_estado")]
+            [InlineKeyboardButton("🔍 Chollos por Provincia", callback_data="menu_provincias"), InlineKeyboardButton("🎁 Guías Gratis en PDF", callback_data="descargar_guia")],
+            [InlineKeyboardButton("👥 Ganar Mes VIP (Invitar)", callback_data="menu_referidos"), InlineKeyboardButton("📊 Mi Suscripción", callback_data="mi_estado")]
         ]
     else:
         mensaje += (
             "🔒 *Acceso exclusivo:* Suscríbete para recibir alertas en tiempo real "
             "con expedientes completos, referencias catastrales, Street View y enlaces oficiales.\n\n"
-            f"🔥 *Suscripciones individuales por {PRECIO_PROMO} € / mes* o el *Pack Total por 4,99 € / mes*."
+            f"🔥 *Suscripciones individuales por {PRECIO_PROMO} € al mes* o el *Pack Total por 4,99 € al mes*."
         )
         teclado = [
             [InlineKeyboardButton("📺 Explorar los 5 Canales VIP", callback_data="escaparate_canales")],
             [InlineKeyboardButton("🔥 Desbloquear Todo (Pack Total 4,99 €/m)", callback_data="pagar_vip")],
-            [InlineKeyboardButton("🎁 Descargar Guías Gratuitas en PDF", callback_data="descargar_guia")],
-            [InlineKeyboardButton("👥 Ganar VIP Gratis (Invitar 3 Amigos)", callback_data="menu_referidos")],
-            [InlineKeyboardButton("🔍 Buscar Chollos por Provincia", callback_data="menu_provincias")],
-            [InlineKeyboardButton("📢 Canal Gratuito de Muestras", url=CANAL_FREE_LINK)],
-            [InlineKeyboardButton("ℹ️ ¿Cómo funciona el servicio?", callback_data="info_servicio")],
-            [InlineKeyboardButton("📊 Mi Cuenta", callback_data="mi_estado")]
+            [
+                InlineKeyboardButton("🎁 Guías Gratis en PDF", callback_data="descargar_guia"),
+                InlineKeyboardButton("👥 Ganar VIP Gratis", callback_data="menu_referidos")
+            ],
+            [
+                InlineKeyboardButton("🔍 Chollos por Provincia", callback_data="menu_provincias"),
+                InlineKeyboardButton("📢 Canal de Muestras", url=CANAL_FREE_LINK)
+            ],
+            [
+                InlineKeyboardButton("ℹ️ ¿Cómo funciona?", callback_data="info_servicio"),
+                InlineKeyboardButton("📊 Mi Cuenta", callback_data="mi_estado")
+            ]
         ]
-
-    # Botón exclusivo para David (Administrador)
-    if str(user.id) == str(ADMIN_ID):
-        teclado.insert(0, [InlineKeyboardButton("📊 Panel de Estadísticas (Admin)", callback_data="ver_stats")])
-
-    reply_markup = InlineKeyboardMarkup(teclado)
-    await update.message.reply_text(mensaje, parse_mode="Markdown", reply_markup=reply_markup)
 
     # Botón exclusivo para David (Administrador)
     if str(user.id) == str(ADMIN_ID):
@@ -491,12 +488,18 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         teclado = [
             [InlineKeyboardButton("📺 Explorar los 5 Canales VIP", callback_data="escaparate_canales")],
             [InlineKeyboardButton("🔥 Desbloquear Todo (Pack Total 4,99 €/m)", callback_data="pagar_vip")],
-            [InlineKeyboardButton("🎁 Descargar Guías Gratuitas en PDF", callback_data="descargar_guia")],
-            [InlineKeyboardButton("👥 Ganar VIP Gratis (Invitar 3 Amigos)", callback_data="menu_referidos")],
-            [InlineKeyboardButton("🔍 Buscar Chollos por Provincia", callback_data="menu_provincias")],
-            [InlineKeyboardButton("📢 Canal Gratuito de Muestras", url=CANAL_FREE_LINK)],
-            [InlineKeyboardButton("ℹ️ ¿Cómo funciona el servicio?", callback_data="info_servicio")],
-            [InlineKeyboardButton("📊 Mi Cuenta", callback_data="mi_estado")]
+            [
+                InlineKeyboardButton("🎁 Guías Gratis en PDF", callback_data="descargar_guia"),
+                InlineKeyboardButton("👥 Ganar VIP Gratis", callback_data="menu_referidos")
+            ],
+            [
+                InlineKeyboardButton("🔍 Chollos por Provincia", callback_data="menu_provincias"),
+                InlineKeyboardButton("📢 Canal de Muestras", url=CANAL_FREE_LINK)
+            ],
+            [
+                InlineKeyboardButton("ℹ️ ¿Cómo funciona?", callback_data="info_servicio"),
+                InlineKeyboardButton("📊 Mi Cuenta", callback_data="mi_estado")
+            ]
         ]
         if str(user.id) == str(ADMIN_ID):
             teclado.insert(0, [InlineKeyboardButton("📊 Panel de Estadísticas (Admin)", callback_data="ver_stats")])
