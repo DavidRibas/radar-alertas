@@ -25,10 +25,16 @@ services:
         value: "-1004292956298"
       - key: TELEGRAM_CANAL_EMPLEO_LINK
         value: "https://t.me/+S46Itb8Avi9iNmFk"
+      - key: TELEGRAM_CANAL_VEHICULOS_ID
+        value: "-1004355179430"
+      - key: TELEGRAM_CANAL_VEHICULOS_LINK
+        value: "https://t.me/+miVPfMylHboyMzM0"
       - key: TELEGRAM_CANAL_FREE_ID
         value: "-1004345947331"
       - key: TELEGRAM_CANAL_FREE_LINK
         value: "https://t.me/+JoX17328N-VkMWVk"
+      - key: TELEGRAM_ADMIN_USER_ID
+        value: "5674459275"
       - key: PRECIO_PROMOCION
         value: "2.99"
       - key: STRIPE_PAYMENT_LINK
