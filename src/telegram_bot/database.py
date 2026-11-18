@@ -44,6 +44,20 @@ def inicializar_bd():
     );
     """)
 
+    # Columnas opcionales para retargeting inteligente
+    try:
+        cursor.execute("ALTER TABLE usuarios ADD COLUMN descargo_guia INTEGER DEFAULT 0;")
+    except Exception:
+        pass
+    try:
+        cursor.execute("ALTER TABLE usuarios ADD COLUMN fecha_guia TEXT;")
+    except Exception:
+        pass
+    try:
+        cursor.execute("ALTER TABLE usuarios ADD COLUMN retargeting_enviado INTEGER DEFAULT 0;")
+    except Exception:
+        pass
+
     conn.commit()
     conn.close()
     print("✅ Base de datos SQLite inicializada en data/radar_usuarios.db")
@@ -110,6 +124,47 @@ def registrar_alerta_enviada(id_subasta: str, titulo: str, precio_salida: str):
     INSERT OR IGNORE INTO alertas_enviadas (id_subasta, titulo, precio_salida, fecha_envio)
     VALUES (?, ?, ?, ?);
     """, (id_subasta, titulo, precio_salida, ahora))
+    conn.commit()
+    conn.close()
+
+def registrar_descarga_guia(user_id: int):
+    """Registra la fecha en que el usuario descargó la guía para retargeting."""
+    conn = obtener_conexion()
+    cursor = conn.cursor()
+    ahora = datetime.now().isoformat()
+    cursor.execute("""
+    UPDATE usuarios 
+    SET descargo_guia = 1, fecha_guia = ?
+    WHERE user_id = ?;
+    """, (ahora, user_id))
+    conn.commit()
+    conn.close()
+
+def obtener_usuarios_para_retargeting() -> List[Dict]:
+    """Busca usuarios que descargaron la guía hace más de 20h, no son VIP y no recibieron retargeting."""
+    conn = obtener_conexion()
+    cursor = conn.cursor()
+    cursor.execute("""
+    SELECT user_id, username, first_name 
+    FROM usuarios 
+    WHERE descargo_guia = 1 
+      AND suscripcion_activa = 0 
+      AND retargeting_enviado = 0
+      AND datetime(fecha_guia, '+20 hours') <= datetime('now');
+    """)
+    filas = [dict(r) for r in cursor.fetchall()]
+    conn.close()
+    return filas
+
+def marcar_retargeting_enviado(user_id: int):
+    """Marca que el usuario ya recibió el mensaje de seguimiento para no molestarle más."""
+    conn = obtener_conexion()
+    cursor = conn.cursor()
+    cursor.execute("""
+    UPDATE usuarios 
+    SET retargeting_enviado = 1 
+    WHERE user_id = ?;
+    """, (user_id,))
     conn.commit()
     conn.close()
 

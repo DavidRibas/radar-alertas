@@ -275,10 +275,15 @@ if __name__ == "__main__":
             asyncio.run(ciclo_ayudas())
         elif modo == "licitaciones":
             asyncio.run(ciclo_licitaciones_y_empleo())
+        elif modo == "urgencia":
+            from src.radar_urgencia import emitir_alerta_urgencia
+            emitir_alerta_urgencia()
         elif modo == "todas":
             asyncio.run(ciclo_subastas())
             asyncio.run(ciclo_vehiculos())
             asyncio.run(ciclo_ayudas())
             asyncio.run(ciclo_licitaciones_y_empleo())
+            from src.radar_urgencia import emitir_alerta_urgencia
+            emitir_alerta_urgencia()
     else:
         asyncio.run(main())

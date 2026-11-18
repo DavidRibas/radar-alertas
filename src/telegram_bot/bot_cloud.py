@@ -8,7 +8,7 @@ import asyncio
 from pathlib import Path
 from dotenv import load_dotenv
 from aiohttp import web
-from telegram import Update
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
     ApplicationBuilder,
     CommandHandler,
@@ -18,7 +18,11 @@ from telegram.ext import (
     filters
 )
 
-from src.telegram_bot.database import inicializar_bd
+from src.telegram_bot.database import (
+    inicializar_bd,
+    obtener_usuarios_para_retargeting,
+    marcar_retargeting_enviado
+)
 from src.telegram_bot.bot_alertas import (
     comando_start,
     comando_stats,
@@ -26,7 +30,8 @@ from src.telegram_bot.bot_alertas import (
     manejar_callback,
     manejar_mensaje_general,
     manejar_chat_member,
-    TELEGRAM_TOKEN
+    TELEGRAM_TOKEN,
+    CANAL_FREE_LINK
 )
 
 load_dotenv()
@@ -38,6 +43,44 @@ async def handle_ping(request):
         "service": "RadarAlertas Telegram Bot 24/7",
         "bot": "@RadarAletasSubastas_bot"
     })
+
+async def tarea_retargeting_periodica(app):
+    """Revisa periódicamente si hay usuarios que descargaron la guía hace 24h para enviarles un seguimiento."""
+    print("🔁 Motor de retargeting automático iniciado...")
+    while True:
+        try:
+            await asyncio.sleep(1800)  # Cada 30 minutos
+            pendientes = obtener_usuarios_para_retargeting()
+            for u in pendientes:
+                uid = u["user_id"]
+                nombre = u.get("first_name", "amigo")
+                msg = (
+                    f"👋 ¡Hola {nombre}! ¿Qué te pareció la Guía Oficial de Subastas y Embargos del BOE?\n\n"
+                    "Esperamos que te haya resultado útil para entender cómo funciona la auditoría de cargas y los depósitos oficiales.\n\n"
+                    "📊 *Actualización de hoy:*\n"
+                    "Nuestro radar acaba de detectar nuevas subastas de inmuebles y vehículos con más del 50% de descuento.\n\n"
+                    "Si quieres recibir los expedientes completos con referencias catastrales, matrículas y enlaces judiciales directos:"
+                )
+                teclado = [
+                    [InlineKeyboardButton("⭐ Desbloquear Canales VIP (2,99 €/mes)", callback_data="pagar_vip")],
+                    [InlineKeyboardButton("📢 Ver Muestras en Canal Gratuito", url=CANAL_FREE_LINK)]
+                ]
+                try:
+                    await app.bot.send_message(
+                        chat_id=uid,
+                        text=msg,
+                        parse_mode="Markdown",
+                        reply_markup=InlineKeyboardMarkup(teclado)
+                    )
+                    marcar_retargeting_enviado(uid)
+                    print(f"🎯 Retargeting enviado a usuario {uid} ({nombre})")
+                except Exception as e:
+                    print(f"No se pudo enviar retargeting a {uid}: {e}")
+                    marcar_retargeting_enviado(uid)
+        except asyncio.CancelledError:
+            break
+        except Exception as e:
+            print("Error en bucle de retargeting:", e)
 
 async def main():
     inicializar_bd()
@@ -61,6 +104,9 @@ async def main():
     await app.start()
     await app.updater.start_polling(allowed_updates=Update.ALL_TYPES)
     print("✅ Bot de Telegram escuchando mensajes...")
+
+    # Lanzar tarea de retargeting en segundo plano
+    asyncio.create_task(tarea_retargeting_periodica(app))
 
     # 2. Servidor web HTTP para keep-alive en la nube
     puerto = int(os.getenv("PORT", 8080))

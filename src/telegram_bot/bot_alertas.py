@@ -26,7 +26,10 @@ from src.telegram_bot.database import (
     registrar_o_actualizar_usuario,
     activar_suscripcion_vip,
     obtener_estado_usuario,
-    obtener_metricas_globales
+    obtener_metricas_globales,
+    registrar_descarga_guia,
+    obtener_usuarios_para_retargeting,
+    marcar_retargeting_enviado
 )
 from src.extractores.boe_inmuebles import buscar_subastas_inmuebles, obtener_detalle_subasta
 from src.extractores.boe_vehiculos import buscar_subastas_vehiculos, obtener_detalle_vehiculo
@@ -176,6 +179,7 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     elif data == "descargar_guia":
         await query.answer("Enviando guía oficial en PDF...")
+        registrar_descarga_guia(user.id)
         ruta_pdf = Path(__file__).resolve().parent.parent.parent / "assets" / "Guia_Subastas_Judiciales_RadarAlertas.pdf"
         if not ruta_pdf.exists():
             from src.lead_magnet.generador_guia_pdf import compilar_guia_pdf
