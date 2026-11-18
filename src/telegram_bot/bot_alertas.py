@@ -204,24 +204,31 @@ async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ]
     else:
         mensaje += (
-            "🔒 *Acceso exclusivo:* Suscríbete para recibir alertas en tiempo real "
-            "con expedientes completos, referencias catastrales, Street View y enlaces oficiales.\n\n"
+            "👇 *Elige directamente el canal de alertas que te interesa:*\n"
             f"🔥 *Suscripciones individuales por {PRECIO_PROMO} € al mes* o el *Pack Total por 4,99 € al mes*."
         )
         teclado = [
-            [InlineKeyboardButton("📺 Explorar los 5 Canales VIP", callback_data="escaparate_canales")],
-            [InlineKeyboardButton("🔥 Desbloquear Todo (Pack Total 4,99 €/m)", callback_data="pagar_vip")],
+            [
+                InlineKeyboardButton("🏠 Canal Inmuebles", callback_data="ver_canal_inmuebles"),
+                InlineKeyboardButton("🚗 Canal Vehículos", callback_data="ver_canal_vehiculos")
+            ],
+            [
+                InlineKeyboardButton("💰 Canal Ayudas", callback_data="ver_canal_ayudas"),
+                InlineKeyboardButton("📑 Canal Licitaciones", callback_data="ver_canal_licitaciones")
+            ],
+            [
+                InlineKeyboardButton("💼 Canal Empleo Público", callback_data="ver_canal_empleo")
+            ],
+            [
+                InlineKeyboardButton("🔥 PACK TOTAL: 5 CANALES (4,99 €/m) 🔥", callback_data="pagar_vip")
+            ],
             [
                 InlineKeyboardButton("🎁 Guías Gratis en PDF", callback_data="descargar_guia"),
                 InlineKeyboardButton("👥 Ganar VIP Gratis", callback_data="menu_referidos")
             ],
             [
-                InlineKeyboardButton("🔍 Chollos por Provincia", callback_data="menu_provincias"),
-                InlineKeyboardButton("📢 Canal de Muestras", url=CANAL_FREE_LINK)
-            ],
-            [
-                InlineKeyboardButton("ℹ️ ¿Cómo funciona?", callback_data="info_servicio"),
-                InlineKeyboardButton("📊 Mi Cuenta", callback_data="mi_estado")
+                InlineKeyboardButton("📢 Canal de Muestras (Gratis)", url=CANAL_FREE_LINK),
+                InlineKeyboardButton("🔍 Chollos por Provincia", callback_data="menu_provincias")
             ]
         ]
 
@@ -266,6 +273,111 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             [InlineKeyboardButton("🔥 PACK TOTAL: LOS 5 CANALES (4,99 €/m) 🔥", url=con_ref(STRIPE_LINK_PACK_TOTAL, user.id))],
             [InlineKeyboardButton("📢 Canal Gratuito de Muestras", url=CANAL_FREE_LINK)],
             [InlineKeyboardButton("🔙 Volver", callback_data="volver_inicio")]
+        ]
+        await query.edit_message_text(texto, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
+
+    elif data == "ver_canal_inmuebles":
+        texto = (
+            "🏠 *CANAL VIP: SUBASTAS INMOBILIARIAS* 🏠\n"
+            "━━━━━━━━━━━━━━━━━━━━\n\n"
+            "Rastreamos a diario el portal del BOE y la Seguridad Social para avisarte de pisos, chalets y locales con más del 50% de descuento respecto a mercado.\n\n"
+            "✨ *QUÉ RECIBES EN CADA ALERTA:*\n"
+            "• 📍 Dirección exacta con enlace directo a Google Street View.\n"
+            "• 📑 Ficha catastral oficial con metros cuadrados y planos.\n"
+            "• 📈 Rentabilidad de alquiler estimada (ROI anual).\n"
+            "• 🔍 Auditoría posesoria (🟢 Libre de okupas vs 🔴 Ocupado).\n"
+            "• 💵 Depósito legal del 5% (Art. 669.1 LEC, reembolsable al 100%).\n"
+            "• ⏰ Enlace 1-clic a Google Calendar con alarma 2h antes del cierre.\n"
+            "• 🔗 Enlace judicial directo al BOE para pujar sin intermediarios.\n\n"
+            "👇 *Suscríbete ahora por 2,99 €/mes o accede a los 5 canales con el Pack Total:*"
+        )
+        teclado = [
+            [InlineKeyboardButton("⭐ Suscribirme a Inmuebles (2,99 €/mes)", url=con_ref(STRIPE_LINK_SUBASTAS, user.id))],
+            [InlineKeyboardButton("🔥 PACK TOTAL: LOS 5 CANALES (4,99 €/mes) 🔥", url=con_ref(STRIPE_LINK_PACK_TOTAL, user.id))],
+            [InlineKeyboardButton("📖 Descargar Guía Inmuebles Gratis (PDF)", callback_data="descargar_guia_pisos")],
+            [InlineKeyboardButton("🔙 Volver al Menú Principal", callback_data="volver_inicio")]
+        ]
+        await query.edit_message_text(texto, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
+
+    elif data == "ver_canal_vehiculos":
+        texto = (
+            "🚗 *CANAL VIP: VEHÍCULOS EMBARGADOS* 🚗\n"
+            "━━━━━━━━━━━━━━━━━━━━\n\n"
+            "Localizamos coches, turismos, SUV, furgonetas y motos en depósitos judiciales y campas municipales desde 500 € en toda España.\n\n"
+            "✨ *QUÉ RECIBES EN CADA ALERTA:*\n"
+            "• 🚙 Marca, modelo, combustible y matrícula verificada.\n"
+            "• 📍 Ubicación en Google Maps de la campa para ir a inspeccionarlo.\n"
+            "• 📊 Comparador directo de tasación en Coches.net.\n"
+            "• 🛡️ Dictamen de cargas (Art. 674 LEC: se cancelan sin pagar deuda previa).\n"
+            "• 💵 Depósito legal del 5% (100% reembolsable por el BOE si no ganas).\n"
+            "• ⏰ Recordatorio en Google Calendar con alarma de fin de subasta.\n"
+            "• 🔗 Enlace directo al expediente en el portal del BOE.\n\n"
+            "👇 *Suscríbete ahora por 2,99 €/mes o accede a los 5 canales con el Pack Total:*"
+        )
+        teclado = [
+            [InlineKeyboardButton("⭐ Suscribirme a Vehículos (2,99 €/mes)", url=con_ref(STRIPE_LINK_VEHICULOS, user.id))],
+            [InlineKeyboardButton("🔥 PACK TOTAL: LOS 5 CANALES (4,99 €/mes) 🔥", url=con_ref(STRIPE_LINK_PACK_TOTAL, user.id))],
+            [InlineKeyboardButton("🚗 Descargar Guía Coches Gratis (PDF)", callback_data="descargar_guia_coches")],
+            [InlineKeyboardButton("🔙 Volver al Menú Principal", callback_data="volver_inicio")]
+        ]
+        await query.edit_message_text(texto, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
+
+    elif data == "ver_canal_ayudas":
+        texto = (
+            "💰 *CANAL VIP: AYUDAS Y SUBVENCIONES (BDNS)* 💰\n"
+            "━━━━━━━━━━━━━━━━━━━━\n\n"
+            "Monitorizamos la Base de Datos Nacional de Subvenciones para autónomos, pymes, empresas y particulares con dinero a fondo perdido.\n\n"
+            "✨ *QUÉ RECIBES EN CADA ALERTA:*\n"
+            "• 💶 Presupuesto oficial asignado y cuantía máxima por solicitante.\n"
+            "• 👥 Requisitos y perfil de beneficiarios admitidos.\n"
+            "• ⏳ Plazo de solicitud en días restantes (con cuenta atrás).\n"
+            "• ⏰ Botón 1-clic para agendar la fecha límite en Google Calendar.\n"
+            "• 🔗 Enlace directo a la Sede Electrónica oficial para tramitar.\n"
+            "• 📑 Descarga directa de las bases reguladoras.\n\n"
+            "👇 *Suscríbete ahora por 2,99 €/mes o accede a los 5 canales con el Pack Total:*"
+        )
+        teclado = [
+            [InlineKeyboardButton("⭐ Suscribirme a Ayudas (2,99 €/mes)", url=con_ref(STRIPE_LINK_AYUDAS, user.id))],
+            [InlineKeyboardButton("🔥 PACK TOTAL: LOS 5 CANALES (4,99 €/mes) 🔥", url=con_ref(STRIPE_LINK_PACK_TOTAL, user.id))],
+            [InlineKeyboardButton("🔙 Volver al Menú Principal", callback_data="volver_inicio")]
+        ]
+        await query.edit_message_text(texto, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
+
+    elif data == "ver_canal_licitaciones":
+        texto = (
+            "📑 *CANAL VIP: LICITACIONES PÚBLICAS* 📑\n"
+            "━━━━━━━━━━━━━━━━━━━━\n\n"
+            "Filtrado inteligente de contratos menores de obras, servicios, suministros y tecnología abiertos a autónomos y pymes con cobro asegurado por el Estado.\n\n"
+            "✨ *QUÉ RECIBES EN CADA ALERTA:*\n"
+            "• 🏛️ Organismo convocante y objeto detallado del contrato.\n"
+            "• 🆔 Número de expediente oficial en la Sección 5A del BOE.\n"
+            "• 📥 Enlace directo de descarga del Pliego de Condiciones (PDF).\n"
+            "• ⏰ Recordatorio en Google Calendar para preparar y presentar la oferta.\n\n"
+            "👇 *Suscríbete ahora por 2,99 €/mes o accede a los 5 canales con el Pack Total:*"
+        )
+        teclado = [
+            [InlineKeyboardButton("⭐ Suscribirme a Licitaciones (2,99 €/mes)", url=con_ref(STRIPE_LINK_LICITACIONES, user.id))],
+            [InlineKeyboardButton("🔥 PACK TOTAL: LOS 5 CANALES (4,99 €/mes) 🔥", url=con_ref(STRIPE_LINK_PACK_TOTAL, user.id))],
+            [InlineKeyboardButton("🔙 Volver al Menú Principal", callback_data="volver_inicio")]
+        ]
+        await query.edit_message_text(texto, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
+
+    elif data == "ver_canal_empleo":
+        texto = (
+            "💼 *CANAL VIP: EMPLEO PÚBLICO Y OPOSICIONES* 💼\n"
+            "━━━━━━━━━━━━━━━━━━━━\n\n"
+            "Detectamos cada mañana las convocatorias urgentes, bolsas de trabajo y plazas fijas publicadas en el BOE y boletines autonómicos (+2.150 € al mes).\n\n"
+            "✨ *QUÉ RECIBES EN CADA ALERTA:*\n"
+            "• 📋 Categoría profesional, titulación exigida y número de plazas.\n"
+            "• 🏛️ Ministerio o administración pública convocante.\n"
+            "• ⏳ Plazo de inscripción y presentación de instancias.\n"
+            "• 📑 Enlace directo a la resolución oficial del BOE en PDF.\n\n"
+            "👇 *Suscríbete ahora por 2,99 €/mes o accede a los 5 canales con el Pack Total:*"
+        )
+        teclado = [
+            [InlineKeyboardButton("⭐ Suscribirme a Empleo (2,99 €/mes)", url=con_ref(STRIPE_LINK_EMPLEO, user.id))],
+            [InlineKeyboardButton("🔥 PACK TOTAL: LOS 5 CANALES (4,99 €/mes) 🔥", url=con_ref(STRIPE_LINK_PACK_TOTAL, user.id))],
+            [InlineKeyboardButton("🔙 Volver al Menú Principal", callback_data="volver_inicio")]
         ]
         await query.edit_message_text(texto, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
 
@@ -486,19 +598,27 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     elif data == "volver_inicio":
         teclado = [
-            [InlineKeyboardButton("📺 Explorar los 5 Canales VIP", callback_data="escaparate_canales")],
-            [InlineKeyboardButton("🔥 Desbloquear Todo (Pack Total 4,99 €/m)", callback_data="pagar_vip")],
+            [
+                InlineKeyboardButton("🏠 Canal Inmuebles", callback_data="ver_canal_inmuebles"),
+                InlineKeyboardButton("🚗 Canal Vehículos", callback_data="ver_canal_vehiculos")
+            ],
+            [
+                InlineKeyboardButton("💰 Canal Ayudas", callback_data="ver_canal_ayudas"),
+                InlineKeyboardButton("📑 Canal Licitaciones", callback_data="ver_canal_licitaciones")
+            ],
+            [
+                InlineKeyboardButton("💼 Canal Empleo Público", callback_data="ver_canal_empleo")
+            ],
+            [
+                InlineKeyboardButton("🔥 PACK TOTAL: 5 CANALES (4,99 €/m) 🔥", callback_data="pagar_vip")
+            ],
             [
                 InlineKeyboardButton("🎁 Guías Gratis en PDF", callback_data="descargar_guia"),
                 InlineKeyboardButton("👥 Ganar VIP Gratis", callback_data="menu_referidos")
             ],
             [
-                InlineKeyboardButton("🔍 Chollos por Provincia", callback_data="menu_provincias"),
-                InlineKeyboardButton("📢 Canal de Muestras", url=CANAL_FREE_LINK)
-            ],
-            [
-                InlineKeyboardButton("ℹ️ ¿Cómo funciona?", callback_data="info_servicio"),
-                InlineKeyboardButton("📊 Mi Cuenta", callback_data="mi_estado")
+                InlineKeyboardButton("📢 Canal de Muestras (Gratis)", url=CANAL_FREE_LINK),
+                InlineKeyboardButton("🔍 Chollos por Provincia", callback_data="menu_provincias")
             ]
         ]
         if str(user.id) == str(ADMIN_ID):
