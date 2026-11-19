@@ -9,7 +9,7 @@ import os
 import asyncio
 from pathlib import Path
 from dotenv import load_dotenv
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
 from telegram.ext import (
     ApplicationBuilder,
     CommandHandler,
@@ -64,6 +64,7 @@ STRIPE_LINK_EMPLEO = os.getenv("STRIPE_LINK_EMPLEO", "https://buy.stripe.com/5kQ
 STRIPE_LINK_VEHICULOS = os.getenv("STRIPE_LINK_VEHICULOS", "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00")
 STRIPE_LINK_PACK_TOTAL = os.getenv("STRIPE_LINK_PACK_TOTAL", "https://buy.stripe.com/14A4gA0g6a3Fgt9a2VcQU01")
 ADMIN_ID = os.getenv("TELEGRAM_ADMIN_USER_ID", "5674459275")
+URL_WEB_APP = os.getenv("URL_WEB_APP", "https://radar-alertas-bot.onrender.com/")
 
 def con_ref(link: str, user_id: int) -> str:
     """Añade el ID de Telegram como client_reference_id al enlace de Stripe."""
@@ -198,6 +199,7 @@ async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         mensaje += "👇 *Accede a tus canales VIP exclusivos:*"
         
         teclado = [
+            [InlineKeyboardButton("⚡ Explorador Web Interactivo (BOE/DGT) 🌐", web_app=WebAppInfo(url=URL_WEB_APP))],
             [InlineKeyboardButton("🏠 Subastas VIP", url=CANAL_VIP_LINK), InlineKeyboardButton("🚗 Vehículos VIP", url=CANAL_VEHICULOS_LINK)],
             [InlineKeyboardButton("💰 Ayudas VIP", url=CANAL_AYUDAS_LINK), InlineKeyboardButton("📑 Licitaciones VIP", url=CANAL_LICITACIONES_LINK)],
             [InlineKeyboardButton("💼 Empleo VIP", url=CANAL_EMPLEO_LINK)],
@@ -210,6 +212,9 @@ async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f"🔥 *Suscripciones individuales por {PRECIO_PROMO} € al mes* o el *Pack Total por 4,99 € al mes*."
         )
         teclado = [
+            [
+                InlineKeyboardButton("⚡ Explorador Web Interactivo (BOE/DGT) 🌐", web_app=WebAppInfo(url=URL_WEB_APP))
+            ],
             [
                 InlineKeyboardButton("🏠 Canal Inmuebles", callback_data="ver_canal_inmuebles"),
                 InlineKeyboardButton("🚗 Canal Vehículos", callback_data="ver_canal_vehiculos")
@@ -240,6 +245,19 @@ async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     reply_markup = InlineKeyboardMarkup(teclado)
     await update.message.reply_text(mensaje, parse_mode="Markdown", reply_markup=reply_markup)
+
+async def comando_web(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Abre el explorador web interactivo dentro de Telegram como Mini-App."""
+    teclado = [
+        [InlineKeyboardButton("⚡ Abrir Explorador Web Interactivo 🌐", web_app=WebAppInfo(url=URL_WEB_APP))]
+    ]
+    await update.message.reply_text(
+        "🔍 *Explorador Web Oficial de RadarAlertas*\n\n"
+        "Filtra en tiempo real por tu provincia subastas de pisos al -80%, coches de la DGT, ayudas públicas y licitaciones del Estado.\n\n"
+        "👇 *Pulsa el botón abajo para abrir la Mini-App a pantalla completa:*",
+        parse_mode="Markdown",
+        reply_markup=InlineKeyboardMarkup(teclado)
+    )
 
 def generar_informe_auditoria(id_sub_input: str) -> tuple[str, list]:
     """Genera el texto formateado y los botones de auditoría para un expediente del BOE."""
