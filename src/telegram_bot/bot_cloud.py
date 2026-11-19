@@ -302,9 +302,15 @@ async def main():
     puerto = int(os.getenv("PORT", 8080))
     server = web.Application()
     server.router.add_get("/", handle_landing_page)
+    server.router.add_get("/index.html", handle_landing_page)
     server.router.add_get("/ping", handle_ping)
     server.router.add_get("/healthz", handle_ping)
     server.router.add_post("/webhook/stripe", handle_stripe_webhook)
+
+    # Servir carpeta de assets estáticos (imágenes de oportunidades, fotos aéreas, logos)
+    assets_dir = Path(__file__).resolve().parent.parent.parent / "assets"
+    if assets_dir.exists():
+        server.router.add_static("/assets", path=str(assets_dir), name="assets")
 
     runner = web.AppRunner(server)
     await runner.setup()
