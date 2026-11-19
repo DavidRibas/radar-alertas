@@ -21,6 +21,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@700;800;900&display=swap" rel="stylesheet">
 
+    <!-- Telegram WebApp SDK (Habilita uso como Mini App nativa de Telegram) -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
     <!-- Schema.org Rich Snippets -->
     <script type="application/ld+json">
     {
@@ -781,6 +784,14 @@
                     </div>
                 </article>
             `).join('');
+        }
+
+        // Si se abre como Telegram Mini-App
+        if (window.Telegram && window.Telegram.WebApp) {
+            try {
+                window.Telegram.WebApp.ready();
+                window.Telegram.WebApp.expand();
+            } catch(e) {}
         }
 
         // Renderizado inicial al cargar
