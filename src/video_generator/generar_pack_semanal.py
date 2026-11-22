@@ -19,6 +19,13 @@ def empaquetar_semana():
     print("📦 GENERADOR DE PACK SEMANAL DE CONTENIDO - RADARALERTAS")
     print("=" * 60)
 
+    # Limpiar archivos antiguos del directorio semanal para evitar mezclas
+    for old_file in SEMANA_DIR.glob("*.mp4"):
+        try:
+            old_file.unlink()
+        except Exception:
+            pass
+
     # 1. Definir los vídeos clave disponibles con ganchos virales de alto impacto (DISEÑO STITCH HD DEFINITIVO)
     catalogo = [
         {
@@ -107,7 +114,11 @@ def empaquetar_semana():
             dest_path = SEMANA_DIR / dest_nombre
 
             if origen.exists():
-                shutil.copy2(origen, dest_path)
+                shutil.copyfile(origen, dest_path)
+                try:
+                    os.utime(dest_path, None)
+                except Exception:
+                    pass
                 print(f"  ✅ Vídeo preparado: {dest_nombre} ({dest_path.stat().st_size / 1024 / 1024:.1f} MB)")
             else:
                 print(f"  ⚠️ Archivo origen no encontrado: {origen.name}")
