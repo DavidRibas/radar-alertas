@@ -19,66 +19,76 @@ def empaquetar_semana():
     print("📦 GENERADOR DE PACK SEMANAL DE CONTENIDO - RADARALERTAS")
     print("=" * 60)
 
-    # 1. Definir los vídeos clave disponibles con ganchos virales de alto impacto
+    # 1. Definir los vídeos clave disponibles con ganchos virales de alto impacto (DISEÑO STITCH HD DEFINITIVO)
     catalogo = [
         {
-            "dia": "01_LUNES_Subasta_Inmueble",
-            "origen": OUTPUT_DIR / "subasta_tiktok_EARTH_PERFECTO.mp4",
-            "titulo": "❌ Idealista: 260.000 € vs ✅ BOE: 75.000 € (Piso en Madrid)",
+            "dia": "01_LUNES_Piso_Barcelona_Eixample",
+            "origen": OUTPUT_DIR / "VIDEO_BARCELONA_Y_RADARALERTAS_PROMO.mp4",
+            "titulo": "❌ Idealista: 340.000 € vs ✅ BOE: 54.000 € (Piso en Barcelona Eixample)",
             "copy": (
-                "❌ IDEALISTA: 260.000 € vs ✅ BOE: 75.000 €\n\n"
-                "Subasta judicial en Madrid con un 65% de ahorro y cargas canceladas por Ley (Art. 674 LEC).\n"
-                "📖 Descarga la Guía Práctica Oficial en PDF y entra al radar gratis en el enlace del perfil.\n\n"
-                "📌 Pinned Comment: 'Te he dejado la Guía Oficial en PDF en el link de mi perfil para que aprendas a pujar sin cometer errores.'\n\n"
-                "#subastasboe #idealista #inversioninmobiliaria #chollos #vivienda #madrid #espana"
+                "❌ IDEALISTA: 340.000 € vs ✅ BOE: 54.000 €\n\n"
+                "Piso de 85 m² en pleno Eixample de Barcelona publicado en el BOE.\n"
+                "🛡️ 0,00 € de deudas anteriores canceladas por Decreto Judicial (Art. 674 LEC) y fianza 5% retornable.\n\n"
+                "🌐 Prueba el Buscador y la Calculadora de Rentabilidad oficial gratis en el enlace de mi perfil:\n"
+                "👉 https://radar-alertas-bot.onrender.com\n\n"
+                "📌 Pinned Comment: 'Te he dejado el enlace al buscador oficial con simulador de impuestos y la Guía en PDF gratis en el link de mi perfil.'\n\n"
+                "#subastasboe #idealista #barcelona #inmobiliaria #inversion #chollos #vivienda"
             )
         },
         {
-            "dia": "02_MARTES_Coche_Embargado",
-            "origen": OUTPUT_DIR / "vehiculo_ULTRA_VISUAL.mp4",
-            "titulo": "⚠️ NO compres coche usado antes de ver este embargo del BOE",
+            "dia": "02_MARTES_Coche_BMW_DGT",
+            "origen": OUTPUT_DIR / "VIDEO_VEHICULOS_PROMO.mp4",
+            "titulo": "⚠️ NO compres coche usado antes de ver este embargo del BOE (BMW por 4.800 €)",
             "copy": (
                 "⚠️ NO COMPRES COCHE USADO ANTES DE VER ESTO\n\n"
-                "Turismos, SUV y furgonetas embargadas por juzgados y Seguridad Social desde 980 €.\n"
-                "🚗 Descarga la Guía Oficial de Coches Embargados en el enlace de la bio.\n\n"
-                "📌 Pinned Comment: 'Tienes la Guía de Coches Embargados paso a paso gratis en el link de mi perfil.'\n\n"
-                "#coches #embargos #subastas #cochesdesegundamano #chollos #motor #dgt"
+                "BMW Serie 3 Berlina (Año 2021) automático con 68.000 km que sale a subasta judicial por 4.800 €.\n"
+                "En portales de ocasión está en 24.500 € (-80% de ahorro). Precintos y multas canceladas por Mandamiento Judicial.\n\n"
+                "🚗 Accede al buscador y descarga la Guía Oficial de Vehículos Embargados en el link de la bio:\n"
+                "👉 https://radar-alertas-bot.onrender.com\n\n"
+                "📌 Pinned Comment: 'Tienes el buscador de vehículos y la Guía de Coches Embargados paso a paso gratis en el link de mi perfil.'\n\n"
+                "#coches #embargos #subastas #bmw #cochessegundamano #chollos #dgt #motor"
             )
         },
         {
-            "dia": "03_MIERCOLES_Ayuda_Fondo_Perdido",
-            "origen": OUTPUT_DIR / "ayuda_ULTRA_VISUAL_942802.mp4",
-            "titulo": "💸 El Estado da hasta 20.000 € a fondo perdido y casi nadie lo pide",
+            "dia": "03_MIERCOLES_Ayudas_Fondo_Perdido",
+            "origen": OUTPUT_DIR / "VIDEO_AYUDAS_PROMO.mp4",
+            "titulo": "💸 Hasta 12.000 € a fondo perdido para Autónomos y Pymes (BDNS)",
             "copy": (
-                "💸 EL ESTADO DA HASTA 20.000 € A FONDO PERDIDO\n\n"
-                "Convocatoria oficial abierta en la Base de Datos Nacional de Subvenciones para autónomos y pymes.\n"
-                "💰 Activa las alertas de dinero público gratis en el enlace de la bio.\n\n"
-                "📌 Pinned Comment: 'El enlace directo a la sede electrónica oficial está en nuestro canal gratuito del perfil.'\n\n"
-                "#ayudas #subvenciones #autonomos #emprendedores #dinero #negocios"
+                "💸 EL ESTADO DA HASTA 12.000 € A FONDO PERDIDO\n\n"
+                "Nueva partida oficial en la Base de Datos Nacional de Subvenciones con fondos europeos.\n"
+                "Sin devolución y sin intereses bancarios. Para autónomos y micropymes.\n\n"
+                "💰 Consulta la convocatoria abierta y los requisitos oficiales en el radar gratuito:\n"
+                "👉 https://radar-alertas-bot.onrender.com\n\n"
+                "📌 Pinned Comment: 'El enlace directo a la sede electrónica y el filtro de ayudas está en el buscador de mi perfil.'\n\n"
+                "#ayudas #subvenciones #autonomos #pymes #emprendedores #dinero #negocios"
             )
         },
         {
             "dia": "04_JUEVES_Licitacion_Publica",
-            "origen": OUTPUT_DIR / "licitacion_ULTRA_VISUAL.mp4",
-            "titulo": "📑 Cómo facturar 15.000 € a la Administración Pública sin ser funcionario",
+            "origen": OUTPUT_DIR / "VIDEO_LICITACIONES_PROMO.mp4",
+            "titulo": "📑 Cómo facturar 42.000 € a la Administración Pública sin ser gran empresa",
             "copy": (
-                "📑 CONTRATOS MENORES DEL ESTADO ABIERTOS A AUTÓNOMOS\n\n"
-                "Servicios, obras, mantenimiento y tecnología con cobro garantizado por el Estado.\n"
-                "👉 Recibe los pliegos oficiales en el enlace de la bio.\n\n"
-                "📌 Pinned Comment: 'Todos los pliegos en PDF oficiales están disponibles en el radar del perfil.'\n\n"
+                "📑 CONTRATO MENOR DE 42.000 € ABIERTO A PYMES Y AUTÓNOMOS\n\n"
+                "Mantenimiento, servicios y suministros del sector público.\n"
+                "Sin avales bancarios gigantescos y con cobro garantizado por Ley a 30 días.\n\n"
+                "👉 Filtra contratos menores de tu provincia en el link del perfil:\n"
+                "👉 https://radar-alertas-bot.onrender.com\n\n"
+                "📌 Pinned Comment: 'Todos los pliegos técnicos oficiales disponibles en el radar del perfil.'\n\n"
                 "#licitaciones #contratospublicos #pymes #autonomos #empresas #boe"
             )
         },
         {
-            "dia": "05_VIERNES_Empleo_Oposiciones",
-            "origen": OUTPUT_DIR / "empleo_ULTRA_VISUAL.mp4",
-            "titulo": "🚨 Bolsas urgentes y plazas del BOE con sueldo de +2.150 € al mes",
+            "dia": "05_VIERNES_Subasta_Inmueble_Madrid",
+            "origen": OUTPUT_DIR / "VIDEO_BARCELONA_HD_DINAMICO.mp4",
+            "titulo": "🏢 Oportunidad Judicial: Cómo auditar un piso del BOE antes de pujar",
             "copy": (
-                "🚨 PLAZAS URGENTES DEL BOE CON +2.150 € AL MES\n\n"
-                "Nuevas convocatorias fijas y temporales con plazo de inscripción abierto hoy.\n"
-                "💼 Consulta requisitos y resoluciones oficiales en el link del perfil.\n\n"
-                "📌 Pinned Comment: 'Entra al canal gratuito en el enlace del perfil para ver las convocatorias de hoy.'\n\n"
-                "#empleopublico #oposiciones #trabajo #empleo #sueldo #boe"
+                "🏢 CÓMO AUDITAR UN PISO DEL BOE ANTES DE PUJAR\n\n"
+                "Antes de meter un solo euro, simula el ITP autonómico, aranceles registrales y cargas con la calculadora interactiva.\n"
+                "Descubre cómo cazar inmuebles con hasta un 84% de descuento de forma 100% legal.\n\n"
+                "🧮 Simula tu operación con la Calculadora Oficial en el link de la bio:\n"
+                "👉 https://radar-alertas-bot.onrender.com\n\n"
+                "📌 Pinned Comment: 'Calculadora de rentabilidad e impuestos de subastas gratis en el link de mi perfil.'\n\n"
+                "#inversioninmobiliaria #subastasjudiciales #boe #vivienda #proptech #finanzas"
             )
         }
     ]
