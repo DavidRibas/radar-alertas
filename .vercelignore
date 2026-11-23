@@ -1,5 +1,6 @@
 src/
-data/
+/data/
+!docs/data/
 output/
 temp/
 tests/
