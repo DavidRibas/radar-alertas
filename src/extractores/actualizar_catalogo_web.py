@@ -1,12 +1,14 @@
 """
 Compilador Automático del Catálogo Web de RadarAlertas (BOE / DGT / BDNS).
-Ejecuta los extractores oficiales, filtra los mejores chollos con mayor margen
+Ejecuta los extractores oficiales, filtra los mejores chollos con mayor margen,
+asigna imágenes hiper-específicas por marca de vehículo y tipología de inmueble,
 y compila el archivo JSON optimizado que alimenta la Web App y el Mapa Interactivo.
 """
 import os
 import sys
 import json
 import re
+import random
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -41,11 +43,51 @@ def obtener_coordenadas(provincia: str, ciudad: str = "") -> tuple:
             return v
     return COORDENADAS_PROVINCIAS["madrid"]
 
+def asignar_foto_y_badge_vehiculo(titulo: str, marca: str = "", modelo: str = "") -> tuple[str, str]:
+    """Asigna la foto específica según la marca y tipo de vehículo, junto con su badge visual distintivo."""
+    texto = f"{titulo} {marca} {modelo}".lower()
+    if "mazda" in texto:
+        return "assets/templates/coche_mazda_cx5.jpg", "🚘 MAZDA CX-5"
+    elif "mercedes" in texto:
+        return "assets/templates/coche_mercedes_b200.jpg", "⭐ MERCEDES-BENZ"
+    elif "bmw" in texto:
+        return "assets/templates/coche_bmw_serie3.jpg", "🏎️ BMW SPORT"
+    elif "citroen" in texto or "aircross" in texto:
+        return "assets/templates/coche_citroen_c5.jpg", "⚡ CITROËN HYBRID"
+    elif "hyundai" in texto or "atos" in texto or "i30" in texto or "i20" in texto:
+        return "assets/templates/coche_hyundai_atos.jpg", "🚗 HYUNDAI URBANO"
+    elif "audi" in texto:
+        return "assets/templates/coche_audi_sport.jpg", "🏎️ AUDI SPORT"
+    elif any(k in texto for k in ["furgon", "transit", "berlingo", "kangoo", "van", "camion"]):
+        return "assets/templates/coche_furgoneta_comercial.jpg", "🚐 COMERCIAL / VAN"
+    else:
+        return "assets/templates/vehiculo_coche_oficial.jpg", "🚗 VEHÍCULO JUDICIAL"
+
+def asignar_foto_y_badge_inmueble(titulo: str, localidad: str = "", provincia: str = "") -> tuple[str, str]:
+    """Asigna la foto específica según el tipo de vivienda, entorno y localidad."""
+    texto = f"{titulo} {localidad} {provincia}".lower()
+    if any(k in texto for k in ["chalet", "piscina", "villa", "parcela", "san juan", "adosado"]):
+        return "assets/templates/inmueble_chalet_piscina.jpg", "🏡 CHALET CON PISCINA"
+    elif any(k in texto for k in ["atico", "ático", "terraza", "solarium", "solárium", "triana"]):
+        return "assets/templates/inmueble_atico_terraza.jpg", "🌇 ÁTICO CON TERRAZA"
+    elif any(k in texto for k in ["nave", "industrial", "fembasa", "almacen", "logistica"]):
+        return "assets/templates/inmueble_nave_industrial.jpg", "🏭 NAVE INDUSTRIAL"
+    elif "barcelona" in texto or "eixample" in texto:
+        return "assets/templates/inmueble_eixample_bcn.jpg", "🏛️ DISTRITO EIXAMPLE"
+    elif "valencia" in texto or "torrent" in texto or "riba-roja" in texto:
+        return "assets/templates/inmueble_valencia_edificio.jpg", "🏢 RESIDENCIAL MEDITERRÁNEO"
+    elif "sevilla" in texto or "camas" in texto:
+        return "assets/templates/inmueble_sevilla_casco.jpg", "🏘️ VIVIENDA ANDALUCÍA"
+    elif "madrid" in texto or "tielmes" in texto or "rozas" in texto:
+        return "assets/templates/inmueble_madrid_residencial.jpg", "🏢 RESIDENCIAL MADRID"
+    else:
+        return "assets/templates/fachada_edificio.jpg", "🏢 EDIFICIO RESIDENCIAL"
+
 def compilar_catalogo_web():
     print("🚀 Iniciando compilación de oportunidades oficiales para la Web App...")
     oportunidades_finales = []
 
-    # 1. Extraer Chollos de Inmuebles del BOE (Madrid, Barcelona, Valencia, Sevilla, Málaga, Alicante)
+    # 1. Extraer Chollos de Inmuebles del BOE (Madrid, Barcelona, Valencia, Sevilla)
     try:
         from src.extractores.boe_inmuebles import buscar_subastas_inmuebles, filtrar_mejores_chollos
         provincias_a_rastrear = [("28", "madrid"), ("08", "barcelona"), ("46", "valencia"), ("41", "sevilla")]
@@ -61,19 +103,21 @@ def compilar_catalogo_web():
                         val_sal = item.get("precio_salida", 0)
                         ahorro_pct = item.get("porcentaje_descuento", 0)
                         id_sub = item.get("id_subasta", "BOE-INM")
+                        tit = item.get("titulo", f"Inmueble en Subasta Judicial en {nombre_prov.capitalize()}")
+                        loc = item.get("localidad", "Área Metropolitana")
 
                         lat, lng = obtener_coordenadas(nombre_prov)
-                        # Variación leve de coordenadas para evitar solapamiento exacto
-                        import random
                         lat += random.uniform(-0.04, 0.04)
                         lng += random.uniform(-0.04, 0.04)
+
+                        foto_especifica, badge_visual = asignar_foto_y_badge_inmueble(tit, loc, nombre_prov)
 
                         oportunidades_finales.append({
                             "id": f"INM-{id_sub}",
                             "tipo": "inmueble",
                             "provincia": nombre_prov,
-                            "titulo": item.get("titulo", f"Inmueble en Subasta Judicial en {nombre_prov.capitalize()}"),
-                            "ubicacion": f"{nombre_prov.capitalize()} • {item.get('localidad', 'Área Metropolitana')}",
+                            "titulo": tit,
+                            "ubicacion": f"{nombre_prov.capitalize()} • {loc}",
                             "specs": [
                                 f"Fianza: {item.get('deposito_formato', '5% Legal')}",
                                 f"Valor: {item.get('tasacion_formato', 'Tasación Oficial')}",
@@ -84,7 +128,8 @@ def compilar_catalogo_web():
                             "precioBoe": item.get("precio_salida_formato", "0,00 €"),
                             "ahorro": f"-{ahorro_pct:.0f}% DESCUENTO" if ahorro_pct > 0 else "CHOLLO BOE",
                             "legal": "Cargas: 0,00 € (Canceladas Art. 674 LEC) • Libre de deudas",
-                            "img": "assets/templates/fachada_edificio.jpg" if "madrid" in nombre_prov else "assets/templates/barcelona_aerea.jpg",
+                            "img": foto_especifica,
+                            "badgeVisual": badge_visual,
                             "tag": "SUBASTA JUDICIAL BOE",
                             "tagClass": "tag-boe",
                             "expedienteReal": id_sub,
@@ -107,17 +152,16 @@ def compilar_catalogo_web():
             mejores_v = filtrar_mejores_vehiculos(ids_v, max_resultados=4)
             for v in mejores_v:
                 id_sub = v.get("id_subasta", "BOE-VEH")
-                tas = v.get("valor_tasacion", 0)
-                sal = v.get("precio_salida", 0)
                 ahorro_pct = v.get("porcentaje_descuento", 0)
                 marca = v.get("marca", "Vehículo")
                 modelo = v.get("modelo", "")
                 titulo_veh = f"{marca} {modelo}".strip() or v.get("titulo", "Turismo Embargado")
 
                 lat, lng = obtener_coordenadas("madrid")
-                import random
                 lat += random.uniform(-0.06, 0.06)
                 lng += random.uniform(-0.06, 0.06)
+
+                foto_coche, badge_coche = asignar_foto_y_badge_vehiculo(titulo_veh, marca, modelo)
 
                 oportunidades_finales.append({
                     "id": f"VEH-{id_sub}",
@@ -135,7 +179,8 @@ def compilar_catalogo_web():
                     "precioBoe": v.get("precio_salida_formato", "Desde 500 €"),
                     "ahorro": f"-{ahorro_pct:.0f}% DESCUENTO" if ahorro_pct > 0 else "-80% AHORRO",
                     "legal": "DGT: 0,00 € • Precintos y multas canceladas por Mandamiento Judicial",
-                    "img": "assets/templates/vehiculo_coche_oficial.jpg",
+                    "img": foto_coche,
+                    "badgeVisual": badge_coche,
                     "tag": "DGT / EMBARGO",
                     "tagClass": "tag-dgt",
                     "expedienteReal": id_sub,
@@ -147,7 +192,7 @@ def compilar_catalogo_web():
     except Exception as e:
         print(f"⚠️ Error general en extractor de vehículos: {e}")
 
-    # 3. Incluir las oportunidades estrella consolidadas si faltan para garantizar variedad
+    # 3. Incluir las oportunidades estrella consolidadas con imágenes dedicadas
     chollos_estrella = [
         {
             "id": "DGT-MAZDA-01",
@@ -160,11 +205,12 @@ def compilar_catalogo_web():
             "precioBoe": "1.842 €",
             "ahorro": "-89% DESCUENTO",
             "legal": "DGT: 0,00 € • Precintos y multas canceladas por Ley",
-            "img": "assets/templates/vehiculo_coche_oficial.jpg",
+            "img": "assets/templates/coche_mazda_cx5.jpg",
+            "badgeVisual": "🚘 MAZDA CX-5",
             "tag": "DGT / EMBARGO",
             "tagClass": "tag-dgt",
-            "expedienteReal": "SUB-AT-2026-00412",
-            "enlaceBoeReal": "https://subastas.boe.es/ds.php?id=SUB-AT-2026-00412",
+            "expedienteReal": "SUB-AT-2026-26R1586002021",
+            "enlaceBoeReal": "https://subastas.boe.es/ds.php?id=SUB-AT-2026-26R1586002021",
             "desbloqueado": False,
             "lat": 40.4168,
             "lng": -3.7038
@@ -180,7 +226,8 @@ def compilar_catalogo_web():
             "precioBoe": "54.000 €",
             "ahorro": "-84% DESCUENTO",
             "legal": "Cargas: 0,00 € (Canceladas Art. 674 LEC) • Vacío",
-            "img": "assets/templates/barcelona_aerea.jpg",
+            "img": "assets/templates/inmueble_eixample_bcn.jpg",
+            "badgeVisual": "🏛️ DISTRITO EIXAMPLE",
             "tag": "SUBASTA JUDICIAL BOE",
             "tagClass": "tag-boe",
             "expedienteReal": "SUB-JA-2026-07821",
@@ -200,7 +247,8 @@ def compilar_catalogo_web():
             "precioBoe": "12.000 €",
             "ahorro": "100% GRATIS",
             "legal": "Resolución Oficial BDNS • Directo a Cuenta",
-            "img": "assets/templates/ayuda_dinero_euros.jpg",
+            "img": "assets/templates/ayuda_fondos_europeos.jpg",
+            "badgeVisual": "🇪🇺 FONDOS NEXTGEN",
             "tag": "SUBVENCIÓN PÚBLICA",
             "tagClass": "tag-ayuda",
             "expedienteReal": "BDNS-CONV-2026-99120",
@@ -220,7 +268,8 @@ def compilar_catalogo_web():
             "precioBoe": "42.000 €",
             "ahorro": "PAGO POR LEY",
             "legal": "Cobro Garantizado por Ley a 30 Días",
-            "img": "assets/templates/licitacion_contrato_oficial.jpg",
+            "img": "assets/templates/licitacion_obras_publicas.jpg",
+            "badgeVisual": "📋 CONTRATO PÚBLICO",
             "tag": "LICITACIÓN MENOR",
             "tagClass": "tag-licit",
             "expedienteReal": "LIC-VAL-2026-00431",
@@ -240,7 +289,8 @@ def compilar_catalogo_web():
             "precioBoe": "43.000 €",
             "ahorro": "-80% DESCUENTO",
             "legal": "Cargas: 0,00 € (Canceladas Art. 674 LEC) • Posesión Directa",
-            "img": "assets/templates/fachada_edificio.jpg",
+            "img": "assets/templates/inmueble_atico_terraza.jpg",
+            "badgeVisual": "🌇 ÁTICO CON TERRAZA",
             "tag": "SUBASTA JUDICIAL BOE",
             "tagClass": "tag-boe",
             "expedienteReal": "SUB-JA-2026-03184",
@@ -260,7 +310,8 @@ def compilar_catalogo_web():
             "precioBoe": "2.100 €",
             "ahorro": "-85% DESCUENTO",
             "legal": "DGT: 0,00 € • Precintos y multas canceladas por Ley",
-            "img": "assets/templates/vehiculo_llaves_concesionario.jpg",
+            "img": "assets/templates/coche_bmw_serie3.jpg",
+            "badgeVisual": "🏎️ BMW SERIE 3",
             "tag": "DGT / EMBARGO",
             "tagClass": "tag-dgt",
             "expedienteReal": "SUB-AT-2026-00629",
@@ -280,7 +331,8 @@ def compilar_catalogo_web():
             "precioBoe": "87.000 €",
             "ahorro": "-70% DESCUENTO",
             "legal": "Cargas: 0,00 € • Fianza 5% Judicial Retornable",
-            "img": "assets/templates/barcelona_aerea.jpg",
+            "img": "assets/templates/inmueble_chalet_piscina.jpg",
+            "badgeVisual": "🏡 CHALET CON PISCINA",
             "tag": "SUBASTA JUDICIAL BOE",
             "tagClass": "tag-boe",
             "expedienteReal": "SUB-JA-2026-08119",

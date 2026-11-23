@@ -537,6 +537,42 @@
         .tag-ayuda { color: #fbbf24; border-color: rgba(245, 158, 11, 0.5); }
         .tag-licit { color: #c084fc; border-color: rgba(168, 85, 247, 0.5); }
 
+        .badge-brand-pill {
+            position: absolute;
+            bottom: 14px;
+            left: 14px;
+            background: rgba(15, 23, 42, 0.92);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #f8fafc;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 5px 12px;
+            border-radius: 999px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            z-index: 2;
+        }
+
+        .map-popup-brand-badge {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            background: rgba(15, 23, 42, 0.92);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #f8fafc;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            letter-spacing: 0.4px;
+            z-index: 2;
+        }
+
         .discount-badge {
             position: absolute;
             top: 14px;
@@ -2164,227 +2200,421 @@
     <!-- Script de Datos y Lógica Reactiva -->
     <script>
         let OPORTUNIDADES = [
-            {
-                id: "DGT-MAZDA-01",
-                tipo: "vehiculo",
-                provincia: "madrid",
-                titulo: "SUV Mazda CX-5 2.2 Skyactiv-D (Año 2017)",
-                ubicacion: "Madrid • Depósito Judicial",
-                specs: ["SUV 5 Puertas", "150 CV Diésel", "Caja Manual 6v", "Llaves y Ficha DGT"],
-                precioMercado: "18.424 €",
-                precioBoe: "1.842 €",
-                ahorro: "-89% DESCUENTO",
-                legal: "DGT: 0,00 € • Precintos y multas canceladas por Ley",
-                img: "assets/templates/vehiculo_coche_oficial.jpg",
-                tag: "DGT / EMBARGO",
-                tagClass: "tag-dgt",
-                expedienteReal: "SUB-AT-2026-00412",
-                enlaceBoeReal: "https://subastas.boe.es/ds.php?id=SUB-AT-2026-00412",
-                desbloqueado: false,
-                lat: 40.4168,
-                lng: -3.7038
-            },
-            {
-                id: "MAD-ROZAS-02",
-                tipo: "inmueble",
-                provincia: "madrid",
-                titulo: "Piso de 118 m² con Terraza en Las Rozas",
-                ubicacion: "Madrid • Las Rozas de Madrid",
-                specs: ["118 m² Construidos", "3 Dormitorios", "2 Baños", "Garaje y Trastero"],
-                precioMercado: "389.855 €",
-                precioBoe: "116.956 €",
-                ahorro: "+272k € MARGEN",
-                legal: "Cargas: 0,00 € (Art. 674 LEC) • Libre de ocupantes",
-                img: "assets/templates/fachada_edificio.jpg",
-                tag: "SUBASTA JUDICIAL BOE",
-                tagClass: "tag-boe",
-                expedienteReal: "SUB-JA-2026-09432",
-                enlaceBoeReal: "https://subastas.boe.es/ds.php?id=SUB-JA-2026-09432",
-                desbloqueado: false,
-                lat: 40.4930,
-                lng: -3.8741
-            },
-            {
-                id: "BCN-EIXAMPLE-03",
-                tipo: "inmueble",
-                provincia: "barcelona",
-                titulo: "Piso de 85 m² en pleno Distrito Eixample",
-                ubicacion: "Barcelona • C/ Consell de Cent",
-                specs: ["85 m²", "3 Dormitorios", "Planta 4ª Exterior", "Ascensor"],
-                precioMercado: "340.000 €",
-                precioBoe: "54.000 €",
-                ahorro: "-84% DESCUENTO",
-                legal: "Cargas: 0,00 € (Canceladas Art. 674 LEC) • Vacío",
-                img: "assets/templates/barcelona_aerea.jpg",
-                tag: "SUBASTA JUDICIAL BOE",
-                tagClass: "tag-boe",
-                expedienteReal: "SUB-JA-2026-07821",
-                enlaceBoeReal: "https://subastas.boe.es/ds.php?id=SUB-JA-2026-07821",
-                desbloqueado: false,
-                lat: 41.3879,
-                lng: 2.1699
-            },
-            {
-                id: "DGT-MERCEDES-04",
-                tipo: "vehiculo",
-                provincia: "madrid",
-                titulo: "Mercedes-Benz Clase B 200 CDI",
-                ubicacion: "Madrid • Depósito Judicial",
-                specs: ["Año 2012", "136 CV Diésel", "Monovolumen Compacto", "Ficha Técnica"],
-                precioMercado: "8.016 €",
-                precioBoe: "802 €",
-                ahorro: "-89% DESCUENTO",
-                legal: "DGT: 0,00 € • Mandamiento Judicial de Levantamiento",
-                img: "assets/templates/vehiculo_llaves_concesionario.jpg",
-                tag: "DGT / EMBARGO",
-                tagClass: "tag-dgt",
-                expedienteReal: "SUB-AT-2026-00985",
-                enlaceBoeReal: "https://subastas.boe.es/ds.php?id=SUB-AT-2026-00985",
-                desbloqueado: false,
-                lat: 40.3800,
-                lng: -3.6900
-            },
-            {
-                id: "MAD-TIELMES-05",
-                tipo: "inmueble",
-                provincia: "madrid",
-                titulo: "Vivienda Unifamiliar de 125 m² en Tielmes",
-                ubicacion: "Madrid • Comarca Las Vegas",
-                specs: ["125 m²", "3 Dormitorios", "Patio Trasero", "Sin cargas previas"],
-                precioMercado: "139.557 €",
-                precioBoe: "13.956 €",
-                ahorro: "-90% DESCUENTO",
-                legal: "Cargas: 0,00 € • Fianza 5% Retornable",
-                img: "assets/templates/barrio_pilar_aerea.jpg",
-                tag: "SUBASTA JUDICIAL BOE",
-                tagClass: "tag-boe",
-                expedienteReal: "SUB-JA-2026-11824",
-                enlaceBoeReal: "https://subastas.boe.es/ds.php?id=SUB-JA-2026-11824",
-                desbloqueado: false,
-                lat: 40.2460,
-                lng: -3.3150
-            },
-            {
-                id: "AYUDA-BDNS-06",
-                tipo: "ayuda",
-                provincia: "nacional",
-                titulo: "Subvención Directa de hasta 12.000 € a Fondo Perdido",
-                ubicacion: "Nacional • Fondos Europeos NextGen",
-                specs: ["Autónomos y Micropymes", "Sin Devolución", "Convocatoria Abierta"],
-                precioMercado: "Crédito 8,5% Int.",
-                precioBoe: "12.000 €",
-                ahorro: "100% GRATIS",
-                legal: "Resolución Oficial BDNS • Directo a Cuenta",
-                img: "assets/templates/ayuda_dinero_euros.jpg",
-                tag: "SUBVENCIÓN PÚBLICA",
-                tagClass: "tag-ayuda",
-                expedienteReal: "BDNS-CONV-2026-99120",
-                enlaceBoeReal: "https://www.infosubvenciones.es/bdnstrans/GE/es/convocatoria/99120",
-                desbloqueado: false,
-                lat: 40.4500,
-                lng: -3.6900
-            },
-            {
-                id: "LICIT-ESTADO-07",
-                tipo: "licitacion",
-                provincia: "valencia",
-                titulo: "Contrato Menor de Mantenimiento de Edificios Públicos",
-                ubicacion: "Valencia • Sector Público Local",
-                specs: ["Contrato Menor", "Sin Grandes Avales", "Plazo 7 Días"],
-                precioMercado: "Riesgo Impago",
-                precioBoe: "42.000 €",
-                ahorro: "PAGO POR LEY",
-                legal: "Cobro Garantizado por Ley a 30 Días",
-                img: "assets/templates/licitacion_contrato_oficial.jpg",
-                tag: "LICITACIÓN MENOR",
-                tagClass: "tag-licit",
-                expedienteReal: "LIC-VAL-2026-00431",
-                enlaceBoeReal: "https://contrataciondelestado.es/wps/poc?uri=deeplink:detalle_licitacion&idEvl=431",
-                desbloqueado: false,
-                lat: 39.4699,
-                lng: -0.3763
-            },
-            {
-                id: "SEV-TRIANA-08",
-                tipo: "inmueble",
-                provincia: "sevilla",
-                titulo: "Ático de 92 m² con Solárium en Barrio de Triana",
-                ubicacion: "Sevilla • Barrio de Triana",
-                specs: ["92 m²", "2 Dormitorios", "Terraza 35 m²", "Finca con Ascensor"],
-                precioMercado: "215.000 €",
-                precioBoe: "43.000 €",
-                ahorro: "-80% DESCUENTO",
-                legal: "Cargas: 0,00 € (Canceladas Art. 674 LEC) • Posesión Directa",
-                img: "assets/templates/fachada_edificio.jpg",
-                tag: "SUBASTA JUDICIAL BOE",
-                tagClass: "tag-boe",
-                expedienteReal: "SUB-JA-2026-03184",
-                enlaceBoeReal: "https://subastas.boe.es/ds.php?id=SUB-JA-2026-03184",
-                desbloqueado: false,
-                lat: 37.3828,
-                lng: -6.0020
-            },
-            {
-                id: "DGT-BMW-09",
-                tipo: "vehiculo",
-                provincia: "malaga",
-                titulo: "BMW Serie 3 320d Touring Automático (Año 2016)",
-                ubicacion: "Málaga • Depósito Judicial Central",
-                specs: ["Familiar 5P", "190 CV Diésel", "Caja Steptronic 8v", "Ficha DGT Limpia"],
-                precioMercado: "14.500 €",
-                precioBoe: "2.100 €",
-                ahorro: "-85% DESCUENTO",
-                legal: "DGT: 0,00 € • Precintos y multas canceladas por Ley",
-                img: "assets/templates/vehiculo_llaves_concesionario.jpg",
-                tag: "DGT / EMBARGO",
-                tagClass: "tag-dgt",
-                expedienteReal: "SUB-AT-2026-00629",
-                enlaceBoeReal: "https://subastas.boe.es/ds.php?id=SUB-AT-2026-00629",
-                desbloqueado: false,
-                lat: 36.7213,
-                lng: -4.4214
-            },
-            {
-                id: "ALC-CHALET-10",
-                tipo: "inmueble",
-                provincia: "alicante",
-                titulo: "Chalet Pareado de 180 m² con Piscina en San Juan",
-                ubicacion: "Alicante • Playa San Juan",
-                specs: ["180 m² Construidos", "4 Dormitorios", "Piscina Privada", "Parcela 320 m²"],
-                precioMercado: "290.000 €",
-                precioBoe: "87.000 €",
-                ahorro: "-70% DESCUENTO",
-                legal: "Cargas: 0,00 € • Fianza 5% Judicial Retornable",
-                img: "assets/templates/barcelona_aerea.jpg",
-                tag: "SUBASTA JUDICIAL BOE",
-                tagClass: "tag-boe",
-                expedienteReal: "SUB-JA-2026-08119",
-                enlaceBoeReal: "https://subastas.boe.es/ds.php?id=SUB-JA-2026-08119",
-                desbloqueado: false,
-                lat: 38.3686,
-                lng: -0.4282
-            },
-            {
-                id: "ZAR-GOLF-11",
-                tipo: "vehiculo",
-                provincia: "zaragoza",
-                titulo: "Volkswagen Golf VII 2.0 TDI Advance (Año 2018)",
-                ubicacion: "Zaragoza • Depósito Judicial",
-                specs: ["Compacto 5P", "150 CV Diésel", "GPS y Climatizador", "Llaves y Ficha DGT"],
-                precioMercado: "12.800 €",
-                precioBoe: "1.950 €",
-                ahorro: "-85% DESCUENTO",
-                legal: "DGT: 0,00 € • Mandamiento Judicial de Levantamiento",
-                img: "assets/templates/vehiculo_coche_oficial.jpg",
-                tag: "DGT / EMBARGO",
-                tagClass: "tag-dgt",
-                expedienteReal: "SUB-AT-2026-00755",
-                enlaceBoeReal: "https://subastas.boe.es/ds.php?id=SUB-AT-2026-00755",
-                desbloqueado: false,
-                lat: 41.6561,
-                lng: -0.8773
-            }
-        ];
+        {
+                "id": "INM-SUB-AT-2026-26R2886001502",
+                "tipo": "inmueble",
+                "provincia": "madrid",
+                "titulo": "Inmueble en TIELMES (28550)",
+                "ubicacion": "Madrid • TIELMES",
+                "specs": [
+                        "Fianza: 5% Legal",
+                        "Valor: Tasación Oficial",
+                        "Subasta Judicial BOE",
+                        "Cargas Art. 674 LEC: 0 €"
+                ],
+                "precioMercado": "Consulte Tasación",
+                "precioBoe": "13.956 €",
+                "ahorro": "CHOLLO BOE",
+                "legal": "Cargas: 0,00 € (Canceladas Art. 674 LEC) • Libre de deudas",
+                "img": "assets/templates/inmueble_madrid_residencial.jpg",
+                "badgeVisual": "🏢 RESIDENCIAL MADRID",
+                "tag": "SUBASTA JUDICIAL BOE",
+                "tagClass": "tag-boe",
+                "expedienteReal": "SUB-AT-2026-26R2886001502",
+                "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R2886001502&ver=1",
+                "desbloqueado": false,
+                "lat": 40.4073,
+                "lng": -3.7388
+        },
+        {
+                "id": "INM-SUB-AT-2026-23R2886001483",
+                "tipo": "inmueble",
+                "provincia": "madrid",
+                "titulo": "Inmueble en ROZAS DE MADRID (LAS) (28232)",
+                "ubicacion": "Madrid • ROZAS DE MADRID (LAS)",
+                "specs": [
+                        "Fianza: 5% Legal",
+                        "Valor: Tasación Oficial",
+                        "Subasta Judicial BOE",
+                        "Cargas Art. 674 LEC: 0 €"
+                ],
+                "precioMercado": "Consulte Tasación",
+                "precioBoe": "116.956 €",
+                "ahorro": "CHOLLO BOE",
+                "legal": "Cargas: 0,00 € (Canceladas Art. 674 LEC) • Libre de deudas",
+                "img": "assets/templates/inmueble_madrid_residencial.jpg",
+                "badgeVisual": "🏢 RESIDENCIAL MADRID",
+                "tag": "SUBASTA JUDICIAL BOE",
+                "tagClass": "tag-boe",
+                "expedienteReal": "SUB-AT-2026-23R2886001483",
+                "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-23R2886001483&ver=1",
+                "desbloqueado": false,
+                "lat": 40.3948,
+                "lng": -3.7
+        },
+        {
+                "id": "INM-SUB-AT-2026-26R4686001310",
+                "tipo": "inmueble",
+                "provincia": "valencia",
+                "titulo": "Inmueble en TORRENT (46900)",
+                "ubicacion": "Valencia • TORRENT",
+                "specs": [
+                        "Fianza: 5% Legal",
+                        "Valor: Tasación Oficial",
+                        "Subasta Judicial BOE",
+                        "Cargas Art. 674 LEC: 0 €"
+                ],
+                "precioMercado": "Consulte Tasación",
+                "precioBoe": "5.024 €",
+                "ahorro": "CHOLLO BOE",
+                "legal": "Cargas: 0,00 € (Canceladas Art. 674 LEC) • Libre de deudas",
+                "img": "assets/templates/inmueble_valencia_edificio.jpg",
+                "badgeVisual": "🏢 RESIDENCIAL MEDITERRÁNEO",
+                "tag": "SUBASTA JUDICIAL BOE",
+                "tagClass": "tag-boe",
+                "expedienteReal": "SUB-AT-2026-26R4686001310",
+                "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R4686001310&ver=1",
+                "desbloqueado": false,
+                "lat": 39.4995,
+                "lng": -0.3732
+        },
+        {
+                "id": "INM-SUB-AT-2026-26R4686001215",
+                "tipo": "inmueble",
+                "provincia": "valencia",
+                "titulo": "Inmueble en RIBA-ROJA DE TURIA (46190)",
+                "ubicacion": "Valencia • RIBA-ROJA DE TURIA",
+                "specs": [
+                        "Fianza: 5% Legal",
+                        "Valor: Tasación Oficial",
+                        "Subasta Judicial BOE",
+                        "Cargas Art. 674 LEC: 0 €"
+                ],
+                "precioMercado": "Consulte Tasación",
+                "precioBoe": "76.781 €",
+                "ahorro": "CHOLLO BOE",
+                "legal": "Cargas: 0,00 € (Canceladas Art. 674 LEC) • Libre de deudas",
+                "img": "assets/templates/inmueble_valencia_edificio.jpg",
+                "badgeVisual": "🏢 RESIDENCIAL MEDITERRÁNEO",
+                "tag": "SUBASTA JUDICIAL BOE",
+                "tagClass": "tag-boe",
+                "expedienteReal": "SUB-AT-2026-26R4686001215",
+                "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R4686001215&ver=1",
+                "desbloqueado": false,
+                "lat": 39.4525,
+                "lng": -0.3653
+        },
+        {
+                "id": "INM-SUB-AT-2026-26R2886001459",
+                "tipo": "inmueble",
+                "provincia": "sevilla",
+                "titulo": "Inmueble en CAMAS (41900)",
+                "ubicacion": "Sevilla • CAMAS",
+                "specs": [
+                        "Fianza: 5% Legal",
+                        "Valor: Tasación Oficial",
+                        "Subasta Judicial BOE",
+                        "Cargas Art. 674 LEC: 0 €"
+                ],
+                "precioMercado": "Consulte Tasación",
+                "precioBoe": "7.735 €",
+                "ahorro": "CHOLLO BOE",
+                "legal": "Cargas: 0,00 € (Canceladas Art. 674 LEC) • Libre de deudas",
+                "img": "assets/templates/inmueble_chalet_piscina.jpg",
+                "badgeVisual": "🏡 CHALET CON PISCINA",
+                "tag": "SUBASTA JUDICIAL BOE",
+                "tagClass": "tag-boe",
+                "expedienteReal": "SUB-AT-2026-26R2886001459",
+                "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R2886001459&ver=1",
+                "desbloqueado": false,
+                "lat": 37.3912,
+                "lng": -6.0185
+        },
+        {
+                "id": "INM-SUB-AT-2026-26R2886001460",
+                "tipo": "inmueble",
+                "provincia": "sevilla",
+                "titulo": "Inmueble en CAMAS (41900)",
+                "ubicacion": "Sevilla • CAMAS",
+                "specs": [
+                        "Fianza: 5% Legal",
+                        "Valor: Tasación Oficial",
+                        "Subasta Judicial BOE",
+                        "Cargas Art. 674 LEC: 0 €"
+                ],
+                "precioMercado": "Consulte Tasación",
+                "precioBoe": "7.039 €",
+                "ahorro": "CHOLLO BOE",
+                "legal": "Cargas: 0,00 € (Canceladas Art. 674 LEC) • Libre de deudas",
+                "img": "assets/templates/inmueble_chalet_piscina.jpg",
+                "badgeVisual": "🏡 CHALET CON PISCINA",
+                "tag": "SUBASTA JUDICIAL BOE",
+                "tagClass": "tag-boe",
+                "expedienteReal": "SUB-AT-2026-26R2886001460",
+                "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R2886001460&ver=1",
+                "desbloqueado": false,
+                "lat": 37.4129,
+                "lng": -5.9821
+        },
+        {
+                "id": "VEH-SUB-AT-2026-26R3886002006",
+                "tipo": "vehiculo",
+                "provincia": "madrid",
+                "titulo": "CITROEN C5 AIRCROSS PLUG-IN HY",
+                "ubicacion": "Depósito Judicial • Disponible para puja",
+                "specs": [
+                        "Ficha Técnica Verificada",
+                        "Fianza: 5% Legal",
+                        "Subasta Judicial Oficial",
+                        "Mandamiento Levantamiento Precintos"
+                ],
+                "precioMercado": "Consulte Valor",
+                "precioBoe": "1.554 €",
+                "ahorro": "-80% AHORRO",
+                "legal": "DGT: 0,00 € • Precintos y multas canceladas por Mandamiento Judicial",
+                "img": "assets/templates/coche_citroen_c5.jpg",
+                "badgeVisual": "⚡ CITROËN HYBRID",
+                "tag": "DGT / EMBARGO",
+                "tagClass": "tag-dgt",
+                "expedienteReal": "SUB-AT-2026-26R3886002006",
+                "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R3886002006&ver=1",
+                "desbloqueado": false,
+                "lat": 40.3837,
+                "lng": -3.7324
+        },
+        {
+                "id": "VEH-SUB-AT-2026-26R3886002007",
+                "tipo": "vehiculo",
+                "provincia": "madrid",
+                "titulo": "HYUNDAI ATOS PRIME",
+                "ubicacion": "Depósito Judicial • Disponible para puja",
+                "specs": [
+                        "Ficha Técnica Verificada",
+                        "Fianza: 5% Legal",
+                        "Subasta Judicial Oficial",
+                        "Mandamiento Levantamiento Precintos"
+                ],
+                "precioMercado": "Consulte Valor",
+                "precioBoe": "52 €",
+                "ahorro": "-80% AHORRO",
+                "legal": "DGT: 0,00 € • Precintos y multas canceladas por Mandamiento Judicial",
+                "img": "assets/templates/coche_hyundai_atos.jpg",
+                "badgeVisual": "🚗 HYUNDAI URBANO",
+                "tag": "DGT / EMBARGO",
+                "tagClass": "tag-dgt",
+                "expedienteReal": "SUB-AT-2026-26R3886002007",
+                "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R3886002007&ver=1",
+                "desbloqueado": false,
+                "lat": 40.4039,
+                "lng": -3.6482
+        },
+        {
+                "id": "VEH-SUB-AT-2026-26R1586002021",
+                "tipo": "vehiculo",
+                "provincia": "madrid",
+                "titulo": "MAZDA MAZDA CX-5",
+                "ubicacion": "Depósito Judicial • Disponible para puja",
+                "specs": [
+                        "Ficha Técnica Verificada",
+                        "Fianza: 5% Legal",
+                        "Subasta Judicial Oficial",
+                        "Mandamiento Levantamiento Precintos"
+                ],
+                "precioMercado": "Consulte Valor",
+                "precioBoe": "1.842 €",
+                "ahorro": "-80% AHORRO",
+                "legal": "DGT: 0,00 € • Precintos y multas canceladas por Mandamiento Judicial",
+                "img": "assets/templates/coche_mazda_cx5.jpg",
+                "badgeVisual": "🚘 MAZDA CX-5",
+                "tag": "DGT / EMBARGO",
+                "tagClass": "tag-dgt",
+                "expedienteReal": "SUB-AT-2026-26R1586002021",
+                "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R1586002021&ver=1",
+                "desbloqueado": false,
+                "lat": 40.3699,
+                "lng": -3.7369
+        },
+        {
+                "id": "VEH-SUB-AT-2026-26R1586002020",
+                "tipo": "vehiculo",
+                "provincia": "madrid",
+                "titulo": "MERCEDES-BENZ B 200 D",
+                "ubicacion": "Depósito Judicial • Disponible para puja",
+                "specs": [
+                        "Ficha Técnica Verificada",
+                        "Fianza: 5% Legal",
+                        "Subasta Judicial Oficial",
+                        "Mandamiento Levantamiento Precintos"
+                ],
+                "precioMercado": "Consulte Valor",
+                "precioBoe": "802 €",
+                "ahorro": "-80% AHORRO",
+                "legal": "DGT: 0,00 € • Precintos y multas canceladas por Mandamiento Judicial",
+                "img": "assets/templates/coche_mercedes_b200.jpg",
+                "badgeVisual": "⭐ MERCEDES-BENZ",
+                "tag": "DGT / EMBARGO",
+                "tagClass": "tag-dgt",
+                "expedienteReal": "SUB-AT-2026-26R1586002020",
+                "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R1586002020&ver=1",
+                "desbloqueado": false,
+                "lat": 40.4096,
+                "lng": -3.6733
+        },
+        {
+                "id": "BCN-EIXAMPLE-03",
+                "tipo": "inmueble",
+                "provincia": "barcelona",
+                "titulo": "Piso de 85 m² en pleno Distrito Eixample",
+                "ubicacion": "Barcelona • C/ Consell de Cent",
+                "specs": [
+                        "85 m²",
+                        "3 Dormitorios",
+                        "Planta 4ª Exterior",
+                        "Ascensor"
+                ],
+                "precioMercado": "340.000 €",
+                "precioBoe": "54.000 €",
+                "ahorro": "-84% DESCUENTO",
+                "legal": "Cargas: 0,00 € (Canceladas Art. 674 LEC) • Vacío",
+                "img": "assets/templates/inmueble_eixample_bcn.jpg",
+                "badgeVisual": "🏛️ DISTRITO EIXAMPLE",
+                "tag": "SUBASTA JUDICIAL BOE",
+                "tagClass": "tag-boe",
+                "expedienteReal": "SUB-JA-2026-07821",
+                "enlaceBoeReal": "https://subastas.boe.es/ds.php?id=SUB-JA-2026-07821",
+                "desbloqueado": false,
+                "lat": 41.3879,
+                "lng": 2.1699
+        },
+        {
+                "id": "AYUDA-BDNS-06",
+                "tipo": "ayuda",
+                "provincia": "nacional",
+                "titulo": "Subvención Directa de hasta 12.000 € a Fondo Perdido",
+                "ubicacion": "Nacional • Fondos Europeos NextGen",
+                "specs": [
+                        "Autónomos y Micropymes",
+                        "Sin Devolución",
+                        "Convocatoria Abierta"
+                ],
+                "precioMercado": "Crédito 8,5% Int.",
+                "precioBoe": "12.000 €",
+                "ahorro": "100% GRATIS",
+                "legal": "Resolución Oficial BDNS • Directo a Cuenta",
+                "img": "assets/templates/ayuda_fondos_europeos.jpg",
+                "badgeVisual": "🇪🇺 FONDOS NEXTGEN",
+                "tag": "SUBVENCIÓN PÚBLICA",
+                "tagClass": "tag-ayuda",
+                "expedienteReal": "BDNS-CONV-2026-99120",
+                "enlaceBoeReal": "https://www.infosubvenciones.es/bdnstrans/GE/es/convocatoria/99120",
+                "desbloqueado": false,
+                "lat": 40.45,
+                "lng": -3.69
+        },
+        {
+                "id": "LICIT-ESTADO-07",
+                "tipo": "licitacion",
+                "provincia": "valencia",
+                "titulo": "Contrato Menor de Mantenimiento de Edificios Públicos",
+                "ubicacion": "Valencia • Sector Público Local",
+                "specs": [
+                        "Contrato Menor",
+                        "Sin Grandes Avales",
+                        "Plazo 7 Días"
+                ],
+                "precioMercado": "Riesgo Impago",
+                "precioBoe": "42.000 €",
+                "ahorro": "PAGO POR LEY",
+                "legal": "Cobro Garantizado por Ley a 30 Días",
+                "img": "assets/templates/licitacion_obras_publicas.jpg",
+                "badgeVisual": "📋 CONTRATO PÚBLICO",
+                "tag": "LICITACIÓN MENOR",
+                "tagClass": "tag-licit",
+                "expedienteReal": "LIC-VAL-2026-00431",
+                "enlaceBoeReal": "https://contrataciondelestado.es/wps/poc?uri=deeplink:detalle_licitacion&idEvl=431",
+                "desbloqueado": false,
+                "lat": 39.4699,
+                "lng": -0.3763
+        },
+        {
+                "id": "SEV-TRIANA-08",
+                "tipo": "inmueble",
+                "provincia": "sevilla",
+                "titulo": "Ático de 92 m² con Solárium en Barrio de Triana",
+                "ubicacion": "Sevilla • Barrio de Triana",
+                "specs": [
+                        "92 m²",
+                        "2 Dormitorios",
+                        "Terraza 35 m²",
+                        "Finca con Ascensor"
+                ],
+                "precioMercado": "215.000 €",
+                "precioBoe": "43.000 €",
+                "ahorro": "-80% DESCUENTO",
+                "legal": "Cargas: 0,00 € (Canceladas Art. 674 LEC) • Posesión Directa",
+                "img": "assets/templates/inmueble_atico_terraza.jpg",
+                "badgeVisual": "🌇 ÁTICO CON TERRAZA",
+                "tag": "SUBASTA JUDICIAL BOE",
+                "tagClass": "tag-boe",
+                "expedienteReal": "SUB-JA-2026-03184",
+                "enlaceBoeReal": "https://subastas.boe.es/ds.php?id=SUB-JA-2026-03184",
+                "desbloqueado": false,
+                "lat": 37.3828,
+                "lng": -6.002
+        },
+        {
+                "id": "DGT-BMW-09",
+                "tipo": "vehiculo",
+                "provincia": "malaga",
+                "titulo": "BMW Serie 3 320d Touring Automático (Año 2016)",
+                "ubicacion": "Málaga • Depósito Judicial Central",
+                "specs": [
+                        "Familiar 5P",
+                        "190 CV Diésel",
+                        "Caja Steptronic 8v",
+                        "Ficha DGT Limpia"
+                ],
+                "precioMercado": "14.500 €",
+                "precioBoe": "2.100 €",
+                "ahorro": "-85% DESCUENTO",
+                "legal": "DGT: 0,00 € • Precintos y multas canceladas por Ley",
+                "img": "assets/templates/coche_bmw_serie3.jpg",
+                "badgeVisual": "🏎️ BMW SERIE 3",
+                "tag": "DGT / EMBARGO",
+                "tagClass": "tag-dgt",
+                "expedienteReal": "SUB-AT-2026-00629",
+                "enlaceBoeReal": "https://subastas.boe.es/ds.php?id=SUB-AT-2026-00629",
+                "desbloqueado": false,
+                "lat": 36.7213,
+                "lng": -4.4214
+        },
+        {
+                "id": "ALC-CHALET-10",
+                "tipo": "inmueble",
+                "provincia": "alicante",
+                "titulo": "Chalet Pareado de 180 m² con Piscina en San Juan",
+                "ubicacion": "Alicante • Playa San Juan",
+                "specs": [
+                        "180 m² Construidos",
+                        "4 Dormitorios",
+                        "Piscina Privada",
+                        "Parcela 320 m²"
+                ],
+                "precioMercado": "290.000 €",
+                "precioBoe": "87.000 €",
+                "ahorro": "-70% DESCUENTO",
+                "legal": "Cargas: 0,00 € • Fianza 5% Judicial Retornable",
+                "img": "assets/templates/inmueble_chalet_piscina.jpg",
+                "badgeVisual": "🏡 CHALET CON PISCINA",
+                "tag": "SUBASTA JUDICIAL BOE",
+                "tagClass": "tag-boe",
+                "expedienteReal": "SUB-JA-2026-08119",
+                "enlaceBoeReal": "https://subastas.boe.es/ds.php?id=SUB-JA-2026-08119",
+                "desbloqueado": false,
+                "lat": 38.3686,
+                "lng": -0.4282
+        }
+];
 
         let categoriaActual = 'all';
         let itemSeleccionado = null;
@@ -2496,6 +2726,7 @@
                         <div class="map-popup-img-wrap">
                             <img src="${item.img}" class="map-popup-img" alt="${item.titulo}">
                             <span class="map-popup-badge ${item.tagClass}">${item.ahorro}</span>
+                            ${item.badgeVisual ? `<span class="map-popup-brand-badge">${item.badgeVisual}</span>` : ''}
                         </div>
                         <div class="map-popup-body">
                             <div class="map-popup-tag">${item.tag}</div>
@@ -2578,6 +2809,7 @@
                 <article class="card">
                     <div class="card-img" style="background-image: url('${item.img}');">
                         <span class="card-tag ${item.tagClass}">${item.tag}</span>
+                        ${item.badgeVisual ? `<span class="badge-brand-pill">${item.badgeVisual}</span>` : ''}
                         <span class="discount-badge">${item.ahorro}</span>
                     </div>
                     <div class="card-body">
