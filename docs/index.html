@@ -1668,32 +1668,32 @@
         </div>
     </div>
 
-    <!-- Modal Instrucciones iOS Safari PWA -->
-    <div class="modal-overlay" id="modalIosPwa" onclick="cerrarModalIosPwa(event)">
+    <!-- Modal Instrucciones PWA (iOS y Android) -->
+    <div class="modal-overlay" id="modalPwaInstructions" onclick="cerrarModalPwaInstructions(event)">
         <div class="modal-box" style="max-width: 440px; padding: 24px; border-color: rgba(56, 189, 248, 0.5);" onclick="event.stopPropagation()">
-            <button class="modal-close" onclick="cerrarModalIosPwa(null)">✕</button>
+            <button class="modal-close" onclick="cerrarModalPwaInstructions(null)">✕</button>
             <div class="modal-header" style="margin-bottom: 16px; text-align: left;">
                 <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
                     <img src="assets/icon-192.png" style="width: 40px; height: 40px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.4);">
                     <div>
-                        <h3 class="modal-title" style="font-size: 19px; margin: 0;">Instalar en iPhone / iPad</h3>
-                        <div style="font-size: 12px; color: #38bdf8; font-weight: 700;">ACCESO DIRECTO COMO APP NATIVA</div>
+                        <h3 class="modal-title" id="pwaModalTitle" style="font-size: 19px; margin: 0;">Instalar App RadarAlertas</h3>
+                        <div style="font-size: 12px; color: #38bdf8; font-weight: 700;">ACCESO DIRECTO EN TU PANTALLA</div>
                     </div>
                 </div>
-                <p class="modal-sub" style="font-size: 13px; text-align: left; margin: 0;">Sigue estos 2 sencillos pasos para tener RadarAlertas en tu pantalla de inicio:</p>
+                <p class="modal-sub" id="pwaModalSub" style="font-size: 13px; text-align: left; margin: 0;">Sigue estos 2 sencillos pasos para instalarla como una App nativa:</p>
             </div>
 
-            <div style="background: rgba(255,255,255,0.04); border: 1px solid var(--border-glass); border-radius: 12px; padding: 14px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px;">
+            <div id="pwaStep1" style="background: rgba(255,255,255,0.04); border: 1px solid var(--border-glass); border-radius: 12px; padding: 14px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px;">
                 <span style="font-size: 22px; background: rgba(56,189,248,0.15); width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 10px; flex-shrink: 0;">1️⃣</span>
-                <span style="font-size: 13px; color: var(--text-main); line-height: 1.4;">Pulsa el botón <strong>Compartir</strong> en la barra de Safari (icono <strong>⎋ / ⬆️</strong>).</span>
+                <span id="pwaStep1Text" style="font-size: 13px; color: var(--text-main); line-height: 1.4;">Pulsa el botón de <strong>Menú (⋮)</strong> o <strong>Compartir (⎋ / ⬆️)</strong> de tu navegador.</span>
             </div>
 
-            <div style="background: rgba(255,255,255,0.04); border: 1px solid var(--border-glass); border-radius: 12px; padding: 14px; margin-bottom: 18px; display: flex; align-items: center; gap: 12px;">
+            <div id="pwaStep2" style="background: rgba(255,255,255,0.04); border: 1px solid var(--border-glass); border-radius: 12px; padding: 14px; margin-bottom: 18px; display: flex; align-items: center; gap: 12px;">
                 <span style="font-size: 22px; background: rgba(16,185,129,0.15); width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 10px; flex-shrink: 0;">2️⃣</span>
-                <span style="font-size: 13px; color: var(--text-main); line-height: 1.4;">Baja en el menú y selecciona <strong>"Añadir a la pantalla de inicio"</strong> ➕.</span>
+                <span id="pwaStep2Text" style="font-size: 13px; color: var(--text-main); line-height: 1.4;">Selecciona <strong>"Instalar aplicación"</strong> o <strong>"Añadir a la pantalla de inicio"</strong> ➕.</span>
             </div>
 
-            <button onclick="cerrarModalIosPwa(null)" class="btn-primary" style="width: 100%; justify-content: center; padding: 12px; font-weight: 800; border-radius: 12px;">¡Entendido!</button>
+            <button onclick="cerrarModalPwaInstructions(null)" class="btn-primary" style="width: 100%; justify-content: center; padding: 12px; font-weight: 800; border-radius: 12px;">¡Entendido!</button>
         </div>
     </div>
 
@@ -2172,6 +2172,9 @@
             const userAgent = window.navigator.userAgent.toLowerCase();
             return /iphone|ipad|ipod/.test(userAgent);
         };
+        const isMobileDevice = () => {
+            return /android|iphone|ipad|ipod|mobile/i.test(navigator.userAgent) || window.innerWidth < 768;
+        };
         const isInStandaloneMode = () => ('standalone' in window.navigator && window.navigator.standalone) || window.matchMedia('(display-mode: standalone)').matches;
 
         // Registro de Service Worker
@@ -2198,9 +2201,9 @@
             }
         });
 
-        // Mostrar banner e icono en iOS Safari si no está en modo Standalone
+        // Mostrar banner e icono en móvil si no está en modo Standalone
         window.addEventListener('DOMContentLoaded', () => {
-            if (isIos() && !isInStandaloneMode() && !sessionStorage.getItem('pwa_dismissed')) {
+            if (isMobileDevice() && !isInStandaloneMode() && !sessionStorage.getItem('pwa_dismissed')) {
                 setTimeout(() => {
                     const banner = document.getElementById('pwaInstallBanner');
                     if (banner) banner.style.display = 'block';
@@ -2224,11 +2227,23 @@
                     deferredPrompt = null;
                     cerrarBannerPwa();
                 });
-            } else if (isIos()) {
-                const modal = document.getElementById('modalIosPwa');
-                if (modal) modal.classList.add('active');
             } else {
-                alert('📲 Para instalar RadarAlertas en tu dispositivo:\n\n1. Pulsa en los tres puntos (⋮) de tu navegador.\n2. Selecciona "Instalar aplicación" o "Añadir a pantalla de inicio".');
+                // Si no hay prompt nativo disponible (iOS o navegadores que requieren instrucciones)
+                const modal = document.getElementById('modalPwaInstructions');
+                const title = document.getElementById('pwaModalTitle');
+                const step1 = document.getElementById('pwaStep1Text');
+                const step2 = document.getElementById('pwaStep2Text');
+
+                if (isIos()) {
+                    if (title) title.textContent = 'Instalar en iPhone / iPad';
+                    if (step1) step1.innerHTML = 'Pulsa el botón <strong>Compartir</strong> en la barra de Safari (icono <strong>⎋ / ⬆️</strong>).';
+                    if (step2) step2.innerHTML = 'Baja en el menú y selecciona <strong>"Añadir a la pantalla de inicio"</strong> ➕.';
+                } else {
+                    if (title) title.textContent = 'Instalar en tu Dispositivo';
+                    if (step1) step1.innerHTML = 'Pulsa en los <strong>tres puntos (⋮)</strong> arriba a la derecha de tu navegador.';
+                    if (step2) step2.innerHTML = 'Selecciona <strong>"Instalar aplicación"</strong> o <strong>"Añadir a pantalla de inicio"</strong> ➕.';
+                }
+                if (modal) modal.classList.add('active');
             }
         }
 
@@ -2238,9 +2253,9 @@
             sessionStorage.setItem('pwa_dismissed', '1');
         }
 
-        function cerrarModalIosPwa(event) {
-            if (!event || event.target.id === 'modalIosPwa' || event.target.classList.contains('modal-close') || event.target.tagName === 'BUTTON') {
-                const modal = document.getElementById('modalIosPwa');
+        function cerrarModalPwaInstructions(event) {
+            if (!event || event.target.id === 'modalPwaInstructions' || event.target.classList.contains('modal-close') || event.target.tagName === 'BUTTON') {
+                const modal = document.getElementById('modalPwaInstructions');
                 if (modal) modal.classList.remove('active');
             }
         }
