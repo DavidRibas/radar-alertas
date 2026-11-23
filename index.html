@@ -3985,16 +3985,21 @@
             const btnLimpiar = document.getElementById('btnLimpiarChips');
             if (btnLimpiar) btnLimpiar.style.display = 'inline-flex';
 
-            if (tipo === 'bolsas') {
+            if (tipo === 'alquiler_vpo') {
+                const btn = document.getElementById('chipVpo');
+                if (btn) btn.classList.add('active');
+                categoriaActual = 'vivienda';
+                actualizarTabsUI('vivienda');
+            } else if (tipo === 'decomisos_lujo') {
+                const btn = document.getElementById('chipDecomisos');
+                if (btn) btn.classList.add('active');
+                categoriaActual = 'vehiculo';
+                actualizarTabsUI('vehiculo');
+            } else if (tipo === 'bolsas') {
                 const btn = document.getElementById('chipBolsas');
                 if (btn) btn.classList.add('active');
                 categoriaActual = 'empleo';
                 actualizarTabsUI('empleo');
-            } else if (tipo === 'coches_baratos') {
-                const btn = document.getElementById('chipCoches');
-                if (btn) btn.classList.add('active');
-                categoriaActual = 'vehiculo';
-                actualizarTabsUI('vehiculo');
             } else if (tipo === 'descuento_top') {
                 const btn = document.getElementById('chipDescuentos');
                 if (btn) btn.classList.add('active');
