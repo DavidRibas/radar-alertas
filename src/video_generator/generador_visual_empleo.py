@@ -134,10 +134,10 @@ def crear_escena_empleo_4_cta(ruta_salida: Path):
         draw.text((140, y_b), b, font=ImageFont.truetype("arial.ttf", 32), fill=(248, 250, 252))
         y_b += 95
 
-    btn_rect = [120, 1140, 960, 1260]
+    btn_rect = [100, 1130, 980, 1270]
     draw.rounded_rectangle(btn_rect, radius=24, fill=(37, 99, 235))
-    draw.text((540, 1180), "👉 TOCA EL LINK DE LA BIO", font=ImageFont.truetype("arialbd.ttf", 44), fill=(255, 255, 255), anchor="mm")
-    draw.text((540, 1228), "Canal Telegram: @radar_alertas", font=ImageFont.truetype("arial.ttf", 26), fill=(219, 234, 254), anchor="mm")
+    draw.text((540, 1175), "👉 WEB EN DESCRIPCIÓN DEL PERFIL", font=ImageFont.truetype("arialbd.ttf", 40), fill=(255, 255, 255), anchor="mm")
+    draw.text((540, 1225), "Web: radar-alertas-delta.vercel.app", font=ImageFont.truetype("arial.ttf", 26), fill=(219, 234, 254), anchor="mm")
 
     img.save(ruta_salida, quality=95)
 
@@ -151,8 +151,8 @@ async def generar_locucion_empleo(em: dict, ruta_mp3: Path, ruta_srt: Path):
         f"El Boletín Oficial del Estado acaba de publicar una nueva convocatoria pública. "
         f"Convocada por {org} para {tit}. "
         f"Con sueldo oficial, catorce pagas y requisitos abiertos de acceso. "
-        f"El documento oficial en PDF con las bases y el enlace para solicitar tu plaza están en nuestro canal de Telegram. "
-        f"Entra al link de nuestro perfil para acceder a la convocatoria."
+        f"El documento oficial en PDF con las bases y el enlace directo están en nuestra web oficial. "
+        f"Entra a la web que tienes en la descripción de nuestro perfil para ver todos los detalles."
     )
 
     comunicador = edge_tts.Communicate(guion, voice="es-ES-AlvaroNeural", rate="+6%")
