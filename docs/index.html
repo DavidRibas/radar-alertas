@@ -2583,6 +2583,18 @@
             letter-spacing: 0.4px;
         }
 
+    
+        body.theme-light .modal-deliverables-box {
+            background: #f8fafc !important;
+            border-color: #e2e8f0 !important;
+        }
+        body.theme-light .modal-deliverables-box strong {
+            color: #0f172a !important;
+        }
+        body.theme-light .modal-deliverables-box p {
+            color: #64748b !important;
+        }
+
     </style>
 </head>
 <body>
@@ -3069,12 +3081,12 @@
 
     <!-- Modal de Desbloqueo de Expediente Individual -->
     <div class="modal-overlay" id="modalUnlock">
-        <div class="modal-box">
+        <div class="modal-box" style="max-width: 490px;">
             <button class="modal-close" onclick="cerrarModales()">✕</button>
             <div class="modal-header">
-                <div class="modal-icon">🔓</div>
-                <h3 class="modal-title">Desbloquear Expediente Oficial</h3>
-                <p class="modal-sub">Acceso directo a la puja oficial del BOE sin intermediarios</p>
+                <div class="modal-icon">📄</div>
+                <h3 class="modal-title">Dictamen Pericial Oficial + Expediente</h3>
+                <p class="modal-sub">Descarga inmediata del Informe Técnico en PDF y acceso a la sede oficial</p>
             </div>
 
             <div class="modal-item-info">
@@ -3085,19 +3097,52 @@
                 </div>
             </div>
 
-            <ul class="modal-benefits">
-                <li><span style="color:#10b981;">✓</span> <strong>Número exacto de expediente</strong> judicial y juzgado asignado</li>
-                <li><span style="color:#10b981;">✓</span> <strong>Enlace oficial directo</strong> para pujar en el portal del BOE / DGT</li>
-                <li><span style="color:#10b981;">✓</span> <strong>Auditoría legal</strong> de cargas anteriores y situación posesoria</li>
-                <li><span style="color:#10b981;">✓</span> <strong>Referencia catastral</strong> y dirección exacta completa</li>
-            </ul>
+            <!-- Entregables Claros de Alto Valor -->
+            <div class="modal-deliverables-box" style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); border-radius: 12px; padding: 14px; margin: 16px 0; text-align: left;">
+                <div style="display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-start;">
+                    <span style="font-size: 18px;">📑</span>
+                    <div>
+                        <strong style="font-size: 13px; color: var(--text-main);">Dictamen Pericial de Cargas en PDF</strong>
+                        <p style="font-size: 11.5px; color: var(--text-muted); margin-top: 2px;">Certificado de cargas 0,00 € (Art. 674 LEC) y situación jurídica auditada.</p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-start;">
+                    <span style="font-size: 18px;">📝</span>
+                    <div>
+                        <strong style="font-size: 13px; color: var(--text-main);">Plantilla Oficial y Guía Paso a Paso</strong>
+                        <p style="font-size: 11.5px; color: var(--text-muted); margin-top: 2px;">Instrucciones para presentar la solicitud o puja sin errores y no quedar excluido.</p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: flex-start;">
+                    <span style="font-size: 18px;">🔗</span>
+                    <div>
+                        <strong style="font-size: 13px; color: var(--text-main);">Acceso Directo a la Sede Oficial del Estado</strong>
+                        <p style="font-size: 11.5px; color: var(--text-muted); margin-top: 2px;">Enlace telemático oficial sin comisiones de agencias ni intermediarios.</p>
+                    </div>
+                </div>
+            </div>
 
-            <a href="https://buy.stripe.com/5kQaEYd2S2Bd5OvfnfcQU02" target="_blank" class="btn-pay-single" style="text-decoration:none; display:flex; align-items:center; justify-content:center;">
-                Pagar 2,90 € y Ver Expediente Ahora ➔
+            <!-- Sello de Garantía 100% -->
+            <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 10px; padding: 10px 14px; margin-bottom: 16px; font-size: 11.5px; color: #34d399; text-align: left; display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 16px;">🛡️</span>
+                <span><strong>Garantía de Autenticidad 100%:</strong> Si los datos no proceden del Boletín Oficial del Estado o sede pública oficial, te reembolsamos tus 2,90 € al instante.</span>
+            </div>
+
+            <a href="https://buy.stripe.com/5kQaEYd2S2Bd5OvfnfcQU02" target="_blank" class="btn-pay-single" style="text-decoration:none; display:flex; align-items:center; justify-content:center; gap:8px;">
+                <span>Descargar Dictamen y Expediente • 2,90 €</span>
+                <span>➔</span>
             </a>
 
+            <!-- Métodos de Pago Apple Pay / Google Pay / Tarjeta -->
+            <div style="display: flex; justify-content: center; align-items: center; gap: 12px; margin-top: 12px; font-size: 11px; color: #94a3b8;">
+                <span>💳 Tarjeta</span>
+                <span>🍎 Apple Pay</span>
+                <span>⚡ Google Pay</span>
+                <span style="color:#10b981;">🔒 Stripe SSL 256-bit</span>
+            </div>
+
             <div class="modal-upsell-pro">
-                <span>¿Revisas varias subastas al mes?</span>
+                <span>¿Buscas varias convocatorias o subastas al mes?</span>
                 <a onclick="cerrarModales(); abrirModalPro();">⭐ Activa el Plan PRO Inversor por solo 14,99 €/mes (Desbloqueo ilimitado)</a>
             </div>
         </div>
@@ -3365,17 +3410,19 @@
                 "ahorro": "CHOLLO BOE",
                 "legal": "Cargas: 0,00 € (Canceladas Art. 674 LEC) • Libre de deudas",
                 "img": "assets/templates/inmueble_madrid_residencial.jpg",
-                "badgeVisual": "🏢 RESIDENCIAL MADRID",
-                "tag": "SUBASTA JUDICIAL BOE",
-                "tagClass": "tag-boe",
+                "badgeVisual": "🔓 MUESTRA GRATUITA DESBLOQUEADA",
+                "tag": "MUESTRA AUDITADA GRATIS",
+                "tagClass": "tag-directa",
                 "expedienteReal": "SUB-AT-2026-23R2886001483",
                 "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-23R2886001483&ver=1",
-                "desbloqueado": false,
+                "desbloqueado": true,
                 "lat": 40.4122,
                 "lng": -3.7286,
                 "modalidad": "subasta",
                 "modalidadLabel": "🔨 SUBASTA PÚBLICA",
-                "modalidadClass": "badge-subasta"
+                "modalidadClass": "badge-subasta",
+                "pdfMuestra": "assets/Dictamen_Verificado_Final.pdf",
+                "ctaLabel": "📄 Descargar Dictamen Oficial (PDF Gratis)"
         },
         {
                 "id": "INM-SUB-AT-2026-26R4686001310",
@@ -4236,35 +4283,38 @@
                         </div>
 
                         <!-- Candado de Expediente -->
-                        <div class="lock-box">
+                        <div class="lock-box" style="${item.desbloqueado ? 'border-color: rgba(16,185,129,0.5); background: rgba(16,185,129,0.06);' : ''}">
                             <div class="lock-header">
                                 <div class="lock-title-wrap">
                                     <span>${item.desbloqueado ? '🔓' : '🔒'}</span>
-                                    <span>Expediente y Enlace Oficial</span>
+                                    <span>${item.desbloqueado ? 'Expediente Oficial de Muestra Desbloqueado' : 'Dictamen Pericial y Expediente Oficial'}</span>
                                 </div>
-                                <span class="lock-badge" style="${item.desbloqueado ? 'background:rgba(16,185,129,0.2); color:#4ade80; border-color:rgba(16,185,129,0.4);' : ''}">
-                                    ${item.desbloqueado ? 'DESBLOQUEADO' : 'CANDADO'}
+                                <span class="lock-badge" style="${item.desbloqueado ? 'background:rgba(16,185,129,0.25); color:#34d399; border-color:rgba(16,185,129,0.5); font-weight:800;' : ''}">
+                                    ${item.desbloqueado ? 'MUESTRA GRATIS' : '2,90 €'}
                                 </span>
                             </div>
 
                             <div class="lock-data-preview">
                                 ${item.desbloqueado ? `
-                                    <span style="color:#4ade80; font-weight:bold;">Nº Expediente: ${item.expedienteReal}</span>
-                                    <span>Portal BOE: <a href="${item.enlaceBoeReal}" target="_blank" style="color:#38bdf8; text-decoration:underline;">Ver Ficha Oficial de Puja ➔</a></span>
+                                    <span style="color:#34d399; font-weight:700;">Expediente: ${item.expedienteReal}</span>
+                                    <span style="color:#94a3b8;">Estado: Auditoría legal completa con Dictamen Oficial en PDF</span>
                                 ` : `
-                                    <span>Nº Expediente: <code>SUB-••-2026-••••••</code></span>
-                                    <span>Portal BOE: <code>https://subastas.boe.es/ds.php?id=••••••••</code></span>
+                                    <span>Expediente: EXP-••••••••••••• (Oculto)</span>
+                                    <span>Entrega: Dictamen en PDF + Plantilla tramitada + Enlace directo</span>
                                 `}
                             </div>
 
                             <div class="lock-actions">
                                 ${item.desbloqueado ? `
-                                    <a href="${item.enlaceBoeReal}" target="_blank" class="btn-unlock-single" style="background:#2563eb; text-decoration:none;">
-                                        Acceder a la Puja Oficial en el BOE ➔
+                                    <a href="${item.pdfMuestra || 'assets/Dictamen_Verificado_Final.pdf'}" download class="btn-unlock-single" style="text-decoration:none; background: linear-gradient(135deg, #059669, #10b981); display:flex; align-items:center; justify-content:center; gap:8px;">
+                                        <span>📄 Descargar Dictamen Oficial en PDF (Muestra Gratis)</span>
+                                    </a>
+                                    <a href="${item.enlaceBoeReal}" target="_blank" class="btn-unlock-pro-link" style="color:#38bdf8; text-decoration:none; text-align:center; display:block;">
+                                        🚀 Acceder a la Sede Oficial Directa →
                                     </a>
                                 ` : `
                                     <button class="btn-unlock-single" onclick="abrirModalDesbloqueo('${item.id}')">
-                                        ${ctaBtnText}
+                                        <span>📄 ${ctaBtnText}</span>
                                     </button>
                                     <button class="btn-unlock-pro-link" onclick="abrirModalPro()">
                                         ⭐ O accede sin límites con el Plan PRO (14,99 €/mes)
