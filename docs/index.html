@@ -2742,7 +2742,7 @@
                                     <div class="map-popup-val-new">${item.precioBoe}</div>
                                 </div>
                             </div>
-                            <button class="btn-popup-unlock" onclick="abrirModal('${item.id}')">
+                            <button class="btn-popup-unlock" onclick="abrirModalDesbloqueo('${item.id}')">
                                 🔓 Desbloquear Expediente (2,90 €)
                             </button>
                         </div>
@@ -2886,6 +2886,7 @@
             document.getElementById('modalItemImg').style.backgroundImage = `url('${item.img}')`;
             document.getElementById('modalUnlock').classList.add('active');
         }
+        window.abrirModal = abrirModalDesbloqueo;
 
         function abrirModalTutorial() {
             const modal = document.getElementById('modalTutorial');
