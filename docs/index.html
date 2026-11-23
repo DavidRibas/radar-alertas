@@ -2398,6 +2398,123 @@
             color: #94a3b8;
             text-decoration: none;
         }
+    
+        /* Badges de Modalidad y Nuevas Categorías */
+        .card-modality-badge {
+            position: absolute;
+            bottom: 12px;
+            left: 14px;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 5px 10px;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            backdrop-filter: blur(8px);
+            z-index: 2;
+        }
+        .badge-mod-directa {
+            background: rgba(16, 185, 129, 0.95);
+            color: #022c22;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+        }
+        .badge-mod-subasta {
+            background: rgba(30, 64, 175, 0.92);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 2px 8px rgba(30, 64, 175, 0.4);
+        }
+        .tag-vpo {
+            background: linear-gradient(135deg, #059669, #10b981) !important;
+            color: #ffffff !important;
+        }
+        .tag-decomiso {
+            background: linear-gradient(135deg, #dc2626, #b91c1c) !important;
+            color: #ffffff !important;
+        }
+        .savings-pill-banner.housing {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            color: #34d399;
+        }
+        body.theme-light .savings-pill-banner.housing {
+            background: #ecfdf5;
+            border-color: #a7f3d0;
+            color: #065f46;
+        }
+
+        /* Barra Explicativa de 3 Pasos */
+        .how-it-works-strip {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            max-width: 1240px;
+            margin: 0 auto 28px;
+            padding: 0 24px;
+        }
+        .how-step {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            padding: 16px 18px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            transition: all 0.2s ease;
+        }
+        .how-step:hover {
+            border-color: var(--border-glow);
+            transform: translateY(-2px);
+        }
+        .step-num {
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 800;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .step-desc {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .step-desc strong {
+            font-size: 13.5px;
+            color: var(--text-main);
+        }
+        .step-desc span {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+        body.theme-light .how-step {
+            background: #ffffff;
+            border-color: #e2e8f0;
+            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+        }
+        body.theme-light .step-desc strong {
+            color: #0f172a;
+        }
+        body.theme-light .step-desc span {
+            color: #64748b;
+        }
+
+        @media (max-width: 768px) {
+            .how-it-works-strip {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                padding: 0 16px;
+                margin-bottom: 20px;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -2536,6 +2653,32 @@
     </div>
 
     <!-- Buscador y Filtros -->
+    
+    <!-- Barra Explicativa de 3 Pasos -->
+    <div class="how-it-works-strip">
+        <div class="how-step">
+            <span class="step-num">1</span>
+            <div class="step-desc">
+                <strong>Rastreo Oficial 24/7</strong>
+                <span>Monitorizamos BOE, DGT, Vivienda Protegida y Fondos de Decomisos.</span>
+            </div>
+        </div>
+        <div class="how-step">
+            <span class="step-num">2</span>
+            <div class="step-desc">
+                <strong>2 Modalidades Claras</strong>
+                <span><strong style="color: #38bdf8;">🔨 Subastas</strong> (pujas) o <strong style="color: #10b981;">📋 Solicitud Directa</strong> (inscripción 100% gratis).</span>
+            </div>
+        </div>
+        <div class="how-step">
+            <span class="step-num">3</span>
+            <div class="step-desc">
+                <strong>Sin Intermediarios</strong>
+                <span>Desbloqueas el expediente para acceder a la sede electrónica oficial.</span>
+            </div>
+        </div>
+    </div>
+
     <section class="search-panel" id="catalogo">
         <div class="search-row">
             <div class="input-wrap">
@@ -2557,19 +2700,20 @@
 
         <!-- Categorías -->
         <div class="category-tabs">
-            <button class="tab-btn active" onclick="setCategory('all', this)">⚡ Todas las Oportunidades</button>
-            <button class="tab-btn" onclick="setCategory('empleo', this)">💼 Empleo Público (BOE)</button>
-            <button class="tab-btn" onclick="setCategory('vehiculo', this)">🚗 Coches Embargados (DGT/BOE)</button>
-            <button class="tab-btn" onclick="setCategory('inmueble', this)">🏢 Pisos y Chalets (BOE)</button>
-            <button class="tab-btn" onclick="setCategory('ayuda', this)">💶 Ayudas a Fondo Perdido</button>
-            <button class="tab-btn" onclick="setCategory('licitacion', this)">📋 Licitaciones Menores</button>
+            <button class="tab-btn active" onclick="setCategory('all', this)">⚡ Todo el Radar (26)</button>
+            <button class="tab-btn" onclick="setCategory('vivienda', this)">🏠 Alquiler & VPO (400€)</button>
+            <button class="tab-btn" onclick="setCategory('vehiculo', this)">🚗 Coches & Decomisos</button>
+            <button class="tab-btn" onclick="setCategory('empleo', this)">💼 Empleo Sin Examen</button>
+            <button class="tab-btn" onclick="setCategory('inmueble', this)">🏛️ Subastas Pisos BOE</button>
+            <button class="tab-btn" onclick="setCategory('ayuda', this)">💰 Ayudas & Bonos</button>
         </div>
 
         <!-- Chips de Filtros Rápidos -->
         <div class="quick-filter-chips">
             <span class="chip-label">Filtros exprés:</span>
-            <button class="chip-btn" id="chipBolsas" onclick="aplicarFiltroRapido('bolsas')">💼 Bolsas sin Oposición</button>
-            <button class="chip-btn" id="chipCoches" onclick="aplicarFiltroRapido('coches_baratos')">🚗 Coches &lt; 3.000 €</button>
+            <button class="chip-btn" id="chipVpo" onclick="aplicarFiltroRapido('alquiler_vpo')">🏠 Alquiler Protegido</button>
+            <button class="chip-btn" id="chipDecomisos" onclick="aplicarFiltroRapido('decomisos_lujo')">🏎️ Decomisos del Estado</button>
+            <button class="chip-btn" id="chipBolsas" onclick="aplicarFiltroRapido('bolsas')">💼 Bolsas Sin Oposición</button>
             <button class="chip-btn" id="chipDescuentos" onclick="aplicarFiltroRapido('descuento_top')">🔥 Chollos &gt; 70% Ahorro</button>
             <button class="chip-btn chip-clear" id="btnLimpiarChips" onclick="limpiarFiltrosRapidos()" style="display: none;">✖ Ver Todo</button>
         </div>
@@ -2932,6 +3076,174 @@
     <script>
         let OPORTUNIDADES = [
         {
+                "id": "VPO-VIVE-2026-MAD01",
+                "expedienteReal": "PLAN-VIVE-CAM-2026/04",
+                "enlaceBoeReal": "https://www.comunidad.madrid/servicios/vivienda/plan-vive-madrid",
+                "tipo": "vivienda",
+                "modalidad": "directa",
+                "modalidadLabel": "📋 SOLICITUD DIRECTA (Sin subasta)",
+                "modalidadClass": "badge-directa",
+                "tag": "ALQUILER PROTEGIDO • PLAN VIVE",
+                "tagClass": "tag-vpo",
+                "badgeVisual": "🏡 PISOS A ESTRENAR 450€",
+                "titulo": "Promoción 300 Pisos Alquiler Protegido · Getafe / Alcorcón",
+                "ubicacion": "Madrid • Área Metropolitana",
+                "provincia": "madrid",
+                "precioBoe": "450 €/mes",
+                "precioMercado": "1.150 €/mes",
+                "ahorro": "-60% ALQUILER FIJO",
+                "specs": [
+                        "2 y 3 Dormitorios + Garaje",
+                        "Piscina, Gimnasio y Pistas",
+                        "Contrato Seguro 7 Años",
+                        "Inscripción Gratuita Telemática"
+                ],
+                "legal": "Sin puja ni fianza • Asignación por orden de inscripción y baremo",
+                "img": "assets/templates/inmueble_madrid_residencial.jpg",
+                "desbloqueado": false,
+                "ctaLabel": "📋 Desbloquear Formulario y Requisitos (2,90 €)"
+        },
+        {
+                "id": "VPO-EMVS-2026-MAD02",
+                "expedienteReal": "EMVS-SORTEO-2026/89",
+                "enlaceBoeReal": "https://www.emvs.es/Vivienda/Alquiler",
+                "tipo": "vivienda",
+                "modalidad": "directa",
+                "modalidadLabel": "📋 SORTEO PÚBLICO OFICIAL",
+                "modalidadClass": "badge-directa",
+                "tag": "VIVIENDA PÚBLICA • EMVS MADRID",
+                "tagClass": "tag-vpo",
+                "badgeVisual": "🔑 ALQUILER SOCIAL 380€",
+                "titulo": "Sorteo 246 Viviendas Alquiler Social y Joven · Ensanche de Vallecas",
+                "ubicacion": "Madrid • Vallecas / Vicálvaro",
+                "provincia": "madrid",
+                "precioBoe": "380 €/mes",
+                "precioMercado": "950 €/mes",
+                "ahorro": "-60% ALQUILER FIJO",
+                "specs": [
+                        "Viviendas 1 a 3 Habitaciones",
+                        "Calificación Energética A",
+                        "Plazo Abierto: Cupo Joven y General",
+                        "Adjudicación por Sorteo Notarial"
+                ],
+                "legal": "Sin fianza previa • Inscripción gratuita con Certificado Digital o Cl@ve",
+                "img": "assets/templates/inmueble_cataluna_costa.jpg",
+                "desbloqueado": false,
+                "ctaLabel": "📋 Desbloquear Formulario y Requisitos (2,90 €)"
+        },
+        {
+                "id": "VPO-HBCN-2026-BCN01",
+                "expedienteReal": "HAB-PROT-CAT-2026/12",
+                "enlaceBoeReal": "https://habitatge.gencat.cat",
+                "tipo": "vivienda",
+                "modalidad": "directa",
+                "modalidadLabel": "📋 SOLICITUD DIRECTA (Sin subasta)",
+                "modalidadClass": "badge-directa",
+                "tag": "HABITATGE PROTEGIT • BARCELONA",
+                "tagClass": "tag-vpo",
+                "badgeVisual": "🏢 ALQUILER REGULADO 480€",
+                "titulo": "Promoción 180 Viviendas Alquiler Asequible · Parc de l'Alba",
+                "ubicacion": "Barcelona • Cerdanyola / Sant Cugat",
+                "provincia": "barcelona",
+                "precioBoe": "480 €/mes",
+                "precioMercado": "1.200 €/mes",
+                "ahorro": "-60% ALQUILER FIJO",
+                "specs": [
+                        "Viviendas Nuevas Eficientes",
+                        "A 20 Minutos del Centro",
+                        "Alquiler Máximo 30% Ingresos",
+                        "Registro de Solicitantes Abierto"
+                ],
+                "legal": "Sin puja de dinero • Adjudicación transparente por registro oficial",
+                "img": "assets/templates/inmueble_andalucia_villa.jpg",
+                "desbloqueado": false,
+                "ctaLabel": "📋 Desbloquear Formulario y Requisitos (2,90 €)"
+        },
+        {
+                "id": "DEC-PNSD-2026-PORSCHE",
+                "expedienteReal": "PNSD-DEC-2026/088",
+                "enlaceBoeReal": "https://pnsd.sanidad.gob.es/delegacionGobiernoPNSD/fondoBienesDecomisados/subastas/home.htm",
+                "tipo": "vehiculo",
+                "modalidad": "subasta",
+                "modalidadLabel": "🔨 SUBASTA DECOMISO ESTADO",
+                "modalidadClass": "badge-subasta",
+                "tag": "FONDO DE BIENES DECOMISADOS",
+                "tagClass": "tag-decomiso",
+                "badgeVisual": "🏎️ PORSCHE MACAN -79%",
+                "titulo": "Porsche Macan S 258CV · Decomiso Oficial Ministerio de Sanidad",
+                "ubicacion": "Madrid • Depósito Oficial del Estado",
+                "provincia": "madrid",
+                "precioBoe": "7.900 €",
+                "precioMercado": "38.000 €",
+                "ahorro": "-79% DESCUENTO",
+                "specs": [
+                        "Año 2018 • 89.000 km",
+                        "Automático PDK • Cuero Completo",
+                        "Limpio de Cargas Policiales",
+                        "Fianza 5%: 395 €"
+                ],
+                "legal": "Adjudicación directa PNSD • Se entrega con documentación oficial lista para matricular",
+                "img": "assets/templates/vehiculo_audi_sportback.jpg",
+                "desbloqueado": false,
+                "ctaLabel": "🔨 Desbloquear Expediente y Puja (2,90 €)"
+        },
+        {
+                "id": "DEC-PNSD-2026-MERCEDES",
+                "expedienteReal": "PNSD-DEC-2026/094",
+                "enlaceBoeReal": "https://pnsd.sanidad.gob.es/delegacionGobiernoPNSD/fondoBienesDecomisados/subastas/home.htm",
+                "tipo": "vehiculo",
+                "modalidad": "subasta",
+                "modalidadLabel": "🔨 SUBASTA DECOMISO ESTADO",
+                "modalidadClass": "badge-subasta",
+                "tag": "FONDO DE BIENES DECOMISADOS",
+                "tagClass": "tag-decomiso",
+                "badgeVisual": "🔥 MERCEDES C220d AMG -81%",
+                "titulo": "Mercedes-Benz C220d Coupé AMG Line · Decomiso Delegación Gobierno",
+                "ubicacion": "Málaga • Depósito Judicial",
+                "provincia": "malaga",
+                "precioBoe": "4.800 €",
+                "precioMercado": "26.500 €",
+                "ahorro": "-81% DESCUENTO",
+                "specs": [
+                        "Paquete AMG Completo",
+                        "Año 2019 • Diésel 194CV",
+                        "Inspeccionado por Perito Oficial",
+                        "Fianza 5%: 240 €"
+                ],
+                "legal": "Cancelación total de precintos y embargos según Ley 17/2003",
+                "img": "assets/templates/vehiculo_bmw_serie3.jpg",
+                "desbloqueado": false,
+                "ctaLabel": "🔨 Desbloquear Expediente y Puja (2,90 €)"
+        },
+        {
+                "id": "DEC-PNSD-2026-BARCO",
+                "expedienteReal": "PNSD-DEC-2026/102",
+                "enlaceBoeReal": "https://pnsd.sanidad.gob.es/delegacionGobiernoPNSD/fondoBienesDecomisados/subastas/home.htm",
+                "tipo": "vehiculo",
+                "modalidad": "subasta",
+                "modalidadLabel": "🔨 SUBASTA DECOMISO EMBARCACIÓN",
+                "modalidadClass": "badge-subasta",
+                "tag": "FONDO DE BIENES DECOMISADOS",
+                "tagClass": "tag-decomiso",
+                "badgeVisual": "⚓ YATE SEA RAY -80%",
+                "titulo": "Embarcación Sea Ray 240 Sundancer (7,3m) · Decomiso Náutico",
+                "ubicacion": "Alicante • Puerto Deportivo",
+                "provincia": "alicante",
+                "precioBoe": "6.200 €",
+                "precioMercado": "32.000 €",
+                "ahorro": "-80% DESCUENTO",
+                "specs": [
+                        "Motor Mercruiser 260CV",
+                        "Camarote, Cocina y Baño",
+                        "Varada y Revisada en Puerto",
+                        "Fianza 5%: 310 €"
+                ],
+                "legal": "Adjudicación judicial libre de cargas marítimas y deudas portuarias",
+                "img": "assets/templates/inmueble_valencia_mediterraneo.jpg",
+                "desbloqueado": false,
+                "ctaLabel": "🔨 Desbloquear Expediente y Puja (2,90 €)"
+        },
+        {
                 "id": "INM-SUB-AT-2026-26R2886001502",
                 "tipo": "inmueble",
                 "provincia": "madrid",
@@ -2955,7 +3267,10 @@
                 "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R2886001502&ver=1",
                 "desbloqueado": false,
                 "lat": 40.392,
-                "lng": -3.7202
+                "lng": -3.7202,
+                "modalidad": "subasta",
+                "modalidadLabel": "🔨 SUBASTA PÚBLICA",
+                "modalidadClass": "badge-subasta"
         },
         {
                 "id": "INM-SUB-AT-2026-23R2886001483",
@@ -2981,7 +3296,10 @@
                 "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-23R2886001483&ver=1",
                 "desbloqueado": false,
                 "lat": 40.4122,
-                "lng": -3.7286
+                "lng": -3.7286,
+                "modalidad": "subasta",
+                "modalidadLabel": "🔨 SUBASTA PÚBLICA",
+                "modalidadClass": "badge-subasta"
         },
         {
                 "id": "INM-SUB-AT-2026-26R4686001310",
@@ -3007,7 +3325,10 @@
                 "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R4686001310&ver=1",
                 "desbloqueado": false,
                 "lat": 39.4394,
-                "lng": -0.3566
+                "lng": -0.3566,
+                "modalidad": "subasta",
+                "modalidadLabel": "🔨 SUBASTA PÚBLICA",
+                "modalidadClass": "badge-subasta"
         },
         {
                 "id": "INM-SUB-AT-2026-26R4686001215",
@@ -3033,7 +3354,10 @@
                 "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R4686001215&ver=1",
                 "desbloqueado": false,
                 "lat": 39.5009,
-                "lng": -0.4097
+                "lng": -0.4097,
+                "modalidad": "subasta",
+                "modalidadLabel": "🔨 SUBASTA PÚBLICA",
+                "modalidadClass": "badge-subasta"
         },
         {
                 "id": "INM-SUB-AT-2026-26R2886001459",
@@ -3059,7 +3383,10 @@
                 "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R2886001459&ver=1",
                 "desbloqueado": false,
                 "lat": 37.3652,
-                "lng": -5.9688
+                "lng": -5.9688,
+                "modalidad": "subasta",
+                "modalidadLabel": "🔨 SUBASTA PÚBLICA",
+                "modalidadClass": "badge-subasta"
         },
         {
                 "id": "INM-SUB-AT-2026-26R2886001460",
@@ -3085,7 +3412,10 @@
                 "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R2886001460&ver=1",
                 "desbloqueado": false,
                 "lat": 37.3519,
-                "lng": -5.9991
+                "lng": -5.9991,
+                "modalidad": "subasta",
+                "modalidadLabel": "🔨 SUBASTA PÚBLICA",
+                "modalidadClass": "badge-subasta"
         },
         {
                 "id": "VEH-SUB-AT-2026-26R3886002006",
@@ -3111,7 +3441,10 @@
                 "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R3886002006&ver=1",
                 "desbloqueado": false,
                 "lat": 40.4617,
-                "lng": -3.6852
+                "lng": -3.6852,
+                "modalidad": "subasta",
+                "modalidadLabel": "🔨 SUBASTA PÚBLICA",
+                "modalidadClass": "badge-subasta"
         },
         {
                 "id": "VEH-SUB-AT-2026-26R3886002007",
@@ -3137,7 +3470,10 @@
                 "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R3886002007&ver=1",
                 "desbloqueado": false,
                 "lat": 40.4053,
-                "lng": -3.6779
+                "lng": -3.6779,
+                "modalidad": "subasta",
+                "modalidadLabel": "🔨 SUBASTA PÚBLICA",
+                "modalidadClass": "badge-subasta"
         },
         {
                 "id": "VEH-SUB-AT-2026-26R1586002021",
@@ -3163,7 +3499,10 @@
                 "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R1586002021&ver=1",
                 "desbloqueado": false,
                 "lat": 40.4042,
-                "lng": -3.7387
+                "lng": -3.7387,
+                "modalidad": "subasta",
+                "modalidadLabel": "🔨 SUBASTA PÚBLICA",
+                "modalidadClass": "badge-subasta"
         },
         {
                 "id": "VEH-SUB-AT-2026-26R1586002020",
@@ -3189,7 +3528,10 @@
                 "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R1586002020&ver=1",
                 "desbloqueado": false,
                 "lat": 40.4192,
-                "lng": -3.7013
+                "lng": -3.7013,
+                "modalidad": "subasta",
+                "modalidadLabel": "🔨 SUBASTA PÚBLICA",
+                "modalidadClass": "badge-subasta"
         },
         {
                 "id": "EMP-BOE-A-2026-24529",
@@ -3215,7 +3557,10 @@
                 "enlaceBoeReal": "https://www.boe.es/boe/dias/2026/11/23/pdfs/BOE-A-2026-24529.pdf",
                 "desbloqueado": false,
                 "lat": 40.3912,
-                "lng": -3.7126
+                "lng": -3.7126,
+                "modalidad": "directa",
+                "modalidadLabel": "📋 SOLICITUD DIRECTA",
+                "modalidadClass": "badge-directa"
         },
         {
                 "id": "EMP-BOE-A-2026-24530",
@@ -3241,7 +3586,10 @@
                 "enlaceBoeReal": "https://www.boe.es/boe/dias/2026/11/23/pdfs/BOE-A-2026-24530.pdf",
                 "desbloqueado": false,
                 "lat": 40.4134,
-                "lng": -3.6853
+                "lng": -3.6853,
+                "modalidad": "directa",
+                "modalidadLabel": "📋 SOLICITUD DIRECTA",
+                "modalidadClass": "badge-directa"
         },
         {
                 "id": "EMP-BOE-A-2026-24531",
@@ -3267,7 +3615,10 @@
                 "enlaceBoeReal": "https://www.boe.es/boe/dias/2026/11/23/pdfs/BOE-A-2026-24531.pdf",
                 "desbloqueado": false,
                 "lat": 40.3922,
-                "lng": -3.6964
+                "lng": -3.6964,
+                "modalidad": "directa",
+                "modalidadLabel": "📋 SOLICITUD DIRECTA",
+                "modalidadClass": "badge-directa"
         },
         {
                 "id": "EMP-EXTERIORES-01",
@@ -3293,7 +3644,10 @@
                 "enlaceBoeReal": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-24529",
                 "desbloqueado": false,
                 "lat": 40.4168,
-                "lng": -3.7038
+                "lng": -3.7038,
+                "modalidad": "directa",
+                "modalidadLabel": "📋 SOLICITUD DIRECTA",
+                "modalidadClass": "badge-directa"
         },
         {
                 "id": "BCN-EIXAMPLE-03",
@@ -3319,7 +3673,10 @@
                 "enlaceBoeReal": "https://subastas.boe.es/ds.php?id=SUB-JA-2026-07821",
                 "desbloqueado": false,
                 "lat": 41.3879,
-                "lng": 2.1699
+                "lng": 2.1699,
+                "modalidad": "subasta",
+                "modalidadLabel": "🔨 SUBASTA PÚBLICA",
+                "modalidadClass": "badge-subasta"
         },
         {
                 "id": "AYUDA-BDNS-06",
@@ -3344,7 +3701,10 @@
                 "enlaceBoeReal": "https://www.infosubvenciones.es/bdnstrans/GE/es/convocatoria/99120",
                 "desbloqueado": false,
                 "lat": 40.45,
-                "lng": -3.69
+                "lng": -3.69,
+                "modalidad": "directa",
+                "modalidadLabel": "📋 SOLICITUD DIRECTA",
+                "modalidadClass": "badge-directa"
         },
         {
                 "id": "LICIT-ESTADO-07",
@@ -3369,7 +3729,10 @@
                 "enlaceBoeReal": "https://contrataciondelestado.es/wps/poc?uri=deeplink:detalle_licitacion&idEvl=431",
                 "desbloqueado": false,
                 "lat": 39.4699,
-                "lng": -0.3763
+                "lng": -0.3763,
+                "modalidad": "subasta",
+                "modalidadLabel": "🔨 SUBASTA PÚBLICA",
+                "modalidadClass": "badge-subasta"
         },
         {
                 "id": "SEV-TRIANA-08",
@@ -3395,7 +3758,10 @@
                 "enlaceBoeReal": "https://subastas.boe.es/ds.php?id=SUB-JA-2026-03184",
                 "desbloqueado": false,
                 "lat": 37.3828,
-                "lng": -6.002
+                "lng": -6.002,
+                "modalidad": "subasta",
+                "modalidadLabel": "🔨 SUBASTA PÚBLICA",
+                "modalidadClass": "badge-subasta"
         },
         {
                 "id": "DGT-BMW-09",
@@ -3421,7 +3787,10 @@
                 "enlaceBoeReal": "https://subastas.boe.es/ds.php?id=SUB-AT-2026-00629",
                 "desbloqueado": false,
                 "lat": 36.7213,
-                "lng": -4.4214
+                "lng": -4.4214,
+                "modalidad": "subasta",
+                "modalidadLabel": "🔨 SUBASTA PÚBLICA",
+                "modalidadClass": "badge-subasta"
         },
         {
                 "id": "ALC-CHALET-10",
@@ -3447,7 +3816,10 @@
                 "enlaceBoeReal": "https://subastas.boe.es/ds.php?id=SUB-JA-2026-08119",
                 "desbloqueado": false,
                 "lat": 38.3686,
-                "lng": -0.4282
+                "lng": -0.4282,
+                "modalidad": "subasta",
+                "modalidadLabel": "🔨 SUBASTA PÚBLICA",
+                "modalidadClass": "badge-subasta"
         }
 ];
 
@@ -3657,6 +4029,9 @@
         }
 
         function generarBannerAhorro(item) {
+            if (item.tipo === 'vivienda') {
+                return `<div class="savings-pill-banner housing"><span>🏠 Alquiler Regulado Oficial:</span> <strong>${item.precioBoe} (-60% Ahorro)</strong></div>`;
+            }
             if (item.tipo === 'empleo') {
                 return `<div class="savings-pill-banner employment"><span>💼 Salario Oficial Fijo:</span> <strong>${item.precioBoe} (14 Pagas)</strong></div>`;
             }
@@ -3693,11 +4068,14 @@
 
             const filtradas = OPORTUNIDADES.filter(item => {
                 let matchRapido = true;
-                if (filtroRapidoActual === 'bolsas') {
+                if (filtroRapidoActual === 'alquiler_vpo') {
+                    matchRapido = item.tipo === 'vivienda';
+                } else if (filtroRapidoActual === 'decomisos_lujo') {
+                    const tagStr = (item.tag || '').toUpperCase();
+                    const titStr = (item.titulo || '').toUpperCase();
+                    matchRapido = item.tipo === 'vehiculo' && (tagStr.includes('DECOMISO') || titStr.includes('DECOMISO'));
+                } else if (filtroRapidoActual === 'bolsas') {
                     matchRapido = item.tipo === 'empleo';
-                } else if (filtroRapidoActual === 'coches_baratos') {
-                    const boeVal = parseEuro(item.precioBoe);
-                    matchRapido = item.tipo === 'vehiculo' && boeVal > 0 && boeVal <= 3000;
                 } else if (filtroRapidoActual === 'descuento_top') {
                     const ahorroStr = item.ahorro || '';
                     matchRapido = ahorroStr.includes('-70%') || ahorroStr.includes('-80%') || ahorroStr.includes('-85%') || ahorroStr.includes('-90%') || ahorroStr.includes('CHOLLO');
@@ -3730,10 +4108,19 @@
                 return;
             }
 
-            grid.innerHTML = filtradas.map(item => `
+            grid.innerHTML = filtradas.map(item => {
+                const esDirecta = item.modalidad === 'directa';
+                const modBadgeClass = esDirecta ? 'badge-mod-directa' : 'badge-mod-subasta';
+                const modBadgeText = esDirecta ? '📋 SOLICITUD DIRECTA' : '🔨 SUBASTA PÚBLICA';
+                const labelMercado = esDirecta ? (item.tipo === 'vivienda' ? 'Alquiler Libre' : 'Sin Alerta') : 'Mercado Libre';
+                const labelOficial = esDirecta ? (item.tipo === 'vivienda' ? 'Alquiler Protegido' : 'Oficial Estado') : 'Precio Salida';
+                const ctaBtnText = item.ctaLabel || (esDirecta ? '📋 Desbloquear Solicitud y Requisitos • 2,90 €' : '🔨 Desbloquear Expediente • 2,90 €');
+
+                return `
                 <article class="card">
                     <div class="card-img" style="background-image: url('${item.img}');">
                         <span class="card-tag ${item.tagClass}">${item.tag}</span>
+                        <span class="card-modality-badge ${modBadgeClass}">${modBadgeText}</span>
                         ${item.badgeVisual ? `<span class="badge-brand-pill">${item.badgeVisual}</span>` : ''}
                         <span class="discount-badge">${item.ahorro}</span>
                     </div>
@@ -3745,11 +4132,11 @@
                         </div>
                         <div class="prices-box">
                             <div class="market-p">
-                                <span class="market-label">Mercado Libre</span>
+                                <span class="market-label">${labelMercado}</span>
                                 <span class="market-val">${item.precioMercado}</span>
                             </div>
                             <div class="boe-p">
-                                <span class="boe-label">Precio Salida</span>
+                                <span class="boe-label">${labelOficial}</span>
                                 <span class="boe-val">${item.precioBoe}</span>
                             </div>
                         </div>
@@ -3788,7 +4175,7 @@
                                     </a>
                                 ` : `
                                     <button class="btn-unlock-single" onclick="abrirModalDesbloqueo('${item.id}')">
-                                        🔓 Desbloquear Expediente • 2,90 €
+                                        ${ctaBtnText}
                                     </button>
                                     <button class="btn-unlock-pro-link" onclick="abrirModalPro()">
                                         ⭐ O accede sin límites con el Plan PRO (14,99 €/mes)
@@ -3801,7 +4188,8 @@
                         </button>
                     </div>
                 </article>
-            `).join('');
+                `;
+            }).join('');
         }
 
         // Modales y Checkout
