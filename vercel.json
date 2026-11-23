@@ -1,6 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": null,
   "outputDirectory": "docs",
-  "cleanUrls": true
+  "cleanUrls": true,
+  "functions": {
+    "api/**/*.py": {
+      "excludeFiles": "{docs/**,output/**,data/**,tests/**,src/**}"
+    }
+  }
 }
