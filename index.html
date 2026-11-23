@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RadarAlertas • El Buscador de Subastas Judiciales, Coches Embargados y Ayudas del Estado</title>
-    <meta name="description" content="Buscador público de subastas del BOE, coches embargados de la DGT y ayudas a fondo perdido con hasta un 80% de ahorro auditadas por IA.">
+    <title>RadarAlertas • Catálogo de Subastas Judiciales BOE, Coches DGT y Ayudas Públicas</title>
+    <meta name="description" content="Portal oficial de subastas judiciales del BOE, coches embargados y subvenciones públicas en España. Oportunidades auditadas con hasta un 90% de ahorro.">
     <meta name="keywords" content="subastas boe, subastas judiciales, comprar piso subasta, coches embargados dgt, ayudas fondo perdido autonomos, radaralertas">
     <link rel="canonical" href="https://radar-alertas-bot.onrender.com">
 
     <!-- Open Graph / Redes Sociales -->
     <meta property="og:site_name" content="RadarAlertas">
-    <meta property="og:title" content="RadarAlertas • Buscador Oficial de Subastas BOE y Oportunidades del Estado">
-    <meta property="og:description" content="Pisos con hasta un 80% de ahorro, vehículos embargados y ayudas públicas en tiempo real.">
+    <meta property="og:title" content="RadarAlertas • Catálogo Oficial de Subastas BOE y Oportunidades del Estado">
+    <meta property="og:description" content="Pisos con hasta un 90% de ahorro, vehículos embargados y ayudas públicas en tiempo real. Desbloqueo de expedientes y Plan PRO.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://radar-alertas-bot.onrender.com">
     <meta name="theme-color" content="#060913">
 
     <!-- Google Fonts -->
@@ -21,7 +20,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@700;800;900&display=swap" rel="stylesheet">
 
-    <!-- Telegram WebApp SDK (Habilita uso como Mini App nativa de Telegram) -->
+    <!-- Telegram WebApp SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <!-- Schema.org Rich Snippets -->
@@ -30,8 +29,7 @@
       "@context": "https://schema.org",
       "@type": "WebApplication",
       "name": "RadarAlertas",
-      "url": "https://radar-alertas-bot.onrender.com",
-      "description": "Monitor inteligente de subastas judiciales del BOE, vehículos embargados y ayudas públicas en España.",
+      "description": "Portal inteligente de subastas judiciales del BOE, vehículos embargados de la DGT y subvenciones públicas.",
       "applicationCategory": "RealEstateApplication",
       "operatingSystem": "All"
     }
@@ -41,16 +39,18 @@
         :root {
             --bg-body: #060913;
             --bg-card: rgba(15, 23, 42, 0.75);
-            --bg-card-hover: rgba(24, 34, 61, 0.85);
+            --bg-card-hover: rgba(24, 34, 61, 0.9);
             --border-glass: rgba(255, 255, 255, 0.12);
-            --border-glow: rgba(56, 189, 248, 0.3);
+            --border-glow: rgba(56, 189, 248, 0.35);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --accent-green: #00ff88;
             --accent-emerald: #10b981;
             --accent-blue: #38bdf8;
-            --accent-red: #ef4444;
             --accent-gold: #fbbf24;
+            --accent-purple: #c084fc;
+            --accent-red: #ef4444;
+            --whatsapp-green: #25d366;
             --primary-cta: #2563eb;
         }
 
@@ -67,8 +67,9 @@
             color: var(--text-main);
             min-height: 100vh;
             background-image: 
-                radial-gradient(circle at 50% 0%, rgba(37, 99, 235, 0.18) 0%, transparent 50%),
-                radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.12) 0%, transparent 45%);
+                radial-gradient(circle at 50% 0%, rgba(37, 99, 235, 0.2) 0%, transparent 55%),
+                radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.14) 0%, transparent 45%),
+                radial-gradient(circle at 15% 70%, rgba(251, 191, 36, 0.08) 0%, transparent 40%);
             background-attachment: fixed;
             display: flex;
             flex-direction: column;
@@ -80,16 +81,17 @@
             top: 0;
             z-index: 100;
             backdrop-filter: blur(20px);
-            background: rgba(6, 9, 19, 0.85);
+            background: rgba(6, 9, 19, 0.88);
             border-bottom: 1px solid var(--border-glass);
             padding: 14px 24px;
         }
         .nav-wrap {
-            max-width: 1200px;
+            max-width: 1240px;
             margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 16px;
         }
         .brand {
             display: flex;
@@ -97,49 +99,107 @@
             gap: 10px;
             text-decoration: none;
             color: #ffffff;
-            font-size: 20px;
+            font-size: 21px;
             font-weight: 900;
             letter-spacing: -0.5px;
         }
         .brand-icon {
-            width: 32px;
-            height: 32px;
+            width: 34px;
+            height: 34px;
             background: linear-gradient(135deg, #2563eb, #10b981);
-            border-radius: 8px;
+            border-radius: 9px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 17px;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
         }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        .nav-link:hover { color: #ffffff; }
+
         .nav-actions {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
-        .btn-telegram {
-            background: #2563eb;
-            color: #ffffff;
+        .btn-wa {
+            background: rgba(37, 211, 102, 0.15);
+            color: #25d366;
+            border: 1px solid rgba(37, 211, 102, 0.4);
             text-decoration: none;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
-            padding: 10px 18px;
+            padding: 8px 14px;
             border-radius: 999px;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             transition: all 0.2s ease;
+        }
+        .btn-wa:hover {
+            background: #25d366;
+            color: #064e3b;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+        }
+        .btn-tg {
+            background: rgba(37, 99, 235, 0.15);
+            color: #60a5fa;
+            border: 1px solid rgba(37, 99, 235, 0.4);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 8px 14px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+        .btn-tg:hover {
+            background: #2563eb;
+            color: #ffffff;
             box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
         }
-        .btn-telegram:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
-            background: #1d4ed8;
+        .btn-pro-nav {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 800;
+            padding: 8px 16px;
+            border-radius: 999px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-pro-nav:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(245, 158, 11, 0.6);
+        }
+
+        @media (max-width: 900px) {
+            .nav-links { display: none; }
         }
 
         /* Hero */
         .hero {
-            max-width: 1200px;
-            margin: 40px auto 20px;
+            max-width: 1240px;
+            margin: 36px auto 20px;
             padding: 0 24px;
             text-align: center;
         }
@@ -170,7 +230,7 @@
         }
         .hero h1 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(32px, 5vw, 56px);
+            font-size: clamp(32px, 5.2vw, 56px);
             font-weight: 900;
             line-height: 1.15;
             letter-spacing: -1.5px;
@@ -182,16 +242,84 @@
         .hero p {
             font-size: clamp(16px, 2vw, 19px);
             color: var(--text-muted);
-            max-width: 720px;
-            margin: 0 auto 30px;
+            max-width: 820px;
+            margin: 0 auto 26px;
             line-height: 1.5;
+        }
+
+        /* Banner de Propuesta Híbrida (Free + Desbloqueo + PRO) */
+        .model-banner {
+            max-width: 860px;
+            margin: 0 auto 34px;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.12) 0%, rgba(16, 185, 129, 0.12) 100%);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 18px;
+            padding: 14px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            font-size: 14px;
+        }
+        .model-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #e2e8f0;
+            font-weight: 600;
+        }
+        .model-item strong {
+            color: #38bdf8;
+        }
+
+        /* Canales de Alertas Gratuitas (WhatsApp + Telegram) */
+        .channels-bar {
+            max-width: 720px;
+            margin: 0 auto 36px;
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .channel-btn {
+            flex: 1;
+            min-width: 240px;
+            padding: 13px 20px;
+            border-radius: 14px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 15px;
+            transition: all 0.2s ease;
+        }
+        .channel-btn-wa {
+            background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+            color: #ffffff;
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+        }
+        .channel-btn-wa:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(37, 211, 102, 0.5);
+        }
+        .channel-btn-tg {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: #ffffff;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+        }
+        .channel-btn-tg:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(37, 99, 235, 0.5);
         }
 
         /* Buscador & Filtros */
         .search-panel {
-            max-width: 1200px;
+            max-width: 1240px;
             width: calc(100% - 48px);
-            margin: 0 auto 40px;
+            margin: 0 auto 36px;
             background: rgba(15, 23, 42, 0.85);
             border: 1.5px solid var(--border-glass);
             backdrop-filter: blur(24px);
@@ -216,7 +344,7 @@
             padding: 14px 18px 14px 44px;
             border-radius: 14px;
             color: #ffffff;
-            font-size: 16px;
+            font-size: 15px;
             outline: none;
             transition: all 0.2s;
         }
@@ -265,7 +393,7 @@
             color: var(--text-muted);
             padding: 8px 18px;
             border-radius: 999px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
             cursor: pointer;
             white-space: nowrap;
@@ -284,12 +412,12 @@
 
         /* Rejilla de Oportunidades */
         .grid-container {
-            max-width: 1200px;
+            max-width: 1240px;
             width: calc(100% - 48px);
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 26px;
             margin-bottom: 60px;
         }
         @media (max-width: 480px) {
@@ -313,7 +441,7 @@
         .card:hover {
             transform: translateY(-6px);
             border-color: var(--border-glow);
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6);
         }
         .card-img {
             height: 200px;
@@ -328,12 +456,12 @@
             position: absolute;
             top: 14px;
             left: 14px;
-            background: rgba(6, 9, 19, 0.85);
+            background: rgba(6, 9, 19, 0.88);
             border: 1px solid rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
             padding: 5px 12px;
             border-radius: 999px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 800;
             letter-spacing: 0.5px;
             text-transform: uppercase;
@@ -364,17 +492,17 @@
             flex-grow: 1;
         }
         .card-location {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
             color: var(--accent-blue);
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
         .card-title {
-            font-size: 19px;
+            font-size: 18px;
             font-weight: 800;
             color: #ffffff;
-            line-height: 1.25;
+            line-height: 1.3;
         }
         .card-specs {
             display: flex;
@@ -393,7 +521,8 @@
 
         /* Precios */
         .prices-box {
-            background: rgba(6, 9, 19, 0.5);
+            background: rgba(6, 9, 19, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 16px;
             padding: 14px 16px;
             display: flex;
@@ -431,12 +560,12 @@
         }
         .boe-val {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 26px;
+            font-size: 25px;
             font-weight: 900;
             color: var(--accent-green);
         }
 
-        /* Legal Badge */
+        /* Legal Check */
         .legal-check {
             display: flex;
             align-items: center;
@@ -450,31 +579,239 @@
             border: 1px solid rgba(56, 189, 248, 0.25);
         }
 
-        /* Botón de Ficha */
-        .card-btn {
-            background: #2563eb;
+        /* Lock Box (El Candado de Expediente) */
+        .lock-box {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%);
+            border: 1.5px dashed rgba(59, 130, 246, 0.35);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 4px;
+        }
+        .lock-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .lock-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 800;
+            color: #93c5fd;
+        }
+        .lock-badge {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            text-transform: uppercase;
+        }
+        .lock-data-preview {
+            background: rgba(6, 9, 19, 0.7);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-family: monospace;
+            font-size: 12px;
+            color: #64748b;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .lock-data-preview span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .lock-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .btn-unlock-single {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: #ffffff;
-            text-decoration: none;
-            padding: 12px;
+            border: none;
             border-radius: 12px;
-            text-align: center;
+            padding: 12px;
             font-weight: 800;
             font-size: 14px;
-            margin-top: auto;
-            transition: all 0.2s;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+            transition: all 0.2s ease;
         }
-        .card-btn:hover {
-            background: #1d4ed8;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.5);
+        .btn-unlock-single:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.5);
+            background: #10b981;
+        }
+        .btn-unlock-pro-link {
+            background: transparent;
+            border: none;
+            color: #fbbf24;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            padding: 4px;
+            transition: color 0.2s;
+        }
+        .btn-unlock-pro-link:hover {
+            color: #fde68a;
+            text-decoration: underline;
         }
 
-        /* Calculadora de Subastas y Rentabilidad Real */
+        /* Sección de Planes y Precios */
+        .pricing-section {
+            max-width: 1240px;
+            width: calc(100% - 48px);
+            margin: 0 auto 60px;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.8) 100%);
+            border: 1.5px solid var(--border-glass);
+            border-radius: 28px;
+            padding: 44px 30px;
+            backdrop-filter: blur(24px);
+        }
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .pricing-header h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(26px, 4vw, 38px);
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+        .pricing-header p {
+            color: var(--text-muted);
+            font-size: 16px;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+        .plan-card {
+            background: rgba(6, 9, 19, 0.6);
+            border: 1.5px solid var(--border-glass);
+            border-radius: 22px;
+            padding: 32px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .plan-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+        .plan-featured {
+            border-color: #3b82f6;
+            background: linear-gradient(180deg, rgba(37, 99, 235, 0.12) 0%, rgba(15, 23, 42, 0.8) 100%);
+            box-shadow: 0 10px 35px rgba(37, 99, 235, 0.25);
+        }
+        .plan-ribbon {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2563eb;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 4px 14px;
+            border-radius: 999px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+        }
+        .plan-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+        .plan-price {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+        .plan-price .amount {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 38px;
+            font-weight: 900;
+            color: #ffffff;
+        }
+        .plan-price .period {
+            color: #94a3b8;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .plan-features {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            font-size: 14px;
+            color: #cbd5e1;
+        }
+        .plan-features li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .plan-features li span.check {
+            color: #10b981;
+            font-weight: 900;
+            font-size: 16px;
+        }
+        .plan-btn {
+            margin-top: auto;
+            padding: 14px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 800;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            border: none;
+        }
+        .plan-btn-free {
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            border: 1px solid var(--border-glass);
+        }
+        .plan-btn-free:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        .plan-btn-pro {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: #ffffff;
+            box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4);
+        }
+        .plan-btn-pro:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(37, 99, 235, 0.6);
+        }
+
+        /* Calculadora */
         .calc-section {
-            max-width: 1200px;
+            max-width: 1240px;
             width: calc(100% - 48px);
             margin: 0 auto 60px auto;
             background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 41, 59, 0.7) 100%);
@@ -646,7 +983,7 @@
 
         /* Lead Magnet / Guía Banner */
         .guide-section {
-            max-width: 1200px;
+            max-width: 1240px;
             width: calc(100% - 48px);
             margin: 0 auto 60px;
             background: linear-gradient(135deg, rgba(37, 99, 235, 0.2) 0%, rgba(16, 185, 129, 0.15) 100%);
@@ -668,13 +1005,13 @@
         }
         .guide-text h2 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 32px;
+            font-size: 30px;
             font-weight: 900;
             margin-bottom: 10px;
             color: #ffffff;
         }
         .guide-text p {
-            font-size: 16px;
+            font-size: 15px;
             color: #cbd5e1;
             line-height: 1.5;
             max-width: 600px;
@@ -683,9 +1020,9 @@
             background: #10b981;
             color: #064e3b;
             text-decoration: none;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 900;
-            padding: 16px 30px;
+            padding: 16px 28px;
             border-radius: 999px;
             white-space: nowrap;
             box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
@@ -696,6 +1033,164 @@
             background: #00ff88;
         }
 
+        /* Modal de Desbloqueo y PRO */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(6, 9, 19, 0.85);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-box {
+            background: #0f172a;
+            border: 1.5px solid rgba(56, 189, 248, 0.4);
+            border-radius: 26px;
+            max-width: 520px;
+            width: 100%;
+            padding: 32px 28px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+            position: relative;
+            animation: modal-in 0.25s ease-out;
+        }
+        @keyframes modal-in {
+            from { transform: scale(0.92); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #94a3b8;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+        }
+        .modal-header {
+            text-align: center;
+            margin-bottom: 22px;
+        }
+        .modal-icon {
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+        .modal-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 6px;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .modal-sub {
+            font-size: 14px;
+            color: #94a3b8;
+        }
+        .modal-item-info {
+            background: rgba(6, 9, 19, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .modal-item-thumb {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            background-size: cover;
+            background-position: center;
+            flex-shrink: 0;
+        }
+        .modal-item-details {
+            flex-grow: 1;
+        }
+        .modal-item-name {
+            font-weight: 700;
+            font-size: 14px;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+        .modal-item-meta {
+            font-size: 12px;
+            color: #38bdf8;
+            font-weight: 600;
+        }
+        .modal-benefits {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 24px;
+            font-size: 13px;
+            color: #cbd5e1;
+        }
+        .modal-benefits li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-pay-single {
+            width: 100%;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 14px;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+            transition: all 0.2s;
+            margin-bottom: 14px;
+        }
+        .btn-pay-single:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(16, 185, 129, 0.6);
+        }
+        .modal-upsell-pro {
+            background: rgba(37, 99, 235, 0.12);
+            border: 1px solid rgba(37, 99, 235, 0.3);
+            border-radius: 14px;
+            padding: 14px;
+            text-align: center;
+            font-size: 13px;
+            color: #93c5fd;
+        }
+        .modal-upsell-pro a {
+            color: #fbbf24;
+            font-weight: 800;
+            text-decoration: none;
+            display: block;
+            margin-top: 4px;
+            cursor: pointer;
+        }
+        .modal-upsell-pro a:hover {
+            text-decoration: underline;
+        }
+
         /* Footer */
         footer {
             margin-top: auto;
@@ -703,7 +1198,7 @@
             padding: 30px 24px;
             text-align: center;
             color: #64748b;
-            font-size: 14px;
+            font-size: 13px;
         }
         footer a {
             color: #94a3b8;
@@ -720,10 +1215,21 @@
                 <div class="brand-icon">⚡</div>
                 RadarAlertas
             </a>
+            <nav class="nav-links">
+                <a href="#catalogo" class="nav-link">Catálogo de Chollos</a>
+                <a href="#calculadora" class="nav-link">Calculadora LEC</a>
+                <a href="#planes" class="nav-link">Planes & Precios</a>
+            </nav>
             <div class="nav-actions">
-                <a href="https://t.me/+JoX17328N-VkMWVk" target="_blank" class="btn-telegram">
-                    <span>Entrar al Canal</span> ➔
+                <a href="https://whatsapp.com/channel/0029VaRadarAlertas" target="_blank" class="btn-wa">
+                    <span>💬 Canal WhatsApp</span>
                 </a>
+                <a href="https://t.me/+JoX17328N-VkMWVk" target="_blank" class="btn-tg">
+                    <span>✈️ Telegram</span>
+                </a>
+                <button onclick="abrirModalPro()" class="btn-pro-nav">
+                    ⭐ Plan PRO
+                </button>
             </div>
         </div>
     </header>
@@ -732,18 +1238,44 @@
     <section class="hero">
         <div class="live-tag">
             <div class="pulse"></div>
-            <span>1.428 CONVOCATORIAS ACTIVAS HOY EN ESPAÑA</span>
+            <span>1.428 CONVOCATORIAS Y SUBASTAS AUDITADAS HOY EN ESPAÑA</span>
         </div>
         <h1>El Buscador Inteligente de Oportunidades del Estado</h1>
-        <p>Monitorizamos cada madrugada el BOE, Catastro, DGT y la Base Nacional de Subvenciones para cruzar precios de mercado y auditar cargas legales antes de pujar.</p>
+        <p>Monitorizamos cada madrugada el BOE, Catastro, DGT y la Base Nacional de Subvenciones para filtrar chollos reales con hasta un 90% de ahorro y cargas legales auditadas por IA.</p>
+
+        <!-- Banner de Modelo Comercial -->
+        <div class="model-banner">
+            <div class="model-item">
+                <span>🔓</span>
+                <span><strong>Modo Gratuito:</strong> Explora el catálogo completo sin registrarte</span>
+            </div>
+            <div class="model-item">
+                <span>⚡</span>
+                <span><strong>Desbloqueo Puntual:</strong> Solo <strong>2,90 €</strong> por expediente oficial</span>
+            </div>
+            <div class="model-item">
+                <span>⭐</span>
+                <span><strong>Plan PRO Inversor:</strong> Desbloqueo ilimitado por <strong>14,99 €/mes</strong></span>
+            </div>
+        </div>
+
+        <!-- Canales Gratuitos -->
+        <div class="channels-bar">
+            <a href="https://whatsapp.com/channel/0029VaRadarAlertas" target="_blank" class="channel-btn channel-btn-wa">
+                <span>💬 Seguir en Canal de WhatsApp (Gratis)</span>
+            </a>
+            <a href="https://t.me/+JoX17328N-VkMWVk" target="_blank" class="channel-btn channel-btn-tg">
+                <span>✈️ Entrar al Canal de Telegram (Gratis)</span>
+            </a>
+        </div>
     </section>
 
     <!-- Buscador y Filtros -->
-    <section class="search-panel">
+    <section class="search-panel" id="catalogo">
         <div class="search-row">
             <div class="input-wrap">
                 <span class="input-icon">🔍</span>
-                <input type="text" id="searchInput" placeholder="Busca por calle, ciudad, modelo de coche o ayuda..." oninput="filtrarOportunidades()">
+                <input type="text" id="searchInput" placeholder="Busca por municipio, modelo de coche, tipo de inmueble o ayuda..." oninput="filtrarOportunidades()">
             </div>
             <select class="select-prov" id="provSelect" onchange="filtrarOportunidades()">
                 <option value="">Toda España (Todas las Provincias)</option>
@@ -754,15 +1286,15 @@
                 <option value="malaga">Málaga</option>
                 <option value="alicante">Alicante</option>
                 <option value="zaragoza">Zaragoza</option>
-                <option value="nacional">Nacional (Fondos BDNS)</option>
+                <option value="nacional">Nacional (Fondos BDNS / Estado)</option>
             </select>
         </div>
 
         <!-- Categorías -->
         <div class="category-tabs">
             <button class="tab-btn active" onclick="setCategory('all', this)">⚡ Todas las Oportunidades</button>
+            <button class="tab-btn" onclick="setCategory('vehiculo', this)">🚗 Coches Embargados (DGT/BOE)</button>
             <button class="tab-btn" onclick="setCategory('inmueble', this)">🏢 Pisos y Chalets (BOE)</button>
-            <button class="tab-btn" onclick="setCategory('vehiculo', this)">🚗 Coches Embargados (DGT)</button>
             <button class="tab-btn" onclick="setCategory('ayuda', this)">💶 Ayudas a Fondo Perdido</button>
             <button class="tab-btn" onclick="setCategory('licitacion', this)">📋 Licitaciones Menores</button>
         </div>
@@ -770,8 +1302,68 @@
 
     <!-- Rejilla de Tarjetas -->
     <main class="grid-container" id="cardsGrid">
-        <!-- Tarjetas inyectadas dinámicamente con JavaScript -->
+        <!-- Render dinámico desde JavaScript -->
     </main>
+
+    <!-- Tabla / Sección de Precios -->
+    <section class="pricing-section" id="planes">
+        <div class="pricing-header">
+            <h2>Elige cómo acceder a las oportunidades del BOE</h2>
+            <p>Desde el acceso casual sin ataduras hasta la suite completa para inversores profesionales.</p>
+        </div>
+        <div class="pricing-grid">
+            <!-- Plan Gratuito -->
+            <div class="plan-card">
+                <div class="plan-title">Modo Gratuito</div>
+                <div class="plan-price">
+                    <span class="amount">0 €</span>
+                    <span class="period">para siempre</span>
+                </div>
+                <ul class="plan-features">
+                    <li><span class="check">✓</span> Acceso al catálogo web de subastas</li>
+                    <li><span class="check">✓</span> Alertas diarias en WhatsApp y Telegram</li>
+                    <li><span class="check">✓</span> Calculadora de rentabilidad y gastos LEC</li>
+                    <li><span class="check">✓</span> Desbloqueo puntual: <strong>2,90 € / expediente</strong></li>
+                </ul>
+                <a href="#catalogo" class="plan-btn plan-btn-free">Explorar Catálogo Gratis</a>
+            </div>
+
+            <!-- Plan PRO (Destacado) -->
+            <div class="plan-card plan-featured">
+                <div class="plan-ribbon">MÁS POPULAR PARA INVERSORES</div>
+                <div class="plan-title">Plan PRO Inversor</div>
+                <div class="plan-price">
+                    <span class="amount">14,99 €</span>
+                    <span class="period">/ mes</span>
+                </div>
+                <ul class="plan-features">
+                    <li><span class="check">✓</span> <strong>Desbloqueo ILIMITADO</strong> de todos los expedientes</li>
+                    <li><span class="check">✓</span> Enlaces directos a la puja oficial en el BOE</li>
+                    <li><span class="check">✓</span> Alertas instantáneas en WhatsApp y Telegram (0 delay)</li>
+                    <li><span class="check">✓</span> Filtros avanzados por provincia y rentabilidad</li>
+                    <li><span class="check">✓</span> Auditoría de cargas y situación posesoria</li>
+                    <li><span class="check">✓</span> Sin permanencia, cancelas con 1 clic</li>
+                </ul>
+                <button onclick="abrirModalPro()" class="plan-btn plan-btn-pro">Activar Plan PRO (14,99 €/mes)</button>
+            </div>
+
+            <!-- Plan Empresas -->
+            <div class="plan-card">
+                <div class="plan-title">Plan Pymes & Licitaciones</div>
+                <div class="plan-price">
+                    <span class="amount">29,00 €</span>
+                    <span class="period">/ mes</span>
+                </div>
+                <ul class="plan-features">
+                    <li><span class="check">✓</span> Todo lo incluido en el Plan PRO</li>
+                    <li><span class="check">✓</span> Subvenciones y fondos a fondo perdido por CNAE</li>
+                    <li><span class="check">✓</span> Licitaciones menores del Estado (< 40.000 €)</li>
+                    <li><span class="check">✓</span> Pliegos técnicos y modelos de oferta directa</li>
+                </ul>
+                <button onclick="abrirModalPro()" class="plan-btn plan-btn-free">Consultar Plan Empresas</button>
+            </div>
+        </div>
+    </section>
 
     <!-- Calculadora Interactiva de Inversión en Subastas -->
     <section class="calc-section" id="calculadora">
@@ -852,9 +1444,9 @@
                     </div>
                 </div>
 
-                <a href="https://t.me/RadarAletasSubastas_bot?start=calculadora" target="_blank" class="calc-cta-btn">
-                    Auditar este Expediente con IA en Telegram ➔
-                </a>
+                <button onclick="abrirModalPro()" class="calc-cta-btn">
+                    Desbloquear Acceso PRO a Todas las Subastas ➔
+                </button>
             </div>
         </div>
     </section>
@@ -865,70 +1457,181 @@
             <h2>📘 Guía Oficial de Subastas Judiciales (0 €)</h2>
             <p>Aprende cómo funciona la fianza del 5% que te devuelve el juzgado, qué deudas quedan anuladas por el Art. 674 de la LEC y cómo pujar con seguridad sin okupas.</p>
         </div>
-        <a href="https://t.me/RadarAletasSubastas_bot?start=guia_gratis" target="_blank" class="btn-download-guide">
+        <a href="assets/Guia_Subastas_Judiciales_RadarAlertas.pdf" download class="btn-download-guide">
             Descargar Guía en PDF Gratis ➔
         </a>
     </section>
 
+    <!-- Modal de Desbloqueo de Expediente Individual -->
+    <div class="modal-overlay" id="modalUnlock">
+        <div class="modal-box">
+            <button class="modal-close" onclick="cerrarModales()">✕</button>
+            <div class="modal-header">
+                <div class="modal-icon">🔓</div>
+                <h3 class="modal-title">Desbloquear Expediente Oficial</h3>
+                <p class="modal-sub">Acceso directo a la puja oficial del BOE sin intermediarios</p>
+            </div>
+
+            <div class="modal-item-info">
+                <div class="modal-item-thumb" id="modalItemImg"></div>
+                <div class="modal-item-details">
+                    <div class="modal-item-name" id="modalItemTitle">Piso en Las Rozas (Madrid)</div>
+                    <div class="modal-item-meta" id="modalItemMeta">Salida: 116.956 € • Ahorro: +272.000 €</div>
+                </div>
+            </div>
+
+            <ul class="modal-benefits">
+                <li><span style="color:#10b981;">✓</span> <strong>Número exacto de expediente</strong> judicial y juzgado asignado</li>
+                <li><span style="color:#10b981;">✓</span> <strong>Enlace oficial directo</strong> para pujar en el portal del BOE / DGT</li>
+                <li><span style="color:#10b981;">✓</span> <strong>Auditoría legal</strong> de cargas anteriores y situación posesoria</li>
+                <li><span style="color:#10b981;">✓</span> <strong>Referencia catastral</strong> y dirección exacta completa</li>
+            </ul>
+
+            <button class="btn-pay-single" onclick="simularPagoDesbloqueo()">
+                Pagar 2,90 € y Ver Expediente Ahora
+            </button>
+
+            <div class="modal-upsell-pro">
+                <span>¿Revisas varias subastas al mes?</span>
+                <a onclick="cerrarModales(); abrirModalPro();">⭐ Activa el Plan PRO Inversor por solo 14,99 €/mes (Desbloqueo ilimitado)</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal del Plan PRO Inversor -->
+    <div class="modal-overlay" id="modalPro">
+        <div class="modal-box" style="border-color: rgba(251, 191, 36, 0.4);">
+            <button class="modal-close" onclick="cerrarModales()">✕</button>
+            <div class="modal-header">
+                <div class="modal-icon">⭐</div>
+                <h3 class="modal-title">Suscripción PRO Inversor</h3>
+                <p class="modal-sub">Todas las oportunidades del Estado en tu bolsillo al instante</p>
+            </div>
+
+            <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 14px; padding: 16px; margin-bottom: 20px; text-align: center;">
+                <div style="font-size: 13px; color: #fbbf24; font-weight: 700; text-transform: uppercase;">Acceso Ilimitado Total</div>
+                <div style="font-size: 36px; font-weight: 900; color: #ffffff; font-family: 'Space Grotesk', sans-serif; margin: 4px 0;">14,99 € <span style="font-size: 16px; color: #94a3b8; font-weight: 600;">/ mes</span></div>
+                <div style="font-size: 12px; color: #cbd5e1;">Sin permanencia. Cancela con 1 clic en cualquier momento.</div>
+            </div>
+
+            <ul class="modal-benefits">
+                <li><span style="color:#10b981;">✓</span> Desbloqueo de <strong>todos los expedientes</strong> sin pagar 2,90 € cada vez</li>
+                <li><span style="color:#10b981;">✓</span> Alertas en tiempo real por <strong>WhatsApp y Telegram</strong></li>
+                <li><span style="color:#10b981;">✓</span> Filtros por provincia y cálculo de cargas previo</li>
+                <li><span style="color:#10b981;">✓</span> Soporte para dudas de procedimientos judiciales</li>
+            </ul>
+
+            <button class="btn-pay-single" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);" onclick="simularPagoPro()">
+                Suscribirme por 14,99 € / mes
+            </button>
+
+            <div style="text-align: center; font-size: 12px; color: #64748b; margin-top: 10px;">
+                🔒 Pago 100% seguro con cifrado SSL bancario (Stripe / Bizum / Google Pay)
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer>
         <p>© 2026 RadarAlertas • Tecnología de Inteligencia y Datos Abiertos del Estado.</p>
-        <p style="margin-top: 8px; font-size: 12px;">Datos cruzados en tiempo real con el Boletín Oficial del Estado (BOE), Catastro y BDNS. Sin intermediarios.</p>
+        <p style="margin-top: 8px; font-size: 12px;">Datos cruzados en tiempo real con el Boletín Oficial del Estado (BOE), Catastro, DGT y BDNS. Sin intermediarios.</p>
     </footer>
 
-    <!-- Script de Datos y Filtrado Reactivo -->
+    <!-- Script de Datos y Lógica Reactiva -->
     <script>
         const OPORTUNIDADES = [
             {
-                id: "BCN-PISO-01",
+                id: "DGT-MAZDA-01",
+                tipo: "vehiculo",
+                provincia: "madrid",
+                titulo: "SUV Mazda CX-5 2.2 Skyactiv-D (Año 2017)",
+                ubicacion: "Madrid • Depósito Judicial",
+                specs: ["SUV 5 Puertas", "150 CV Diésel", "Caja Manual 6v", "Llaves y Ficha DGT"],
+                precioMercado: "18.424 €",
+                precioBoe: "1.842 €",
+                ahorro: "-89% DESCUENTO",
+                legal: "DGT: 0,00 € • Precintos y multas canceladas por Ley",
+                img: "assets/templates/vehiculo_coche_oficial.jpg",
+                tag: "DGT / EMBARGO",
+                tagClass: "tag-dgt",
+                expedienteReal: "SUB-AT-2026-00412",
+                enlaceBoeReal: "https://subastas.boe.es/ds.php?id=SUB-AT-2026-00412",
+                desbloqueado: false
+            },
+            {
+                id: "MAD-ROZAS-02",
+                tipo: "inmueble",
+                provincia: "madrid",
+                titulo: "Piso de 118 m² con Terraza en Las Rozas",
+                ubicacion: "Madrid • Las Rozas de Madrid",
+                specs: ["118 m² Construidos", "3 Dormitorios", "2 Baños", "Garaje y Trastero"],
+                precioMercado: "389.855 €",
+                precioBoe: "116.956 €",
+                ahorro: "+272k € MARGEN",
+                legal: "Cargas: 0,00 € (Art. 674 LEC) • Libre de ocupantes",
+                img: "assets/templates/fachada_edificio.jpg",
+                tag: "SUBASTA JUDICIAL BOE",
+                tagClass: "tag-boe",
+                expedienteReal: "SUB-JA-2026-09432",
+                enlaceBoeReal: "https://subastas.boe.es/ds.php?id=SUB-JA-2026-09432",
+                desbloqueado: false
+            },
+            {
+                id: "BCN-EIXAMPLE-03",
                 tipo: "inmueble",
                 provincia: "barcelona",
                 titulo: "Piso de 85 m² en pleno Distrito Eixample",
                 ubicacion: "Barcelona • C/ Consell de Cent",
-                specs: ["85 m² Construidos", "3 Dormitorios", "Planta 4ª Exterior", "Ascensor"],
+                specs: ["85 m²", "3 Dormitorios", "Planta 4ª Exterior", "Ascensor"],
                 precioMercado: "340.000 €",
                 precioBoe: "54.000 €",
-                ahorro: "-84%",
+                ahorro: "-84% DESCUENTO",
                 legal: "Cargas: 0,00 € (Canceladas Art. 674 LEC) • Vacío",
                 img: "assets/templates/barcelona_aerea.jpg",
                 tag: "SUBASTA JUDICIAL BOE",
                 tagClass: "tag-boe",
-                botParam: "subasta_bcn_eixample"
+                expedienteReal: "SUB-JA-2026-07821",
+                enlaceBoeReal: "https://subastas.boe.es/ds.php?id=SUB-JA-2026-07821",
+                desbloqueado: false
             },
             {
-                id: "MAD-PISO-02",
+                id: "DGT-MERCEDES-04",
+                tipo: "vehiculo",
+                provincia: "madrid",
+                titulo: "Mercedes-Benz Clase B 200 CDI",
+                ubicacion: "Madrid • Depósito Judicial",
+                specs: ["Año 2012", "136 CV Diésel", "Monovolumen Compacto", "Ficha Técnica"],
+                precioMercado: "8.016 €",
+                precioBoe: "802 €",
+                ahorro: "-89% DESCUENTO",
+                legal: "DGT: 0,00 € • Mandamiento Judicial de Levantamiento",
+                img: "assets/templates/vehiculo_llaves_concesionario.jpg",
+                tag: "DGT / EMBARGO",
+                tagClass: "tag-dgt",
+                expedienteReal: "SUB-AT-2026-00985",
+                enlaceBoeReal: "https://subastas.boe.es/ds.php?id=SUB-AT-2026-00985",
+                desbloqueado: false
+            },
+            {
+                id: "MAD-TIELMES-05",
                 tipo: "inmueble",
                 provincia: "madrid",
-                titulo: "Vivienda de 80 m² en Barrio del Pilar",
-                ubicacion: "Madrid • Zona Norte / La Vaguada",
-                specs: ["80 m²", "3 Dormitorios", "Terraza", "Metro a 100m"],
-                precioMercado: "270.000 €",
-                precioBoe: "42.000 €",
-                ahorro: "-84%",
+                titulo: "Vivienda Unifamiliar de 125 m² en Tielmes",
+                ubicacion: "Madrid • Comarca Las Vegas",
+                specs: ["125 m²", "3 Dormitorios", "Patio Trasero", "Sin cargas previas"],
+                precioMercado: "139.557 €",
+                precioBoe: "13.956 €",
+                ahorro: "-90% DESCUENTO",
                 legal: "Cargas: 0,00 € • Fianza 5% Retornable",
                 img: "assets/templates/barrio_pilar_aerea.jpg",
                 tag: "SUBASTA JUDICIAL BOE",
                 tagClass: "tag-boe",
-                botParam: "subasta_mad_pilar"
+                expedienteReal: "SUB-JA-2026-11824",
+                enlaceBoeReal: "https://subastas.boe.es/ds.php?id=SUB-JA-2026-11824",
+                desbloqueado: false
             },
             {
-                id: "AUTO-BMW-03",
-                tipo: "vehiculo",
-                provincia: "madrid",
-                titulo: "BMW Serie 3 320d Automático (Año 2021)",
-                ubicacion: "Madrid • Depósito Judicial",
-                specs: ["Año 2021", "68.000 km", "190 CV Diésel", "Llaves y Ficha"],
-                precioMercado: "24.500 €",
-                precioBoe: "4.800 €",
-                ahorro: "-80%",
-                legal: "DGT: 0,00 € • Precintos cancelados por Ley",
-                img: "assets/templates/vehiculo_coche_oficial.jpg",
-                tag: "DGT / EMBARGO",
-                tagClass: "tag-dgt",
-                botParam: "coche_bmw_serie3"
-            },
-            {
-                id: "AYUDA-BDNS-04",
+                id: "AYUDA-BDNS-06",
                 tipo: "ayuda",
                 provincia: "nacional",
                 titulo: "Subvención Directa de hasta 12.000 € a Fondo Perdido",
@@ -941,10 +1644,12 @@
                 img: "assets/templates/ayuda_dinero_euros.jpg",
                 tag: "SUBVENCIÓN PÚBLICA",
                 tagClass: "tag-ayuda",
-                botParam: "ayuda_fondo_perdido"
+                expedienteReal: "BDNS-CONV-2026-99120",
+                enlaceBoeReal: "https://www.infosubvenciones.es/bdnstrans/GE/es/convocatoria/99120",
+                desbloqueado: false
             },
             {
-                id: "LICIT-ESTADO-05",
+                id: "LICIT-ESTADO-07",
                 tipo: "licitacion",
                 provincia: "valencia",
                 titulo: "Contrato Menor de Mantenimiento de Edificios Públicos",
@@ -957,27 +1662,14 @@
                 img: "assets/templates/licitacion_contrato_oficial.jpg",
                 tag: "LICITACIÓN MENOR",
                 tagClass: "tag-licit",
-                botParam: "licitacion_valencia"
-            },
-            {
-                id: "VAL-PISO-06",
-                tipo: "inmueble",
-                provincia: "valencia",
-                titulo: "Piso de 92 m² con Balcón en Ruzafa",
-                ubicacion: "Valencia • Distrito Ruzafa",
-                specs: ["92 m²", "2 Baños", "Exterior", "Ascensor"],
-                precioMercado: "195.000 €",
-                precioBoe: "38.000 €",
-                ahorro: "-80%",
-                legal: "Expediente Limpio de Cargas • Mandamiento Judicial",
-                img: "assets/templates/fachada_edificio.jpg",
-                tag: "SUBASTA JUDICIAL BOE",
-                tagClass: "tag-boe",
-                botParam: "subasta_val_ruzafa"
+                expedienteReal: "LIC-VAL-2026-00431",
+                enlaceBoeReal: "https://contrataciondelestado.es/wps/poc?uri=deeplink:detalle_licitacion&idEvl=431",
+                desbloqueado: false
             }
         ];
 
         let categoriaActual = 'all';
+        let itemSeleccionado = null;
 
         function setCategory(cat, btn) {
             categoriaActual = cat;
@@ -1038,15 +1730,85 @@
                             <span>🛡️</span>
                             <span>${item.legal}</span>
                         </div>
-                        <a href="https://t.me/RadarAletasSubastas_bot?start=${item.botParam}" target="_blank" class="card-btn">
-                            Ver Expediente en Telegram ➔
-                        </a>
+
+                        <!-- Candado de Expediente -->
+                        <div class="lock-box">
+                            <div class="lock-header">
+                                <div class="lock-title-wrap">
+                                    <span>${item.desbloqueado ? '🔓' : '🔒'}</span>
+                                    <span>Expediente y Enlace Oficial</span>
+                                </div>
+                                <span class="lock-badge" style="${item.desbloqueado ? 'background:rgba(16,185,129,0.2); color:#4ade80; border-color:rgba(16,185,129,0.4);' : ''}">
+                                    ${item.desbloqueado ? 'DESBLOQUEADO' : 'CANDADO'}
+                                </span>
+                            </div>
+
+                            <div class="lock-data-preview">
+                                ${item.desbloqueado ? `
+                                    <span style="color:#4ade80; font-weight:bold;">Nº Expediente: ${item.expedienteReal}</span>
+                                    <span>Portal BOE: <a href="${item.enlaceBoeReal}" target="_blank" style="color:#38bdf8; text-decoration:underline;">Ver Ficha Oficial de Puja ➔</a></span>
+                                ` : `
+                                    <span>Nº Expediente: <code>SUB-••-2026-••••••</code></span>
+                                    <span>Portal BOE: <code>https://subastas.boe.es/ds.php?id=••••••••</code></span>
+                                `}
+                            </div>
+
+                            <div class="lock-actions">
+                                ${item.desbloqueado ? `
+                                    <a href="${item.enlaceBoeReal}" target="_blank" class="btn-unlock-single" style="background:#2563eb; text-decoration:none;">
+                                        Acceder a la Puja Oficial en el BOE ➔
+                                    </a>
+                                ` : `
+                                    <button class="btn-unlock-single" onclick="abrirModalDesbloqueo('${item.id}')">
+                                        🔓 Desbloquear Expediente • 2,90 €
+                                    </button>
+                                    <button class="btn-unlock-pro-link" onclick="abrirModalPro()">
+                                        ⭐ O accede sin límites con el Plan PRO (14,99 €/mes)
+                                    </button>
+                                `}
+                            </div>
+                        </div>
                     </div>
                 </article>
             `).join('');
         }
 
-        // Lógica interactiva de la Calculadora de Inversión y Rentabilidad
+        // Modales y Checkout
+        function abrirModalDesbloqueo(id) {
+            const item = OPORTUNIDADES.find(o => o.id === id);
+            if (!item) return;
+            itemSeleccionado = item;
+
+            document.getElementById('modalItemTitle').textContent = item.titulo;
+            document.getElementById('modalItemMeta').textContent = `Salida: ${item.precioBoe} • Ahorro: ${item.ahorro}`;
+            document.getElementById('modalItemImg').style.backgroundImage = `url('${item.img}')`;
+            document.getElementById('modalUnlock').classList.add('active');
+        }
+
+        function abrirModalPro() {
+            document.getElementById('modalPro').classList.add('active');
+        }
+
+        function cerrarModales() {
+            document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
+        }
+
+        function simularPagoDesbloqueo() {
+            if (!itemSeleccionado) return;
+            itemSeleccionado.desbloqueado = true;
+            cerrarModales();
+            filtrarOportunidades();
+            alert(`✅ ¡Expediente desbloqueado con éxito!\n\nSe ha revelado el expediente ${itemSeleccionado.expedienteReal} y el enlace directo oficial.`);
+        }
+
+        function simularPagoPro() {
+            OPORTUNIDADES.forEach(o => o.desbloqueado = true);
+            cerrarModales();
+            filtrarOportunidades();
+            alert("🌟 ¡Bienvenido al Plan PRO Inversor!\n\nTodos los expedientes del catálogo han sido desbloqueados sin límites.");
+        }
+
+        // Calculadora
         function actualizarCalculadora() {
             const pujaInput = document.getElementById('calcPuja');
             const mercadoInput = document.getElementById('calcMercado');
@@ -1061,7 +1823,7 @@
             const gastosFijos = Math.max(0, parseFloat(extrasInput.value) || 0);
 
             const impuestoITP = puja * itpPct;
-            const arancelRegistro = 450; // Arancel medio mandamiento judicial y cancelación cargas Art. 674 LEC
+            const arancelRegistro = 450;
             const costeTotal = puja + impuestoITP + arancelRegistro + gastosFijos;
             const beneficioNeto = mercado - costeTotal;
             const roi = costeTotal > 0 ? ((beneficioNeto / costeTotal) * 100) : 0;
@@ -1087,7 +1849,7 @@
             }
         }
 
-        // Si se abre como Telegram Mini-App
+        // Telegram WebApp
         if (window.Telegram && window.Telegram.WebApp) {
             try {
                 window.Telegram.WebApp.ready();
@@ -1095,7 +1857,7 @@
             } catch(e) {}
         }
 
-        // Renderizado inicial al cargar
+        // Inicialización
         filtrarOportunidades();
         actualizarCalculadora();
     </script>
