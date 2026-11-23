@@ -26,7 +26,9 @@ from src.telegram_bot.database import (
     registrar_pago_stripe,
     obtener_usuarios_para_recordatorio_renovacion,
     marcar_aviso_renovacion_enviado,
-    procesar_suscripciones_vencidas
+    procesar_suscripciones_vencidas,
+    registrar_visita_web,
+    obtener_metricas_visitas
 )
 from src.telegram_bot.bot_alertas import (
     comando_start,
@@ -60,6 +62,40 @@ async def handle_ping(request):
         "version": "v2.8-clean",
         "bot": "@RadarAletasSubastas_bot"
     })
+
+async def handle_track_visit(request):
+    """Registra una visita anónima desde la web."""
+    try:
+        ref = request.query.get("ref", "directo")
+        pagina = request.query.get("p", "/")
+        ua = request.headers.get("User-Agent", "desconocido")
+
+        ua_lower = ua.lower()
+        if "iphone" in ua_lower or "ipad" in ua_lower:
+            disp = "iOS"
+        elif "android" in ua_lower:
+            disp = "Android"
+        elif "mobile" in ua_lower:
+            disp = "Móvil"
+        else:
+            disp = "Escritorio"
+
+        ip = request.remote or request.headers.get("X-Forwarded-For", "anon")
+        import hashlib
+        ip_hash = hashlib.sha256(ip.encode()).hexdigest()[:16]
+
+        registrar_visita_web(origen=ref, pagina=pagina, dispositivo=disp, user_agent=ua, ip_hash=ip_hash)
+    except Exception as e:
+        print(f"Error registrando visita: {e}")
+
+    return web.json_response(
+        {"ok": True},
+        headers={
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+            "Access-Control-Allow-Headers": "*"
+        }
+    )
 
 async def handle_landing_page(request):
     """Sirve la Landing Page oficial en la raíz del servidor."""
@@ -309,6 +345,9 @@ async def main():
     server.router.add_get("/index.html", handle_landing_page)
     server.router.add_get("/ping", handle_ping)
     server.router.add_get("/healthz", handle_ping)
+    server.router.add_get("/api/visita", handle_track_visit)
+    server.router.add_post("/api/visita", handle_track_visit)
+    server.router.add_route("OPTIONS", "/api/visita", handle_track_visit)
     server.router.add_post("/webhook/stripe", handle_stripe_webhook)
 
     # Servir carpeta de assets estáticos (imágenes de oportunidades, fotos aéreas, logos)

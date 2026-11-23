@@ -34,7 +34,8 @@ from src.telegram_bot.database import (
     obtener_estadisticas_referidos,
     marcar_premio_referidos_entregado,
     guardar_provincia_favorita,
-    obtener_provincia_favorita
+    obtener_provincia_favorita,
+    obtener_metricas_visitas
 )
 from src.extractores.boe_inmuebles import buscar_subastas_inmuebles, obtener_detalle_subasta
 from src.extractores.boe_vehiculos import buscar_subastas_vehiculos, obtener_detalle_vehiculo
@@ -1038,8 +1039,9 @@ async def comando_activar_manual(update: Update, context: ContextTypes.DEFAULT_T
         await update.message.reply_text(f"Error: {e}")
 
 async def generar_texto_stats(context: ContextTypes.DEFAULT_TYPE) -> str:
-    """Genera el texto de estadísticas del negocio con los miembros reales de cada canal."""
+    """Genera el texto de estadísticas del negocio con los miembros reales de cada canal y visitas web."""
     m = obtener_metricas_globales()
+    v = obtener_metricas_visitas()
 
     mrr = 0.0
     for plan, count in m["desglose_planes"].items():
@@ -1068,9 +1070,17 @@ async def generar_texto_stats(context: ContextTypes.DEFAULT_TYPE) -> str:
 
     conteo_str = "\n".join(conteo_lineas)
 
+    origenes_str = ", ".join([f"{k} ({val})" for k, val in v["origenes_hoy"].items()]) if v["origenes_hoy"] else "Sin visitas hoy"
+    disp_str = ", ".join([f"{k} ({val})" for k, val in v["dispositivos_hoy"].items()]) if v["dispositivos_hoy"] else "N/A"
+
     texto = (
         "📊 *PANEL DE CONTROL - RADARALERTAS*\n"
         "━━━━━━━━━━━━━━━━━━━━\n\n"
+        "🌐 *Tráfico Web en Tiempo Real:*\n"
+        f"• Visitas hoy: *{v['visitas_hoy']}* (Únicas: *{v['unicas_hoy']}*)\n"
+        f"• Total acumulado: *{v['visitas_total']} visitas*\n"
+        f"• Fuentes hoy: *{origenes_str}*\n"
+        f"• Dispositivos: *{disp_str}*\n\n"
         "👥 *Métricas de Usuarios:*\n"
         f"• Total registrados en bot: *{m['total_usuarios']}*\n"
         f"• Nuevos registros hoy: *+{m['usuarios_hoy']}*\n"

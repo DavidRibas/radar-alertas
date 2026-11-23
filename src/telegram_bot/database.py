@@ -44,6 +44,20 @@ def inicializar_bd():
     );
     """)
 
+    # 3. Tabla de analítica y visitas web
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS visitas_web (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        fecha_hora TEXT,
+        fecha_dia TEXT,
+        origen TEXT,
+        pagina TEXT,
+        dispositivo TEXT,
+        user_agent TEXT,
+        ip_hash TEXT
+    );
+    """)
+
     # Columnas opcionales para retargeting inteligente y referidos
     try:
         cursor.execute("ALTER TABLE usuarios ADD COLUMN descargo_guia INTEGER DEFAULT 0;")
@@ -436,6 +450,58 @@ def obtener_metricas_globales() -> Dict:
         "total_alertas": total_alertas,
         "alertas_hoy": alertas_hoy,
         "desglose_planes": desglose_planes
+    }
+
+def registrar_visita_web(origen: str = "directo", pagina: str = "/", dispositivo: str = "movil", user_agent: str = "", ip_hash: str = ""):
+    """Registra una visita en la web de forma anónima y en tiempo real."""
+    conn = obtener_conexion()
+    cursor = conn.cursor()
+    ahora = datetime.now()
+    fecha_hora = ahora.isoformat()
+    fecha_dia = ahora.strftime("%Y-%m-%d")
+    cursor.execute("""
+        INSERT INTO visitas_web (fecha_hora, fecha_dia, origen, pagina, dispositivo, user_agent, ip_hash)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    """, (fecha_hora, fecha_dia, origen[:50], pagina[:100], dispositivo[:50], user_agent[:250], ip_hash[:64]))
+    conn.commit()
+    conn.close()
+
+def obtener_metricas_visitas() -> Dict:
+    """Calcula las métricas de visitas web del día de hoy y totales."""
+    conn = obtener_conexion()
+    cursor = conn.cursor()
+    hoy = datetime.now().strftime("%Y-%m-%d")
+
+    cursor.execute("SELECT count(*) FROM visitas_web WHERE fecha_dia = ?", (hoy,))
+    visitas_hoy = cursor.fetchone()[0]
+
+    cursor.execute("SELECT count(DISTINCT ip_hash) FROM visitas_web WHERE fecha_dia = ? AND ip_hash != ''", (hoy,))
+    unicas_hoy = cursor.fetchone()[0]
+
+    cursor.execute("SELECT count(*) FROM visitas_web")
+    visitas_total = cursor.fetchone()[0]
+
+    cursor.execute("""
+        SELECT origen, count(*) as c FROM visitas_web
+        WHERE fecha_dia = ?
+        GROUP BY origen ORDER BY c DESC LIMIT 5
+    """, (hoy,))
+    origenes_hoy = {row["origen"]: row["c"] for row in cursor.fetchall()}
+
+    cursor.execute("""
+        SELECT dispositivo, count(*) as c FROM visitas_web
+        WHERE fecha_dia = ?
+        GROUP BY dispositivo ORDER BY c DESC LIMIT 5
+    """, (hoy,))
+    dispositivos_hoy = {row["dispositivo"]: row["c"] for row in cursor.fetchall()}
+
+    conn.close()
+    return {
+        "visitas_hoy": visitas_hoy,
+        "unicas_hoy": unicas_hoy if unicas_hoy > 0 else visitas_hoy,
+        "visitas_total": visitas_total,
+        "origenes_hoy": origenes_hoy,
+        "dispositivos_hoy": dispositivos_hoy
     }
 
 if __name__ == "__main__":
