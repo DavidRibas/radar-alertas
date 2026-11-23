@@ -67,7 +67,7 @@ STRIPE_LINK_PACK_TOTAL = os.getenv("STRIPE_LINK_PACK_TOTAL", "https://buy.stripe
 STRIPE_LINK_PRO_ANUAL = os.getenv("STRIPE_LINK_PRO_ANUAL", "https://buy.stripe.com/aFa14o1kafnZccT0slcQU04")
 WHATSAPP_CHANNEL_LINK = os.getenv("WHATSAPP_CHANNEL_LINK", "https://whatsapp.com/channel/0029Vb99ohpB4hdUuVdOHt2Q")
 ADMIN_ID = os.getenv("TELEGRAM_ADMIN_USER_ID", "5674459275")
-URL_WEB_APP = os.getenv("URL_WEB_APP", "https://radar-alertas-delta.vercel.app")
+URL_WEB_APP = os.getenv("URL_WEB_APP", "https://radaralertas.com")
 
 def con_ref(link: str, user_id: int) -> str:
     """Añade el ID de Telegram como client_reference_id al enlace de Stripe."""

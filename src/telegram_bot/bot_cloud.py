@@ -348,8 +348,8 @@ async def tarea_publicar_chollo_diario(app):
                             f"👇 *Accede al expediente oficial, mapa interactivo y simulador de cargas:*"
                         )
                         teclado = [
-                            [InlineKeyboardButton("⚡ Ver Ficha en el Buscador Web Oficial 🌐", url="https://radar-alertas-delta.vercel.app/?ref=telegram_chollo_auto")],
-                            [InlineKeyboardButton("🧮 Simular Gastos y Tasas (Art. 674 LEC)", url="https://radar-alertas-delta.vercel.app/#calculadora")]
+                            [InlineKeyboardButton("⚡ Ver Ficha en el Buscador Web Oficial 🌐", url="https://radaralertas.com/?ref=telegram_chollo_auto")],
+                            [InlineKeyboardButton("🧮 Simular Gastos y Tasas (Art. 674 LEC)", url="https://radaralertas.com/#calculadora")]
                         ]
 
                         canal_id = CANAL_FREE_ID or os.getenv("TELEGRAM_CANAL_FREE_ID", "-1004345947331")

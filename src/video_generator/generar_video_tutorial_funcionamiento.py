@@ -85,7 +85,7 @@ def build_scene_html(scene_idx: int, bg_uri: str) -> str:
         <div class="browser-mockup">
             <div class="mockup-bar">
                 <div class="dots"><span class="d-red"></span><span class="d-yel"></span><span class="d-gre"></span></div>
-                <div class="mockup-url">radar-alertas-delta.vercel.app</div>
+                <div class="mockup-url">radaralertas.com</div>
             </div>
             <div class="mockup-body">
                 <div class="filter-chips">

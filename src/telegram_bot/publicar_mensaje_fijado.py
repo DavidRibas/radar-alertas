@@ -14,7 +14,7 @@ load_dotenv(str(BASE_DIR / ".env"))
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 CANAL_FREE_ID = os.getenv("TELEGRAM_CANAL_FREE_ID", "-1004345947331")
 BOT_USERNAME = os.getenv("TELEGRAM_BOT_USERNAME", "RadarAletasSubastas_bot")
-WEB_URL = "https://radar-alertas-delta.vercel.app"
+WEB_URL = "https://radaralertas.com"
 WHATSAPP_CHANNEL_LINK = "https://whatsapp.com/channel/0029Vb99ohpB4hdUuVdOHt2Q"
 
 def publicar_y_fijar_bienvenida():

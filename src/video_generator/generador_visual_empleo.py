@@ -137,7 +137,7 @@ def crear_escena_empleo_4_cta(ruta_salida: Path):
     btn_rect = [100, 1130, 980, 1270]
     draw.rounded_rectangle(btn_rect, radius=24, fill=(37, 99, 235))
     draw.text((540, 1175), "👉 WEB EN DESCRIPCIÓN DEL PERFIL", font=ImageFont.truetype("arialbd.ttf", 40), fill=(255, 255, 255), anchor="mm")
-    draw.text((540, 1225), "Web: radar-alertas-delta.vercel.app", font=ImageFont.truetype("arial.ttf", 26), fill=(219, 234, 254), anchor="mm")
+    draw.text((540, 1225), "Web: radaralertas.com", font=ImageFont.truetype("arial.ttf", 26), fill=(219, 234, 254), anchor="mm")
 
     img.save(ruta_salida, quality=95)
 

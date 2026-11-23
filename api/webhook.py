@@ -81,7 +81,7 @@ class handler(BaseHTTPRequestHandler):
                 keyboard = {
                     "inline_keyboard": [
                         [
-                            {"text": "🔍 Abrir Catálogo Web de Chollos", "url": "https://radar-alertas-delta.vercel.app"}
+                            {"text": "🔍 Abrir Catálogo Web de Chollos", "url": "https://radaralertas.com"}
                         ],
                         [
                             {"text": "💬 Canal Oficial de WhatsApp", "url": "https://whatsapp.com/channel/0029Vb99ohpB4hdUuVdOHt2Q"}
@@ -103,7 +103,7 @@ class handler(BaseHTTPRequestHandler):
                     "🔎 *Consulta de Oportunidades RadarAlertas*\n"
                     "━━━━━━━━━━━━━━━━━━━━\n\n"
                     "Para ver todos los expedientes activos del BOE, fotos, direcciones y la calculadora de rentabilidad, accede a nuestro portal web:\n\n"
-                    "👉 https://radar-alertas-delta.vercel.app"
+                    "👉 https://radaralertas.com"
                 )
                 send_message(chat_id, resp_text)
 
