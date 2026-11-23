@@ -1,0 +1,9 @@
+requirements.txt
+src/
+data/
+output/
+temp/
+tests/
+*.py
+.env*
+.venv/
