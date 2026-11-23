@@ -1568,10 +1568,181 @@
         @media (max-width: 768px) {
             .floating-guide-btn {
                 bottom: 80px;
-                right: 16px;
-                padding: 10px 16px;
+                right: 14px;
+                padding: 10px 14px;
+                font-size: 11px;
+            }
+        }
+
+        /* Barra de Anuncio Superior Oficial - Comunidad Telegram */
+        .top-announcement-bar {
+            background: linear-gradient(90deg, #090d16 0%, #1e3a8a 50%, #090d16 100%);
+            border-bottom: 1px solid rgba(56, 189, 248, 0.35);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            font-size: 13px;
+            color: #f1f5f9;
+            position: relative;
+            z-index: 1001;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+        .announcement-badge {
+            background: #2563eb;
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 999px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .announcement-btn {
+            background: linear-gradient(135deg, #0088cc 0%, #006699 100%);
+            color: #ffffff !important;
+            font-weight: 800;
+            font-size: 12px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 10px rgba(0, 136, 204, 0.4);
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+        .announcement-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 136, 204, 0.7);
+        }
+        @media (max-width: 768px) {
+            .top-announcement-bar {
+                flex-direction: column;
+                gap: 8px;
+                padding: 10px 14px;
                 font-size: 12px;
             }
+        }
+
+        /* Botón Flotante Telegram */
+        .floating-tg-btn {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            background: linear-gradient(135deg, #0088cc 0%, #006699 100%);
+            color: #ffffff;
+            padding: 12px 22px;
+            border-radius: 999px;
+            font-weight: 800;
+            font-size: 13px;
+            text-decoration: none;
+            box-shadow: 0 8px 25px rgba(0, 136, 204, 0.45);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 999;
+            transition: all 0.25s ease;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            animation: pulse-tg 3s infinite;
+        }
+        @keyframes pulse-tg {
+            0% { box-shadow: 0 0 0 0 rgba(0, 136, 204, 0.6); }
+            70% { box-shadow: 0 0 0 14px rgba(0, 136, 204, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 136, 204, 0); }
+        }
+        .floating-tg-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 14px 30px rgba(0, 136, 204, 0.6);
+            color: #ffffff;
+        }
+        @media (max-width: 768px) {
+            .floating-tg-btn {
+                bottom: 80px;
+                left: 14px;
+                padding: 10px 14px;
+                font-size: 11px;
+            }
+        }
+
+        /* Banner de Ahorro Neto en Fichas */
+        .savings-pill-banner {
+            margin: 10px 0 12px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            color: #34d399;
+        }
+        .savings-pill-banner.employment {
+            background: rgba(244, 63, 94, 0.12);
+            border-color: rgba(244, 63, 94, 0.35);
+            color: #fb7185;
+        }
+        .savings-pill-banner.grant {
+            background: rgba(245, 158, 11, 0.12);
+            border-color: rgba(245, 158, 11, 0.35);
+            color: #fbbf24;
+        }
+        .savings-pill-banner strong {
+            font-weight: 900;
+            font-size: 13px;
+        }
+
+        /* Chips de Filtros Rápidos */
+        .quick-filter-chips {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 14px 0 20px;
+            flex-wrap: wrap;
+        }
+        .chip-label {
+            font-size: 11px;
+            font-weight: 800;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .chip-btn {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #cbd5e1;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .chip-btn:hover {
+            background: rgba(56, 189, 248, 0.15);
+            border-color: rgba(56, 189, 248, 0.5);
+            color: #38bdf8;
+            transform: translateY(-1px);
+        }
+        .chip-btn.active {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            border-color: #38bdf8;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
+        }
+        .chip-btn.chip-clear {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.4);
+            color: #f87171;
+        }
+        .chip-btn.chip-clear:hover {
+            background: rgba(239, 68, 68, 0.3);
+            color: #ffffff;
         }
         .pin-badge {
             position: absolute;
@@ -1828,6 +1999,17 @@
 </head>
 <body>
 
+    <!-- Barra de Anuncio Superior Oficial - Comunidad Telegram -->
+    <aside class="top-announcement-bar">
+        <div class="announcement-content">
+            <span class="announcement-badge">🚨 COMUNIDAD OFICIAL</span>
+            <span class="announcement-text"><strong>Canal Gratuito de Telegram:</strong> Recibe 1 chollo al día del BOE, coches DGT y empleo público directo a tu móvil.</span>
+        </div>
+        <a href="https://t.me/+JoX17328N-VkMWVk" target="_blank" class="announcement-btn">
+            <span>Entrar Gratis ✈️</span>
+        </a>
+    </aside>
+
     <!-- Header -->
     <header>
         <div class="nav-wrap">
@@ -1962,6 +2144,15 @@
             <button class="tab-btn" onclick="setCategory('inmueble', this)">🏢 Pisos y Chalets (BOE)</button>
             <button class="tab-btn" onclick="setCategory('ayuda', this)">💶 Ayudas a Fondo Perdido</button>
             <button class="tab-btn" onclick="setCategory('licitacion', this)">📋 Licitaciones Menores</button>
+        </div>
+
+        <!-- Chips de Filtros Rápidos -->
+        <div class="quick-filter-chips">
+            <span class="chip-label">Filtros exprés:</span>
+            <button class="chip-btn" id="chipBolsas" onclick="aplicarFiltroRapido('bolsas')">💼 Bolsas sin Oposición</button>
+            <button class="chip-btn" id="chipCoches" onclick="aplicarFiltroRapido('coches_baratos')">🚗 Coches &lt; 3.000 €</button>
+            <button class="chip-btn" id="chipDescuentos" onclick="aplicarFiltroRapido('descuento_top')">🔥 Chollos &gt; 70% Ahorro</button>
+            <button class="chip-btn chip-clear" id="btnLimpiarChips" onclick="limpiarFiltrosRapidos()" style="display: none;">✖ Ver Todo</button>
         </div>
 
         <!-- Barra de Cambio de Vista: Lista vs Mapa -->
@@ -2991,8 +3182,86 @@
             }
         }
 
+        let filtroRapidoActual = null;
+
+        function aplicarFiltroRapido(tipo) {
+            if (filtroRapidoActual === tipo) {
+                limpiarFiltrosRapidos();
+                return;
+            }
+            filtroRapidoActual = tipo;
+            document.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('active'));
+            const btnLimpiar = document.getElementById('btnLimpiarChips');
+            if (btnLimpiar) btnLimpiar.style.display = 'inline-flex';
+
+            if (tipo === 'bolsas') {
+                const btn = document.getElementById('chipBolsas');
+                if (btn) btn.classList.add('active');
+                categoriaActual = 'empleo';
+                actualizarTabsUI('empleo');
+            } else if (tipo === 'coches_baratos') {
+                const btn = document.getElementById('chipCoches');
+                if (btn) btn.classList.add('active');
+                categoriaActual = 'vehiculo';
+                actualizarTabsUI('vehiculo');
+            } else if (tipo === 'descuento_top') {
+                const btn = document.getElementById('chipDescuentos');
+                if (btn) btn.classList.add('active');
+                categoriaActual = 'all';
+                actualizarTabsUI('all');
+            }
+            filtrarOportunidades();
+        }
+
+        function limpiarFiltrosRapidos() {
+            filtroRapidoActual = null;
+            document.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('active'));
+            const btnLimpiar = document.getElementById('btnLimpiarChips');
+            if (btnLimpiar) btnLimpiar.style.display = 'none';
+            filtrarOportunidades();
+        }
+
+        function actualizarTabsUI(cat) {
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.classList.remove('active');
+                const onclickAttr = b.getAttribute('onclick') || '';
+                if (onclickAttr.includes(`'${cat}'`)) {
+                    b.classList.add('active');
+                }
+            });
+        }
+
+        function parseEuro(valStr) {
+            if (!valStr || typeof valStr !== 'string') return 0;
+            const clean = valStr.replace(/[^0-9]/g, '');
+            return parseInt(clean, 10) || 0;
+        }
+
+        function generarBannerAhorro(item) {
+            if (item.tipo === 'empleo') {
+                return `<div class="savings-pill-banner employment"><span>💼 Salario Oficial Fijo:</span> <strong>${item.precioBoe} (14 Pagas)</strong></div>`;
+            }
+            if (item.tipo === 'ayuda') {
+                return `<div class="savings-pill-banner grant"><span>💰 Subvención Directa:</span> <strong>Hasta ${item.precioBoe} (A Fondo Perdido)</strong></div>`;
+            }
+            if (item.tipo === 'licitacion') {
+                return `<div class="savings-pill-banner grant"><span>📑 Presupuesto Adjudicación:</span> <strong>${item.precioBoe} (Pago Garantizado)</strong></div>`;
+            }
+            const valMercado = parseEuro(item.precioMercado);
+            const valBoe = parseEuro(item.precioBoe);
+            if (valMercado > 0 && valBoe > 0 && valMercado > valBoe) {
+                const diff = (valMercado - valBoe).toLocaleString('es-ES');
+                return `<div class="savings-pill-banner"><span>⚡ Ahorro Neto Estimado:</span> <strong>${diff} € directos (${item.ahorro})</strong></div>`;
+            }
+            return `<div class="savings-pill-banner"><span>⚡ Garantía de Salida:</span> <strong>${item.ahorro} (Art. 674 LEC)</strong></div>`;
+        }
+
         function setCategory(cat, btn) {
             categoriaActual = cat;
+            filtroRapidoActual = null;
+            document.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('active'));
+            const btnLimpiar = document.getElementById('btnLimpiarChips');
+            if (btnLimpiar) btnLimpiar.style.display = 'none';
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             filtrarOportunidades();
@@ -3004,13 +3273,24 @@
             const grid = document.getElementById('cardsGrid');
 
             const filtradas = OPORTUNIDADES.filter(item => {
+                let matchRapido = true;
+                if (filtroRapidoActual === 'bolsas') {
+                    matchRapido = item.tipo === 'empleo';
+                } else if (filtroRapidoActual === 'coches_baratos') {
+                    const boeVal = parseEuro(item.precioBoe);
+                    matchRapido = item.tipo === 'vehiculo' && boeVal > 0 && boeVal <= 3000;
+                } else if (filtroRapidoActual === 'descuento_top') {
+                    const ahorroStr = item.ahorro || '';
+                    matchRapido = ahorroStr.includes('-70%') || ahorroStr.includes('-80%') || ahorroStr.includes('-85%') || ahorroStr.includes('-90%') || ahorroStr.includes('CHOLLO');
+                }
+
                 const matchCat = categoriaActual === 'all' || item.tipo === categoriaActual;
                 const matchProv = !prov || item.provincia.toLowerCase() === prov;
                 const matchText = !query || 
                     item.titulo.toLowerCase().includes(query) || 
                     item.ubicacion.toLowerCase().includes(query) ||
                     item.specs.some(s => s.toLowerCase().includes(query));
-                return matchCat && matchProv && matchText;
+                return matchRapido && matchCat && matchProv && matchText;
             });
 
             const countEl = document.getElementById('catalogoCount');
@@ -3054,6 +3334,7 @@
                                 <span class="boe-val">${item.precioBoe}</span>
                             </div>
                         </div>
+                        ${generarBannerAhorro(item)}
                         <div class="legal-check">
                             <span>🛡️</span>
                             <span>${item.legal}</span>
@@ -3561,6 +3842,11 @@
     <!-- Botón Flotante Guía Descargable Oficial -->
     <a href="assets/Guia_Subastas_Judiciales_RadarAlertas.pdf" download class="floating-guide-btn" title="Descargar Guía Oficial en PDF">
         <span>📥 Guía BOE y Empleo (PDF)</span>
+    </a>
+
+    <!-- Botón Flotante Canal Gratuito Telegram -->
+    <a href="https://t.me/+JoX17328N-VkMWVk" target="_blank" class="floating-tg-btn" title="Unirse al Canal Oficial de Telegram">
+        <span>✈️ Chollos Telegram (Gratis)</span>
     </a>
 </body>
 </html>
