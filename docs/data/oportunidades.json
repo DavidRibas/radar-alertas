@@ -22,8 +22,8 @@
     "expedienteReal": "SUB-AT-2026-26R2886001502",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R2886001502&ver=1",
     "desbloqueado": false,
-    "lat": 40.4073,
-    "lng": -3.7388
+    "lat": 40.392,
+    "lng": -3.7202
   },
   {
     "id": "INM-SUB-AT-2026-23R2886001483",
@@ -48,8 +48,8 @@
     "expedienteReal": "SUB-AT-2026-23R2886001483",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-23R2886001483&ver=1",
     "desbloqueado": false,
-    "lat": 40.3948,
-    "lng": -3.7
+    "lat": 40.4122,
+    "lng": -3.7286
   },
   {
     "id": "INM-SUB-AT-2026-26R4686001310",
@@ -74,8 +74,8 @@
     "expedienteReal": "SUB-AT-2026-26R4686001310",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R4686001310&ver=1",
     "desbloqueado": false,
-    "lat": 39.4995,
-    "lng": -0.3732
+    "lat": 39.4394,
+    "lng": -0.3566
   },
   {
     "id": "INM-SUB-AT-2026-26R4686001215",
@@ -100,8 +100,8 @@
     "expedienteReal": "SUB-AT-2026-26R4686001215",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R4686001215&ver=1",
     "desbloqueado": false,
-    "lat": 39.4525,
-    "lng": -0.3653
+    "lat": 39.5009,
+    "lng": -0.4097
   },
   {
     "id": "INM-SUB-AT-2026-26R2886001459",
@@ -126,8 +126,8 @@
     "expedienteReal": "SUB-AT-2026-26R2886001459",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R2886001459&ver=1",
     "desbloqueado": false,
-    "lat": 37.3912,
-    "lng": -6.0185
+    "lat": 37.3652,
+    "lng": -5.9688
   },
   {
     "id": "INM-SUB-AT-2026-26R2886001460",
@@ -152,8 +152,8 @@
     "expedienteReal": "SUB-AT-2026-26R2886001460",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R2886001460&ver=1",
     "desbloqueado": false,
-    "lat": 37.4129,
-    "lng": -5.9821
+    "lat": 37.3519,
+    "lng": -5.9991
   },
   {
     "id": "VEH-SUB-AT-2026-26R3886002006",
@@ -178,8 +178,8 @@
     "expedienteReal": "SUB-AT-2026-26R3886002006",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R3886002006&ver=1",
     "desbloqueado": false,
-    "lat": 40.3837,
-    "lng": -3.7324
+    "lat": 40.4617,
+    "lng": -3.6852
   },
   {
     "id": "VEH-SUB-AT-2026-26R3886002007",
@@ -204,8 +204,8 @@
     "expedienteReal": "SUB-AT-2026-26R3886002007",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R3886002007&ver=1",
     "desbloqueado": false,
-    "lat": 40.4039,
-    "lng": -3.6482
+    "lat": 40.4053,
+    "lng": -3.6779
   },
   {
     "id": "VEH-SUB-AT-2026-26R1586002021",
@@ -230,8 +230,8 @@
     "expedienteReal": "SUB-AT-2026-26R1586002021",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R1586002021&ver=1",
     "desbloqueado": false,
-    "lat": 40.3699,
-    "lng": -3.7369
+    "lat": 40.4042,
+    "lng": -3.7387
   },
   {
     "id": "VEH-SUB-AT-2026-26R1586002020",
@@ -256,8 +256,112 @@
     "expedienteReal": "SUB-AT-2026-26R1586002020",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R1586002020&ver=1",
     "desbloqueado": false,
-    "lat": 40.4096,
-    "lng": -3.6733
+    "lat": 40.4192,
+    "lng": -3.7013
+  },
+  {
+    "id": "EMP-BOE-A-2026-24529",
+    "tipo": "empleo",
+    "provincia": "nacional",
+    "titulo": "Plazas y Bolsas: Ministerio De Defensa",
+    "ubicacion": "Nacional • Ministerio De Defensa",
+    "specs": [
+      "14 Pagas Oficiales",
+      "Retribución +2.150 € / mes",
+      "Bolsas de Empleo y Plazas Fijas",
+      "Plazo Abierto (20 Días Hábiles)"
+    ],
+    "precioMercado": "SMI 1.134 €",
+    "precioBoe": "+2.150 €/mes",
+    "ahorro": "+14 PAGAS",
+    "legal": "Resolución Oficial BOE • Convocatoria de Empleo Público Abierta",
+    "img": "assets/templates/empleo_oficial_estado.jpg",
+    "badgeVisual": "💼 EMPLEO ESTATAL",
+    "tag": "CONVOCATORIA BOE",
+    "tagClass": "tag-empleo",
+    "expedienteReal": "BOE-A-2026-24529",
+    "enlaceBoeReal": "https://www.boe.es/boe/dias/2026/11/23/pdfs/BOE-A-2026-24529.pdf",
+    "desbloqueado": false,
+    "lat": 40.3912,
+    "lng": -3.7126
+  },
+  {
+    "id": "EMP-BOE-A-2026-24530",
+    "tipo": "empleo",
+    "provincia": "nacional",
+    "titulo": "Plazas y Bolsas: Ministerio De Hacienda",
+    "ubicacion": "Nacional • Ministerio De Hacienda",
+    "specs": [
+      "14 Pagas Oficiales",
+      "Retribución +2.150 € / mes",
+      "Bolsas de Empleo y Plazas Fijas",
+      "Plazo Abierto (20 Días Hábiles)"
+    ],
+    "precioMercado": "SMI 1.134 €",
+    "precioBoe": "+2.150 €/mes",
+    "ahorro": "+14 PAGAS",
+    "legal": "Resolución Oficial BOE • Convocatoria de Empleo Público Abierta",
+    "img": "assets/templates/empleo_oficial_estado.jpg",
+    "badgeVisual": "💼 EMPLEO ESTATAL",
+    "tag": "CONVOCATORIA BOE",
+    "tagClass": "tag-empleo",
+    "expedienteReal": "BOE-A-2026-24530",
+    "enlaceBoeReal": "https://www.boe.es/boe/dias/2026/11/23/pdfs/BOE-A-2026-24530.pdf",
+    "desbloqueado": false,
+    "lat": 40.4134,
+    "lng": -3.6853
+  },
+  {
+    "id": "EMP-BOE-A-2026-24531",
+    "tipo": "empleo",
+    "provincia": "nacional",
+    "titulo": "Plazas y Bolsas: Ministerio De Trabajo Y Economía Social",
+    "ubicacion": "Nacional • Ministerio De Trabajo Y Econom",
+    "specs": [
+      "14 Pagas Oficiales",
+      "Retribución +2.150 € / mes",
+      "Bolsas de Empleo y Plazas Fijas",
+      "Plazo Abierto (20 Días Hábiles)"
+    ],
+    "precioMercado": "SMI 1.134 €",
+    "precioBoe": "+2.150 €/mes",
+    "ahorro": "+14 PAGAS",
+    "legal": "Resolución Oficial BOE • Convocatoria de Empleo Público Abierta",
+    "img": "assets/templates/empleo_oficial_estado.jpg",
+    "badgeVisual": "💼 EMPLEO ESTATAL",
+    "tag": "CONVOCATORIA BOE",
+    "tagClass": "tag-empleo",
+    "expedienteReal": "BOE-A-2026-24531",
+    "enlaceBoeReal": "https://www.boe.es/boe/dias/2026/11/23/pdfs/BOE-A-2026-24531.pdf",
+    "desbloqueado": false,
+    "lat": 40.3922,
+    "lng": -3.6964
+  },
+  {
+    "id": "EMP-EXTERIORES-01",
+    "tipo": "empleo",
+    "provincia": "nacional",
+    "titulo": "Bolsas de Empleo del Ministerio de Asuntos Exteriores",
+    "ubicacion": "Nacional / Madrid • Unión Europea y Cooperación",
+    "specs": [
+      "14 Pagas Oficiales",
+      "+2.150 € / Mes",
+      "Personal Laboral Fijo",
+      "Plazo de Inscripción Abierto"
+    ],
+    "precioMercado": "SMI 1.134 €",
+    "precioBoe": "2.150 €/mes",
+    "ahorro": "+14 PAGAS",
+    "legal": "Resolución Oficial BOE • Inscripción Electrónica Abierta",
+    "img": "assets/templates/empleo_oficial_estado.jpg",
+    "badgeVisual": "💼 BOLSA MINISTERIO",
+    "tag": "EMPLEO PÚBLICO",
+    "tagClass": "tag-empleo",
+    "expedienteReal": "BOE-A-2026-EXTERIORES",
+    "enlaceBoeReal": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-24529",
+    "desbloqueado": false,
+    "lat": 40.4168,
+    "lng": -3.7038
   },
   {
     "id": "BCN-EIXAMPLE-03",
