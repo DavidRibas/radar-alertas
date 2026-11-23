@@ -8,6 +8,15 @@
     <meta name="keywords" content="subastas boe, subastas judiciales, comprar piso subasta, coches embargados dgt, ayudas fondo perdido autonomos, radaralertas">
     <link rel="canonical" href="https://radar-alertas-delta.vercel.app">
 
+    <!-- PWA & Mobile Web App Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="RadarAlertas">
+
     <!-- Open Graph / Redes Sociales -->
     <meta property="og:site_name" content="RadarAlertas">
     <meta property="og:title" content="RadarAlertas • Catálogo Oficial de Subastas BOE y Oportunidades del Estado">
@@ -1242,6 +1251,118 @@
             text-decoration: underline;
         }
 
+        /* PWA Elements */
+        .btn-pwa-nav {
+            display: none;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(56, 189, 248, 0.2));
+            border: 1px solid rgba(16, 185, 129, 0.45);
+            color: #34d399;
+            padding: 8px 14px;
+            border-radius: 9999px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn-pwa-nav:hover {
+            background: linear-gradient(135deg, #10b981, #0284c7);
+            color: #fff;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);
+        }
+        .pwa-floating-banner {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 32px);
+            max-width: 480px;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(56, 189, 248, 0.45);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.7), 0 0 25px rgba(16, 185, 129, 0.2);
+            border-radius: 16px;
+            padding: 12px 16px;
+            z-index: 9999;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            animation: slideUpPwa 0.4s ease-out;
+        }
+        @keyframes slideUpPwa {
+            from { opacity: 0; transform: translate(-50%, 40px); }
+            to { opacity: 1; transform: translate(-50%, 0); }
+        }
+        .pwa-banner-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .pwa-banner-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        .pwa-banner-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .pwa-banner-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: #f8fafc;
+            line-height: 1.2;
+        }
+        .pwa-banner-sub {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .pwa-banner-buttons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .btn-pwa-confirm {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #fff;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(16, 185, 129, 0.4);
+            transition: transform 0.15s ease;
+        }
+        .btn-pwa-confirm:active {
+            transform: scale(0.96);
+        }
+        .btn-pwa-dismiss {
+            background: rgba(255, 255, 255, 0.08);
+            color: #94a3b8;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease;
+        }
+        .btn-pwa-dismiss:hover {
+            background: rgba(255, 255, 255, 0.18);
+            color: #fff;
+        }
+
         /* Footer */
         footer {
             margin-top: auto;
@@ -1272,6 +1393,9 @@
                 <a href="#planes" class="nav-link">Planes & Precios</a>
             </nav>
             <div class="nav-actions">
+                <button id="btnPwaNav" onclick="iniciarInstalacionPwa()" class="btn-pwa-nav">
+                    📲 Instalar App
+                </button>
                 <button onclick="abrirModalTutorial()" class="btn-tutorial-nav">
                     ▶️ Vídeo Tutorial
                 </button>
@@ -1528,6 +1652,50 @@
             Descargar Guía en PDF Gratis ➔
         </a>
     </section>
+
+    <!-- PWA Floating Install Banner -->
+    <div id="pwaInstallBanner" class="pwa-floating-banner" style="display: none;">
+        <div class="pwa-banner-content">
+            <img src="assets/icon-192.png" alt="RadarAlertas App" class="pwa-banner-icon">
+            <div class="pwa-banner-info">
+                <div class="pwa-banner-title">📲 Instala RadarAlertas en tu Móvil</div>
+                <div class="pwa-banner-sub">Acceso directo en 1 clic y alertas de chollos sin ocupar espacio.</div>
+            </div>
+            <div class="pwa-banner-buttons">
+                <button id="btnPwaAction" onclick="iniciarInstalacionPwa()" class="btn-pwa-confirm">Instalar</button>
+                <button onclick="cerrarBannerPwa()" class="btn-pwa-dismiss" aria-label="Cerrar">✕</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Instrucciones iOS Safari PWA -->
+    <div class="modal-overlay" id="modalIosPwa" onclick="cerrarModalIosPwa(event)">
+        <div class="modal-box" style="max-width: 440px; padding: 24px; border-color: rgba(56, 189, 248, 0.5);" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="cerrarModalIosPwa(null)">✕</button>
+            <div class="modal-header" style="margin-bottom: 16px; text-align: left;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                    <img src="assets/icon-192.png" style="width: 40px; height: 40px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.4);">
+                    <div>
+                        <h3 class="modal-title" style="font-size: 19px; margin: 0;">Instalar en iPhone / iPad</h3>
+                        <div style="font-size: 12px; color: #38bdf8; font-weight: 700;">ACCESO DIRECTO COMO APP NATIVA</div>
+                    </div>
+                </div>
+                <p class="modal-sub" style="font-size: 13px; text-align: left; margin: 0;">Sigue estos 2 sencillos pasos para tener RadarAlertas en tu pantalla de inicio:</p>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.04); border: 1px solid var(--border-glass); border-radius: 12px; padding: 14px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px;">
+                <span style="font-size: 22px; background: rgba(56,189,248,0.15); width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 10px; flex-shrink: 0;">1️⃣</span>
+                <span style="font-size: 13px; color: var(--text-main); line-height: 1.4;">Pulsa el botón <strong>Compartir</strong> en la barra de Safari (icono <strong>⎋ / ⬆️</strong>).</span>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.04); border: 1px solid var(--border-glass); border-radius: 12px; padding: 14px; margin-bottom: 18px; display: flex; align-items: center; gap: 12px;">
+                <span style="font-size: 22px; background: rgba(16,185,129,0.15); width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 10px; flex-shrink: 0;">2️⃣</span>
+                <span style="font-size: 13px; color: var(--text-main); line-height: 1.4;">Baja en el menú y selecciona <strong>"Añadir a la pantalla de inicio"</strong> ➕.</span>
+            </div>
+
+            <button onclick="cerrarModalIosPwa(null)" class="btn-primary" style="width: 100%; justify-content: center; padding: 12px; font-weight: 800; border-radius: 12px;">¡Entendido!</button>
+        </div>
+    </div>
 
     <!-- Modal Tutorial Vídeo -->
     <div class="modal-overlay" id="modalTutorial">
@@ -1997,6 +2165,94 @@
                 }
             } catch(e) {}
         })();
+
+        // PWA (Progressive Web App) Logic & Service Worker
+        let deferredPrompt = null;
+        const isIos = () => {
+            const userAgent = window.navigator.userAgent.toLowerCase();
+            return /iphone|ipad|ipod/.test(userAgent);
+        };
+        const isInStandaloneMode = () => ('standalone' in window.navigator && window.navigator.standalone) || window.matchMedia('(display-mode: standalone)').matches;
+
+        // Registro de Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').then(reg => {
+                    console.log('✅ PWA ServiceWorker registrado en scope:', reg.scope);
+                }).catch(err => {
+                    console.log('Error registrando ServiceWorker:', err);
+                });
+            });
+        }
+
+        // Intercepción de evento nativo de instalación (Android / Chrome / Edge)
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            if (!isInStandaloneMode() && !sessionStorage.getItem('pwa_dismissed')) {
+                const banner = document.getElementById('pwaInstallBanner');
+                if (banner) banner.style.display = 'block';
+                const navBtn = document.getElementById('btnPwaNav');
+                if (navBtn) navBtn.style.display = 'inline-flex';
+            }
+        });
+
+        // Mostrar banner e icono en iOS Safari si no está en modo Standalone
+        window.addEventListener('DOMContentLoaded', () => {
+            if (isIos() && !isInStandaloneMode() && !sessionStorage.getItem('pwa_dismissed')) {
+                setTimeout(() => {
+                    const banner = document.getElementById('pwaInstallBanner');
+                    if (banner) banner.style.display = 'block';
+                    const navBtn = document.getElementById('btnPwaNav');
+                    if (navBtn) navBtn.style.display = 'inline-flex';
+                }, 1200);
+            }
+        });
+
+        function iniciarInstalacionPwa() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('Usuario instaló RadarAlertas PWA');
+                        try {
+                            const trackUrl = 'https://radar-alertas-bot-du2p.onrender.com/api/visita?ref=pwa_installed&p=' + encodeURIComponent(window.location.pathname);
+                            if (navigator.sendBeacon) navigator.sendBeacon(trackUrl);
+                        } catch(e) {}
+                    }
+                    deferredPrompt = null;
+                    cerrarBannerPwa();
+                });
+            } else if (isIos()) {
+                const modal = document.getElementById('modalIosPwa');
+                if (modal) modal.classList.add('active');
+            } else {
+                alert('📲 Para instalar RadarAlertas en tu dispositivo:\n\n1. Pulsa en los tres puntos (⋮) de tu navegador.\n2. Selecciona "Instalar aplicación" o "Añadir a pantalla de inicio".');
+            }
+        }
+
+        function cerrarBannerPwa() {
+            const banner = document.getElementById('pwaInstallBanner');
+            if (banner) banner.style.display = 'none';
+            sessionStorage.setItem('pwa_dismissed', '1');
+        }
+
+        function cerrarModalIosPwa(event) {
+            if (!event || event.target.id === 'modalIosPwa' || event.target.classList.contains('modal-close') || event.target.tagName === 'BUTTON') {
+                const modal = document.getElementById('modalIosPwa');
+                if (modal) modal.classList.remove('active');
+            }
+        }
+
+        window.addEventListener('appinstalled', () => {
+            console.log('RadarAlertas instalada con éxito');
+            cerrarBannerPwa();
+            try {
+                const trackUrl = 'https://radar-alertas-bot-du2p.onrender.com/api/visita?ref=pwa_installed&p=' + encodeURIComponent(window.location.pathname);
+                if (navigator.sendBeacon) navigator.sendBeacon(trackUrl);
+            } catch(e) {}
+        });
 
         // Inicialización
         filtrarOportunidades();
