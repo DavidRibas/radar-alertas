@@ -221,6 +221,9 @@ async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 InlineKeyboardButton("💬 Canal Oficial de WhatsApp 📱", url=WHATSAPP_CHANNEL_LINK)
             ],
             [
+                InlineKeyboardButton("🎥 Cómo Funciona (Vídeo 1 min) 🍿", callback_data="ver_tutorial_video")
+            ],
+            [
                 InlineKeyboardButton("🏠 Canal Inmuebles", callback_data="ver_canal_inmuebles"),
                 InlineKeyboardButton("🚗 Canal Vehículos", callback_data="ver_canal_vehiculos")
             ],
@@ -643,6 +646,35 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 reply_markup=InlineKeyboardMarkup(teclado)
             )
 
+    elif data == "ver_tutorial_video":
+        ruta_video = BASE_DIR / "output" / "VIDEO_TUTORIAL_COMO_FUNCIONA_RADARALERTAS.mp4"
+        cap = (
+            "🎥 *¿CÓMO FUNCIONA RADARALERTAS? (VÍDEO 1 MIN)*\n\n"
+            "Descubre en 50 segundos cómo nuestro sistema:\n"
+            "• 📡 Escanea el BOE, DGT y BDNS cada madrugada.\n"
+            "• 🌐 Te permite filtrar por provincia en la Web App interactiva.\n"
+            "• 🧮 Cancela deudas anteriores a 0,00 € según el Art. 674 LEC.\n"
+            "• 💬 Te avisa en WhatsApp y Telegram antes de que cierren las pujas.\n\n"
+            "👇 *Accede ahora al explorador oficial o síguenos en WhatsApp:*"
+        )
+        teclado = [
+            [InlineKeyboardButton("⚡ Explorador Web Interactivo (BOE/DGT) 🌐", web_app=WebAppInfo(url=URL_WEB_APP))],
+            [InlineKeyboardButton("💬 Canal Oficial de WhatsApp 📱", url=WHATSAPP_CHANNEL_LINK)],
+            [InlineKeyboardButton("🔙 Menú Principal", callback_data="volver_inicio")]
+        ]
+        if ruta_video.exists():
+            with open(ruta_video, "rb") as v:
+                await context.bot.send_video(
+                    chat_id=user.id,
+                    video=v,
+                    caption=cap,
+                    parse_mode="Markdown",
+                    reply_markup=InlineKeyboardMarkup(teclado),
+                    supports_streaming=True
+                )
+        else:
+            await query.edit_message_text(cap, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
+
     elif data == "menu_provincias":
         texto = (
             "📍 *Buscador Oficial de Chollos por Provincia*\n\n"
@@ -803,6 +835,9 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 ],
                 [
                     InlineKeyboardButton("💬 Canal Oficial de WhatsApp 📱", url=WHATSAPP_CHANNEL_LINK)
+                ],
+                [
+                    InlineKeyboardButton("🎥 Cómo Funciona (Vídeo 1 min) 🍿", callback_data="ver_tutorial_video")
                 ],
                 [
                     InlineKeyboardButton("🏠 Canal Inmuebles", callback_data="ver_canal_inmuebles"),

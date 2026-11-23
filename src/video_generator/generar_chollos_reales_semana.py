@@ -63,8 +63,8 @@ CHOLLOS_CONFIG = {
             "Atención si buscas cambiar de coche, porque acaba de publicarse en el BOE este SUV Mazda CX-5 tasado en más de dieciocho mil euros, por un precio de salida de tan solo mil ochocientos cuarenta y dos euros. "
             "En portales de ocasión este modelo supera los dieciocho mil euros. "
             "Son más de dieciséis mil quinientos euros de margen limpio, y el juzgado cancela cualquier embargo o precinto previo por mandamiento judicial. "
-            "RadarAlertas escanea el BOE cada madrugada para avisarte en Telegram de las mejores subastas de coches y pisos antes que nadie. "
-            "Entra al enlace de mi perfil, únete gratis y consulta los expedientes."
+            "RadarAlertas escanea el BOE cada madrugada. "
+            "Entra al enlace de mi perfil para acceder al explorador web interactivo, simular tu rentabilidad con la calculadora y unirte a nuestros canales de WhatsApp y Telegram."
         )
     },
     "02_MARTES_Piso_Madrid_Tielmes": {
@@ -95,8 +95,8 @@ CHOLLOS_CONFIG = {
             "Una vivienda tasada por el juzgado en ciento treinta y nueve mil quinientos euros, que sale a subasta judicial por tan solo trece mil novecientos cincuenta y seis euros. "
             "Es un descuento brutal del noventa por ciento. "
             "Y todas las deudas hipotecarias anteriores quedan canceladas a cero euros por decreto judicial según el artículo seiscientos setenta y cuatro de la Ley de Enjuiciamiento Civil. "
-            "RadarAlertas escanea el BOE cada madrugada para avisarte a Telegram antes de que terminen los plazos. "
-            "Entra al link de mi perfil, pruébalo gratis y simula tu operación con la calculadora."
+            "RadarAlertas escanea el BOE cada madrugada. "
+            "Entra al enlace de mi perfil, simula el beneficio neto de esta subasta con la calculadora y accede gratis a nuestros canales de WhatsApp y Telegram."
         )
     },
     "03_MIERCOLES_Mercedes_Benz": {
@@ -127,7 +127,7 @@ CHOLLOS_CONFIG = {
             "Un Mercedes Clase B doscientos diésel valorado en más de ocho mil euros, que sale con una puja inicial de tan solo ochocientos dos euros. "
             "Más de siete mil euros de margen directo y con cancelación de cargas y multas por mandamiento judicial. "
             "Cada madrugada se publican decenas de vehículos embargados y casi nadie sabe cómo pujar sin intermediarios. "
-            "Descárgate la guía oficial en PDF y únete al canal gratuito en el enlace de mi perfil."
+            "Entra al enlace de mi perfil para buscar por provincia en la web, descargar la guía en PDF y unirte a WhatsApp y Telegram."
         )
     },
     "04_JUEVES_Chollo_Las_Rozas": {
@@ -159,7 +159,7 @@ CHOLLOS_CONFIG = {
             "Son más de doscientos setenta y dos mil euros de margen limpio frente a los precios de mercado. "
             "Y todas las cargas previas quedan anuladas por el juez según el artículo seiscientos setenta y cuatro de la Ley de Enjuiciamiento Civil. "
             "RadarAlertas rastrea el BOE cada madrugada para que encuentres estos inmuebles antes de que se entere todo el mundo. "
-            "Entra al link de mi perfil, usa la calculadora de impuestos y entra gratis al canal."
+            "Entra al enlace de mi perfil, usa la calculadora de impuestos en la web y únete gratis a nuestros canales de WhatsApp y Telegram."
         )
     }
 }

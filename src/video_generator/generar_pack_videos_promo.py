@@ -377,49 +377,49 @@ def build_platform_pitch_html(bg_uri: str, glow_cta: bool = False) -> str:
     <div class="content">
         <div class="hud-header">
             <div class="hud-brand"><div class="pulse-dot"></div> RADARALERTAS.ES</div>
-            <div class="hud-status">● Monitorizando Boletines Oficiales</div>
+            <div class="hud-status">● WEB INTERACTIVA & ALERTAS 24/7</div>
         </div>
         <div class="platform-hero">
-            <div class="platform-badge">TECNOLOGÍA DE MONITORIZACIÓN PÚBLICA</div>
+            <div class="platform-badge">EXPLORADOR WEB + WHATSAPP & TELEGRAM</div>
             <div class="platform-title">El Radar que escanea el Estado por ti 24/7</div>
-            <div class="platform-desc">Auditamos cada madrugada el BOE, Catastro y los registros oficiales para avisarte directamente a Telegram antes de que salgan al mercado.</div>
+            <div class="platform-desc">Auditamos cada madrugada el BOE, Catastro y registros oficiales. Filtra por provincia, simula rentabilidad y recibe avisos inmediatos en tu móvil.</div>
         </div>
         <div class="features-grid">
             <div class="feat-card">
-                <div class="feat-icon-row"><span class="feat-icon">🏠</span><span class="feat-tag tag-boe">BOE JUDICIAL</span></div>
-                <div class="feat-title">Subastas Inmuebles</div>
-                <div class="feat-text">Pisos y chalets con hasta un 70% de ahorro frente a portales.</div>
+                <div class="feat-icon-row"><span class="feat-icon">🌐</span><span class="feat-tag tag-boe">WEB APP</span></div>
+                <div class="feat-title">Explorador Interactivo</div>
+                <div class="feat-text">Buscador por provincia, fotos, catastro y filtros de chollos.</div>
             </div>
             <div class="feat-card">
-                <div class="feat-icon-row"><span class="feat-icon">🚗</span><span class="feat-tag tag-dgt">DGT / HACIENDA</span></div>
-                <div class="feat-title">Coches Embargados</div>
-                <div class="feat-text">Vehículos con tasación oficial y comprobación de cargas 0€.</div>
+                <div class="feat-icon-row"><span class="feat-icon">🧮</span><span class="feat-tag tag-dgt">ART. 674 LEC</span></div>
+                <div class="feat-title">Calculadora de Cargas</div>
+                <div class="feat-text">Simulación de beneficio neto y cancelación de deudas a 0€.</div>
             </div>
             <div class="feat-card">
-                <div class="feat-icon-row"><span class="feat-icon">💶</span><span class="feat-tag tag-ayudas">BDNS / FONDOS</span></div>
-                <div class="feat-title">Ayudas y Subvenciones</div>
-                <div class="feat-text">Fondos a fondo perdido para autónomos, pymes y familias.</div>
+                <div class="feat-icon-row"><span class="feat-icon">💬</span><span class="feat-tag tag-ayudas">WHATSAPP & TG</span></div>
+                <div class="feat-title">Canales de Alertas</div>
+                <div class="feat-text">Avisos instantáneos en tu móvil antes de que cierren las pujas.</div>
             </div>
             <div class="feat-card">
-                <div class="feat-icon-row"><span class="feat-icon">📋</span><span class="feat-tag tag-licit">ESTADO</span></div>
-                <div class="feat-title">Licitaciones y Empleo</div>
-                <div class="feat-text">Contratos públicos menores y convocatorias oficiales activas.</div>
+                <div class="feat-icon-row"><span class="feat-icon">📖</span><span class="feat-tag tag-licit">DESCARGA</span></div>
+                <div class="feat-title">Guía Oficial en PDF</div>
+                <div class="feat-text">Manual paso a paso para pujar sin intermediarios con fianza 5%.</div>
             </div>
         </div>
         <div class="trust-banner">
             <div class="trust-left">
                 <span class="trust-icon">⚡</span>
                 <div>
-                    <div class="trust-title">Alertas en tiempo real a tu Telegram</div>
-                    <div class="trust-sub">Canal abierto sin costes ni permanencias</div>
+                    <div class="trust-title">Prueba el Explorador Web Gratis</div>
+                    <div class="trust-sub">Acceso directo a expedientes, Street View y filtros</div>
                 </div>
             </div>
             <div class="trust-badge-pill">100% GRATIS</div>
         </div>
         <div class="cta-btn">
             <div class="cta-left">
-                <div class="cta-main">Únete al Canal Gratis + Guía en PDF</div>
-                <div class="cta-sub">Accede directo desde el enlace de mi biografía</div>
+                <div class="cta-main">Entra a la Web + Únete al Canal Gratis</div>
+                <div class="cta-sub">Acceso directo desde el enlace de mi biografía</div>
             </div>
             <div class="cta-arrow">➔</div>
         </div>
