@@ -648,7 +648,11 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             )
 
     elif data == "ver_tutorial_video":
-        ruta_video = BASE_DIR / "output" / "VIDEO_TUTORIAL_COMO_FUNCIONA_RADARALERTAS.mp4"
+        ruta_video = BASE_DIR / "docs" / "assets" / "tutorial_radaralertas.mp4"
+        if not ruta_video.exists():
+            ruta_video = BASE_DIR / "output" / "VIDEO_TUTORIAL_COMO_FUNCIONA_RADARALERTAS.mp4"
+        if not ruta_video.exists():
+            ruta_video = BASE_DIR / "output" / "semana_actual" / "00_TUTORIAL_COMO_FUNCIONA_RADARALERTAS.mp4"
         cap = (
             "🎥 *¿CÓMO FUNCIONA RADARALERTAS? (VÍDEO 1 MIN)*\n\n"
             "Descubre en 50 segundos cómo nuestro sistema:\n"
