@@ -371,6 +371,58 @@
             transform: translateY(-2px);
             box-shadow: 0 12px 25px rgba(37, 211, 102, 0.5);
         }
+
+        /* Muro de Transparencia y Garantía Institucional */
+        .transparency-box {
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.88) 0%, rgba(6, 9, 19, 0.95) 100%);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            border-radius: 20px;
+            padding: 22px 26px;
+            box-shadow: 0 14px 35px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(12px);
+        }
+        .transparency-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 14px;
+        }
+        .transparency-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        .transparency-item {
+            background: rgba(30, 41, 59, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 14px;
+            padding: 16px 18px;
+            transition: border-color 0.2s ease;
+        }
+        .transparency-item:hover {
+            border-color: rgba(56, 189, 248, 0.35);
+        }
+        .t-badge {
+            font-size: 13px;
+            font-weight: 800;
+            color: #38bdf8;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            letter-spacing: 0.3px;
+        }
+        .transparency-item p {
+            color: #94a3b8;
+            font-size: 13px;
+            line-height: 1.55;
+            margin: 0;
+        }
+        .transparency-item strong {
+            color: #f1f5f9;
+        }
         .channel-btn-tg {
             background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
             color: #ffffff;
@@ -1813,6 +1865,33 @@
             </a>
         </div>
     </section>
+
+    <!-- Muro de Transparencia y Origen Oficial de los Datos -->
+    <div style="max-width: 1200px; margin: 0 auto 30px; padding: 0 20px;">
+        <div class="transparency-box">
+            <div class="transparency-header">
+                <span style="font-size: 26px;">🏛️</span>
+                <div>
+                    <h4 style="color:#ffffff; font-size:16px; font-weight:800; margin:0;">Garantía de Transparencia y Origen Oficial de los Datos</h4>
+                    <p style="color:#94a3b8; font-size:12px; margin:3px 0 0;">Plataforma de inteligencia y datos abiertos del Estado. Información 100% verificable y pública.</p>
+                </div>
+            </div>
+            <div class="transparency-grid">
+                <div class="transparency-item">
+                    <div class="t-badge">⚖️ Procedimientos Judiciales Oficiales</div>
+                    <p>No somos intermediarios, inmobiliaria ni concesionario. Todos los bienes proceden de edictos oficiales del <strong>Boletín Oficial del Estado (BOE)</strong>, Juzgados de 1ª Instancia, <strong>DGT</strong> y <strong>BDNS</strong>.</p>
+                </div>
+                <div class="transparency-item">
+                    <div class="t-badge">🛡️ Cancelación de Cargas (Art. 674 LEC)</div>
+                    <p>Los precios mostrados son las <strong>pujas de salida y valoraciones fijadas por el juzgado</strong>. Por Decreto Judicial, las hipotecas, embargos anteriores y multas se cancelan a 0,00 € al adjudicatario.</p>
+                </div>
+                <div class="transparency-item">
+                    <div class="t-badge">🔍 Acceso Directo sin Intermediarios</div>
+                    <p>Cualquier ciudadano con certificado digital o Cl@ve puede verificar los expedientes y participar directamente en la sede electrónica del Estado. RadarAlertas audita y filtra para ahorrarte horas de búsqueda.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Buscador y Filtros -->
     <section class="search-panel" id="catalogo">
