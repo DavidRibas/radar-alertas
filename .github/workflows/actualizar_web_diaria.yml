@@ -1,0 +1,42 @@
+name: Sincronización Automática Diaria del Catálogo Web
+
+on:
+  schedule:
+    # 06:00 UTC (07:00 AM hora de Madrid) - Apertura de edictos BOE matutinos
+    - cron: '0 6 * * *'
+    # 14:00 UTC (15:00 PM hora de Madrid) - Actualización de subastas y licitaciones vespertinas
+    - cron: '0 14 * * *'
+  workflow_dispatch: # Permite ejecución manual bajo demanda desde GitHub
+
+permissions:
+  contents: write
+
+jobs:
+  actualizar-catalogo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Instalar dependencias de scraping
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4
+
+      - name: Rastrear BOE / DGT y compilar oportunidades.json
+        run: |
+          python src/extractores/actualizar_catalogo_web.py
+
+      - name: Confirmar y publicar cambios en el repositorio
+        run: |
+          git config --global user.name "RadarAlertas Bot"
+          git config --global user.email "bot@radaralertas.es"
+          git add docs/data/oportunidades.json data/oportunidades.json
+          git diff --staged --quiet || (git commit -m "chore(data): actualización automática catálogo BOE/DGT [skip ci]" && git push)

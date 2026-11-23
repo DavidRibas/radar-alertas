@@ -2163,7 +2163,7 @@
 
     <!-- Script de Datos y Lógica Reactiva -->
     <script>
-        const OPORTUNIDADES = [
+        let OPORTUNIDADES = [
             {
                 id: "DGT-MAZDA-01",
                 tipo: "vehiculo",
@@ -3077,9 +3077,26 @@
             } catch(e) {}
         });
 
+        async function cargarCatalogoDinamico() {
+            try {
+                const res = await fetch('data/oportunidades.json?t=' + Date.now());
+                if (res.ok) {
+                    const datos = await res.json();
+                    if (Array.isArray(datos) && datos.length > 0) {
+                        OPORTUNIDADES = datos;
+                        filtrarOportunidades();
+                        console.log('✅ Catálogo dinámico cargado con éxito:', datos.length, 'oportunidades del BOE.');
+                    }
+                }
+            } catch (err) {
+                console.log('Modo catálogo inicial pre-cargado activo.');
+            }
+        }
+
         // Inicialización
         filtrarOportunidades();
         actualizarCalculadora();
+        cargarCatalogoDinamico();
     </script>
 </body>
 </html>
