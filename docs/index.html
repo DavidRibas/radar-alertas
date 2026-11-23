@@ -51,10 +51,11 @@
     </script>
 
     <style>
+        /* Tema Oscuro por Defecto (Terminal / Radar) */
         :root {
             --bg-body: #060913;
-            --bg-card: rgba(15, 23, 42, 0.75);
-            --bg-card-hover: rgba(24, 34, 61, 0.9);
+            --bg-card: rgba(15, 23, 42, 0.82);
+            --bg-card-hover: rgba(24, 34, 61, 0.95);
             --border-glass: rgba(255, 255, 255, 0.12);
             --border-glow: rgba(56, 189, 248, 0.35);
             --text-main: #f8fafc;
@@ -67,6 +68,165 @@
             --accent-red: #ef4444;
             --whatsapp-green: #25d366;
             --primary-cta: #2563eb;
+        }
+
+        /* Tema Claro Oficial (LegalTech / Institucional) */
+        body.theme-light {
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f1f5f9;
+            --border-glass: #e2e8f0;
+            --border-glow: rgba(30, 64, 175, 0.25);
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --accent-green: #059669;
+            --accent-emerald: #059669;
+            --accent-blue: #1d4ed8;
+            --accent-gold: #d97706;
+            --accent-purple: #7c3aed;
+            --accent-red: #dc2626;
+            --whatsapp-green: #16a34a;
+            --primary-cta: #1e40af;
+            background-color: #f8fafc !important;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(37, 99, 235, 0.08) 0%, transparent 55%),
+                radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.06) 0%, transparent 45%),
+                radial-gradient(circle at 15% 70%, rgba(245, 158, 11, 0.05) 0%, transparent 40%) !important;
+            color: #0f172a !important;
+        }
+
+        /* Reglas Específicas para Modo Claro */
+        body.theme-light .card {
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+            border-color: #e2e8f0;
+            background: #ffffff;
+        }
+        body.theme-light .card:hover {
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+            border-color: #cbd5e1;
+        }
+        body.theme-light .card-title,
+        body.theme-light .brand,
+        body.theme-light .pwa-banner-title {
+            color: #0f172a !important;
+        }
+        body.theme-light .hero h1 {
+            background: linear-gradient(180deg, #0f172a 40%, #475569 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        body.theme-light header {
+            background: rgba(255, 255, 255, 0.94);
+            border-bottom-color: #e2e8f0;
+        }
+        body.theme-light .nav-link {
+            color: #475569;
+        }
+        body.theme-light .nav-link:hover {
+            color: #0f172a;
+        }
+        body.theme-light .search-panel {
+            background: #ffffff;
+            border-color: #e2e8f0;
+            box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
+        }
+        body.theme-light .input-wrap {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+        body.theme-light #searchInput {
+            color: #0f172a;
+        }
+        body.theme-light .select-prov {
+            background-color: #f8fafc;
+            border-color: #cbd5e1;
+            color: #0f172a;
+        }
+        body.theme-light .tab-btn {
+            background: #f1f5f9;
+            color: #475569;
+            border-color: #e2e8f0;
+        }
+        body.theme-light .tab-btn:hover {
+            color: #0f172a;
+            background: #e2e8f0;
+        }
+        body.theme-light .tab-btn.active {
+            background: #1e40af;
+            color: #ffffff;
+            border-color: #1e40af;
+        }
+        body.theme-light .prices-box {
+            background: #f8fafc;
+            border-color: #e2e8f0;
+        }
+        body.theme-light .market-val {
+            color: #64748b;
+        }
+        body.theme-light .boe-val {
+            color: #059669;
+        }
+        body.theme-light .spec-item {
+            background: #f1f5f9;
+            border-color: #e2e8f0;
+            color: #334155;
+        }
+        body.theme-light .transparency-box {
+            background: #ffffff;
+            border-color: #e2e8f0;
+            box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
+        }
+        body.theme-light .transparency-header h4 {
+            color: #0f172a !important;
+        }
+        body.theme-light .transparency-item {
+            background: #f8fafc;
+            border-color: #e2e8f0;
+        }
+        body.theme-light .transparency-item p {
+            color: #475569;
+        }
+        body.theme-light .lock-box {
+            background: #f8fafc;
+            border-color: #e2e8f0;
+        }
+        body.theme-light .lock-title-wrap {
+            color: #0f172a;
+        }
+        body.theme-light .chip-btn {
+            background: #ffffff;
+            border-color: #cbd5e1;
+            color: #334155;
+        }
+        body.theme-light .push-alert-bar {
+            background: #ffffff;
+            border-color: #cbd5e1;
+            box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
+        }
+        body.theme-light .push-alert-text {
+            color: #0f172a;
+        }
+        body.theme-light .top-announcement-bar {
+            background: linear-gradient(90deg, #1e3a8a 0%, #1e40af 50%, #1e3a8a 100%);
+            color: #ffffff;
+        }
+        body.theme-light .modal-box {
+            background: #ffffff;
+            border-color: #cbd5e1;
+            color: #0f172a;
+        }
+        body.theme-light .modal-title {
+            color: #0f172a;
+        }
+        body.theme-light .modal-benefits li {
+            color: #334155;
+        }
+        body.theme-light .modal-item-info {
+            background: #f8fafc;
+            border-color: #e2e8f0;
+        }
+        body.theme-light .modal-item-name {
+            color: #0f172a;
         }
 
         * {
@@ -256,6 +416,36 @@
         .btn-pro-nav:hover {
             transform: translateY(-1px);
             box-shadow: 0 6px 18px rgba(245, 158, 11, 0.6);
+        }
+
+        /* Botón Modo Claro / Oscuro Dual */
+        .btn-theme-toggle {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-glass);
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .btn-theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.16);
+            transform: scale(1.03);
+        }
+        body.theme-light .btn-theme-toggle {
+            background: #ffffff;
+            border-color: #cbd5e1;
+            color: #0f172a;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+        }
+        body.theme-light .btn-theme-toggle:hover {
+            background: #f1f5f9;
         }
 
         @media (max-width: 900px) {
@@ -2115,6 +2305,10 @@
                 <a href="#planes" class="nav-link">Planes & Precios</a>
             </nav>
             <div class="nav-actions">
+                <button id="btnThemeToggle" onclick="alternarTema()" class="btn-theme-toggle" title="Cambiar a Modo Claro / Oscuro">
+                    <span id="themeToggleIcon">☀️</span>
+                    <span id="themeToggleText">Modo Claro</span>
+                </button>
                 <button id="btnPwaNav" onclick="iniciarInstalacionPwa()" class="btn-pwa-nav">
                     📲 Instalar App
                 </button>
@@ -3525,6 +3719,38 @@
             document.getElementById('modalPro').classList.add('active');
         }
 
+        // Modo Dual Claro / Oscuro (LegalTech vs Terminal)
+        function aplicarTema(tema) {
+            const body = document.body;
+            const icon = document.getElementById('themeToggleIcon');
+            const txt = document.getElementById('themeToggleText');
+            if (tema === 'light') {
+                body.classList.add('theme-light');
+                if (icon) icon.textContent = '🌙';
+                if (txt) txt.textContent = 'Modo Oscuro';
+                localStorage.setItem('radar_theme', 'light');
+            } else {
+                body.classList.remove('theme-light');
+                if (icon) icon.textContent = '☀️';
+                if (txt) txt.textContent = 'Modo Claro';
+                localStorage.setItem('radar_theme', 'dark');
+            }
+        }
+
+        function alternarTema() {
+            const esLight = document.body.classList.contains('theme-light');
+            aplicarTema(esLight ? 'dark' : 'light');
+        }
+
+        function inicializarTema() {
+            const guardado = localStorage.getItem('radar_theme');
+            if (guardado === 'light') {
+                aplicarTema('light');
+            } else {
+                aplicarTema('dark');
+            }
+        }
+
         function cerrarModales() {
             const player = document.getElementById('videoTutorialPlayer');
             if (player) player.pause();
@@ -3986,6 +4212,7 @@
         }
 
         // Inicialización
+        inicializarTema();
         filtrarOportunidades();
         actualizarCalculadora();
         cargarCatalogoDinamico();
