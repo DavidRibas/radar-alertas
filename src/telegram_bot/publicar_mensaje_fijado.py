@@ -14,7 +14,8 @@ load_dotenv(str(BASE_DIR / ".env"))
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 CANAL_FREE_ID = os.getenv("TELEGRAM_CANAL_FREE_ID", "-1004345947331")
 BOT_USERNAME = os.getenv("TELEGRAM_BOT_USERNAME", "RadarAletasSubastas_bot")
-WEB_URL = "https://radar-alertas-bot.onrender.com"
+WEB_URL = "https://radar-alertas-delta.vercel.app"
+WHATSAPP_CHANNEL_LINK = "https://whatsapp.com/channel/0029Vb99ohpB4hdUuVdOHt2Q"
 
 def publicar_y_fijar_bienvenida():
     print(f"🚀 Publicando mensaje fijado de bienvenida en canal: {CANAL_FREE_ID}...")
@@ -44,6 +45,9 @@ def publicar_y_fijar_bienvenida():
             [
                 {"text": "👥 Ganar Mes VIP Gratis", "url": f"https://t.me/{BOT_USERNAME}?start=ref_invitar"},
                 {"text": "⭐ Canales VIP", "url": f"https://t.me/{BOT_USERNAME}?start=vip"}
+            ],
+            [
+                {"text": "💬 Canal Oficial de WhatsApp", "url": WHATSAPP_CHANNEL_LINK}
             ],
             [
                 {"text": "🌐 Web Oficial de RadarAlertas", "url": WEB_URL}

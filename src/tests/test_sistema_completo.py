@@ -103,7 +103,7 @@ def validar_todo():
     # 5. Landing Page y Servidor Cloud
     print("\n[5/5] Verificando Servidor Web y Landing Page...")
     try:
-        r_web = requests.get("https://radar-alertas-bot.onrender.com", timeout=10)
+        r_web = requests.get("https://radar-alertas-delta.vercel.app", timeout=10)
         if r_web.status_code == 200 and "<!DOCTYPE html>" in r_web.text:
             print("  ✅ Landing Page Cloud: ONLINE 24/7 (HTML 200 OK)")
         else:

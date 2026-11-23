@@ -33,19 +33,19 @@ services:
         value: "-1004345947331"
       - key: TELEGRAM_CANAL_FREE_LINK
         value: "https://t.me/+JoX17328N-VkMWVk"
+      - key: WHATSAPP_CHANNEL_LINK
+        value: "https://whatsapp.com/channel/0029Vb99ohpB4hdUuVdOHt2Q"
+      - key: URL_WEB_APP
+        value: "https://radar-alertas-delta.vercel.app"
       - key: TELEGRAM_ADMIN_USER_ID
         value: "5674459275"
       - key: PRECIO_PROMOCION
         value: "2.99"
       - key: STRIPE_PAYMENT_LINK
-        value: "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00"
-      - key: STRIPE_LINK_SUBASTAS
-        value: "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00"
-      - key: STRIPE_LINK_AYUDAS
-        value: "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00"
-      - key: STRIPE_LINK_LICITACIONES
-        value: "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00"
-      - key: STRIPE_LINK_EMPLEO
-        value: "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00"
+        value: "https://buy.stripe.com/28E28s5Aq8ZBel18YRcQU03"
       - key: STRIPE_LINK_PACK_TOTAL
-        value: "https://buy.stripe.com/14A4gA0g6a3Fgt9a2VcQU01"
+        value: "https://buy.stripe.com/28E28s5Aq8ZBel18YRcQU03"
+      - key: STRIPE_LINK_PRO_ANUAL
+        value: "https://buy.stripe.com/aFa14o1kafnZccT0slcQU04"
+      - key: STRIPE_LINK_DESBLOQUEO
+        value: "https://buy.stripe.com/5kQaEYd2S2Bd5OvfnfcQU02"

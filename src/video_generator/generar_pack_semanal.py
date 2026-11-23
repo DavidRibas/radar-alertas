@@ -37,7 +37,7 @@ def empaquetar_semana():
                 "Piso de 85 m² en pleno Eixample de Barcelona publicado en el BOE.\n"
                 "🛡️ 0,00 € de deudas anteriores canceladas por Decreto Judicial (Art. 674 LEC) y fianza 5% retornable.\n\n"
                 "🌐 Prueba el Buscador y la Calculadora de Rentabilidad oficial gratis en el enlace de mi perfil:\n"
-                "👉 https://radar-alertas-bot.onrender.com\n\n"
+                "👉 https://radar-alertas-delta.vercel.app\n\n"
                 "📌 Pinned Comment: 'Te he dejado el enlace al buscador oficial con simulador de impuestos y la Guía en PDF gratis en el link de mi perfil.'\n\n"
                 "#subastasboe #idealista #barcelona #inmobiliaria #inversion #chollos #vivienda"
             )
@@ -51,7 +51,7 @@ def empaquetar_semana():
                 "BMW Serie 3 Berlina (Año 2021) automático con 68.000 km que sale a subasta judicial por 4.800 €.\n"
                 "En portales de ocasión está en 24.500 € (-80% de ahorro). Precintos y multas canceladas por Mandamiento Judicial.\n\n"
                 "🚗 Accede al buscador y descarga la Guía Oficial de Vehículos Embargados en el link de la bio:\n"
-                "👉 https://radar-alertas-bot.onrender.com\n\n"
+                "👉 https://radar-alertas-delta.vercel.app\n\n"
                 "📌 Pinned Comment: 'Tienes el buscador de vehículos y la Guía de Coches Embargados paso a paso gratis en el link de mi perfil.'\n\n"
                 "#coches #embargos #subastas #bmw #cochessegundamano #chollos #dgt #motor"
             )
@@ -65,7 +65,7 @@ def empaquetar_semana():
                 "Nueva partida oficial en la Base de Datos Nacional de Subvenciones con fondos europeos.\n"
                 "Sin devolución y sin intereses bancarios. Para autónomos y micropymes.\n\n"
                 "💰 Consulta la convocatoria abierta y los requisitos oficiales en el radar gratuito:\n"
-                "👉 https://radar-alertas-bot.onrender.com\n\n"
+                "👉 https://radar-alertas-delta.vercel.app\n\n"
                 "📌 Pinned Comment: 'El enlace directo a la sede electrónica y el filtro de ayudas está en el buscador de mi perfil.'\n\n"
                 "#ayudas #subvenciones #autonomos #pymes #emprendedores #dinero #negocios"
             )
@@ -79,7 +79,7 @@ def empaquetar_semana():
                 "Mantenimiento, servicios y suministros del sector público.\n"
                 "Sin avales bancarios gigantescos y con cobro garantizado por Ley a 30 días.\n\n"
                 "👉 Filtra contratos menores de tu provincia en el link del perfil:\n"
-                "👉 https://radar-alertas-bot.onrender.com\n\n"
+                "👉 https://radar-alertas-delta.vercel.app\n\n"
                 "📌 Pinned Comment: 'Todos los pliegos técnicos oficiales disponibles en el radar del perfil.'\n\n"
                 "#licitaciones #contratospublicos #pymes #autonomos #empresas #boe"
             )
@@ -93,7 +93,7 @@ def empaquetar_semana():
                 "Antes de meter un solo euro, simula el ITP autonómico, aranceles registrales y cargas con la calculadora interactiva.\n"
                 "Descubre cómo cazar inmuebles con hasta un 84% de descuento de forma 100% legal.\n\n"
                 "🧮 Simula tu operación con la Calculadora Oficial en el link de la bio:\n"
-                "👉 https://radar-alertas-bot.onrender.com\n\n"
+                "👉 https://radar-alertas-delta.vercel.app\n\n"
                 "📌 Pinned Comment: 'Calculadora de rentabilidad e impuestos de subastas gratis en el link de mi perfil.'\n\n"
                 "#inversioninmobiliaria #subastasjudiciales #boe #vivienda #proptech #finanzas"
             )
@@ -127,7 +127,7 @@ def empaquetar_semana():
             f_out.write(f"Título: {item['titulo']}\n\n")
             f_out.write(f"Texto / Copy para publicar:\n{item['copy']}\n\n")
             f_out.write("Comentario fijado obligatorio:\n")
-            f_out.write("👉 Acceso oficial y Guía en PDF gratis en el enlace de mi perfil: https://radar-alertas-bot.onrender.com\n")
+            f_out.write("👉 Acceso oficial y Guía en PDF gratis en el enlace de mi perfil: https://radar-alertas-delta.vercel.app\n")
             f_out.write("=" * 60 + "\n\n")
 
     print(f"\n🎉 ¡Pack Semanal Listo en: {SEMANA_DIR}!")

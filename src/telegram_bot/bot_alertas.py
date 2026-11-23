@@ -56,15 +56,17 @@ CANAL_FREE_ID = os.getenv("TELEGRAM_CANAL_FREE_ID", "-1004345947331")
 CANAL_FREE_LINK = os.getenv("TELEGRAM_CANAL_FREE_LINK", "https://t.me/+JoX17328N-VkMWVk")
 
 PRECIO_PROMO = os.getenv("PRECIO_PROMOCION", "2.99")
-STRIPE_LINK = os.getenv("STRIPE_PAYMENT_LINK", "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00")
+STRIPE_LINK = os.getenv("STRIPE_PAYMENT_LINK", "https://buy.stripe.com/28E28s5Aq8ZBel18YRcQU03")
 STRIPE_LINK_SUBASTAS = os.getenv("STRIPE_LINK_SUBASTAS", "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00")
 STRIPE_LINK_AYUDAS = os.getenv("STRIPE_LINK_AYUDAS", "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00")
 STRIPE_LINK_LICITACIONES = os.getenv("STRIPE_LINK_LICITACIONES", "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00")
 STRIPE_LINK_EMPLEO = os.getenv("STRIPE_LINK_EMPLEO", "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00")
 STRIPE_LINK_VEHICULOS = os.getenv("STRIPE_LINK_VEHICULOS", "https://buy.stripe.com/5kQdRa6Eu7VxdgXdf7cQU00")
-STRIPE_LINK_PACK_TOTAL = os.getenv("STRIPE_LINK_PACK_TOTAL", "https://buy.stripe.com/14A4gA0g6a3Fgt9a2VcQU01")
+STRIPE_LINK_PACK_TOTAL = os.getenv("STRIPE_LINK_PACK_TOTAL", "https://buy.stripe.com/28E28s5Aq8ZBel18YRcQU03")
+STRIPE_LINK_PRO_ANUAL = os.getenv("STRIPE_LINK_PRO_ANUAL", "https://buy.stripe.com/aFa14o1kafnZccT0slcQU04")
+WHATSAPP_CHANNEL_LINK = os.getenv("WHATSAPP_CHANNEL_LINK", "https://whatsapp.com/channel/0029Vb99ohpB4hdUuVdOHt2Q")
 ADMIN_ID = os.getenv("TELEGRAM_ADMIN_USER_ID", "5674459275")
-URL_WEB_APP = os.getenv("URL_WEB_APP", "https://radar-alertas-bot.onrender.com/")
+URL_WEB_APP = os.getenv("URL_WEB_APP", "https://radar-alertas-delta.vercel.app")
 
 def con_ref(link: str, user_id: int) -> str:
     """Añade el ID de Telegram como client_reference_id al enlace de Stripe."""
@@ -209,11 +211,14 @@ async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         mensaje += (
             "👇 *Elige directamente el canal de alertas que te interesa:*\n"
-            f"🔥 *Suscripciones individuales por {PRECIO_PROMO} € al mes* o el *Pack Total por 4,99 € al mes*."
+            f"🔥 *Suscripciones individuales por {PRECIO_PROMO} € al mes* o el *Plan PRO Total por 14,99 € al mes* (o 99 €/año)."
         )
         teclado = [
             [
                 InlineKeyboardButton("⚡ Explorador Web Interactivo (BOE/DGT) 🌐", web_app=WebAppInfo(url=URL_WEB_APP))
+            ],
+            [
+                InlineKeyboardButton("💬 Canal Oficial de WhatsApp 📱", url=WHATSAPP_CHANNEL_LINK)
             ],
             [
                 InlineKeyboardButton("🏠 Canal Inmuebles", callback_data="ver_canal_inmuebles"),
@@ -227,7 +232,7 @@ async def comando_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 InlineKeyboardButton("💼 Canal Empleo Público", callback_data="ver_canal_empleo")
             ],
             [
-                InlineKeyboardButton("🔥 PACK TOTAL: 5 CANALES (4,99 €/m) 🔥", callback_data="pagar_vip")
+                InlineKeyboardButton("⭐ PLAN PRO: 5 CANALES VIP (14,99 €/m) ⭐", callback_data="pagar_vip")
             ],
             [
                 InlineKeyboardButton("🔍 Chollos por Provincia", callback_data="menu_provincias"),
@@ -347,7 +352,7 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if data in ("escaparate_canales", "pagar_vip"):
         texto = (
             "📺 *ESCAPARATE OFICIAL DE CANALES RADARALERTAS* 📺\n\n"
-            "Monitorizamos fuentes oficiales las 24 horas del día. Elige el canal específico para tu perfil o desbloquea todo con el **Pack Total** ahorrando un 66%:\n\n"
+            "Monitorizamos fuentes oficiales las 24 horas del día. Elige el canal específico para tu perfil o desbloquea todo con el **Plan PRO Total** con acceso completo e ilimitado:\n\n"
             "🏠 *1. Subastas de Inmuebles (2,99 €/mes)*\n"
             "• Pisos y chalets con >50% de descuento y sin cargas.\n"
             "• Enlaces directos a Google Street View, Catastro y ROI de alquiler.\n\n"
@@ -362,13 +367,14 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "• Descarga directa de pliegos y condiciones oficiales en PDF.\n\n"
             "💼 *5. Empleo Público y Oposiciones (2,99 €/mes)*\n"
             "• Convocatorias fijas y bolsas urgentes del BOE (+2.150 €/mes).\n\n"
-            "🔥 *OFERTA ESPECIAL:* Desbloquea los **5 CANALES VIP por solo 4,99 €/mes**."
+            "🔥 *PLAN PRO COMPLETO:* Acceso a los **5 Canales VIP + Buscador Web** por solo 14,99 €/mes (o 99 €/año)."
         )
         teclado = [
+            [InlineKeyboardButton("⭐ Plan PRO Mensual (14,99 €/m)", url=con_ref(STRIPE_LINK_PACK_TOTAL, user.id))],
+            [InlineKeyboardButton("🌟 Plan PRO Anual (99 €/año • Ahorra 80 €)", url=con_ref(STRIPE_LINK_PRO_ANUAL, user.id))],
             [InlineKeyboardButton("🏠 Inmuebles (2,99 €/m)", url=con_ref(STRIPE_LINK_SUBASTAS, user.id)), InlineKeyboardButton("🚗 Vehículos (2,99 €/m)", url=con_ref(STRIPE_LINK_VEHICULOS, user.id))],
             [InlineKeyboardButton("💰 Ayudas (2,99 €/m)", url=con_ref(STRIPE_LINK_AYUDAS, user.id)), InlineKeyboardButton("📑 Licitaciones (2,99 €/m)", url=con_ref(STRIPE_LINK_LICITACIONES, user.id))],
             [InlineKeyboardButton("💼 Empleo Público (2,99 €/m)", url=con_ref(STRIPE_LINK_EMPLEO, user.id))],
-            [InlineKeyboardButton("🔥 PACK TOTAL: LOS 5 CANALES (4,99 €/m) 🔥", url=con_ref(STRIPE_LINK_PACK_TOTAL, user.id))],
             [InlineKeyboardButton("📢 Ver Alertas en Directo (Gratis)", url=CANAL_FREE_LINK)],
             [InlineKeyboardButton("🔙 Volver", callback_data="volver_inicio")]
         ]
@@ -387,11 +393,11 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "• 💵 Depósito legal del 5% (Art. 669.1 LEC, reembolsable al 100%).\n"
             "• ⏰ Enlace 1-clic a Google Calendar con alarma 2h antes del cierre.\n"
             "• 🔗 Enlace judicial directo al BOE para pujar sin intermediarios.\n\n"
-            "👇 *Suscríbete ahora por 2,99 €/mes o accede a los 5 canales con el Pack Total:*"
+            "👇 *Suscríbete ahora por 2,99 €/mes o accede a los 5 canales con el Plan PRO:*"
         )
         teclado = [
             [InlineKeyboardButton("⭐ Suscribirme a Inmuebles (2,99 €/mes)", url=con_ref(STRIPE_LINK_SUBASTAS, user.id))],
-            [InlineKeyboardButton("🔥 PACK TOTAL: LOS 5 CANALES (4,99 €/mes) 🔥", url=con_ref(STRIPE_LINK_PACK_TOTAL, user.id))],
+            [InlineKeyboardButton("⭐ Plan PRO Total: 5 Canales (14,99 €/mes)", url=con_ref(STRIPE_LINK_PACK_TOTAL, user.id))],
             [InlineKeyboardButton("📖 Descargar Guía Inmuebles Gratis (PDF)", callback_data="descargar_guia_pisos")],
             [InlineKeyboardButton("🔙 Volver al Menú Principal", callback_data="volver_inicio")]
         ]
@@ -410,11 +416,11 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "• 💵 Depósito legal del 5% (100% reembolsable por el BOE si no ganas).\n"
             "• ⏰ Recordatorio en Google Calendar con alarma de fin de subasta.\n"
             "• 🔗 Enlace directo al expediente en el portal del BOE.\n\n"
-            "👇 *Suscríbete ahora por 2,99 €/mes o accede a los 5 canales con el Pack Total:*"
+            "👇 *Suscríbete ahora por 2,99 €/mes o accede a los 5 canales con el Plan PRO:*"
         )
         teclado = [
             [InlineKeyboardButton("⭐ Suscribirme a Vehículos (2,99 €/mes)", url=con_ref(STRIPE_LINK_VEHICULOS, user.id))],
-            [InlineKeyboardButton("🔥 PACK TOTAL: LOS 5 CANALES (4,99 €/mes) 🔥", url=con_ref(STRIPE_LINK_PACK_TOTAL, user.id))],
+            [InlineKeyboardButton("⭐ Plan PRO Total: 5 Canales (14,99 €/mes)", url=con_ref(STRIPE_LINK_PACK_TOTAL, user.id))],
             [InlineKeyboardButton("🚗 Descargar Guía Coches Gratis (PDF)", callback_data="descargar_guia_coches")],
             [InlineKeyboardButton("🔙 Volver al Menú Principal", callback_data="volver_inicio")]
         ]
@@ -432,11 +438,11 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "• ⏰ Botón 1-clic para agendar la fecha límite en Google Calendar.\n"
             "• 🔗 Enlace directo a la Sede Electrónica oficial para tramitar.\n"
             "• 📑 Descarga directa de las bases reguladoras.\n\n"
-            "👇 *Suscríbete ahora por 2,99 €/mes o accede a los 5 canales con el Pack Total:*"
+            "👇 *Suscríbete ahora por 2,99 €/mes o accede a los 5 canales con el Plan PRO:*"
         )
         teclado = [
             [InlineKeyboardButton("⭐ Suscribirme a Ayudas (2,99 €/mes)", url=con_ref(STRIPE_LINK_AYUDAS, user.id))],
-            [InlineKeyboardButton("🔥 PACK TOTAL: LOS 5 CANALES (4,99 €/mes) 🔥", url=con_ref(STRIPE_LINK_PACK_TOTAL, user.id))],
+            [InlineKeyboardButton("⭐ Plan PRO Total: 5 Canales (14,99 €/mes)", url=con_ref(STRIPE_LINK_PACK_TOTAL, user.id))],
             [InlineKeyboardButton("🔙 Volver al Menú Principal", callback_data="volver_inicio")]
         ]
         await query.edit_message_text(texto, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
@@ -451,11 +457,11 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "• 🆔 Número de expediente oficial en la Sección 5A del BOE.\n"
             "• 📥 Enlace directo de descarga del Pliego de Condiciones (PDF).\n"
             "• ⏰ Recordatorio en Google Calendar para preparar y presentar la oferta.\n\n"
-            "👇 *Suscríbete ahora por 2,99 €/mes o accede a los 5 canales con el Pack Total:*"
+            "👇 *Suscríbete ahora por 2,99 €/mes o accede a los 5 canales con el Plan PRO:*"
         )
         teclado = [
             [InlineKeyboardButton("⭐ Suscribirme a Licitaciones (2,99 €/mes)", url=con_ref(STRIPE_LINK_LICITACIONES, user.id))],
-            [InlineKeyboardButton("🔥 PACK TOTAL: LOS 5 CANALES (4,99 €/mes) 🔥", url=con_ref(STRIPE_LINK_PACK_TOTAL, user.id))],
+            [InlineKeyboardButton("⭐ Plan PRO Total: 5 Canales (14,99 €/mes)", url=con_ref(STRIPE_LINK_PACK_TOTAL, user.id))],
             [InlineKeyboardButton("🔙 Volver al Menú Principal", callback_data="volver_inicio")]
         ]
         await query.edit_message_text(texto, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
@@ -470,11 +476,11 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "• 🏛️ Ministerio o administración pública convocante.\n"
             "• ⏳ Plazo de inscripción y presentación de instancias.\n"
             "• 📑 Enlace directo a la resolución oficial del BOE en PDF.\n\n"
-            "👇 *Suscríbete ahora por 2,99 €/mes o accede a los 5 canales con el Pack Total:*"
+            "👇 *Suscríbete ahora por 2,99 €/mes o accede a los 5 canales con el Plan PRO:*"
         )
         teclado = [
             [InlineKeyboardButton("⭐ Suscribirme a Empleo (2,99 €/mes)", url=con_ref(STRIPE_LINK_EMPLEO, user.id))],
-            [InlineKeyboardButton("🔥 PACK TOTAL: LOS 5 CANALES (4,99 €/mes) 🔥", url=con_ref(STRIPE_LINK_PACK_TOTAL, user.id))],
+            [InlineKeyboardButton("⭐ Plan PRO Total: 5 Canales (14,99 €/mes)", url=con_ref(STRIPE_LINK_PACK_TOTAL, user.id))],
             [InlineKeyboardButton("🔙 Volver al Menú Principal", callback_data="volver_inicio")]
         ]
         await query.edit_message_text(texto, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
@@ -624,7 +630,7 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         teclado = [
             [InlineKeyboardButton("🚗 Activar Canal Vehículos (2,99 €/m)", url=con_ref(STRIPE_LINK_VEHICULOS, user.id))],
-            [InlineKeyboardButton("🔥 Pack Total: 5 Canales (4,99 €/m)", url=con_ref(STRIPE_LINK_PACK_TOTAL, user.id))],
+            [InlineKeyboardButton("⭐ Plan PRO Total: 5 Canales (14,99 €/m)", url=con_ref(STRIPE_LINK_PACK_TOTAL, user.id))],
             [InlineKeyboardButton("🔙 Volver al Menú", callback_data="volver_inicio")]
         ]
         with open(ruta_pdf_c, "rb") as doc:
@@ -740,7 +746,7 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         txt = (
             "🎁 *PROGRAMA DE REFERIDOS: 1 MES VIP TOTAL GRATIS*\n\n"
             "Comparte RadarAlertas con amigos interesados en chollos, coches o subastas y "
-            "consigue tu suscripción VIP Total (valorada en *4,99 €/mes*) a *coste 0,00 €*.\n\n"
+            "consigue tu suscripción VIP Total (valorada en *14,99 €/mes*) a *coste 0,00 €*.\n\n"
             "📋 *¿Cómo funciona?*\n"
             "1. Pasa tu enlace exclusivo a tus amigos o compártelo en grupos.\n"
             "2. En cuanto *3 personas* se unan a través de tu link, el sistema te activará automáticamente *30 días de VIP Total*.\n\n"
@@ -755,7 +761,7 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         teclado = [
             [InlineKeyboardButton("📤 Compartir en Telegram (1 Clic)", url=url_compartir)],
-            [InlineKeyboardButton("⭐ Desbloquear Ahora por 2,99 €/mes", callback_data="pagar_vip")],
+            [InlineKeyboardButton("⭐ Desbloquear Ahora por 14,99 €/mes", callback_data="pagar_vip")],
             [InlineKeyboardButton("🔙 Volver al Menú", callback_data="volver_inicio")]
         ]
         await query.edit_message_text(txt, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
@@ -772,6 +778,8 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 "👇 *Accede directamente a tus canales VIP exclusivos:*"
             )
             teclado = [
+                [InlineKeyboardButton("⚡ Explorador Web Interactivo (BOE/DGT) 🌐", web_app=WebAppInfo(url=URL_WEB_APP))],
+                [InlineKeyboardButton("💬 Canal Oficial de WhatsApp 📱", url=WHATSAPP_CHANNEL_LINK)],
                 [InlineKeyboardButton("🏠 Subastas VIP", url=CANAL_VIP_LINK), InlineKeyboardButton("🚗 Vehículos VIP", url=CANAL_VEHICULOS_LINK)],
                 [InlineKeyboardButton("💰 Ayudas VIP", url=CANAL_AYUDAS_LINK), InlineKeyboardButton("📑 Licitaciones VIP", url=CANAL_LICITACIONES_LINK)],
                 [InlineKeyboardButton("💼 Empleo VIP", url=CANAL_EMPLEO_LINK)],
@@ -791,6 +799,12 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             )
             teclado = [
                 [
+                    InlineKeyboardButton("⚡ Explorador Web Interactivo (BOE/DGT) 🌐", web_app=WebAppInfo(url=URL_WEB_APP))
+                ],
+                [
+                    InlineKeyboardButton("💬 Canal Oficial de WhatsApp 📱", url=WHATSAPP_CHANNEL_LINK)
+                ],
+                [
                     InlineKeyboardButton("🏠 Canal Inmuebles", callback_data="ver_canal_inmuebles"),
                     InlineKeyboardButton("🚗 Canal Vehículos", callback_data="ver_canal_vehiculos")
                 ],
@@ -802,7 +816,7 @@ async def manejar_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     InlineKeyboardButton("💼 Canal Empleo Público", callback_data="ver_canal_empleo")
                 ],
                 [
-                    InlineKeyboardButton("🔥 PACK TOTAL: 5 CANALES (4,99 €/m) 🔥", callback_data="pagar_vip")
+                    InlineKeyboardButton("⭐ PLAN PRO: 5 CANALES VIP (14,99 €/m) ⭐", callback_data="pagar_vip")
                 ],
                 [
                     InlineKeyboardButton("🔍 Chollos por Provincia", callback_data="menu_provincias"),
@@ -838,7 +852,7 @@ async def comando_invitar(update: Update, context: ContextTypes.DEFAULT_TYPE):
     txt = (
         "🎁 *PROGRAMA DE REFERIDOS: 1 MES VIP TOTAL GRATIS*\n\n"
         "Comparte RadarAlertas con amigos interesados en chollos, coches o subastas y "
-        "consigue tu suscripción VIP Total (valorada en *4,99 €/mes*) a *coste 0,00 €*.\n\n"
+        "consigue tu suscripción VIP Total (valorada en *14,99 €/mes*) a *coste 0,00 €*.\n\n"
         "📋 *¿Cómo funciona?*\n"
         "1. Pasa tu enlace exclusivo a tus amigos o compártelo en grupos.\n"
         "2. En cuanto *3 personas* se unan a través de tu link, el sistema te activará automáticamente *30 días de VIP Total*.\n\n"
@@ -853,7 +867,7 @@ async def comando_invitar(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     teclado = [
         [InlineKeyboardButton("📤 Compartir en Telegram (1 Clic)", url=url_compartir)],
-        [InlineKeyboardButton("⭐ Desbloquear Ahora por 2,99 €/mes", callback_data="pagar_vip")],
+        [InlineKeyboardButton("⭐ Desbloquear Ahora por 14,99 €/mes", callback_data="pagar_vip")],
         [InlineKeyboardButton("🔙 Menú Principal", callback_data="volver_inicio")]
     ]
     await update.effective_message.reply_text(txt, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(teclado))
@@ -928,7 +942,7 @@ async def manejar_mensaje_general(update: Update, context: ContextTypes.DEFAULT_
                 ],
                 [
                     InlineKeyboardButton("🎁 Guías Gratis en PDF", callback_data="descargar_guia"),
-                    InlineKeyboardButton("🔥 Pack Total VIP (4,99 €)", callback_data="pagar_vip")
+                    InlineKeyboardButton("⭐ Plan PRO VIP (14,99 €)", callback_data="pagar_vip")
                 ]
             ]
             await msg.reply_text(
@@ -994,8 +1008,10 @@ async def generar_texto_stats(context: ContextTypes.DEFAULT_TYPE) -> str:
 
     mrr = 0.0
     for plan, count in m["desglose_planes"].items():
-        if "total" in plan.lower() or "pack" in plan.lower():
-            mrr += count * 4.99
+        if "anual" in plan.lower():
+            mrr += count * (99.0 / 12.0)
+        elif "total" in plan.lower() or "pack" in plan.lower() or "pro" in plan.lower():
+            mrr += count * 14.99
         else:
             mrr += count * 2.99
 

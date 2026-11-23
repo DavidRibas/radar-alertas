@@ -78,7 +78,7 @@ if TOKEN:
 
     # Verificar ping a Render (Cloud Bot)
     try:
-        url_render = "https://radar-alertas-bot.onrender.com/ping"
+        url_render = os.getenv("RENDER_EXTERNAL_URL", "https://radar-alertas-bot-du2p.onrender.com") + "/ping"
         req = urllib.request.Request(url_render, headers={"User-Agent": "MetricsChecker/1.0"})
         with urllib.request.urlopen(req, timeout=10) as r:
             res_render = json.loads(r.read().decode())
