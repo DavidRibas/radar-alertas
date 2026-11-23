@@ -228,6 +228,43 @@
         body.theme-light .modal-item-name {
             color: #0f172a;
         }
+        body.theme-light .savings-pill-banner {
+            background: #ecfdf5;
+            border-color: #a7f3d0;
+            color: #065f46;
+        }
+        body.theme-light .savings-pill-banner.employment {
+            background: #fff1f2;
+            border-color: #fecdd3;
+            color: #9f1239;
+        }
+        body.theme-light .savings-pill-banner.grant {
+            background: #f5f3ff;
+            border-color: #ddd6fe;
+            color: #5b21b6;
+        }
+        body.theme-light .legal-check {
+            color: #1e3a8a;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+        }
+
+        @media (max-width: 640px) {
+            .nav-actions .btn-tutorial-nav,
+            .nav-actions .btn-wa,
+            .nav-actions .btn-tg {
+                display: none;
+            }
+            .btn-theme-toggle {
+                padding: 6px 11px;
+                font-size: 11px;
+            }
+            .btn-pwa-nav {
+                padding: 6px 11px;
+                font-size: 11px;
+            }
+        }
+
 
         * {
             margin: 0;
@@ -2305,9 +2342,9 @@
                 <a href="#planes" class="nav-link">Planes & Precios</a>
             </nav>
             <div class="nav-actions">
-                <button id="btnThemeToggle" onclick="alternarTema()" class="btn-theme-toggle" title="Cambiar a Modo Claro / Oscuro">
+                <button id="btnThemeToggle" onclick="alternarTema()" class="btn-theme-toggle" title="Alternar entre Modo LegalTech (Claro) y Terminal (Oscuro)">
                     <span id="themeToggleIcon">☀️</span>
-                    <span id="themeToggleText">Modo Claro</span>
+                    <span id="themeToggleText">LegalTech</span>
                 </button>
                 <button id="btnPwaNav" onclick="iniciarInstalacionPwa()" class="btn-pwa-nav">
                     📲 Instalar App
@@ -3726,13 +3763,13 @@
             const txt = document.getElementById('themeToggleText');
             if (tema === 'light') {
                 body.classList.add('theme-light');
-                if (icon) icon.textContent = '🌙';
-                if (txt) txt.textContent = 'Modo Oscuro';
+                if (icon) icon.textContent = '⚡';
+                if (txt) txt.textContent = 'Terminal';
                 localStorage.setItem('radar_theme', 'light');
             } else {
                 body.classList.remove('theme-light');
                 if (icon) icon.textContent = '☀️';
-                if (txt) txt.textContent = 'Modo Claro';
+                if (txt) txt.textContent = 'LegalTech';
                 localStorage.setItem('radar_theme', 'dark');
             }
         }
