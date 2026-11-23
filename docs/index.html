@@ -512,6 +512,15 @@
             border-color: #cbd5e1;
             box-shadow: 0 2px 8px rgba(15, 23, 42, 0.12);
         }
+        
+        body.theme-light .btn-pwa-nav {
+            background: #ecfdf5;
+            border-color: #a7f3d0;
+            color: #065f46;
+        }
+        body.theme-light .btn-pwa-nav:hover {
+            background: #d1fae5;
+        }
         body.theme-light .theme-switch-btn {
             background: #e2e8f0;
             border-color: #cbd5e1;
@@ -2261,14 +2270,19 @@
 
         /* PWA Elements */
         .btn-pwa-nav {
-            display: none;
+            display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(56, 189, 248, 0.2));
-            border: 1px solid rgba(16, 185, 129, 0.45);
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.4);
             color: #34d399;
-            padding: 8px 14px;
-            border-radius: 9999px;
+            padding: 7px 14px;
+            border-radius: 999px;
+            font-size: 12.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
             font-size: 13px;
             font-weight: 700;
             cursor: pointer;
@@ -2419,12 +2433,16 @@
                     <span class="theme-opt opt-light" id="themeOptLight">☀️ Claro</span>
                     <span class="theme-opt opt-dark active" id="themeOptDark">🌙 Oscuro</span>
                 </button>
+
+                <!-- Botón App Móvil PWA -->
+                <button id="btnPwaNav" onclick="iniciarInstalacionPwa()" class="btn-pwa-nav" title="Instalar App en iPhone o Android">
+                    📲 App Móvil
+                </button>
+
+                <!-- Acceso Plan PRO -->
                 <a href="#planes" class="btn-pro-nav">
                     ⭐ Plan PRO
                 </a>
-                <button id="btnPwaNav" onclick="iniciarInstalacionPwa()" class="btn-pwa-nav" style="display:none;">
-                    📲 Instalar App
-                </button>
             </div>
         </div>
     </header>
