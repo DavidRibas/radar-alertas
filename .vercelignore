@@ -5,3 +5,5 @@ temp/
 tests/
 .env*
 .venv/
+requirements.txt
+api/
