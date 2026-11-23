@@ -2595,7 +2595,170 @@
             color: #64748b !important;
         }
 
-    </style>
+    
+        /* === ESTILOS TARJETAS LIMPIAS (CERO LÍO, MÁXIMA CLARIDAD) === */
+        .clean-legal-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 8px;
+            font-size: 11.5px;
+            color: #94a3b8;
+        }
+        body.theme-light .clean-legal-row {
+            background: #f1f5f9;
+            border-color: #e2e8f0;
+            color: #475569;
+        }
+        .clean-legal-icon {
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .action-box-clean {
+            border-radius: 12px;
+            padding: 12px;
+            margin: 12px 0 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        /* Caja Gratuita (Verde Limpio) */
+        .action-box-clean.free-box {
+            background: rgba(16, 185, 129, 0.08);
+            border: 1.5px solid rgba(16, 185, 129, 0.4);
+        }
+        body.theme-light .action-box-clean.free-box {
+            background: #ecfdf5;
+            border-color: #10b981;
+        }
+        .card-free-deal {
+            border-color: rgba(16, 185, 129, 0.4) !important;
+        }
+
+        .action-status-line {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+            box-shadow: 0 0 8px #10b981;
+            display: inline-block;
+        }
+        .status-text {
+            font-size: 11px;
+            font-weight: 700;
+            color: #34d399;
+            flex: 1;
+        }
+        body.theme-light .status-text {
+            color: #059669;
+        }
+        .free-pill {
+            background: #10b981;
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 900;
+            padding: 3px 8px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Caja de Pago (2,90 € Elegante) */
+        .action-box-clean.paid-box {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        body.theme-light .action-box-clean.paid-box {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+        .paid-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #cbd5e1;
+        }
+        body.theme-light .paid-title {
+            color: #1e293b;
+        }
+        .paid-pill {
+            background: rgba(56, 189, 248, 0.15);
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            color: #38bdf8;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+        body.theme-light .paid-pill {
+            background: #e0f2fe;
+            border-color: #0284c7;
+            color: #0284c7;
+        }
+
+        /* Botones de Acción Nuevos */
+        .btn-clean-cta {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 9px;
+            font-size: 13.5px;
+            font-weight: 800;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: none;
+            transition: all 0.2s ease;
+        }
+        .btn-free-cta {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+        }
+        .btn-free-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+        }
+        .btn-paid-cta {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+        }
+        .btn-paid-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
+        }
+        .btn-clean-sublink {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-size: 11.5px;
+            cursor: pointer;
+            text-align: center;
+            padding: 4px;
+            transition: color 0.2s;
+        }
+        .btn-clean-sublink:hover {
+            color: #fbbf24;
+            text-decoration: underline;
+        }
+        body.theme-light .btn-clean-sublink {
+            color: #64748b;
+        }
+        </style>
 </head>
 <body>
 
@@ -2799,6 +2962,7 @@
         <!-- Chips de Filtros Rápidos -->
         <div class="quick-filter-chips">
             <span class="chip-label">Filtros exprés:</span>
+            <button class="chip-btn chip-free-highlight" id="chipGratis" onclick="aplicarFiltroRapido('solo_gratis')" style="background: rgba(16, 185, 129, 0.2); border-color: #10b981; color: #34d399; font-weight: 800; box-shadow: 0 0 10px rgba(16,185,129,0.2);">🟢 100% Gratis / Muestras</button>
             <button class="chip-btn" id="chipVpo" onclick="aplicarFiltroRapido('alquiler_vpo')">🏠 Alquiler Protegido</button>
             <button class="chip-btn" id="chipDecomisos" onclick="aplicarFiltroRapido('decomisos_lujo')">🏎️ Decomisos del Estado</button>
             <button class="chip-btn" id="chipBolsas" onclick="aplicarFiltroRapido('bolsas')">💼 Bolsas Sin Oposición</button>
@@ -3222,7 +3386,9 @@
                 "legal": "Sin puja ni fianza • Asignación por orden de inscripción y baremo",
                 "img": "assets/templates/vpo_edificio_moderno.jpg",
                 "desbloqueado": false,
-                "ctaLabel": "📋 Desbloquear Formulario y Requisitos (2,90 €)"
+                "ctaLabel": "🏠 Ver Requisitos y Solicitar Vivienda (Gratis) →",
+                "esGratis": true,
+                "tagGratis": "🟢 100% GRATIS · SOLICITUD"
         },
         {
                 "id": "VPO-EMVS-2026-MAD02",
@@ -3250,7 +3416,9 @@
                 "legal": "Sin fianza previa • Inscripción gratuita con Certificado Digital o Cl@ve",
                 "img": "assets/templates/vpo_ensanche_residencial.jpg",
                 "desbloqueado": false,
-                "ctaLabel": "📋 Desbloquear Formulario y Requisitos (2,90 €)"
+                "ctaLabel": "🏠 Ver Requisitos y Solicitar Vivienda (Gratis) →",
+                "esGratis": true,
+                "tagGratis": "🟢 100% GRATIS · SOLICITUD"
         },
         {
                 "id": "VPO-HBCN-2026-BCN01",
@@ -3278,7 +3446,9 @@
                 "legal": "Sin puja de dinero • Adjudicación transparente por registro oficial",
                 "img": "assets/templates/inmueble_eixample_bcn.jpg",
                 "desbloqueado": false,
-                "ctaLabel": "📋 Desbloquear Formulario y Requisitos (2,90 €)"
+                "ctaLabel": "🏠 Ver Requisitos y Solicitar Vivienda (Gratis) →",
+                "esGratis": true,
+                "tagGratis": "🟢 100% GRATIS · SOLICITUD"
         },
         {
                 "id": "DEC-PNSD-2026-PORSCHE",
@@ -3306,7 +3476,9 @@
                 "legal": "Adjudicación directa PNSD • Se entrega con documentación oficial lista para matricular",
                 "img": "assets/templates/porsche_macan_decomiso.jpg",
                 "desbloqueado": false,
-                "ctaLabel": "🔨 Desbloquear Expediente y Puja (2,90 €)"
+                "ctaLabel": "Desbloquear Expediente • 2,90 € →",
+                "esGratis": false,
+                "tagGratis": null
         },
         {
                 "id": "DEC-PNSD-2026-MERCEDES",
@@ -3334,7 +3506,9 @@
                 "legal": "Cancelación total de precintos y embargos según Ley 17/2003",
                 "img": "assets/templates/mercedes_coupe_decomiso.jpg",
                 "desbloqueado": false,
-                "ctaLabel": "🔨 Desbloquear Expediente y Puja (2,90 €)"
+                "ctaLabel": "Desbloquear Expediente • 2,90 € →",
+                "esGratis": false,
+                "tagGratis": null
         },
         {
                 "id": "DEC-PNSD-2026-BARCO",
@@ -3362,7 +3536,9 @@
                 "legal": "Adjudicación judicial libre de cargas marítimas y deudas portuarias",
                 "img": "assets/templates/barco_yate_decomiso.jpg",
                 "desbloqueado": false,
-                "ctaLabel": "🔨 Desbloquear Expediente y Puja (2,90 €)"
+                "ctaLabel": "Desbloquear Expediente • 2,90 € →",
+                "esGratis": false,
+                "tagGratis": null
         },
         {
                 "id": "INM-SUB-AT-2026-26R2886001502",
@@ -3391,7 +3567,10 @@
                 "lng": -3.7202,
                 "modalidad": "subasta",
                 "modalidadLabel": "🔨 SUBASTA PÚBLICA",
-                "modalidadClass": "badge-subasta"
+                "modalidadClass": "badge-subasta",
+                "esGratis": false,
+                "tagGratis": null,
+                "ctaLabel": "Desbloquear Expediente • 2,90 € →"
         },
         {
                 "id": "INM-SUB-AT-2026-23R2886001483",
@@ -3422,7 +3601,9 @@
                 "modalidadLabel": "🔨 SUBASTA PÚBLICA",
                 "modalidadClass": "badge-subasta",
                 "pdfMuestra": "assets/Dictamen_Verificado_Final.pdf",
-                "ctaLabel": "📄 Descargar Dictamen Oficial (PDF Gratis)"
+                "ctaLabel": "📄 Descargar Dictamen Oficial en PDF (Gratis) →",
+                "esGratis": true,
+                "tagGratis": "🎁 MUESTRA OFICIAL GRATIS"
         },
         {
                 "id": "INM-SUB-AT-2026-26R4686001310",
@@ -3451,7 +3632,10 @@
                 "lng": -0.3566,
                 "modalidad": "subasta",
                 "modalidadLabel": "🔨 SUBASTA PÚBLICA",
-                "modalidadClass": "badge-subasta"
+                "modalidadClass": "badge-subasta",
+                "esGratis": false,
+                "tagGratis": null,
+                "ctaLabel": "Desbloquear Expediente • 2,90 € →"
         },
         {
                 "id": "INM-SUB-AT-2026-26R4686001215",
@@ -3480,7 +3664,10 @@
                 "lng": -0.4097,
                 "modalidad": "subasta",
                 "modalidadLabel": "🔨 SUBASTA PÚBLICA",
-                "modalidadClass": "badge-subasta"
+                "modalidadClass": "badge-subasta",
+                "esGratis": false,
+                "tagGratis": null,
+                "ctaLabel": "Desbloquear Expediente • 2,90 € →"
         },
         {
                 "id": "INM-SUB-AT-2026-26R2886001459",
@@ -3509,7 +3696,10 @@
                 "lng": -5.9688,
                 "modalidad": "subasta",
                 "modalidadLabel": "🔨 SUBASTA PÚBLICA",
-                "modalidadClass": "badge-subasta"
+                "modalidadClass": "badge-subasta",
+                "esGratis": false,
+                "tagGratis": null,
+                "ctaLabel": "Desbloquear Expediente • 2,90 € →"
         },
         {
                 "id": "INM-SUB-AT-2026-26R2886001460",
@@ -3538,7 +3728,10 @@
                 "lng": -5.9991,
                 "modalidad": "subasta",
                 "modalidadLabel": "🔨 SUBASTA PÚBLICA",
-                "modalidadClass": "badge-subasta"
+                "modalidadClass": "badge-subasta",
+                "esGratis": false,
+                "tagGratis": null,
+                "ctaLabel": "Desbloquear Expediente • 2,90 € →"
         },
         {
                 "id": "VEH-SUB-AT-2026-26R3886002006",
@@ -3567,7 +3760,10 @@
                 "lng": -3.6852,
                 "modalidad": "subasta",
                 "modalidadLabel": "🔨 SUBASTA PÚBLICA",
-                "modalidadClass": "badge-subasta"
+                "modalidadClass": "badge-subasta",
+                "esGratis": false,
+                "tagGratis": null,
+                "ctaLabel": "Desbloquear Expediente • 2,90 € →"
         },
         {
                 "id": "VEH-SUB-AT-2026-26R3886002007",
@@ -3596,7 +3792,10 @@
                 "lng": -3.6779,
                 "modalidad": "subasta",
                 "modalidadLabel": "🔨 SUBASTA PÚBLICA",
-                "modalidadClass": "badge-subasta"
+                "modalidadClass": "badge-subasta",
+                "esGratis": false,
+                "tagGratis": null,
+                "ctaLabel": "Desbloquear Expediente • 2,90 € →"
         },
         {
                 "id": "VEH-SUB-AT-2026-26R1586002021",
@@ -3625,7 +3824,10 @@
                 "lng": -3.7387,
                 "modalidad": "subasta",
                 "modalidadLabel": "🔨 SUBASTA PÚBLICA",
-                "modalidadClass": "badge-subasta"
+                "modalidadClass": "badge-subasta",
+                "esGratis": false,
+                "tagGratis": null,
+                "ctaLabel": "Desbloquear Expediente • 2,90 € →"
         },
         {
                 "id": "VEH-SUB-AT-2026-26R1586002020",
@@ -3654,7 +3856,10 @@
                 "lng": -3.7013,
                 "modalidad": "subasta",
                 "modalidadLabel": "🔨 SUBASTA PÚBLICA",
-                "modalidadClass": "badge-subasta"
+                "modalidadClass": "badge-subasta",
+                "esGratis": false,
+                "tagGratis": null,
+                "ctaLabel": "Desbloquear Expediente • 2,90 € →"
         },
         {
                 "id": "EMP-BOE-A-2026-24529",
@@ -3683,7 +3888,10 @@
                 "lng": -3.7126,
                 "modalidad": "directa",
                 "modalidadLabel": "📋 SOLICITUD DIRECTA",
-                "modalidadClass": "badge-directa"
+                "modalidadClass": "badge-directa",
+                "esGratis": true,
+                "tagGratis": "🟢 100% GRATIS · CONVOCATORIA",
+                "ctaLabel": "📋 Ver Convocatoria y Bases Oficiales (Gratis) →"
         },
         {
                 "id": "EMP-BOE-A-2026-24530",
@@ -3712,7 +3920,10 @@
                 "lng": -3.6853,
                 "modalidad": "directa",
                 "modalidadLabel": "📋 SOLICITUD DIRECTA",
-                "modalidadClass": "badge-directa"
+                "modalidadClass": "badge-directa",
+                "esGratis": true,
+                "tagGratis": "🟢 100% GRATIS · CONVOCATORIA",
+                "ctaLabel": "📋 Ver Convocatoria y Bases Oficiales (Gratis) →"
         },
         {
                 "id": "EMP-BOE-A-2026-24531",
@@ -3741,7 +3952,10 @@
                 "lng": -3.6964,
                 "modalidad": "directa",
                 "modalidadLabel": "📋 SOLICITUD DIRECTA",
-                "modalidadClass": "badge-directa"
+                "modalidadClass": "badge-directa",
+                "esGratis": true,
+                "tagGratis": "🟢 100% GRATIS · CONVOCATORIA",
+                "ctaLabel": "📋 Ver Convocatoria y Bases Oficiales (Gratis) →"
         },
         {
                 "id": "EMP-EXTERIORES-01",
@@ -3770,7 +3984,10 @@
                 "lng": -3.7038,
                 "modalidad": "directa",
                 "modalidadLabel": "📋 SOLICITUD DIRECTA",
-                "modalidadClass": "badge-directa"
+                "modalidadClass": "badge-directa",
+                "esGratis": true,
+                "tagGratis": "🟢 100% GRATIS · CONVOCATORIA",
+                "ctaLabel": "📋 Ver Convocatoria y Bases Oficiales (Gratis) →"
         },
         {
                 "id": "BCN-EIXAMPLE-03",
@@ -3799,7 +4016,10 @@
                 "lng": 2.1699,
                 "modalidad": "subasta",
                 "modalidadLabel": "🔨 SUBASTA PÚBLICA",
-                "modalidadClass": "badge-subasta"
+                "modalidadClass": "badge-subasta",
+                "esGratis": false,
+                "tagGratis": null,
+                "ctaLabel": "Desbloquear Expediente • 2,90 € →"
         },
         {
                 "id": "AYUDA-BDNS-06",
@@ -3827,7 +4047,10 @@
                 "lng": -3.69,
                 "modalidad": "directa",
                 "modalidadLabel": "📋 SOLICITUD DIRECTA",
-                "modalidadClass": "badge-directa"
+                "modalidadClass": "badge-directa",
+                "esGratis": true,
+                "tagGratis": "🟢 100% GRATIS · SUBVENCIÓN",
+                "ctaLabel": "💰 Ver Bases y Solicitar Subvención (Gratis) →"
         },
         {
                 "id": "LICIT-ESTADO-07",
@@ -3855,7 +4078,10 @@
                 "lng": -0.3763,
                 "modalidad": "subasta",
                 "modalidadLabel": "🔨 SUBASTA PÚBLICA",
-                "modalidadClass": "badge-subasta"
+                "modalidadClass": "badge-subasta",
+                "esGratis": false,
+                "tagGratis": null,
+                "ctaLabel": "Desbloquear Expediente • 2,90 € →"
         },
         {
                 "id": "SEV-TRIANA-08",
@@ -3884,7 +4110,10 @@
                 "lng": -6.002,
                 "modalidad": "subasta",
                 "modalidadLabel": "🔨 SUBASTA PÚBLICA",
-                "modalidadClass": "badge-subasta"
+                "modalidadClass": "badge-subasta",
+                "esGratis": false,
+                "tagGratis": null,
+                "ctaLabel": "Desbloquear Expediente • 2,90 € →"
         },
         {
                 "id": "DGT-BMW-09",
@@ -3913,7 +4142,10 @@
                 "lng": -4.4214,
                 "modalidad": "subasta",
                 "modalidadLabel": "🔨 SUBASTA PÚBLICA",
-                "modalidadClass": "badge-subasta"
+                "modalidadClass": "badge-subasta",
+                "esGratis": false,
+                "tagGratis": null,
+                "ctaLabel": "Desbloquear Expediente • 2,90 € →"
         },
         {
                 "id": "ALC-CHALET-10",
@@ -3942,7 +4174,10 @@
                 "lng": -0.4282,
                 "modalidad": "subasta",
                 "modalidadLabel": "🔨 SUBASTA PÚBLICA",
-                "modalidadClass": "badge-subasta"
+                "modalidadClass": "badge-subasta",
+                "esGratis": false,
+                "tagGratis": null,
+                "ctaLabel": "Desbloquear Expediente • 2,90 € →"
         }
 ];
 
@@ -4108,7 +4343,12 @@
             const btnLimpiar = document.getElementById('btnLimpiarChips');
             if (btnLimpiar) btnLimpiar.style.display = 'inline-flex';
 
-            if (tipo === 'alquiler_vpo') {
+            if (tipo === 'solo_gratis') {
+                const btn = document.getElementById('chipGratis');
+                if (btn) btn.classList.add('active');
+                categoriaActual = 'all';
+                actualizarTabsUI('all');
+            } else if (tipo === 'alquiler_vpo') {
                 const btn = document.getElementById('chipVpo');
                 if (btn) btn.classList.add('active');
                 categoriaActual = 'vivienda';
@@ -4204,6 +4444,9 @@
 
             const filtradas = OPORTUNIDADES.filter(item => {
                 let matchRapido = true;
+                if (filtroRapidoActual === 'solo_gratis') {
+                    matchRapido = item.esGratis === true || item.desbloqueado === true;
+                } else 
                 if (filtroRapidoActual === 'alquiler_vpo') {
                     matchRapido = item.tipo === 'vivienda';
                 } else if (filtroRapidoActual === 'decomisos_lujo') {
@@ -4245,20 +4488,25 @@
             }
 
             grid.innerHTML = filtradas.map(item => {
+                const esGratis = item.esGratis === true || item.desbloqueado === true;
                 const esDirecta = item.modalidad === 'directa';
+                
+                // Etiquetas de cabecera limpias
+                const tagSuperior = esGratis 
+                    ? `<span class="card-tag" style="background:#059669; color:#ffffff; font-weight:800; border:none; box-shadow:0 2px 8px rgba(5,150,105,0.4);">${item.tagGratis || '🟢 100% GRATIS'}</span>`
+                    : `<span class="card-tag ${item.tagClass}">${item.tag}</span>`;
+
                 const modBadgeClass = esDirecta ? 'badge-mod-directa' : 'badge-mod-subasta';
                 const modBadgeText = esDirecta ? '📋 SOLICITUD DIRECTA' : '🔨 SUBASTA PÚBLICA';
                 const labelMercado = esDirecta ? (item.tipo === 'vivienda' ? 'Alquiler Libre' : 'Sin Alerta') : 'Mercado Libre';
                 const labelOficial = esDirecta ? (item.tipo === 'vivienda' ? 'Alquiler Protegido' : 'Oficial Estado') : 'Precio Salida';
-                const ctaBtnText = item.ctaLabel || (esDirecta ? '📋 Desbloquear Solicitud y Requisitos • 2,90 €' : '🔨 Desbloquear Expediente • 2,90 €');
 
                 return `
-                <article class="card">
+                <article class="card ${esGratis ? 'card-free-deal' : ''}">
                     <div class="card-img" style="background-image: url('${item.img}');">
-                        <span class="card-tag ${item.tagClass}">${item.tag}</span>
+                        ${tagSuperior}
                         <span class="card-modality-badge ${modBadgeClass}">${modBadgeText}</span>
-                        ${item.badgeVisual ? `<span class="badge-brand-pill">${item.badgeVisual}</span>` : ''}
-                        <span class="discount-badge">${item.ahorro}</span>
+                        ${item.ahorro ? `<span class="discount-badge">${item.ahorro}</span>` : ''}
                     </div>
                     <div class="card-body">
                         <div class="card-location">📍 ${item.ubicacion}</div>
@@ -4266,6 +4514,8 @@
                         <div class="card-specs">
                             ${item.specs.map(s => `<span class="spec-item">${s}</span>`).join('')}
                         </div>
+
+                        <!-- Precios Claros -->
                         <div class="prices-box">
                             <div class="market-p">
                                 <span class="market-label">${labelMercado}</span>
@@ -4276,54 +4526,44 @@
                                 <span class="boe-val">${item.precioBoe}</span>
                             </div>
                         </div>
-                        ${generarBannerAhorro(item)}
-                        <div class="legal-check">
-                            <span>🛡️</span>
-                            <span>${item.legal}</span>
+
+                        <!-- 1 Sola Línea de Garantía Legal / Salario Oficial (Sin Saturar) -->
+                        <div class="clean-legal-row">
+                            <span class="clean-legal-icon">🛡️</span>
+                            <span class="clean-legal-text">${item.legal}</span>
                         </div>
 
-                        <!-- Candado de Expediente -->
-                        <div class="lock-box" style="${item.desbloqueado ? 'border-color: rgba(16,185,129,0.5); background: rgba(16,185,129,0.06);' : ''}">
-                            <div class="lock-header">
-                                <div class="lock-title-wrap">
-                                    <span>${item.desbloqueado ? '🔓' : '🔒'}</span>
-                                    <span>${item.desbloqueado ? 'Expediente Oficial de Muestra Desbloqueado' : 'Dictamen Pericial y Expediente Oficial'}</span>
-                                </div>
-                                <span class="lock-badge" style="${item.desbloqueado ? 'background:rgba(16,185,129,0.25); color:#34d399; border-color:rgba(16,185,129,0.5); font-weight:800;' : ''}">
-                                    ${item.desbloqueado ? 'MUESTRA GRATIS' : '2,90 €'}
-                                </span>
+                        <!-- ZONA DE ACCIÓN: CLARA, LIMPIA Y SIN LÍOS -->
+                        ${esGratis ? `
+                        <!-- OPORTUNIDAD 100% GRATUITA -->
+                        <div class="action-box-clean free-box">
+                            <div class="action-status-line">
+                                <span class="status-dot"></span>
+                                <span class="status-text">${item.desbloqueado ? 'Muestra Oficial Auditada · Descarga Inmediata' : 'Convocatoria Oficial Abierta · Acceso Libre'}</span>
+                                <span class="free-pill">GRATIS</span>
                             </div>
-
-                            <div class="lock-data-preview">
-                                ${item.desbloqueado ? `
-                                    <span style="color:#34d399; font-weight:700;">Expediente: ${item.expedienteReal}</span>
-                                    <span style="color:#94a3b8;">Estado: Auditoría legal completa con Dictamen Oficial en PDF</span>
-                                ` : `
-                                    <span>Expediente: EXP-••••••••••••• (Oculto)</span>
-                                    <span>Entrega: Dictamen en PDF + Plantilla tramitada + Enlace directo</span>
-                                `}
-                            </div>
-
-                            <div class="lock-actions">
-                                ${item.desbloqueado ? `
-                                    <a href="${item.pdfMuestra || 'assets/Dictamen_Verificado_Final.pdf'}" download class="btn-unlock-single" style="text-decoration:none; background: linear-gradient(135deg, #059669, #10b981); display:flex; align-items:center; justify-content:center; gap:8px;">
-                                        <span>📄 Descargar Dictamen Oficial en PDF (Muestra Gratis)</span>
-                                    </a>
-                                    <a href="${item.enlaceBoeReal}" target="_blank" class="btn-unlock-pro-link" style="color:#38bdf8; text-decoration:none; text-align:center; display:block;">
-                                        🚀 Acceder a la Sede Oficial Directa →
-                                    </a>
-                                ` : `
-                                    <button class="btn-unlock-single" onclick="abrirModalDesbloqueo('${item.id}')">
-                                        <span>📄 ${ctaBtnText}</span>
-                                    </button>
-                                    <button class="btn-unlock-pro-link" onclick="abrirModalPro()">
-                                        ⭐ O accede sin límites con el Plan PRO (14,99 €/mes)
-                                    </button>
-                                `}
-                            </div>
+                            <a href="${item.pdfMuestra || item.enlaceBoeReal || '#'}" ${item.desbloqueado ? 'download' : 'target="_blank"'} class="btn-clean-cta btn-free-cta">
+                                ${item.ctaLabel}
+                            </a>
                         </div>
-                        <button class="btn-share-wa" onclick="compartirCholloWhatsApp('${encodeURIComponent(item.titulo)}', '${item.precioBoe}', '${item.ahorro}')">
-                            <span>📲 Avisar por WhatsApp a un amigo</span>
+                        ` : `
+                        <!-- SUBASTA CON DICTAMEN PERICIAL (2,90 €) -->
+                        <div class="action-box-clean paid-box">
+                            <div class="action-status-line">
+                                <span class="paid-title">📄 Dictamen Pericial Oficial + Expediente</span>
+                                <span class="paid-pill">2,90 €</span>
+                            </div>
+                            <button class="btn-clean-cta btn-paid-cta" onclick="abrirModalDesbloqueo('${item.id}')">
+                                🔓 Desbloquear Expediente • 2,90 € →
+                            </button>
+                            <button class="btn-clean-sublink" onclick="abrirModalPro()">
+                                ⭐ O acceso ilimitado con Plan PRO (14,99 €/mes)
+                            </button>
+                        </div>
+                        `}
+
+                        <button class="btn-share-wa" onclick="compartirWhatsApp('${item.titulo.replace(/'/g, "\'")}', '${item.ahorro}', '${item.precioBoe}', '${item.id}')">
+                            📲 Avisar por WhatsApp a un amigo
                         </button>
                     </div>
                 </article>

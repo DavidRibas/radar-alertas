@@ -25,7 +25,9 @@
     "legal": "Sin puja ni fianza • Asignación por orden de inscripción y baremo",
     "img": "assets/templates/vpo_edificio_moderno.jpg",
     "desbloqueado": false,
-    "ctaLabel": "📋 Desbloquear Formulario y Requisitos (2,90 €)"
+    "ctaLabel": "🏠 Ver Requisitos y Solicitar Vivienda (Gratis) →",
+    "esGratis": true,
+    "tagGratis": "🟢 100% GRATIS · SOLICITUD"
   },
   {
     "id": "VPO-EMVS-2026-MAD02",
@@ -53,7 +55,9 @@
     "legal": "Sin fianza previa • Inscripción gratuita con Certificado Digital o Cl@ve",
     "img": "assets/templates/vpo_ensanche_residencial.jpg",
     "desbloqueado": false,
-    "ctaLabel": "📋 Desbloquear Formulario y Requisitos (2,90 €)"
+    "ctaLabel": "🏠 Ver Requisitos y Solicitar Vivienda (Gratis) →",
+    "esGratis": true,
+    "tagGratis": "🟢 100% GRATIS · SOLICITUD"
   },
   {
     "id": "VPO-HBCN-2026-BCN01",
@@ -81,7 +85,9 @@
     "legal": "Sin puja de dinero • Adjudicación transparente por registro oficial",
     "img": "assets/templates/inmueble_eixample_bcn.jpg",
     "desbloqueado": false,
-    "ctaLabel": "📋 Desbloquear Formulario y Requisitos (2,90 €)"
+    "ctaLabel": "🏠 Ver Requisitos y Solicitar Vivienda (Gratis) →",
+    "esGratis": true,
+    "tagGratis": "🟢 100% GRATIS · SOLICITUD"
   },
   {
     "id": "DEC-PNSD-2026-PORSCHE",
@@ -109,7 +115,9 @@
     "legal": "Adjudicación directa PNSD • Se entrega con documentación oficial lista para matricular",
     "img": "assets/templates/porsche_macan_decomiso.jpg",
     "desbloqueado": false,
-    "ctaLabel": "🔨 Desbloquear Expediente y Puja (2,90 €)"
+    "ctaLabel": "Desbloquear Expediente • 2,90 € →",
+    "esGratis": false,
+    "tagGratis": null
   },
   {
     "id": "DEC-PNSD-2026-MERCEDES",
@@ -137,7 +145,9 @@
     "legal": "Cancelación total de precintos y embargos según Ley 17/2003",
     "img": "assets/templates/mercedes_coupe_decomiso.jpg",
     "desbloqueado": false,
-    "ctaLabel": "🔨 Desbloquear Expediente y Puja (2,90 €)"
+    "ctaLabel": "Desbloquear Expediente • 2,90 € →",
+    "esGratis": false,
+    "tagGratis": null
   },
   {
     "id": "DEC-PNSD-2026-BARCO",
@@ -165,7 +175,9 @@
     "legal": "Adjudicación judicial libre de cargas marítimas y deudas portuarias",
     "img": "assets/templates/barco_yate_decomiso.jpg",
     "desbloqueado": false,
-    "ctaLabel": "🔨 Desbloquear Expediente y Puja (2,90 €)"
+    "ctaLabel": "Desbloquear Expediente • 2,90 € →",
+    "esGratis": false,
+    "tagGratis": null
   },
   {
     "id": "INM-SUB-AT-2026-26R2886001502",
@@ -194,7 +206,10 @@
     "lng": -3.7202,
     "modalidad": "subasta",
     "modalidadLabel": "🔨 SUBASTA PÚBLICA",
-    "modalidadClass": "badge-subasta"
+    "modalidadClass": "badge-subasta",
+    "esGratis": false,
+    "tagGratis": null,
+    "ctaLabel": "Desbloquear Expediente • 2,90 € →"
   },
   {
     "id": "INM-SUB-AT-2026-23R2886001483",
@@ -225,7 +240,9 @@
     "modalidadLabel": "🔨 SUBASTA PÚBLICA",
     "modalidadClass": "badge-subasta",
     "pdfMuestra": "assets/Dictamen_Verificado_Final.pdf",
-    "ctaLabel": "📄 Descargar Dictamen Oficial (PDF Gratis)"
+    "ctaLabel": "📄 Descargar Dictamen Oficial en PDF (Gratis) →",
+    "esGratis": true,
+    "tagGratis": "🎁 MUESTRA OFICIAL GRATIS"
   },
   {
     "id": "INM-SUB-AT-2026-26R4686001310",
@@ -254,7 +271,10 @@
     "lng": -0.3566,
     "modalidad": "subasta",
     "modalidadLabel": "🔨 SUBASTA PÚBLICA",
-    "modalidadClass": "badge-subasta"
+    "modalidadClass": "badge-subasta",
+    "esGratis": false,
+    "tagGratis": null,
+    "ctaLabel": "Desbloquear Expediente • 2,90 € →"
   },
   {
     "id": "INM-SUB-AT-2026-26R4686001215",
@@ -283,7 +303,10 @@
     "lng": -0.4097,
     "modalidad": "subasta",
     "modalidadLabel": "🔨 SUBASTA PÚBLICA",
-    "modalidadClass": "badge-subasta"
+    "modalidadClass": "badge-subasta",
+    "esGratis": false,
+    "tagGratis": null,
+    "ctaLabel": "Desbloquear Expediente • 2,90 € →"
   },
   {
     "id": "INM-SUB-AT-2026-26R2886001459",
@@ -312,7 +335,10 @@
     "lng": -5.9688,
     "modalidad": "subasta",
     "modalidadLabel": "🔨 SUBASTA PÚBLICA",
-    "modalidadClass": "badge-subasta"
+    "modalidadClass": "badge-subasta",
+    "esGratis": false,
+    "tagGratis": null,
+    "ctaLabel": "Desbloquear Expediente • 2,90 € →"
   },
   {
     "id": "INM-SUB-AT-2026-26R2886001460",
@@ -341,7 +367,10 @@
     "lng": -5.9991,
     "modalidad": "subasta",
     "modalidadLabel": "🔨 SUBASTA PÚBLICA",
-    "modalidadClass": "badge-subasta"
+    "modalidadClass": "badge-subasta",
+    "esGratis": false,
+    "tagGratis": null,
+    "ctaLabel": "Desbloquear Expediente • 2,90 € →"
   },
   {
     "id": "VEH-SUB-AT-2026-26R3886002006",
@@ -370,7 +399,10 @@
     "lng": -3.6852,
     "modalidad": "subasta",
     "modalidadLabel": "🔨 SUBASTA PÚBLICA",
-    "modalidadClass": "badge-subasta"
+    "modalidadClass": "badge-subasta",
+    "esGratis": false,
+    "tagGratis": null,
+    "ctaLabel": "Desbloquear Expediente • 2,90 € →"
   },
   {
     "id": "VEH-SUB-AT-2026-26R3886002007",
@@ -399,7 +431,10 @@
     "lng": -3.6779,
     "modalidad": "subasta",
     "modalidadLabel": "🔨 SUBASTA PÚBLICA",
-    "modalidadClass": "badge-subasta"
+    "modalidadClass": "badge-subasta",
+    "esGratis": false,
+    "tagGratis": null,
+    "ctaLabel": "Desbloquear Expediente • 2,90 € →"
   },
   {
     "id": "VEH-SUB-AT-2026-26R1586002021",
@@ -428,7 +463,10 @@
     "lng": -3.7387,
     "modalidad": "subasta",
     "modalidadLabel": "🔨 SUBASTA PÚBLICA",
-    "modalidadClass": "badge-subasta"
+    "modalidadClass": "badge-subasta",
+    "esGratis": false,
+    "tagGratis": null,
+    "ctaLabel": "Desbloquear Expediente • 2,90 € →"
   },
   {
     "id": "VEH-SUB-AT-2026-26R1586002020",
@@ -457,7 +495,10 @@
     "lng": -3.7013,
     "modalidad": "subasta",
     "modalidadLabel": "🔨 SUBASTA PÚBLICA",
-    "modalidadClass": "badge-subasta"
+    "modalidadClass": "badge-subasta",
+    "esGratis": false,
+    "tagGratis": null,
+    "ctaLabel": "Desbloquear Expediente • 2,90 € →"
   },
   {
     "id": "EMP-BOE-A-2026-24529",
@@ -486,7 +527,10 @@
     "lng": -3.7126,
     "modalidad": "directa",
     "modalidadLabel": "📋 SOLICITUD DIRECTA",
-    "modalidadClass": "badge-directa"
+    "modalidadClass": "badge-directa",
+    "esGratis": true,
+    "tagGratis": "🟢 100% GRATIS · CONVOCATORIA",
+    "ctaLabel": "📋 Ver Convocatoria y Bases Oficiales (Gratis) →"
   },
   {
     "id": "EMP-BOE-A-2026-24530",
@@ -515,7 +559,10 @@
     "lng": -3.6853,
     "modalidad": "directa",
     "modalidadLabel": "📋 SOLICITUD DIRECTA",
-    "modalidadClass": "badge-directa"
+    "modalidadClass": "badge-directa",
+    "esGratis": true,
+    "tagGratis": "🟢 100% GRATIS · CONVOCATORIA",
+    "ctaLabel": "📋 Ver Convocatoria y Bases Oficiales (Gratis) →"
   },
   {
     "id": "EMP-BOE-A-2026-24531",
@@ -544,7 +591,10 @@
     "lng": -3.6964,
     "modalidad": "directa",
     "modalidadLabel": "📋 SOLICITUD DIRECTA",
-    "modalidadClass": "badge-directa"
+    "modalidadClass": "badge-directa",
+    "esGratis": true,
+    "tagGratis": "🟢 100% GRATIS · CONVOCATORIA",
+    "ctaLabel": "📋 Ver Convocatoria y Bases Oficiales (Gratis) →"
   },
   {
     "id": "EMP-EXTERIORES-01",
@@ -573,7 +623,10 @@
     "lng": -3.7038,
     "modalidad": "directa",
     "modalidadLabel": "📋 SOLICITUD DIRECTA",
-    "modalidadClass": "badge-directa"
+    "modalidadClass": "badge-directa",
+    "esGratis": true,
+    "tagGratis": "🟢 100% GRATIS · CONVOCATORIA",
+    "ctaLabel": "📋 Ver Convocatoria y Bases Oficiales (Gratis) →"
   },
   {
     "id": "BCN-EIXAMPLE-03",
@@ -602,7 +655,10 @@
     "lng": 2.1699,
     "modalidad": "subasta",
     "modalidadLabel": "🔨 SUBASTA PÚBLICA",
-    "modalidadClass": "badge-subasta"
+    "modalidadClass": "badge-subasta",
+    "esGratis": false,
+    "tagGratis": null,
+    "ctaLabel": "Desbloquear Expediente • 2,90 € →"
   },
   {
     "id": "AYUDA-BDNS-06",
@@ -630,7 +686,10 @@
     "lng": -3.69,
     "modalidad": "directa",
     "modalidadLabel": "📋 SOLICITUD DIRECTA",
-    "modalidadClass": "badge-directa"
+    "modalidadClass": "badge-directa",
+    "esGratis": true,
+    "tagGratis": "🟢 100% GRATIS · SUBVENCIÓN",
+    "ctaLabel": "💰 Ver Bases y Solicitar Subvención (Gratis) →"
   },
   {
     "id": "LICIT-ESTADO-07",
@@ -658,7 +717,10 @@
     "lng": -0.3763,
     "modalidad": "subasta",
     "modalidadLabel": "🔨 SUBASTA PÚBLICA",
-    "modalidadClass": "badge-subasta"
+    "modalidadClass": "badge-subasta",
+    "esGratis": false,
+    "tagGratis": null,
+    "ctaLabel": "Desbloquear Expediente • 2,90 € →"
   },
   {
     "id": "SEV-TRIANA-08",
@@ -687,7 +749,10 @@
     "lng": -6.002,
     "modalidad": "subasta",
     "modalidadLabel": "🔨 SUBASTA PÚBLICA",
-    "modalidadClass": "badge-subasta"
+    "modalidadClass": "badge-subasta",
+    "esGratis": false,
+    "tagGratis": null,
+    "ctaLabel": "Desbloquear Expediente • 2,90 € →"
   },
   {
     "id": "DGT-BMW-09",
@@ -716,7 +781,10 @@
     "lng": -4.4214,
     "modalidad": "subasta",
     "modalidadLabel": "🔨 SUBASTA PÚBLICA",
-    "modalidadClass": "badge-subasta"
+    "modalidadClass": "badge-subasta",
+    "esGratis": false,
+    "tagGratis": null,
+    "ctaLabel": "Desbloquear Expediente • 2,90 € →"
   },
   {
     "id": "ALC-CHALET-10",
@@ -745,6 +813,9 @@
     "lng": -0.4282,
     "modalidad": "subasta",
     "modalidadLabel": "🔨 SUBASTA PÚBLICA",
-    "modalidadClass": "badge-subasta"
+    "modalidadClass": "badge-subasta",
+    "esGratis": false,
+    "tagGratis": null,
+    "ctaLabel": "Desbloquear Expediente • 2,90 € →"
   }
 ]
