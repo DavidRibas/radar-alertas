@@ -479,7 +479,20 @@ def obtener_metricas_visitas() -> Dict:
     unicas_hoy = cursor.fetchone()[0]
 
     cursor.execute("SELECT count(*) FROM visitas_web")
-    visitas_total = cursor.fetchone()[0]
+    visitas_sesion = cursor.fetchone()[0]
+
+    # Cargar acumulado base persistente para que jamás se reinicie al desplegar
+    acumulado_base = 2480
+    try:
+        hist_file = Path(__file__).resolve().parent / "visitas_historico.json"
+        if hist_file.exists():
+            with open(hist_file, "r", encoding="utf-8") as hf:
+                data_h = json.load(hf)
+                acumulado_base = data_h.get("acumulado_base", acumulado_base)
+    except Exception:
+        pass
+
+    visitas_total = acumulado_base + visitas_sesion
 
     cursor.execute("""
         SELECT origen, count(*) as c FROM visitas_web
