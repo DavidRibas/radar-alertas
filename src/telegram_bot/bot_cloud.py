@@ -28,7 +28,9 @@ from src.telegram_bot.database import (
     marcar_aviso_renovacion_enviado,
     procesar_suscripciones_vencidas,
     registrar_visita_web,
-    obtener_metricas_visitas
+    obtener_metricas_visitas,
+    ya_fue_enviada,
+    registrar_alerta_enviada
 )
 from src.telegram_bot.bot_alertas import (
     comando_start,
@@ -42,6 +44,7 @@ from src.telegram_bot.bot_alertas import (
     manejar_chat_member,
     TELEGRAM_TOKEN,
     CANAL_FREE_LINK,
+    CANAL_FREE_ID,
     ADMIN_ID,
     CANAL_VIP_ID,
     CANAL_VEHICULOS_ID,
@@ -302,6 +305,86 @@ async def tarea_renovaciones_periodica(app):
         except Exception as e:
             print("Error en bucle de renovaciones:", e)
 
+async def tarea_publicar_chollo_diario(app):
+    """Emite periódicamente el Chollo del Día en el Canal Gratuito de Telegram para fidelizar y retener."""
+    print("📢 Motor autónomo de emisión diaria en Canal Gratuito iniciado...")
+    await asyncio.sleep(45)  # Espera inicial tras arranque
+    while True:
+        try:
+            ahora = datetime.now()
+            ruta_cat = Path(__file__).resolve().parent.parent.parent / "docs" / "data" / "oportunidades.json"
+            if not ruta_cat.exists():
+                ruta_cat = Path(__file__).resolve().parent.parent.parent / "data" / "oportunidades.json"
+
+            if ruta_cat.exists():
+                with open(ruta_cat, "r", encoding="utf-8") as f:
+                    catalogo = json.load(f)
+
+                if catalogo:
+                    dia_ano = ahora.timetuple().tm_yday
+                    item = catalogo[dia_ano % len(catalogo)]
+                    fecha_clave = ahora.strftime("%Y-%m-%d")
+                    id_alerta = f"FREE-{item.get('id', 'chollo')}-{fecha_clave}"
+
+                    if not ya_fue_enviada(id_alerta):
+                        tipo = item.get("tipo", "inmueble")
+                        icono = "🚗" if tipo == "vehiculo" else ("💼" if tipo == "empleo" else "🏠")
+                        titulo = item.get("titulo", "Oportunidad Destacada")
+                        precio_salida = item.get("precioBoe", "Consultar")
+                        precio_mercado = item.get("precioMercado", "Consultar")
+                        ahorro = item.get("ahorro", "Gran Descuento")
+                        ubicacion = item.get("ubicacion", "España")
+                        legal = item.get("legal", "0,00 € cargas previas (Art. 674 LEC)")
+
+                        caption = (
+                            f"🚨 *CHOLLO DEL DÍA AUDITADO POR EL RADAR* {icono}\n\n"
+                            f"Acaba de ser auditada esta oportunidad oficial con gran descuento:\n\n"
+                            f"📌 *Detalle:* {titulo}\n"
+                            f"📍 *Ubicación:* {ubicacion}\n"
+                            f"🏷️ *Ahorro:* *{ahorro}*\n\n"
+                            f"📊 *Valor Estimado:* {precio_mercado}\n"
+                            f"🎯 *Precio de Salida:* *{precio_salida}*\n"
+                            f"🛡️ *Garantía:* {legal}\n\n"
+                            f"👇 *Accede al expediente oficial, mapa interactivo y simulador de cargas:*"
+                        )
+                        teclado = [
+                            [InlineKeyboardButton("⚡ Ver Ficha en el Buscador Web Oficial 🌐", url="https://radar-alertas-delta.vercel.app/?ref=telegram_chollo_auto")],
+                            [InlineKeyboardButton("🧮 Simular Gastos y Tasas (Art. 674 LEC)", url="https://radar-alertas-delta.vercel.app/#calculadora")]
+                        ]
+
+                        canal_id = CANAL_FREE_ID or os.getenv("TELEGRAM_CANAL_FREE_ID", "-1004345947331")
+                        img_rel = item.get("img", "")
+                        img_path = Path(__file__).resolve().parent.parent.parent / "docs" / img_rel
+                        if not img_path.exists():
+                            img_path = Path(__file__).resolve().parent.parent.parent / img_rel
+
+                        if img_path.exists():
+                            with open(img_path, "rb") as foto:
+                                await app.bot.send_photo(
+                                    chat_id=canal_id,
+                                    photo=foto,
+                                    caption=caption,
+                                    parse_mode="Markdown",
+                                    reply_markup=InlineKeyboardMarkup(teclado)
+                                )
+                        else:
+                            await app.bot.send_message(
+                                chat_id=canal_id,
+                                text=caption,
+                                parse_mode="Markdown",
+                                reply_markup=InlineKeyboardMarkup(teclado)
+                            )
+                        registrar_alerta_enviada(id_alerta, titulo, precio_salida)
+                        print(f"✅ Chollo del día enviado automáticamente al Canal Gratuito: {titulo}")
+
+            # Revisar cada 4 horas
+            await asyncio.sleep(14400)
+        except asyncio.CancelledError:
+            break
+        except Exception as e:
+            print(f"Error en tarea_publicar_chollo_diario: {e}")
+            await asyncio.sleep(3600)
+
 async def main():
     inicializar_bd()
 
@@ -334,9 +417,10 @@ async def main():
     await app.updater.start_polling(allowed_updates=Update.ALL_TYPES)
     print("✅ Bot de Telegram escuchando mensajes...")
 
-    # Lanzar tareas en segundo plano (retargeting y renovaciones anti-churn)
+    # Lanzar tareas en segundo plano (retargeting, renovaciones y emisión diaria gratuita)
     asyncio.create_task(tarea_retargeting_periodica(app))
     asyncio.create_task(tarea_renovaciones_periodica(app))
+    asyncio.create_task(tarea_publicar_chollo_diario(app))
 
     # 2. Servidor web HTTP para la Landing Page, Webhook de Stripe y keep-alive en la nube
     puerto = int(os.getenv("PORT", 8080))
