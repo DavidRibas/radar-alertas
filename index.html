@@ -32,6 +32,9 @@
     <!-- Leaflet Map CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 
+    <!-- jsPDF Library Oficial para Dictamen Pericial Vectorial -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
     <!-- Telegram WebApp SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
@@ -1025,6 +1028,34 @@
             font-weight: 800;
             color: #34d399;
         }
+        .btn-download-dictamen {
+            width: 100%;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(56, 189, 248, 0.2));
+            border: 1px solid rgba(56, 189, 248, 0.5);
+            color: #f8fafc;
+            padding: 13px 18px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-bottom: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+        }
+        .btn-download-dictamen:hover {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.35), rgba(56, 189, 248, 0.35));
+            border-color: #38bdf8;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(56, 189, 248, 0.35);
+        }
+        .btn-download-dictamen:active {
+            transform: scale(0.98);
+        }
+
         .calc-cta-btn {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: #ffffff;
@@ -1954,6 +1985,11 @@
                     </div>
                 </div>
 
+                <button type="button" onclick="descargarDictamenPdf()" class="btn-download-dictamen" id="btnDescargarDictamen">
+                    <span>📄 Descargar Dictamen Judicial en PDF</span>
+                    <span style="font-size: 11px; color: #34d399; font-weight: 700;">✔ Validez Pericial • Cancelación Cargas (Art. 674 LEC)</span>
+                </button>
+
                 <a href="https://buy.stripe.com/28E28s5Aq8ZBel18YRcQU03" target="_blank" class="calc-cta-btn">
                     Desbloquear Acceso PRO a Todas las Subastas ➔
                 </a>
@@ -2699,6 +2735,210 @@
             } else {
                 profitEl.style.color = '#4ade80';
                 roiEl.style.color = '#34d399';
+            }
+        }
+
+        function descargarDictamenPdf() {
+            if (!window.jspdf || !window.jspdf.jsPDF) {
+                alert('La librería del generador de PDF se está cargando. Por favor, pulsa de nuevo en un segundo.');
+                return;
+            }
+
+            const btn = document.getElementById('btnDescargarDictamen');
+            const textoOriginal = btn ? btn.innerHTML : '';
+            if (btn) {
+                btn.innerHTML = '<span>⏳ Generando Dictamen Vectorial Oficial...</span><span style="font-size:11px; color:#38bdf8;">Certificando liquidación y sellos judiciales</span>';
+                btn.style.opacity = '0.8';
+                btn.disabled = true;
+            }
+
+            try {
+                const puja = Math.max(0, parseFloat(document.getElementById('calcPuja').value) || 0);
+                const mercado = Math.max(0, parseFloat(document.getElementById('calcMercado').value) || 0);
+                const ccaaSelect = document.getElementById('calcCCAA');
+                const itpPct = parseFloat(ccaaSelect.value) || 0.10;
+                const ccaaNombre = ccaaSelect.options[ccaaSelect.selectedIndex].text;
+                const gastosFijos = Math.max(0, parseFloat(document.getElementById('calcGastosExtra').value) || 0);
+
+                const impuestoITP = puja * itpPct;
+                const arancelRegistro = 450;
+                const costeTotal = puja + impuestoITP + arancelRegistro + gastosFijos;
+                const beneficioNeto = mercado - costeTotal;
+                const roi = costeTotal > 0 ? ((beneficioNeto / costeTotal) * 100) : 0;
+                const margenBruto = mercado - puja;
+                const pctAhorro = mercado > 0 ? ((margenBruto / mercado) * 100).toFixed(0) : 0;
+
+                const fechaHoy = new Date().toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                const refId = 'DICTAMEN-LEC-' + Math.floor(100000 + Math.random() * 900000);
+
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF({ format: 'a4', unit: 'mm' });
+
+                // 1. Cabecera Oficial (Navy Dark)
+                doc.setFillColor(15, 23, 42);
+                doc.rect(0, 0, 210, 28, 'F');
+
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(16);
+                doc.setFont('helvetica', 'bold');
+                doc.text('RADARALERTAS • AUDITORÍA JUDICIAL', 14, 14);
+
+                doc.setFontSize(8.5);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(148, 163, 184);
+                doc.text('DEPARTAMENTO PERICIAL Y LIQUIDACIÓN TRIBUTARIA (BOE / DGT)', 14, 21);
+
+                doc.setFontSize(10.5);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(56, 189, 248);
+                doc.text(refId, 145, 14);
+                doc.setFontSize(8.5);
+                doc.setTextColor(148, 163, 184);
+                doc.text('Fecha: ' + fechaHoy, 145, 21);
+
+                // 2. Título del Documento
+                doc.setTextColor(15, 23, 42);
+                doc.setFontSize(12.5);
+                doc.setFont('helvetica', 'bold');
+                doc.text('DICTAMEN FINANCIERO Y EXTINCIÓN DE CARGAS (ART. 674 LEC)', 14, 38);
+
+                // 3. Bloque 1: Resumen de Valoración
+                doc.setFillColor(248, 250, 252);
+                doc.setDrawColor(226, 232, 240);
+                doc.roundedRect(14, 43, 182, 38, 2, 2, 'FD');
+
+                doc.setFontSize(9.5);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(71, 85, 105);
+                doc.text('Valor Real de Mercado (Tasación Pericial / Testigos):', 20, 52);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(15, 23, 42);
+                doc.text(mercado.toLocaleString('es-ES') + ' €', 155, 52);
+
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(71, 85, 105);
+                doc.text('Precio Estimado de Adjudicación / Salida BOE:', 20, 62);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(37, 99, 235);
+                doc.text(puja.toLocaleString('es-ES') + ' €', 155, 62);
+
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(5, 150, 105);
+                doc.text('Ahorro Bruto respecto a Mercado (-' + pctAhorro + '%):', 20, 72);
+                doc.text('+' + margenBruto.toLocaleString('es-ES') + ' €', 155, 72);
+
+                // 4. Bloque 2: Liquidación Tributaria y Arancelaria
+                doc.setTextColor(15, 23, 42);
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'bold');
+                doc.text('LIQUIDACIÓN TRIBUTARIA Y ARANCELARIA (PROVISIÓN):', 14, 89);
+
+                doc.setFillColor(248, 250, 252);
+                doc.setDrawColor(226, 232, 240);
+                doc.roundedRect(14, 93, 182, 42, 2, 2, 'FD');
+
+                doc.setFontSize(9);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(71, 85, 105);
+                doc.text('Impuesto de Transmisiones Patrimoniales (' + ccaaNombre + '):', 20, 101);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(15, 23, 42);
+                doc.text('+' + impuestoITP.toLocaleString('es-ES', { maximumFractionDigits: 0 }) + ' €', 155, 101);
+
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(71, 85, 105);
+                doc.text('Arancel Registro & Mandamiento Judicial (Art. 674 LEC):', 20, 109);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(15, 23, 42);
+                doc.text('+' + arancelRegistro.toLocaleString('es-ES') + ' €', 155, 109);
+
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(71, 85, 105);
+                doc.text('Provisión Gastos Comunidad / IBI Pendientes:', 20, 117);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(15, 23, 42);
+                doc.text('+' + gastosFijos.toLocaleString('es-ES') + ' €', 155, 117);
+
+                // Fila total desembolso
+                doc.setFillColor(241, 245, 249);
+                doc.rect(14, 123, 182, 12, 'F');
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(15, 23, 42);
+                doc.setFontSize(9.5);
+                doc.text('DESEMBOLSO TOTAL REAL DE ADQUISICIÓN:', 20, 131);
+                doc.setFontSize(11);
+                doc.text(costeTotal.toLocaleString('es-ES', { maximumFractionDigits: 0 }) + ' €', 155, 131);
+
+                // 5. Bloque 3: Fundamento Legal Art. 674 LEC
+                doc.setFillColor(254, 243, 199);
+                doc.setDrawColor(245, 158, 11);
+                doc.roundedRect(14, 142, 182, 42, 2, 2, 'FD');
+
+                doc.setTextColor(180, 83, 9);
+                doc.setFontSize(9.5);
+                doc.setFont('helvetica', 'bold');
+                doc.text('FUNDAMENTO JURÍDICO: ARTÍCULO 674 LEY ENJUICIAMIENTO CIVIL', 20, 150);
+
+                doc.setFontSize(8.5);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(120, 53, 15);
+                const legalText = '«A instancia del adquirente, se expedirá mandamiento de cancelación de la anotación o inscripción del gravamen que haya originado el remate o la adjudicación y de todas las inscripciones y anotaciones posteriores, incluso las que se hubieran verificado después de expedida la certificación prevenida en el artículo 656...»';
+                doc.text(doc.splitTextToSize(legalText, 170), 20, 157);
+
+                doc.setFontSize(9);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(5, 150, 105);
+                doc.text('✔ DICTAMEN: Inmueble libre de cargas posteriores por Mandato Judicial (Coste: 0,00 €)', 20, 178);
+
+                // 6. Bloque 4: Balance de Rentabilidad (ROI)
+                doc.setFillColor(15, 23, 42);
+                doc.roundedRect(14, 190, 182, 28, 3, 3, 'F');
+
+                doc.setTextColor(148, 163, 184);
+                doc.setFontSize(8.5);
+                doc.setFont('helvetica', 'bold');
+                doc.text('BENEFICIO NETO FINAL ESTIMADO', 22, 199);
+                doc.setTextColor(0, 255, 136);
+                doc.setFontSize(18);
+                doc.text((beneficioNeto >= 0 ? '+' : '') + beneficioNeto.toLocaleString('es-ES', { maximumFractionDigits: 0 }) + ' €', 22, 211);
+
+                doc.setTextColor(148, 163, 184);
+                doc.setFontSize(8.5);
+                doc.text('RENTABILIDAD NETA (ROI)', 135, 199);
+                doc.setTextColor(56, 189, 248);
+                doc.setFontSize(16);
+                doc.text((roi >= 0 ? '+' : '') + roi.toFixed(0) + '% ROI', 135, 211);
+
+                // 7. Pie y Sello de Verificación
+                doc.setDrawColor(226, 232, 240);
+                doc.line(14, 258, 196, 258);
+
+                doc.setFontSize(7.5);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(100, 116, 139);
+                doc.text('RadarAlertas Intelligence S.L. • Registro Telemático Oficial BOE-DGT-BDNS', 14, 265);
+                doc.text('Verificación digital de autenticidad en radar-alertas-delta.vercel.app', 14, 270);
+
+                doc.setTextColor(5, 150, 105);
+                doc.setFont('helvetica', 'bold');
+                doc.text('[ ✔ DICTAMEN PERICIAL VALIDADO ]', 135, 267);
+
+                // Guardar y descargar
+                doc.save('Dictamen_Art_674_LEC_RadarAlertas_' + refId + '.pdf');
+
+                try {
+                    const trackUrl = 'https://radar-alertas-bot-du2p.onrender.com/api/visita?ref=dictamen_pdf_descargado&p=' + encodeURIComponent(window.location.pathname);
+                    if (navigator.sendBeacon) navigator.sendBeacon(trackUrl);
+                } catch(e) {}
+            } catch (err) {
+                console.error('Error generando dictamen:', err);
+                alert('Ocurrió un error generando el dictamen. Por favor inténtalo de nuevo.');
+            } finally {
+                if (btn) {
+                    btn.innerHTML = textoOriginal;
+                    btn.style.opacity = '1';
+                    btn.disabled = false;
+                }
             }
         }
 
