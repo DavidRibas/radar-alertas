@@ -2515,6 +2515,74 @@
             }
         }
 
+    
+        /* Píldora de Tendencia Empleo en Hero */
+        .trend-callout {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(244, 63, 94, 0.12);
+            border: 1px solid rgba(244, 63, 94, 0.35);
+            padding: 8px 18px;
+            border-radius: 999px;
+            cursor: pointer;
+            margin: 16px auto 0;
+            transition: all 0.25s ease;
+            text-decoration: none;
+            max-width: 95%;
+        }
+        .trend-callout:hover {
+            background: rgba(244, 63, 94, 0.22);
+            border-color: rgba(244, 63, 94, 0.6);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 18px rgba(244, 63, 94, 0.25);
+        }
+        .trend-badge {
+            background: #f43f5e;
+            color: #ffffff;
+            font-size: 10.5px;
+            font-weight: 900;
+            padding: 3px 8px;
+            border-radius: 999px;
+            letter-spacing: 0.5px;
+            flex-shrink: 0;
+        }
+        .trend-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: #fecdd3;
+        }
+        .trend-cta {
+            font-size: 12px;
+            font-weight: 800;
+            color: #fb7185;
+            text-decoration: underline;
+            margin-left: 4px;
+            flex-shrink: 0;
+        }
+        body.theme-light .trend-callout {
+            background: #fff1f2;
+            border-color: #fecdd3;
+            box-shadow: 0 2px 10px rgba(244, 63, 94, 0.08);
+        }
+        body.theme-light .trend-text {
+            color: #9f1239;
+        }
+        body.theme-light .trend-cta {
+            color: #e11d48;
+        }
+
+        .hot-pill {
+            background: #f43f5e;
+            color: #ffffff;
+            font-size: 9.5px;
+            font-weight: 900;
+            padding: 2px 7px;
+            border-radius: 999px;
+            margin-left: 6px;
+            letter-spacing: 0.4px;
+        }
+
     </style>
 </head>
 <body>
@@ -2572,6 +2640,14 @@
         </div>
         <h1>El Buscador Inteligente de Oportunidades del Estado</h1>
         <p>Monitorizamos cada madrugada el BOE, Catastro, DGT y la Base Nacional de Subvenciones para filtrar chollos reales con hasta un 90% de ahorro y cargas legales auditadas por IA.</p>
+        <!-- Píldora de Tendencia Empleo -->
+        <div>
+            <div class="trend-callout" onclick="irACategoriaEmpleo()" role="button" title="Ver Convocatorias de Empleo Público en Directo">
+                <span class="trend-badge">🔥 MÁS BUSCADO HOY</span>
+                <span class="trend-text">Bolsas de Empleo del Estado (+2.150 €/mes sin oposición)</span>
+                <span class="trend-cta">Ver Plazas →</span>
+            </div>
+        </div>
 
         <!-- Botón Destacado de Vídeo Tutorial -->
         <div style="display: flex; gap: 14px; justify-content: center; align-items: center; margin: 20px 0 28px; flex-wrap: wrap;">
@@ -2701,9 +2777,9 @@
         <!-- Categorías -->
         <div class="category-tabs">
             <button class="tab-btn active" onclick="setCategory('all', this)">⚡ Todo el Radar (26)</button>
+            <button class="tab-btn" id="tabEmpleo" onclick="setCategory('empleo', this)">💼 Empleo Sin Examen <span class="hot-pill">🔥 POPULAR</span></button>
             <button class="tab-btn" onclick="setCategory('vivienda', this)">🏠 Alquiler & VPO (400€)</button>
             <button class="tab-btn" onclick="setCategory('vehiculo', this)">🚗 Coches & Decomisos</button>
-            <button class="tab-btn" onclick="setCategory('empleo', this)">💼 Empleo Sin Examen</button>
             <button class="tab-btn" onclick="setCategory('inmueble', this)">🏛️ Subastas Pisos BOE</button>
             <button class="tab-btn" onclick="setCategory('ayuda', this)">💰 Ayudas & Bonos</button>
         </div>
@@ -4055,6 +4131,14 @@
             return `<div class="savings-pill-banner"><span>⚡ Garantía de Salida:</span> <strong>${item.ahorro} (Art. 674 LEC)</strong></div>`;
         }
 
+        
+        function irACategoriaEmpleo() {
+            const tab = document.getElementById('tabEmpleo');
+            if (tab) setCategory('empleo', tab);
+            const seccion = document.getElementById('catalogo');
+            if (seccion) seccion.scrollIntoView({ behavior: 'smooth' });
+        }
+
         function setCategory(cat, btn) {
             categoriaActual = cat;
             filtroRapidoActual = null;
@@ -4726,6 +4810,12 @@
 
         // Inicialización
         inicializarTema();
+        try {
+            const urlCat = new URLSearchParams(window.location.search).get('cat');
+            if (urlCat === 'empleo') {
+                setTimeout(irACategoriaEmpleo, 200);
+            }
+        } catch(e) {}
         filtrarOportunidades();
         actualizarCalculadora();
         cargarCatalogoDinamico();
