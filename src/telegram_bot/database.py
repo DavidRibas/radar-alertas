@@ -482,7 +482,7 @@ def obtener_metricas_visitas() -> Dict:
     visitas_sesion = cursor.fetchone()[0]
 
     # Cargar acumulado base persistente para que jamás se reinicie al desplegar
-    acumulado_base = 2480
+    acumulado_base = 0
     try:
         hist_file = Path(__file__).resolve().parent / "visitas_historico.json"
         if hist_file.exists():
