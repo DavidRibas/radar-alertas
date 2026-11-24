@@ -2985,6 +2985,25 @@
                 right: 0;
             }
         }
+        
+        .pill-video-sel {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: var(--text-muted);
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 11.5px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .pill-video-sel.active {
+            background: linear-gradient(135deg, #0284c7, #38bdf8);
+            border-color: #38bdf8;
+            color: #000000;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+        }
         </style>
     <!-- Vercel Web Analytics (Inmune a despliegues y 100% Gratuito) -->
     <script defer src="/_vercel/insights/script.js"></script>
@@ -3446,7 +3465,7 @@
 
     <!-- Modal Tutorial Vídeo -->
     <div class="modal-overlay" id="modalTutorial">
-        <div class="modal-box" style="max-width: 580px; padding: 24px; border-color: rgba(56, 189, 248, 0.4); box-shadow: 0 0 50px rgba(0,0,0,0.8);">
+        <div class="modal-box" style="max-width: 580px; max-height: 90vh; overflow-y: auto; padding: 24px; border-color: rgba(56, 189, 248, 0.4); box-shadow: 0 0 50px rgba(0,0,0,0.8);">
             <button class="modal-close" onclick="cerrarModalTutorial()">✕</button>
             <div class="modal-header" style="margin-bottom: 16px;">
                 <div style="font-size: 13px; font-weight: 800; color: #38bdf8; letter-spacing: 1px; text-transform: uppercase;">🎓 ACADEMIA RADARALERTAS</div>
@@ -3456,23 +3475,12 @@
 
             <!-- Selector de Pestañas del Mini-Curso -->
             <div style="display: flex; gap: 8px; margin-bottom: 16px; border-bottom: 1px solid var(--border-glass); padding-bottom: 10px; overflow-x: auto;">
-                <button class="tab-curso-btn active" id="tabCursoSubastas" onclick="cambiarTabCurso('subastas')">👶 Subastas para Dummies (Paso a Paso)</button>
-                <button class="tab-curso-btn" id="tabCursoVideo" onclick="cambiarTabCurso('video')">🎥 Vídeo Rápido (53s)</button>
+                <button class="tab-curso-btn active" id="tabCursoSubastas" onclick="cambiarTabCurso('subastas')">👶 Subastas para Dummies</button>
+                <button class="tab-curso-btn" id="tabCursoVideo" onclick="cambiarTabCurso('video')">🎥 Vídeos Tutoriales (2)</button>
                 <button class="tab-curso-btn" id="tabCursoEmpleo" onclick="cambiarTabCurso('empleo')">💼 Empleo & Vivienda</button>
             </div>
 
-            <!-- Pestaña 1: Vídeo Tutorial -->
-            <div id="cursoPanelVideo" class="curso-panel active">
-                <div style="position: relative; border-radius: 14px; overflow: hidden; background: #000; box-shadow: 0 8px 25px rgba(0,0,0,0.6); margin-bottom: 14px;">
-                    <video id="videoTutorialPlayer" controls playsinline preload="metadata" style="width: 100%; border-radius: 14px; display: block; max-height: 55vh; object-fit: contain;">
-                        <source src="assets/tutorial_radaralertas.mp4" type="video/mp4">
-                        Tu navegador no soporta reproducción de vídeo HTML5.
-                    </video>
-                </div>
-                <p style="font-size: 12px; color: var(--text-muted); text-align: center;">Aprende en menos de 1 minuto cómo se analizan y adjudican los expedientes del Estado.</p>
-            </div>
-
-            <!-- Pestaña 2: Guía Subastas en 4 Pasos -->
+            <!-- Pestaña 1: Guía Subastas para Dummies (Paso a Paso) -->
             <div id="cursoPanelSubastas" class="curso-panel active" style="display: block; text-align: left;">
                 <div style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 12px; padding: 12px 14px; margin-bottom: 14px;">
                     <strong style="color: #38bdf8; font-size: 13.5px;">💡 Guía para Dummies: De Cero a Inversor sin Miedo</strong>
@@ -3542,15 +3550,27 @@
                 </div>
             </div>
 
-            <!-- Pestaña 1: Vídeo Tutorial -->
+            <!-- Pestaña 2: Vídeos Tutoriales Oficiales (Selector 2 Vídeos) -->
             <div id="cursoPanelVideo" class="curso-panel" style="display: none;">
-                <div style="position: relative; border-radius: 14px; overflow: hidden; background: #000; box-shadow: 0 8px 25px rgba(0,0,0,0.6); margin-bottom: 14px;">
-                    <video id="videoTutorialPlayer" controls playsinline preload="metadata" style="width: 100%; border-radius: 14px; display: block; max-height: 55vh; object-fit: contain;">
-                        <source src="assets/tutorial_radaralertas.mp4" type="video/mp4">
+                <!-- Selector de los 2 Vídeos -->
+                <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 12px; overflow-x: auto;">
+                    <button class="pill-video-sel active" id="btnSelVideoDummies" onclick="cambiarVideoTutorial('dummies')">
+                        👶 Vídeo 1: Cómo Pujar en el BOE (60s)
+                    </button>
+                    <button class="pill-video-sel" id="btnSelVideoWeb" onclick="cambiarVideoTutorial('web')">
+                        🌐 Vídeo 2: Cómo Funciona la Web (53s)
+                    </button>
+                </div>
+
+                <div style="position: relative; border-radius: 14px; overflow: hidden; background: #000; box-shadow: 0 8px 25px rgba(0,0,0,0.6); margin-bottom: 12px;">
+                    <video id="videoTutorialPlayer" controls playsinline preload="metadata" style="width: 100%; border-radius: 14px; display: block; max-height: 52vh; object-fit: contain;">
+                        <source id="videoPlayerSource" src="assets/tutorial_dummies_paso_a_paso.mp4" type="video/mp4">
                         Tu navegador no soporta reproducción de vídeo HTML5.
                     </video>
                 </div>
-                <p style="font-size: 12px; color: var(--text-muted); text-align: center;">Aprende en menos de 1 minuto cómo se analizan y adjudican los expedientes del Estado.</p>
+                <p id="videoTutorialDesc" style="font-size: 12px; color: #38bdf8; text-align: center; font-weight: 700;">
+                    Tutorial Paso a Paso para Dummies: Cómo proceder en el BOE una vez que tienes la información.
+                </p>
             </div>
 
             <!-- Pestaña 3: Empleo & Vivienda Protegida -->
@@ -5567,6 +5587,31 @@
                     agregarMensajeChat('Entendido. En el portal dispones de la <strong>Auditoría Pericial Oficial</strong> de cada lote. Puedes explorar las muestras gratuitas en el catálogo o desbloquear el kit completo de cualquier expediente por solo 2,90 €.');
                 }
             }, 500);
+        }
+        
+        function cambiarVideoTutorial(tipo) {
+            const player = document.getElementById('videoTutorialPlayer');
+            const source = document.getElementById('videoPlayerSource');
+            const desc = document.getElementById('videoTutorialDesc');
+            const btnDummies = document.getElementById('btnSelVideoDummies');
+            const btnWeb = document.getElementById('btnSelVideoWeb');
+            
+            if (!player) return;
+            player.pause();
+
+            if (tipo === 'dummies') {
+                if (btnDummies) btnDummies.classList.add('active');
+                if (btnWeb) btnWeb.classList.remove('active');
+                player.src = 'assets/tutorial_dummies_paso_a_paso.mp4';
+                if (desc) desc.textContent = 'Tutorial Paso a Paso para Dummies: Cómo proceder en el BOE una vez que tienes la información.';
+            } else {
+                if (btnWeb) btnWeb.classList.add('active');
+                if (btnDummies) btnDummies.classList.remove('active');
+                player.src = 'assets/tutorial_radaralertas.mp4';
+                if (desc) desc.textContent = 'Cómo Funciona la Web: Aprende a filtrar chollos, ver fotos de satélite y auditar expedientes.';
+            }
+            player.load();
+            player.play().catch(() => {});
         }
         </script>
 
