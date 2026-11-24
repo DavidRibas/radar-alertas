@@ -3088,6 +3088,256 @@
     margin: 0;
 }
 </style>
+
+<style>
+/* === ESTILOS TARJETA ULTRA LIMPIA (REVELACIÓN PROGRESIVA) === */
+.card-clean-minimal {
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-card);
+    border: 1px solid var(--border-glass);
+    border-radius: 18px;
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    position: relative;
+}
+.card-clean-minimal:hover {
+    transform: translateY(-4px);
+    border-color: rgba(56, 189, 248, 0.4);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+.card-clean-img-wrap {
+    position: relative;
+    height: 190px;
+    background-size: cover;
+    background-position: center;
+}
+.card-clean-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.2) 0%, rgba(15, 23, 42, 0.85) 100%);
+}
+.card-clean-tag-top {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 2;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.card-clean-badge-pleno {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+    background: rgba(16, 185, 129, 0.9);
+    backdrop-filter: blur(4px);
+    color: #ffffff;
+    font-size: 10.5px;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.card-clean-content {
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: space-between;
+}
+.card-clean-location {
+    font-size: 12px;
+    color: #94a3b8;
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.card-clean-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text-main);
+    line-height: 1.35;
+    margin: 0 0 10px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 44px;
+}
+.card-clean-specs-compact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 14px;
+}
+.spec-compact {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #cbd5e1;
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 6px;
+}
+.card-clean-pricing {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 10px 14px;
+    border-radius: 10px;
+    margin-bottom: 14px;
+}
+.clean-price-main {
+    font-size: 20px;
+    font-weight: 900;
+    color: #38bdf8;
+}
+.clean-price-sub {
+    font-size: 12px;
+    color: #94a3b8;
+    text-align: right;
+}
+.clean-discount-tag {
+    color: #34d399;
+    font-weight: 800;
+}
+.btn-clean-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 800;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+.btn-clean-action-paid {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.35);
+}
+.btn-clean-action-paid:hover {
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
+    transform: translateY(-1px);
+}
+.btn-clean-action-free {
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid #10b981;
+    color: #34d399;
+}
+.btn-clean-action-free:hover {
+    background: rgba(16, 185, 129, 0.25);
+}
+
+/* === MÓDULO UNIFICADO DE FORMACIÓN & ACADEMIA === */
+.academia-hub-section {
+    max-width: 1200px;
+    margin: 60px auto 30px auto;
+    padding: 0 24px;
+}
+.academia-hub-card {
+    background: linear-gradient(180deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.95) 100%);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    border-radius: 24px;
+    padding: 36px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    position: relative;
+}
+.academia-hub-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+    align-items: start;
+    margin-top: 24px;
+}
+@media (max-width: 900px) {
+    .academia-hub-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+}
+.video-container-pro {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #000000;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.video-tabs-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+.btn-video-tab {
+    flex: 1;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+    transition: all 0.2s;
+    text-align: center;
+}
+.btn-video-tab.active {
+    background: rgba(56, 189, 248, 0.18);
+    border-color: #38bdf8;
+    color: #ffffff;
+}
+.doc-box-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 14px;
+}
+.steps-horizontal {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-top: 30px;
+    padding-top: 24px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.12);
+}
+.step-col {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 14px;
+}
+.step-num {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    border-radius: 50%;
+    background: rgba(56, 189, 248, 0.2);
+    color: #38bdf8;
+    font-weight: 900;
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+</style>
+
 </head>
 <body>
 
@@ -3536,7 +3786,118 @@
     </section>
 
     <!-- Banner Guía en PDF Gratuita -->
-    <section class="guide-section">
+    
+    <!-- Centro Unificado de Formación & Documentación Oficial -->
+    <section class="academia-hub-section" id="academia">
+        <div class="academia-hub-card">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px;">
+                <div>
+                    <div style="font-size: 13px; font-weight: 800; color: #38bdf8; letter-spacing: 1.5px; text-transform: uppercase;">🎓 CENTRO OFICIAL DE FORMACIÓN</div>
+                    <h2 style="font-size: 28px; font-weight: 900; color: #ffffff; margin: 4px 0 8px 0;">Cómo Funciona una Subasta: De Cero a Inversor</h2>
+                    <p style="color: #94a3b8; font-size: 14px; max-width: 620px; line-height: 1.5; margin: 0;">
+                        Sin tecnicismos judiciales ni letra pequeña. Aprende en 2 minutos cómo pujar con Cl@ve, por qué no hay notaría y cómo recuperar el 100% de tu fianza.
+                    </p>
+                </div>
+                <a href="assets/Guia_Subastas_Judiciales_RadarAlertas.pdf" download class="btn-clean-action btn-clean-action-free" style="width: auto; padding: 12px 20px;">
+                    📥 Descargar Guía Oficial en PDF (0 €)
+                </a>
+            </div>
+
+            <div class="academia-hub-grid">
+                <!-- Columna Izquierda: Reproductor de Vídeo Unificado -->
+                <div>
+                    <div class="video-tabs-row">
+                        <button class="btn-video-tab active" id="btnHubVid1" onclick="cambiarHubVideo(1)">
+                            🎥 1. Cómo usar la Web (53s)
+                        </button>
+                        <button class="btn-video-tab" id="btnHubVid2" onclick="cambiarHubVideo(2)">
+                            👶 2. Paso a Paso en el BOE (60s)
+                        </button>
+                    </div>
+                    
+                    <div class="video-container-pro">
+                        <video id="hubVideoPlayer" controls playsinline style="width: 100%; display: block; border-radius: 14px;" poster="assets/templates/inmueble_madrid_residencial.jpg">
+                            <source src="assets/tutorial_radaralertas.mp4" type="video/mp4">
+                            Tu navegador no soporta vídeo MP4.
+                        </video>
+                    </div>
+                    <div id="hubVideoCaption" style="font-size: 12.5px; color: #94a3b8; margin-top: 10px; text-align: center;">
+                        Aprende a buscar chollos, auditar pliegos del juzgado y verificar fotos de satélite.
+                    </div>
+                </div>
+
+                <!-- Columna Derecha: Documentación & Escudo Legal -->
+                <div>
+                    <div class="doc-box-item" style="border-color: rgba(56, 189, 248, 0.3); background: rgba(56, 189, 248, 0.05);">
+                        <div style="display: flex; gap: 12px; align-items: flex-start;">
+                            <span style="font-size: 24px;">🛡️</span>
+                            <div>
+                                <h4 style="font-size: 15px; font-weight: 800; color: #38bdf8; margin: 0 0 4px 0;">Garantía Legal de la Fianza (5%)</h4>
+                                <p style="font-size: 12.5px; color: #cbd5e1; line-height: 1.45; margin: 0;">
+                                    El dinero de la fianza se ingresa directamente en la cuenta del Ministerio de Hacienda (AEAT). <strong>Si no ganas la subasta, te lo devuelven íntegro al 100%</strong> sin comisiones.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-box-item">
+                        <div style="display: flex; gap: 12px; align-items: flex-start;">
+                            <span style="font-size: 24px;">💡</span>
+                            <div>
+                                <h4 style="font-size: 15px; font-weight: 800; color: #ffffff; margin: 0 0 4px 0;">Te ahorras el Notario (0 €)</h4>
+                                <p style="font-size: 12.5px; color: #94a3b8; line-height: 1.45; margin: 0;">
+                                    El Testimonio del Decreto de Adjudicación expedido por el Letrado de Justicia es gratuito y tiene la misma fuerza legal que una escritura pública.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="doc-box-item">
+                        <div style="display: flex; gap: 12px; align-items: flex-start;">
+                            <span style="font-size: 24px;">⚡</span>
+                            <div>
+                                <h4 style="font-size: 15px; font-weight: 800; color: #ffffff; margin: 0 0 4px 0;">Deudas de Suministros: 0 €</h4>
+                                <p style="font-size: 12.5px; color: #94a3b8; line-height: 1.45; margin: 0;">
+                                    Luz, agua y gas corresponden al anterior titular. Jamás se heredan por subasta; solicitas alta nueva sin pagar lo atrasado.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paso a Paso Horizontal en 5 Fases -->
+            <div class="steps-horizontal">
+                <div class="step-col">
+                    <span class="step-num">1</span>
+                    <strong style="display:block; font-size:13px; color:#ffffff; margin-bottom:4px;">Identidad Digital</strong>
+                    <span style="font-size:11.5px; color:#94a3b8;">Cl@ve Permanente o Certificado FNMT para entrar en el BOE.</span>
+                </div>
+                <div class="step-col">
+                    <span class="step-num">2</span>
+                    <strong style="display:block; font-size:13px; color:#ffffff; margin-bottom:4px;">Consignar 5%</strong>
+                    <span style="font-size:11.5px; color:#94a3b8;">Depósito temporal ante la AEAT para activar tu botón de puja.</span>
+                </div>
+                <div class="step-col">
+                    <span class="step-num">3</span>
+                    <strong style="display:block; font-size:13px; color:#ffffff; margin-bottom:4px;">Pujar con Estrategia</strong>
+                    <span style="font-size:11.5px; color:#94a3b8;">Fija tu puja máxima automática sin calentarte en los tramos.</span>
+                </div>
+                <div class="step-col">
+                    <span class="step-num">4</span>
+                    <strong style="display:block; font-size:13px; color:#ffffff; margin-bottom:4px;">Decreto Judicial</strong>
+                    <span style="font-size:11.5px; color:#94a3b8;">El juzgado emite el mandamiento que cancela las hipotecas previas.</span>
+                </div>
+                <div class="step-col">
+                    <span class="step-num">5</span>
+                    <strong style="display:block; font-size:13px; color:#ffffff; margin-bottom:4px;">Posesión y Llaves</strong>
+                    <span style="font-size:11.5px; color:#94a3b8;">Inscripción a tu nombre en el Registro y entrega pacífica de llaves.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="guide-section" style="display:none;">
         <div class="guide-text">
             <h2>📘 Guía Oficial de Subastas Judiciales (0 €)</h2>
             <p>Aprende cómo funciona la fianza del 5% que te devuelve el juzgado, qué deudas quedan anuladas por el Art. 674 de la LEC y cómo pujar con seguridad sin okupas.</p>
@@ -5084,97 +5445,51 @@
                 const esGratis = item.esGratis === true || item.desbloqueado === true;
                 const esDirecta = item.modalidad === 'directa';
                 
-                // Etiquetas de cabecera limpias
                 const tagSuperior = esGratis 
-                    ? `<span class="card-tag" style="background:#059669; color:#ffffff; font-weight:800; border:none; box-shadow:0 2px 8px rgba(5,150,105,0.4);">${item.tagGratis || '🟢 100% GRATIS'}</span>`
-                    : `<span class="card-tag ${item.tagClass}">${item.tag}</span>`;
+                    ? `<span class="card-clean-tag-top" style="background:#059669; color:#ffffff;">GRATIS</span>`
+                    : `<span class="card-clean-tag-top" style="background:#2563eb; color:#ffffff;">BOE OFICIAL</span>`;
 
-                const modBadgeClass = esDirecta ? 'badge-mod-directa' : 'badge-mod-subasta';
-                const modBadgeText = esDirecta ? '📋 SOLICITUD DIRECTA' : '🔨 SUBASTA PÚBLICA';
-                const labelMercado = esDirecta ? (item.tipo === 'vivienda' ? 'Alquiler Libre' : 'Sin Alerta') : 'Mercado Libre';
-                const labelOficial = esDirecta ? (item.tipo === 'vivienda' ? 'Alquiler Protegido' : 'Oficial Estado') : 'Precio Salida';
+                const labelMercado = esDirecta ? (item.tipo === 'vivienda' ? 'Alquiler Libre' : 'Sin Alerta') : 'Mercado';
+                const labelOficial = esDirecta ? (item.tipo === 'vivienda' ? 'Protegido' : 'Oficial') : 'Salida BOE';
 
                 return `
-                <article class="card ${esGratis ? 'card-free-deal' : ''}">
-                    <div class="card-img" style="background-image: url('${item.img}');">
+                <article class="card-clean-minimal">
+                    <div class="card-clean-img-wrap" style="background-image: url('${item.img}');">
+                        <div class="card-clean-overlay"></div>
                         ${tagSuperior}
-                        <span class="card-modality-badge ${modBadgeClass}">${modBadgeText}</span>
-                        ${item.ahorro ? `<span class="discount-badge">${item.ahorro}</span>` : ''}
+                        ${!esDirecta && (item.tipo === 'vivienda' || item.tipo === 'inmueble') ? '<span class="card-clean-badge-pleno">✓ 100% Pleno Dominio</span>' : ''}
                     </div>
-                    <div class="card-body">
-                        <div class="card-location">📍 ${item.ubicacion}</div>
-                        ${!esDirecta && (item.tipo === 'vivienda' || item.tipo === 'inmueble') ? '<div class="badge-pleno-dominio">✓ 100% Pleno Dominio (Sin indivisos)</div>' : ''}
-                        <h3 class="card-title">${item.titulo}</h3>
-                        <div class="card-specs">
-                            ${item.specs.map(s => `<span class="spec-item">${s}</span>`).join('')}
+                    <div class="card-clean-content">
+                        <div>
+                            <div class="card-clean-location">📍 ${item.ubicacion}</div>
+                            <h3 class="card-clean-title">${item.titulo}</h3>
+                            <div class="card-clean-specs-compact">
+                                ${item.specs.slice(0, 3).map(s => `<span class="spec-compact">${s}</span>`).join('')}
+                            </div>
                         </div>
 
-                        <!-- Precios Claros -->
-                        <div class="prices-box">
-                            <div class="market-p">
-                                <span class="market-label">${labelMercado}</span>
-                                <span class="market-val">${item.precioMercado}</span>
+                        <div>
+                            <div class="card-clean-pricing">
+                                <div>
+                                    <div style="font-size:11px; color:#94a3b8; text-transform:uppercase; font-weight:700;">${labelOficial}</div>
+                                    <div class="clean-price-main">${item.precioBoe}</div>
+                                </div>
+                                <div class="clean-price-sub">
+                                    <div>${labelMercado}: ${item.precioMercado}</div>
+                                    ${item.ahorro ? `<div class="clean-discount-tag">${item.ahorro}</div>` : ''}
+                                </div>
                             </div>
-                            <div class="boe-p">
-                                <span class="boe-label">${labelOficial}</span>
-                                <span class="boe-val">${item.precioBoe}</span>
-                            </div>
-                        </div>
-                        ${!esDirecta ? `
-                        <div class="fianza-box">
-                            <div>
-                                <div class="fianza-label">🛡️ Entrada Legal (Fianza 5%):</div>
-                                <div class="fianza-help">✓ El juzgado la devuelve si no ganas</div>
-                            </div>
-                            <div class="fianza-val">
-                                ${(()=>{
-                                    const num = parseInt(item.precioBoe.replace(/[^0-9]/g, '')) || 0;
-                                    return num > 0 ? Math.round(num * 0.05).toLocaleString('es-ES') + ' €' : '5% BOE';
-                                })()}
-                            </div>
-                        </div>
-                        ` : ''}
 
-                        <!-- 1 Sola Línea de Garantía Legal / Salario Oficial (Sin Saturar) -->
-                        <div class="clean-legal-row">
-                            <span class="clean-legal-icon">🛡️</span>
-                            <span class="clean-legal-text">${item.legal}</span>
-                        </div>
-
-                        <!-- ZONA DE ACCIÓN: CLARA, LIMPIA Y SIN LÍOS -->
-                        ${esGratis ? `
-                        <!-- OPORTUNIDAD 100% GRATUITA -->
-                        <div class="action-box-clean free-box">
-                            <div class="action-status-line">
-                                <span class="status-dot"></span>
-                                <span class="status-text">${item.desbloqueado ? 'Muestra Oficial Auditada · Descarga Inmediata' : 'Convocatoria Oficial Abierta · Acceso Libre'}</span>
-                                <span class="free-pill">GRATIS</span>
-                            </div>
-                            <a href="${item.pdfMuestra || item.enlaceBoeReal || '#'}" ${item.desbloqueado ? 'download' : 'target="_blank"'} class="btn-clean-cta btn-free-cta">
-                                ${item.ctaLabel}
+                            ${esGratis ? `
+                            <a href="${item.pdfMuestra || item.enlaceBoeReal || '#'}" ${item.desbloqueado ? 'download' : 'target="_blank"'} class="btn-clean-action btn-clean-action-free">
+                                📄 Ver Convocatoria Oficial (0 €) →
                             </a>
-                        </div>
-                        ` : `
-                        <!-- SUBASTA CON DICTAMEN PERICIAL (1,00 € PROMO) -->
-                        <div class="action-box-clean paid-box">
-                            <div class="action-status-line">
-                                <span class="paid-title">📄 Dictamen Pericial Oficial + Expediente</span>
-                                <span class="paid-pill" style="background: linear-gradient(135deg, #ef4444, #dc2626); color: #ffffff; font-weight: 800; box-shadow: 0 2px 8px rgba(239,68,68,0.4);">
-                                    🔥 1,00 € <span style="text-decoration: line-through; font-size: 10px; opacity: 0.8; margin-left: 2px;">2,90€</span>
-                                </span>
-                            </div>
-                            <button class="btn-clean-cta btn-paid-cta" onclick="abrirModalDesbloqueo('${item.id}')" style="background: linear-gradient(135deg, #2563eb, #1d4ed8);">
-                                🔓 Desbloquear Expediente • 1,00 € (Promo) →
+                            ` : `
+                            <button class="btn-clean-action btn-clean-action-paid" onclick="abrirModalDesbloqueo('${item.id}')">
+                                🔓 Desbloquear Expediente • 1,00 € →
                             </button>
-                            <button class="btn-clean-sublink" onclick="abrirModalPro()">
-                                ⭐ O tarifa plana ilimitada con Plan PRO (9,90 €/mes)
-                            </button>
+                            `}
                         </div>
-                        `}
-
-                        <button class="btn-share-wa" onclick="compartirWhatsApp('${item.titulo.replace(/'/g, "\'")}', '${item.ahorro}', '${item.precioBoe}', '${item.id}')">
-                            📲 Avisar por WhatsApp a un amigo
-                        </button>
                     </div>
                 </article>
                 `;
@@ -5941,5 +6256,30 @@
             </div>
         </div>
     </div>
-        </body>
+        
+<script>
+function cambiarHubVideo(num) {
+    const player = document.getElementById('hubVideoPlayer');
+    const btn1 = document.getElementById('btnHubVid1');
+    const btn2 = document.getElementById('btnHubVid2');
+    const caption = document.getElementById('hubVideoCaption');
+    if (!player) return;
+
+    player.pause();
+    if (num === 1) {
+        player.src = 'assets/tutorial_radaralertas.mp4';
+        btn1.classList.add('active');
+        btn2.classList.remove('active');
+        caption.textContent = 'Aprende a buscar chollos, auditar pliegos del juzgado y verificar fotos de satélite.';
+    } else {
+        player.src = 'assets/tutorial_dummies_paso_a_paso.mp4';
+        btn2.classList.add('active');
+        btn1.classList.remove('active');
+        caption.textContent = 'Paso a paso en subastas.boe.es: Cómo consignar fianza del 5% con Cl@ve y qué pasa si no ganas.';
+    }
+    player.load();
+}
+</script>
+
+</body>
 </html>
