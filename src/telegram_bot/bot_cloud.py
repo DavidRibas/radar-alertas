@@ -488,19 +488,23 @@ async def comando_emitir_ahora(update: Update, context: ContextTypes.DEFAULT_TYP
     await update.message.reply_text("📡 <b>Resultado de emisión:</b>\n\n" + "\n".join(lineas), parse_mode="HTML")
 
 async def tarea_publicar_chollo_diario(app):
-    """Emite periódicamente las alertas diarias en el Canal Gratuito y en los 5 Canales VIP."""
-    print("📢 Motor autónomo de emisión diaria en los 6 canales iniciado...")
-    await asyncio.sleep(30)  # Espera inicial tras arranque
+    """Emite las alertas diarias en los 6 canales SOLO en la ventana de las 09:00 AM Madrid (08:00 UTC) para evitar duplicados tras despliegues."""
+    print("📢 Motor autónomo de emisión diaria (ventana 09:00 AM Madrid / 08:00 UTC) iniciado...")
+    await asyncio.sleep(30)
     while True:
         try:
-            res = await emitir_alertas_canales(app, forzar=False)
-            print(f"📡 Ciclo de emisión completado: {res}")
-            await asyncio.sleep(14400)  # Revisar cada 4 horas
+            ahora_utc = datetime.utcnow()
+            if ahora_utc.hour == 8:  # 08:00-08:59 UTC = 09:00-09:59 CET (Madrid)
+                res = await emitir_alertas_canales(app, forzar=False)
+                print(f"📡 Ciclo diario 09:00 completado: {res}")
+                await asyncio.sleep(3600)
+            else:
+                await asyncio.sleep(1200)  # Comprobar cada 20 minutos sin enviar fuera de hora
         except asyncio.CancelledError:
             break
         except Exception as e:
             print(f"Error en tarea_publicar_chollo_diario: {e}")
-            await asyncio.sleep(3600)
+            await asyncio.sleep(1800)
 
 async def main():
     inicializar_bd()
