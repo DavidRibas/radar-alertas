@@ -43,7 +43,7 @@ from src.extractores.boe_vehiculos import buscar_subastas_vehiculos, obtener_det
 load_dotenv()
 
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "TU_TOKEN_AQUI")
-CANAL_VIP_ID = os.getenv("TELEGRAM_CANAL_VIP_ID", "@canal_vip_demo")
+CANAL_VIP_ID = os.getenv("TELEGRAM_CANAL_VIP_ID", "-1004355179430")
 CANAL_VIP_LINK = os.getenv("TELEGRAM_CANAL_VIP_LINK", "https://t.me/+miVPfMylHboyMzM0")
 CANAL_AYUDAS_ID = os.getenv("TELEGRAM_CANAL_AYUDAS_ID", "-1004437054989")
 CANAL_AYUDAS_LINK = os.getenv("TELEGRAM_CANAL_AYUDAS_LINK", "https://t.me/+sSZjzzP5XediMDc0")
