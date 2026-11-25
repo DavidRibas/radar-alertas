@@ -22,8 +22,8 @@
     "expedienteReal": "SUB-JA-2026-267982",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JA-2026-267982&ver=1",
     "desbloqueado": false,
-    "lat": 40.4023,
-    "lng": -3.7217
+    "lat": 40.4206,
+    "lng": -3.7049
   },
   {
     "id": "INM-SUB-JA-2026-267737",
@@ -48,8 +48,8 @@
     "expedienteReal": "SUB-JA-2026-267737",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JA-2026-267737&ver=1",
     "desbloqueado": false,
-    "lat": 40.4363,
-    "lng": -3.6787
+    "lat": 40.381,
+    "lng": -3.6751
   },
   {
     "id": "INM-SUB-JA-2026-258370",
@@ -74,8 +74,8 @@
     "expedienteReal": "SUB-JA-2026-258370",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JA-2026-258370&ver=1",
     "desbloqueado": false,
-    "lat": 41.3714,
-    "lng": 2.169
+    "lat": 41.3866,
+    "lng": 2.1882
   },
   {
     "id": "INM-SUB-JA-2026-266957",
@@ -100,8 +100,8 @@
     "expedienteReal": "SUB-JA-2026-266957",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JA-2026-266957&ver=1",
     "desbloqueado": false,
-    "lat": 41.3883,
-    "lng": 2.1484
+    "lat": 41.4022,
+    "lng": 2.2084
   },
   {
     "id": "INM-SUB-JA-2026-267200",
@@ -126,8 +126,8 @@
     "expedienteReal": "SUB-JA-2026-267200",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JA-2026-267200&ver=1",
     "desbloqueado": false,
-    "lat": 39.4347,
-    "lng": -0.4084
+    "lat": 39.5094,
+    "lng": -0.35
   },
   {
     "id": "INM-SUB-JA-2026-267245",
@@ -152,8 +152,8 @@
     "expedienteReal": "SUB-JA-2026-267245",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JA-2026-267245&ver=1",
     "desbloqueado": false,
-    "lat": 39.4926,
-    "lng": -0.3441
+    "lat": 39.495,
+    "lng": -0.3783
   },
   {
     "id": "INM-SUB-JA-2026-263908",
@@ -178,8 +178,8 @@
     "expedienteReal": "SUB-JA-2026-263908",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JA-2026-263908&ver=1",
     "desbloqueado": false,
-    "lat": 37.3953,
-    "lng": -5.9966
+    "lat": 37.3961,
+    "lng": -5.9711
   },
   {
     "id": "INM-SUB-JA-2026-257246",
@@ -204,8 +204,8 @@
     "expedienteReal": "SUB-JA-2026-257246",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JA-2026-257246&ver=1",
     "desbloqueado": false,
-    "lat": 37.409,
-    "lng": -5.9856
+    "lat": 37.422,
+    "lng": -5.9594
   },
   {
     "id": "VEH-SUB-RC-2026-2873000126007",
@@ -230,8 +230,8 @@
     "expedienteReal": "SUB-RC-2026-2873000126007",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-RC-2026-2873000126007&ver=1",
     "desbloqueado": false,
-    "lat": 40.4389,
-    "lng": -3.6983
+    "lat": 40.4215,
+    "lng": -3.6783
   },
   {
     "id": "VEH-SUB-AT-2026-26R3086002032",
@@ -256,8 +256,8 @@
     "expedienteReal": "SUB-AT-2026-26R3086002032",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R3086002032&ver=1",
     "desbloqueado": false,
-    "lat": 40.4042,
-    "lng": -3.7335
+    "lat": 40.3644,
+    "lng": -3.7033
   },
   {
     "id": "VEH-SUB-RC-2026-2873000126006",
@@ -282,8 +282,8 @@
     "expedienteReal": "SUB-RC-2026-2873000126006",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-RC-2026-2873000126006&ver=1",
     "desbloqueado": false,
-    "lat": 40.4212,
-    "lng": -3.6564
+    "lat": 40.4732,
+    "lng": -3.6789
   },
   {
     "id": "VEH-SUB-JA-2026-265587",
@@ -308,8 +308,8 @@
     "expedienteReal": "SUB-JA-2026-265587",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JA-2026-265587&ver=1",
     "desbloqueado": false,
-    "lat": 40.429,
-    "lng": -3.6868
+    "lat": 40.4202,
+    "lng": -3.6752
   },
   {
     "id": "EMP-BOE-A-2026-24730",
@@ -334,8 +334,8 @@
     "expedienteReal": "BOE-A-2026-24730",
     "enlaceBoeReal": "https://www.boe.es/boe/dias/2026/11/25/pdfs/BOE-A-2026-24730.pdf",
     "desbloqueado": false,
-    "lat": 40.4028,
-    "lng": -3.6985
+    "lat": 40.3984,
+    "lng": -3.6842
   },
   {
     "id": "EMP-BOE-A-2026-24731",
@@ -360,8 +360,8 @@
     "expedienteReal": "BOE-A-2026-24731",
     "enlaceBoeReal": "https://www.boe.es/boe/dias/2026/11/25/pdfs/BOE-A-2026-24731.pdf",
     "desbloqueado": false,
-    "lat": 40.392,
-    "lng": -3.6941
+    "lat": 40.3901,
+    "lng": -3.6866
   },
   {
     "id": "EMP-BOE-A-2026-24732",
@@ -386,8 +386,8 @@
     "expedienteReal": "BOE-A-2026-24732",
     "enlaceBoeReal": "https://www.boe.es/boe/dias/2026/11/25/pdfs/BOE-A-2026-24732.pdf",
     "desbloqueado": false,
-    "lat": 40.3955,
-    "lng": -3.7044
+    "lat": 40.424,
+    "lng": -3.6792
   },
   {
     "id": "EMP-EXTERIORES-01",
