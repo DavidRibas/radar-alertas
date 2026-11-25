@@ -4066,6 +4066,40 @@
         </div>
     </div>
 
+    <!-- Modal de Expediente Oficial Desbloqueado (Muestra GRATIS 0 €) -->
+    <div class="modal-overlay" id="modalFreeExpediente">
+        <div class="modal-box" style="border-color: rgba(16, 185, 129, 0.5);">
+            <button class="modal-close" onclick="cerrarModales()">✕</button>
+            <div class="modal-header">
+                <div class="modal-icon" style="background: rgba(16,185,129,0.15); border-color: #10b981;">🔓</div>
+                <h3 class="modal-title" style="color:#34d399;">Expediente Oficial Desbloqueado (0 €)</h3>
+                <p class="modal-sub">Muestra gratuita real verificada en sede oficial</p>
+            </div>
+            <div class="modal-item-preview">
+                <div class="modal-item-img" id="freeItemImg"></div>
+                <div class="modal-item-info">
+                    <h4 id="freeItemTitle">Cargando expediente...</h4>
+                    <p id="freeItemMeta">—</p>
+                </div>
+            </div>
+            <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 12px; padding: 14px; margin-bottom: 14px; text-align: left;">
+                <div style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: 700; margin-bottom: 4px;">Código Oficial de Expediente</div>
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+                    <code id="freeItemCode" style="font-size: 15px; font-weight: 800; color: #38bdf8; word-break: break-all;">—</code>
+                    <button type="button" onclick="copiarCodigoExpediente()" id="btnCopyExp" style="background:#1e293b; color:#f8fafc; border:1px solid #334155; border-radius:8px; padding:6px 10px; font-size:12px; font-weight:700; cursor:pointer; white-space:nowrap;">📋 Copiar</button>
+                </div>
+                <div id="freeItemLegal" style="font-size: 12px; color: #cbd5e1; margin-top: 8px; line-height: 1.4;">—</div>
+            </div>
+            <a id="freeItemDirectLink" href="#" target="_blank" rel="noopener noreferrer" class="btn-pay-single" style="text-decoration:none; display:flex; align-items:center; justify-content:center; gap:8px; background: linear-gradient(135deg, #059669 0%, #10b981 100%);">
+                <span>🏛️ Abrir Expediente Exacto en Sede Oficial</span>
+                <span>↗</span>
+            </a>
+            <a href="assets/Dictamen_Verificado_Final.pdf" download="Guia_Dictamen_RadarAlertas.pdf" style="display:flex; align-items:center; justify-content:center; gap:8px; width:100%; margin-top:10px; padding:11px; border-radius:10px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:#e2e8f0; text-decoration:none; font-size:13px; font-weight:700;">
+                📄 Descargar Guía y Dictamen Ejemplo (PDF Gratis)
+            </a>
+        </div>
+    </div>
+
     <!-- Modal del Plan PRO Inversor -->
     <div class="modal-overlay" id="modalPro">
         <div class="modal-box" style="border-color: rgba(251, 191, 36, 0.4);">
@@ -5175,9 +5209,9 @@
                                 </div>
                             </div>
                             ${(item.esGratis === true || item.desbloqueado === true) ? `
-                            <a href="${item.pdfMuestra || item.enlaceBoeReal || '#'}" ${item.desbloqueado ? 'download' : 'target="_blank"'} class="btn-popup-unlock" style="display:block; text-align:center; text-decoration:none; background:#059669;">
-                                📄 Ver Convocatoria Oficial (0 €)
-                            </a>
+                            <button class="btn-popup-unlock" style="background:#059669;" onclick="abrirModalGratis('${item.id}')">
+                                📄 Ver Expediente Oficial (0 €)
+                            </button>
                             ` : `
                             <button class="btn-popup-unlock" onclick="abrirModalDesbloqueo('${item.id}')">
                                 🔓 Desbloquear Expediente • 1,00 €
@@ -5399,9 +5433,9 @@
                             </div>
 
                             ${esGratis ? `
-                            <a href="${item.pdfMuestra || item.enlaceBoeReal || '#'}" ${item.desbloqueado ? 'download' : 'target="_blank"'} class="btn-clean-action btn-clean-action-free">
-                                📄 Ver Convocatoria Oficial (0 €) →
-                            </a>
+                            <button class="btn-clean-action btn-clean-action-free" onclick="abrirModalGratis('${item.id}')">
+                                📄 Ver Expediente Oficial (0 €) →
+                            </button>
                             ` : `
                             <button class="btn-clean-action btn-clean-action-paid" onclick="abrirModalDesbloqueo('${item.id}')">
                                 🔓 Desbloquear Expediente • 1,00 € →
@@ -5419,6 +5453,17 @@
             const item = OPORTUNIDADES.find(o => o.id === id);
             if (!item) return;
             itemSeleccionado = item;
+            try {
+                localStorage.setItem('radar_ultimo_expediente', JSON.stringify({
+                    id: item.id,
+                    titulo: item.titulo,
+                    ubicacion: item.ubicacion,
+                    precioBoe: item.precioBoe,
+                    expedienteReal: item.expedienteReal || item.id,
+                    enlaceBoeReal: item.enlaceBoeReal || 'https://subastas.boe.es',
+                    legal: item.legal || ''
+                }));
+            } catch(e) {}
 
             document.getElementById('modalItemTitle').textContent = item.titulo;
             document.getElementById('modalItemMeta').textContent = `Salida: ${item.precioBoe} • Ahorro: ${item.ahorro}`;
@@ -5426,6 +5471,33 @@
             document.getElementById('modalUnlock').classList.add('active');
         }
         window.abrirModal = abrirModalDesbloqueo;
+
+        function abrirModalGratis(id) {
+            const item = OPORTUNIDADES.find(o => o.id === id);
+            if (!item) return;
+            document.getElementById('freeItemTitle').textContent = item.titulo;
+            document.getElementById('freeItemMeta').textContent = `${item.ubicacion} • ${item.precioBoe}`;
+            document.getElementById('freeItemImg').style.backgroundImage = `url('${item.img}')`;
+            document.getElementById('freeItemCode').textContent = item.expedienteReal || item.id;
+            document.getElementById('freeItemLegal').textContent = item.legal || 'Verificado en sede oficial pública.';
+            const linkEl = document.getElementById('freeItemDirectLink');
+            if (linkEl) linkEl.href = item.enlaceBoeReal || 'https://subastas.boe.es';
+            const btnCopy = document.getElementById('btnCopyExp');
+            if (btnCopy) btnCopy.textContent = '📋 Copiar';
+            document.getElementById('modalFreeExpediente').classList.add('active');
+        }
+        window.abrirModalGratis = abrirModalGratis;
+
+        function copiarCodigoExpediente() {
+            const code = document.getElementById('freeItemCode')?.textContent || '';
+            if (!code) return;
+            navigator.clipboard?.writeText(code).catch(() => {});
+            const btn = document.getElementById('btnCopyExp');
+            if (btn) {
+                btn.textContent = '✅ Copiado';
+                setTimeout(() => { btn.textContent = '📋 Copiar'; }, 2000);
+            }
+        }
 
         function abrirModalTutorial() {
             const modal = document.getElementById('modalTutorial');
@@ -5951,12 +6023,24 @@
                 if (res.ok) {
                     const datos = await res.json();
                     if (Array.isArray(datos) && datos.length > 0) {
-                        const muestrasGratis = OPORTUNIDADES.filter(x => x.esGratis === true || x.desbloqueado === true);
-                        const idsGratis = new Set(muestrasGratis.map(x => x.id));
-                        const nuevosBoe = datos.filter(x => !idsGratis.has(x.id));
-                        OPORTUNIDADES = [...muestrasGratis, ...nuevosBoe];
+                        // Marcar automáticamente el 1er expediente REAL de cada vertical del BOE como Muestra Gratis (con su URL directa real)
+                        const tiposMarcados = new Set();
+                        const gratisReales = [];
+                        const restoBoe = [];
+                        datos.forEach(item => {
+                            const t = item.tipo || '';
+                            if (['inmueble', 'vehiculo', 'empleo', 'ayuda'].includes(t) && !tiposMarcados.has(t)) {
+                                tiposMarcados.add(t);
+                                gratisReales.push({ ...item, esGratis: true, desbloqueado: true });
+                            } else {
+                                restoBoe.push(item);
+                            }
+                        });
+                        // Mantener también la muestra VPO real de Comunidad de Madrid
+                        const vpoGratis = OPORTUNIDADES.filter(x => x.tipo === 'vivienda' && (x.esGratis === true || x.desbloqueado === true));
+                        OPORTUNIDADES = [...vpoGratis, ...gratisReales, ...restoBoe];
                         filtrarOportunidades();
-                        console.log('✅ Catálogo dinámico cargado con éxito:', OPORTUNIDADES.length, 'oportunidades (', muestrasGratis.length, 'muestras gratis preservadas).');
+                        console.log('✅ Catálogo dinámico cargado con éxito:', OPORTUNIDADES.length, 'oportunidades (', vpoGratis.length + gratisReales.length, 'muestras gratis con enlace oficial directo).');
                     }
                 }
             } catch (err) {
