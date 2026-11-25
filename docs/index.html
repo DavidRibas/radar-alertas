@@ -5823,11 +5823,10 @@
                     else ref = 'directo_perfil';
                 }
                 const trackUrl = 'https://radar-alertas-bot-du2p.onrender.com/api/visita?ref=' + encodeURIComponent(ref) + '&p=' + encodeURIComponent(window.location.pathname);
-                if (navigator.sendBeacon) {
-                    navigator.sendBeacon(trackUrl);
-                } else {
-                    fetch(trackUrl, { mode: 'no-cors', cache: 'no-cache' }).catch(() => {});
-                }
+                fetch(trackUrl, { method: 'GET', mode: 'cors', cache: 'no-cache', keepalive: true })
+                    .catch(() => {
+                        fetch(trackUrl, { mode: 'no-cors', cache: 'no-cache' }).catch(() => {});
+                    });
             } catch(e) {}
         })();
 

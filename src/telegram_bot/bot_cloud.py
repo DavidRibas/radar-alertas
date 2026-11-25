@@ -4,7 +4,10 @@ Incluye servidor HTTP para health-checks y compatibilidad con
 plataformas PaaS (Render, Koyeb, Railway, Fly.io, etc.).
 """
 import os
+import json
+import html as html_lib
 import asyncio
+from datetime import datetime
 from pathlib import Path
 from dotenv import load_dotenv
 from aiohttp import web
@@ -62,12 +65,20 @@ async def handle_ping(request):
     return web.json_response({
         "status": "online",
         "service": "RadarAlertas Telegram Bot 24/7",
-        "version": "v2.8-clean",
+        "version": "v2.9-multicanal",
         "bot": "@RadarAletasSubastas_bot"
     })
 
 async def handle_track_visit(request):
     """Registra una visita anónima desde la web."""
+    cors_headers = {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "*"
+    }
+    if request.method == "OPTIONS":
+        return web.Response(status=204, headers=cors_headers)
+
     try:
         ref = request.query.get("ref", "directo")
         pagina = request.query.get("p", "/")
@@ -83,7 +94,7 @@ async def handle_track_visit(request):
         else:
             disp = "Escritorio"
 
-        ip = request.remote or request.headers.get("X-Forwarded-For", "anon")
+        ip = request.headers.get("X-Forwarded-For", "").split(",")[0].strip() or request.remote or "anon"
         import hashlib
         ip_hash = hashlib.sha256(ip.encode()).hexdigest()[:16]
 
@@ -91,13 +102,14 @@ async def handle_track_visit(request):
     except Exception as e:
         print(f"Error registrando visita: {e}")
 
+    return web.json_response({"ok": True}, headers=cors_headers)
+
+async def handle_stats_api(request):
+    """Devuelve métricas resumidas en JSON para monitoreo rápido."""
+    v = obtener_metricas_visitas()
     return web.json_response(
-        {"ok": True},
-        headers={
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-            "Access-Control-Allow-Headers": "*"
-        }
+        {"ok": True, "visitas": v},
+        headers={"Access-Control-Allow-Origin": "*"}
     )
 
 async def handle_landing_page(request):
@@ -305,80 +317,140 @@ async def tarea_renovaciones_periodica(app):
         except Exception as e:
             print("Error en bucle de renovaciones:", e)
 
+def _construir_caption_html(item: dict, etiqueta_cabecera: str) -> str:
+    tipo = item.get("tipo", "inmueble")
+    iconos = {
+        "inmueble": "🏠",
+        "vehiculo": "🚗",
+        "ayuda": "💰",
+        "licitacion": "📑",
+        "empleo": "💼",
+    }
+    icono = iconos.get(tipo, "🚨")
+    titulo = html_lib.escape(str(item.get("titulo", "Oportunidad Destacada")))
+    precio_salida = html_lib.escape(str(item.get("precioBoe", "Consultar")))
+    precio_mercado = html_lib.escape(str(item.get("precioMercado", "Consultar")))
+    ahorro = html_lib.escape(str(item.get("ahorro", "Gran Descuento")))
+    ubicacion = html_lib.escape(str(item.get("ubicacion", "España")))
+    legal = html_lib.escape(str(item.get("legal", "0,00 € cargas previas (Art. 674 LEC)")))
+    cab = html_lib.escape(etiqueta_cabecera)
+
+    return (
+        f"🚨 <b>{cab}</b> {icono}\n\n"
+        f"📌 <b>Detalle:</b> {titulo}\n"
+        f"📍 <b>Ubicación:</b> {ubicacion}\n"
+        f"🏷️ <b>Destacado:</b> <b>{ahorro}</b>\n\n"
+        f"📊 <b>Referencia / Mercado:</b> {precio_mercado}\n"
+        f"🎯 <b>Importe / Salida:</b> <b>{precio_salida}</b>\n"
+        f"🛡️ <b>Verificación:</b> {legal}\n\n"
+        f"👇 <i>Accede al expediente oficial y ficha completa en RadarAlertas:</i>"
+    )
+
+async def emitir_alertas_canales(app, forzar: bool = False) -> dict:
+    """Emite la alerta diaria correspondiente en el Canal Gratuito y en los 5 Canales VIP."""
+    resultados = {}
+    ahora = datetime.now()
+    fecha_clave = ahora.strftime("%Y-%m-%d")
+    dia_ano = ahora.timetuple().tm_yday
+
+    ruta_cat = Path(__file__).resolve().parent.parent.parent / "docs" / "data" / "oportunidades.json"
+    if not ruta_cat.exists():
+        ruta_cat = Path(__file__).resolve().parent.parent.parent / "data" / "oportunidades.json"
+    if not ruta_cat.exists():
+        return {"error": "No se encontró oportunidades.json"}
+
+    with open(ruta_cat, "r", encoding="utf-8") as f:
+        catalogo = json.load(f)
+    if not catalogo:
+        return {"error": "Catálogo vacío"}
+
+    # 1. Canal Gratuito (1 oportunidad destacada del catálogo global)
+    envios = [
+        ("FREE", CANAL_FREE_ID or os.getenv("TELEGRAM_CANAL_FREE_ID"), catalogo[dia_ano % len(catalogo)], "CHOLLO DEL DÍA AUDITADO POR EL RADAR")
+    ]
+
+    # 2. Los 5 Canales VIP por vertical
+    mapa_vip = [
+        ("VIP_INMUEBLES", CANAL_VIP_ID or os.getenv("TELEGRAM_CANAL_VIP_ID"), "inmueble", "ALERTA VIP • SUBASTA INMUEBLE BOE"),
+        ("VIP_VEHICULOS", CANAL_VEHICULOS_ID or os.getenv("TELEGRAM_CANAL_VEHICULOS_ID"), "vehiculo", "ALERTA VIP • VEHÍCULO DE SUBASTA"),
+        ("VIP_AYUDAS", CANAL_AYUDAS_ID or os.getenv("TELEGRAM_CANAL_AYUDAS_ID"), "ayuda", "ALERTA VIP • AYUDA / SUBVENCIÓN OFICIAL"),
+        ("VIP_LICITACIONES", CANAL_LICITACIONES_ID or os.getenv("TELEGRAM_CANAL_LICITACIONES_ID"), "licitacion", "ALERTA VIP • LICITACIÓN PÚBLICA"),
+        ("VIP_EMPLEO", CANAL_EMPLEO_ID or os.getenv("TELEGRAM_CANAL_EMPLEO_ID"), "empleo", "ALERTA VIP • EMPLEO PÚBLICO BOE"),
+    ]
+    for clave, cid, tipo_filtro, cabecera in mapa_vip:
+        subset = [x for x in catalogo if x.get("tipo") == tipo_filtro]
+        if subset and cid:
+            item_v = subset[dia_ano % len(subset)]
+            envios.append((clave, cid, item_v, cabecera))
+
+    base_root = Path(__file__).resolve().parent.parent.parent
+    for clave, cid, item, cabecera in envios:
+        if not cid:
+            resultados[clave] = "sin_canal_id"
+            continue
+        id_alerta = f"{clave}-{item.get('id', 'item')}-{fecha_clave}"
+        if not forzar and ya_fue_enviada(id_alerta):
+            resultados[clave] = "ya_enviada_hoy"
+            continue
+
+        caption = _construir_caption_html(item, cabecera)
+        teclado = [
+            [InlineKeyboardButton("⚡ Ver Ficha Completa en RadarAlertas 🌐", url=f"https://radaralertas.com/?ref=telegram_{clave.lower()}")],
+            [InlineKeyboardButton("🧮 Simulador de Cargas y Rentabilidad", url="https://radaralertas.com/#calculadora")]
+        ]
+
+        img_rel = item.get("img", "")
+        img_path = base_root / "docs" / img_rel if img_rel else None
+        if img_path and not img_path.exists():
+            img_path = base_root / img_rel
+
+        try:
+            if img_path and img_path.exists() and img_path.is_file():
+                with open(img_path, "rb") as foto:
+                    await app.bot.send_photo(
+                        chat_id=cid,
+                        photo=foto,
+                        caption=caption,
+                        parse_mode="HTML",
+                        reply_markup=InlineKeyboardMarkup(teclado)
+                    )
+            else:
+                await app.bot.send_message(
+                    chat_id=cid,
+                    text=caption,
+                    parse_mode="HTML",
+                    reply_markup=InlineKeyboardMarkup(teclado)
+                )
+            registrar_alerta_enviada(id_alerta, item.get("titulo", ""), item.get("precioBoe", ""))
+            resultados[clave] = f"ENVIADA ({item.get('id')})"
+            print(f"✅ Alerta enviada a {clave} ({cid}): {item.get('titulo')}")
+            await asyncio.sleep(1.5)
+        except Exception as e_send:
+            resultados[clave] = f"ERROR: {e_send}"
+            print(f"❌ Error enviando a {clave} ({cid}): {e_send}")
+
+    return resultados
+
+async def comando_emitir_ahora(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Permite al administrador forzar el envío de alertas diarias a todos los canales."""
+    user = update.effective_user
+    if str(user.id) != str(ADMIN_ID):
+        await update.message.reply_text("⛔ Comando exclusivo para el administrador.")
+        return
+    await update.message.reply_text("🚀 Emitiendo alertas en los 6 canales de Telegram...")
+    res = await emitir_alertas_canales(context.application, forzar=True)
+    lineas = [f"• <b>{k}</b>: {html_lib.escape(str(v))}" for k, v in res.items()]
+    await update.message.reply_text("📡 <b>Resultado de emisión:</b>\n\n" + "\n".join(lineas), parse_mode="HTML")
+
 async def tarea_publicar_chollo_diario(app):
-    """Emite periódicamente el Chollo del Día en el Canal Gratuito de Telegram para fidelizar y retener."""
-    print("📢 Motor autónomo de emisión diaria en Canal Gratuito iniciado...")
-    await asyncio.sleep(45)  # Espera inicial tras arranque
+    """Emite periódicamente las alertas diarias en el Canal Gratuito y en los 5 Canales VIP."""
+    print("📢 Motor autónomo de emisión diaria en los 6 canales iniciado...")
+    await asyncio.sleep(30)  # Espera inicial tras arranque
     while True:
         try:
-            ahora = datetime.now()
-            ruta_cat = Path(__file__).resolve().parent.parent.parent / "docs" / "data" / "oportunidades.json"
-            if not ruta_cat.exists():
-                ruta_cat = Path(__file__).resolve().parent.parent.parent / "data" / "oportunidades.json"
-
-            if ruta_cat.exists():
-                with open(ruta_cat, "r", encoding="utf-8") as f:
-                    catalogo = json.load(f)
-
-                if catalogo:
-                    dia_ano = ahora.timetuple().tm_yday
-                    item = catalogo[dia_ano % len(catalogo)]
-                    fecha_clave = ahora.strftime("%Y-%m-%d")
-                    id_alerta = f"FREE-{item.get('id', 'chollo')}-{fecha_clave}"
-
-                    if not ya_fue_enviada(id_alerta):
-                        tipo = item.get("tipo", "inmueble")
-                        icono = "🚗" if tipo == "vehiculo" else ("💼" if tipo == "empleo" else "🏠")
-                        titulo = item.get("titulo", "Oportunidad Destacada")
-                        precio_salida = item.get("precioBoe", "Consultar")
-                        precio_mercado = item.get("precioMercado", "Consultar")
-                        ahorro = item.get("ahorro", "Gran Descuento")
-                        ubicacion = item.get("ubicacion", "España")
-                        legal = item.get("legal", "0,00 € cargas previas (Art. 674 LEC)")
-
-                        caption = (
-                            f"🚨 *CHOLLO DEL DÍA AUDITADO POR EL RADAR* {icono}\n\n"
-                            f"Acaba de ser auditada esta oportunidad oficial con gran descuento:\n\n"
-                            f"📌 *Detalle:* {titulo}\n"
-                            f"📍 *Ubicación:* {ubicacion}\n"
-                            f"🏷️ *Ahorro:* *{ahorro}*\n\n"
-                            f"📊 *Valor Estimado:* {precio_mercado}\n"
-                            f"🎯 *Precio de Salida:* *{precio_salida}*\n"
-                            f"🛡️ *Garantía:* {legal}\n\n"
-                            f"👇 *Accede al expediente oficial, mapa interactivo y simulador de cargas:*"
-                        )
-                        teclado = [
-                            [InlineKeyboardButton("⚡ Ver Ficha en el Buscador Web Oficial 🌐", url="https://radaralertas.com/?ref=telegram_chollo_auto")],
-                            [InlineKeyboardButton("🧮 Simular Gastos y Tasas (Art. 674 LEC)", url="https://radaralertas.com/#calculadora")]
-                        ]
-
-                        canal_id = CANAL_FREE_ID or os.getenv("TELEGRAM_CANAL_FREE_ID", "-1004345947331")
-                        img_rel = item.get("img", "")
-                        img_path = Path(__file__).resolve().parent.parent.parent / "docs" / img_rel
-                        if not img_path.exists():
-                            img_path = Path(__file__).resolve().parent.parent.parent / img_rel
-
-                        if img_path.exists():
-                            with open(img_path, "rb") as foto:
-                                await app.bot.send_photo(
-                                    chat_id=canal_id,
-                                    photo=foto,
-                                    caption=caption,
-                                    parse_mode="Markdown",
-                                    reply_markup=InlineKeyboardMarkup(teclado)
-                                )
-                        else:
-                            await app.bot.send_message(
-                                chat_id=canal_id,
-                                text=caption,
-                                parse_mode="Markdown",
-                                reply_markup=InlineKeyboardMarkup(teclado)
-                            )
-                        registrar_alerta_enviada(id_alerta, titulo, precio_salida)
-                        print(f"✅ Chollo del día enviado automáticamente al Canal Gratuito: {titulo}")
-
-            # Revisar cada 4 horas
-            await asyncio.sleep(14400)
+            res = await emitir_alertas_canales(app, forzar=False)
+            print(f"📡 Ciclo de emisión completado: {res}")
+            await asyncio.sleep(14400)  # Revisar cada 4 horas
         except asyncio.CancelledError:
             break
         except Exception as e:
@@ -404,6 +476,7 @@ async def main():
     app.add_handler(CommandHandler("app", comando_web))
     app.add_handler(CommandHandler("calculadora", comando_web))
     app.add_handler(CommandHandler("stats", comando_stats))
+    app.add_handler(CommandHandler("emitir_ahora", comando_emitir_ahora))
     app.add_handler(CommandHandler("activar", comando_activar_manual))
     app.add_handler(CommandHandler("invitar", comando_invitar))
     app.add_handler(CommandHandler("referidos", comando_invitar))
@@ -432,6 +505,7 @@ async def main():
     server.router.add_get("/api/visita", handle_track_visit)
     server.router.add_post("/api/visita", handle_track_visit)
     server.router.add_route("OPTIONS", "/api/visita", handle_track_visit)
+    server.router.add_get("/api/stats", handle_stats_api)
     server.router.add_post("/webhook/stripe", handle_stripe_webhook)
 
     # Servir carpeta de assets estáticos (imágenes de oportunidades, fotos aéreas, logos)
