@@ -432,6 +432,52 @@ async def emitir_alertas_canales(app, forzar: bool = False) -> dict:
 
     return resultados
 
+async def ejecutar_auditoria_salud(app):
+    """Audita los 5 sistemas críticos en vivo y devuelve (todo_ok, mensaje_html)."""
+    import urllib.request
+    checks = []
+    todo_ok = True
+
+    def _chk(url):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "RadarAlertas-Bot/1.0"})
+            with urllib.request.urlopen(req, timeout=10) as r:
+                return True, r.status
+        except Exception as e:
+            return False, str(e)[:45]
+
+    for label, url in [
+        ("Web radaralertas.com", "https://radaralertas.com"),
+        ("Vercel Web Analytics", "https://radaralertas.com/_vercel/insights/script.js"),
+        ("Catálogo oportunidades.json", "https://radaralertas.com/data/oportunidades.json"),
+    ]:
+        ok, info = await asyncio.to_thread(_chk, url)
+        if not ok:
+            todo_ok = False
+        checks.append(f"{'🟢' if ok else '🔴'} <b>{label}</b>: {html_lib.escape(str(info))}")
+
+    v = obtener_metricas_visitas()
+    checks.append(f"🟢 <b>Contador visitas</b>: hoy={v['visitas_hoy']} | total={v['visitas_total']}")
+
+    canales_ok = 0
+    miembros_free = "?"
+    for idx, cid in enumerate([CANAL_FREE_ID, CANAL_VIP_ID, CANAL_VEHICULOS_ID, CANAL_AYUDAS_ID, CANAL_LICITACIONES_ID, CANAL_EMPLEO_ID]):
+        try:
+            await app.bot.get_chat(cid)
+            canales_ok += 1
+            if idx == 0:
+                miembros_free = await app.bot.get_chat_member_count(cid)
+        except Exception:
+            pass
+
+    if canales_ok < 6:
+        todo_ok = False
+    checks.append(
+        f"{'🟢' if canales_ok == 6 else '🔴'} <b>Canales Telegram</b>: {canales_ok}/6 conectados (Canal Free: {miembros_free} suscriptores)"
+    )
+
+    return todo_ok, "\n".join(checks)
+
 async def comando_salud(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Ejecuta un diagnóstico en vivo de todos los sistemas (Web, Vercel Analytics, Catálogo, Render y Canales)."""
     user = update.effective_user
@@ -440,41 +486,56 @@ async def comando_salud(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     await update.message.reply_text("🔍 Auditando todos los sistemas en vivo...")
-    import urllib.request
-    checks = []
-
-    def _chk(url):
-        try:
-            req = urllib.request.Request(url, headers={"User-Agent": "RadarAlertas-Bot/1.0"})
-            with urllib.request.urlopen(req, timeout=10) as r:
-                return True, r.status
-        except Exception as e:
-            return False, str(e)[:40]
-
-    for label, url in [
-        ("Web radaralertas.com", "https://radaralertas.com"),
-        ("Vercel Web Analytics", "https://radaralertas.com/_vercel/insights/script.js"),
-        ("Catálogo oportunidades.json", "https://radaralertas.com/data/oportunidades.json"),
-    ]:
-        ok, info = await asyncio.to_thread(_chk, url)
-        checks.append(f"{'🟢' if ok else '🔴'} <b>{label}</b>: {html_lib.escape(str(info))}")
-
-    v = obtener_metricas_visitas()
-    checks.append(f"🟢 <b>Contador visitas</b>: hoy={v['visitas_hoy']} | total={v['visitas_total']}")
-
-    canales_ok = 0
-    for cid in [CANAL_FREE_ID, CANAL_VIP_ID, CANAL_VEHICULOS_ID, CANAL_AYUDAS_ID, CANAL_LICITACIONES_ID, CANAL_EMPLEO_ID]:
-        try:
-            await context.bot.get_chat(cid)
-            canales_ok += 1
-        except Exception:
-            pass
-    checks.append(f"{'🟢' if canales_ok == 6 else '🟡'} <b>Canales Telegram</b>: {canales_ok}/6 conectados")
-
+    _, cuerpo = await ejecutar_auditoria_salud(context.application)
     await update.message.reply_text(
-        "🛡️ <b>ESTADO DEL SISTEMA RADARALERTAS</b>\n\n" + "\n".join(checks),
+        "🛡️ <b>ESTADO DEL SISTEMA RADARALERTAS</b>\n\n" + cuerpo,
         parse_mode="HTML"
     )
+
+async def tarea_vigilancia_salud(app):
+    """Vigila el sistema cada hora (alerta solo si algo falla) y envía 1 parte diario automático a las 09:05 AM Madrid."""
+    print("🛡️ Motor automático de vigilancia de salud 24/7 iniciado...")
+    await asyncio.sleep(90)
+    ultimo_chequeo_hora = 0.0
+    ultima_alerta_fallo = 0.0
+    while True:
+        try:
+            ahora_utc = datetime.utcnow()
+            ahora_ts = ahora_utc.timestamp()
+            fecha_clave = ahora_utc.strftime("%Y-%m-%d")
+
+            # 1. Parte matutino diario automático (08:05 - 08:25 UTC = 09:05 - 09:25 Madrid)
+            if ADMIN_ID and ahora_utc.hour == 8 and 5 <= ahora_utc.minute <= 25:
+                id_parte = f"SALUD-DIARIA-{fecha_clave}"
+                if not ya_fue_enviada(id_parte):
+                    todo_ok, cuerpo = await ejecutar_auditoria_salud(app)
+                    cab = "☀️ <b>PARTE DIARIO RADARALERTAS (09:05)</b>" if todo_ok else "⚠️ <b>PARTE DIARIO CON INCIDENCIAS</b>"
+                    await app.bot.send_message(
+                        chat_id=int(ADMIN_ID),
+                        text=f"{cab}\n\n{cuerpo}",
+                        parse_mode="HTML"
+                    )
+                    registrar_alerta_enviada(id_parte, "Parte diario salud", "OK" if todo_ok else "WARN")
+                    ultimo_chequeo_hora = ahora_ts
+
+            # 2. Vigilancia silenciosa cada hora: solo avisa si detecta un fallo
+            elif ADMIN_ID and (ahora_ts - ultimo_chequeo_hora) >= 3600:
+                ultimo_chequeo_hora = ahora_ts
+                todo_ok, cuerpo = await ejecutar_auditoria_salud(app)
+                if not todo_ok and (ahora_ts - ultima_alerta_fallo) >= 10800:
+                    await app.bot.send_message(
+                        chat_id=int(ADMIN_ID),
+                        text=f"🚨 <b>ALERTA AUTOMÁTICA: FALLO DETECTADO</b>\n\n{cuerpo}",
+                        parse_mode="HTML"
+                    )
+                    ultima_alerta_fallo = ahora_ts
+
+            await asyncio.sleep(600)  # Revisión ligera cada 10 minutos
+        except asyncio.CancelledError:
+            break
+        except Exception as e:
+            print(f"Error en tarea_vigilancia_salud: {e}")
+            await asyncio.sleep(1800)
 
 async def comando_emitir_ahora(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Permite al administrador forzar el envío de alertas diarias a todos los canales."""
@@ -540,10 +601,11 @@ async def main():
     await app.updater.start_polling(allowed_updates=Update.ALL_TYPES)
     print("✅ Bot de Telegram escuchando mensajes...")
 
-    # Lanzar tareas en segundo plano (retargeting, renovaciones y emisión diaria gratuita)
+    # Lanzar tareas en segundo plano (retargeting, renovaciones, emisión diaria y vigilancia de salud)
     asyncio.create_task(tarea_retargeting_periodica(app))
     asyncio.create_task(tarea_renovaciones_periodica(app))
     asyncio.create_task(tarea_publicar_chollo_diario(app))
+    asyncio.create_task(tarea_vigilancia_salud(app))
 
     # 2. Servidor web HTTP para la Landing Page, Webhook de Stripe y keep-alive en la nube
     puerto = int(os.getenv("PORT", 8080))
