@@ -5098,12 +5098,15 @@
             mapaInstancia.on('focus', () => { mapaInstancia.scrollWheelZoom.enable(); });
             mapaInstancia.on('blur', () => { mapaInstancia.scrollWheelZoom.disable(); });
 
-            // CartoDB Dark Matter tiles (Estilo Radar oscuro impecable)
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-                subdomains: 'abcd',
+            // OpenStreetMap Oficial (100% Gratuito, sin API Key) con estilo Radar oscuro vía CSS
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
                 maxZoom: 19
             }).addTo(mapaInstancia);
+            const tilePane = mapaInstancia.getPane('tilePane');
+            if (tilePane) {
+                tilePane.style.filter = 'invert(100%) hue-rotate(180deg) brightness(92%) contrast(90%)';
+            }
 
             marcadoresCapa = L.layerGroup().addTo(mapaInstancia);
         }
@@ -5171,9 +5174,15 @@
                                     <div class="map-popup-val-new">${item.precioBoe}</div>
                                 </div>
                             </div>
+                            ${(item.esGratis === true || item.desbloqueado === true) ? `
+                            <a href="${item.pdfMuestra || item.enlaceBoeReal || '#'}" ${item.desbloqueado ? 'download' : 'target="_blank"'} class="btn-popup-unlock" style="display:block; text-align:center; text-decoration:none; background:#059669;">
+                                📄 Ver Convocatoria Oficial (0 €)
+                            </a>
+                            ` : `
                             <button class="btn-popup-unlock" onclick="abrirModalDesbloqueo('${item.id}')">
-                                🔓 Desbloquear Expediente (2,90 €)
+                                🔓 Desbloquear Expediente • 1,00 €
                             </button>
+                            `}
                         </div>
                     </div>
                 `;
@@ -5942,9 +5951,12 @@
                 if (res.ok) {
                     const datos = await res.json();
                     if (Array.isArray(datos) && datos.length > 0) {
-                        OPORTUNIDADES = datos;
+                        const muestrasGratis = OPORTUNIDADES.filter(x => x.esGratis === true || x.desbloqueado === true);
+                        const idsGratis = new Set(muestrasGratis.map(x => x.id));
+                        const nuevosBoe = datos.filter(x => !idsGratis.has(x.id));
+                        OPORTUNIDADES = [...muestrasGratis, ...nuevosBoe];
                         filtrarOportunidades();
-                        console.log('✅ Catálogo dinámico cargado con éxito:', datos.length, 'oportunidades del BOE.');
+                        console.log('✅ Catálogo dinámico cargado con éxito:', OPORTUNIDADES.length, 'oportunidades (', muestrasGratis.length, 'muestras gratis preservadas).');
                     }
                 }
             } catch (err) {
