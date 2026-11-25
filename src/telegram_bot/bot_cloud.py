@@ -432,6 +432,50 @@ async def emitir_alertas_canales(app, forzar: bool = False) -> dict:
 
     return resultados
 
+async def comando_salud(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Ejecuta un diagnóstico en vivo de todos los sistemas (Web, Vercel Analytics, Catálogo, Render y Canales)."""
+    user = update.effective_user
+    if str(user.id) != str(ADMIN_ID):
+        await update.message.reply_text("⛔ Comando exclusivo para el administrador.")
+        return
+
+    await update.message.reply_text("🔍 Auditando todos los sistemas en vivo...")
+    import urllib.request
+    checks = []
+
+    def _chk(url):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "RadarAlertas-Bot/1.0"})
+            with urllib.request.urlopen(req, timeout=10) as r:
+                return True, r.status
+        except Exception as e:
+            return False, str(e)[:40]
+
+    for label, url in [
+        ("Web radaralertas.com", "https://radaralertas.com"),
+        ("Vercel Web Analytics", "https://radaralertas.com/_vercel/insights/script.js"),
+        ("Catálogo oportunidades.json", "https://radaralertas.com/data/oportunidades.json"),
+    ]:
+        ok, info = await asyncio.to_thread(_chk, url)
+        checks.append(f"{'🟢' if ok else '🔴'} <b>{label}</b>: {html_lib.escape(str(info))}")
+
+    v = obtener_metricas_visitas()
+    checks.append(f"🟢 <b>Contador visitas</b>: hoy={v['visitas_hoy']} | total={v['visitas_total']}")
+
+    canales_ok = 0
+    for cid in [CANAL_FREE_ID, CANAL_VIP_ID, CANAL_VEHICULOS_ID, CANAL_AYUDAS_ID, CANAL_LICITACIONES_ID, CANAL_EMPLEO_ID]:
+        try:
+            await context.bot.get_chat(cid)
+            canales_ok += 1
+        except Exception:
+            pass
+    checks.append(f"{'🟢' if canales_ok == 6 else '🟡'} <b>Canales Telegram</b>: {canales_ok}/6 conectados")
+
+    await update.message.reply_text(
+        "🛡️ <b>ESTADO DEL SISTEMA RADARALERTAS</b>\n\n" + "\n".join(checks),
+        parse_mode="HTML"
+    )
+
 async def comando_emitir_ahora(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Permite al administrador forzar el envío de alertas diarias a todos los canales."""
     user = update.effective_user
@@ -477,6 +521,7 @@ async def main():
     app.add_handler(CommandHandler("app", comando_web))
     app.add_handler(CommandHandler("calculadora", comando_web))
     app.add_handler(CommandHandler("stats", comando_stats))
+    app.add_handler(CommandHandler("salud", comando_salud))
     app.add_handler(CommandHandler("emitir_ahora", comando_emitir_ahora))
     app.add_handler(CommandHandler("activar", comando_activar_manual))
     app.add_handler(CommandHandler("invitar", comando_invitar))
