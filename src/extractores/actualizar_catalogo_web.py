@@ -307,7 +307,7 @@ def compilar_catalogo_web():
                     "tag": "SUBVENCIÓN PÚBLICA",
                     "tagClass": "tag-ayuda",
                     "expedienteReal": f"BDNS-{num_conv}",
-                    "enlaceBoeReal": f"https://www.infosubvenciones.es/bdnstrans/GE/es/convocatoria/{num_conv}",
+                    "enlaceBoeReal": f"https://www.infosubvenciones.es/bdnstrans/GE/es/convocatorias/{num_conv}",
                     "desbloqueado": False,
                     "lat": round(lat, 4),
                     "lng": round(lng, 4)
