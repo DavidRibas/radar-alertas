@@ -213,6 +213,20 @@
     <script>
         (function() {
             try {
+                const tipoCompra = localStorage.getItem('radar_tipo_compra') || 'SINGLE';
+                if (tipoCompra === 'PRO') {
+                    localStorage.setItem('radar_pro_activo', 'true');
+                    document.querySelector('h1').textContent = '⭐ ¡Suscripción Plan PRO Activada!';
+                    document.querySelector('p.subtitle').textContent = 'Todos los expedientes del catálogo web han quedado desbloqueados en tu navegador y ya tienes acceso a tus canales de alertas.';
+                    const box = document.getElementById('expedienteDesbloqueadoBox');
+                    box.style.display = 'block';
+                    box.innerHTML = `
+                        <div style="font-size: 11px; color: #fbbf24; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">⭐ ACCESO PRO ILIMITADO ACTIVO</div>
+                        <div style="font-size: 14px; font-weight: 800; color: #ffffff; margin-bottom: 6px;">✓ 100% de los expedientes del catálogo web desbloqueados (0 €)</div>
+                        <div style="font-size: 12px; color: #cbd5e1; margin-bottom: 10px;">Al volver a RadarAlertas verás todos los botones en verde con acceso directo al BOE.</div>
+                        <a href="https://t.me/RadarAletasSubastas_bot?start=pro_web" target="_blank" style="display:block; text-align:center; padding:10px; border-radius:8px; background:#2563eb; color:#fff; text-decoration:none; font-weight:800; font-size:13px;">🤖 Activar Mis 5 Canales VIP en el Bot de Telegram ↗</a>
+                    `;
+                }
                 const raw = localStorage.getItem('radar_ultimo_expediente');
                 if (!raw) return;
                 const exp = JSON.parse(raw);

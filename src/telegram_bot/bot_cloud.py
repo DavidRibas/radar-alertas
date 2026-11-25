@@ -137,9 +137,16 @@ async def handle_stripe_webhook(request):
             currency = session.get("currency", "eur").upper()
             session_id = session.get("id", "")
 
-            # Identificar si es Pack Total (4,99 €) o Individual (2,99 €)
+            # Identificar plan según importe real: Anual (69 €), PRO Mensual (9,90 €) o Desbloqueo Puntual (1,00 €)
+            es_anual = amount_total >= 50.0
             es_pack_total = amount_total >= 4.0
-            plan_nombre = "Pack Total VIP" if es_pack_total else "Canal VIP Individual"
+            dias_suscripcion = 365 if es_anual else 30
+            if es_anual:
+                plan_nombre = "Plan PRO Anual (69 €/año)"
+            elif es_pack_total:
+                plan_nombre = "Plan PRO Mensual (9,90 €/mes)"
+            else:
+                plan_nombre = "Desbloqueo Expediente (1,00 €)"
 
             uid_int = int(client_ref) if client_ref and str(client_ref).isdigit() else None
 
@@ -148,7 +155,7 @@ async def handle_stripe_webhook(request):
 
             # 2. Si tenemos el ID de Telegram del usuario, activar y entregar accesos automáticamente
             if uid_int and app_instance:
-                activar_suscripcion_vip(uid_int, plan=plan_nombre, dias=30)
+                activar_suscripcion_vip(uid_int, plan=plan_nombre, dias=dias_suscripcion)
 
                 botones_canales = []
                 canales_a_entregar = [
@@ -232,7 +239,7 @@ async def tarea_retargeting_periodica(app):
                     "Si quieres recibir los expedientes completos con referencias catastrales, matrículas y enlaces judiciales directos:"
                 )
                 teclado = [
-                    [InlineKeyboardButton("⭐ Desbloquear Canales VIP (2,99 €/mes)", callback_data="pagar_vip")],
+                    [InlineKeyboardButton("⭐ Activar Plan PRO (9,90 €/mes)", callback_data="pagar_vip")],
                     [InlineKeyboardButton("📢 Ver Alertas en Directo (Gratis)", url=CANAL_FREE_LINK)]
                 ]
                 try:
