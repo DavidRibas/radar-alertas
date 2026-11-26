@@ -1,31 +1,5 @@
 [
   {
-    "id": "INM-SUB-JA-2026-267737",
-    "tipo": "inmueble",
-    "provincia": "madrid",
-    "titulo": "Inmueble en Madrid (28041)",
-    "ubicacion": "Madrid • Madrid",
-    "specs": [
-      "Fianza: 11.548 €",
-      "Tasación: 230.958 €",
-      "Subasta Judicial BOE",
-      "Cargas Art. 674 LEC: 0 €"
-    ],
-    "precioMercado": "230.958 €",
-    "precioBoe": "69.287 €",
-    "ahorro": "-70% DESCUENTO",
-    "legal": "Cargas: 0,00 € (Canceladas Art. 674 LEC) • Libre de deudas",
-    "img": "assets/templates/inmueble_madrid_residencial.jpg",
-    "badgeVisual": "🏢 RESIDENCIAL MADRID",
-    "tag": "SUBASTA JUDICIAL BOE",
-    "tagClass": "tag-boe",
-    "expedienteReal": "SUB-JA-2026-267737",
-    "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JA-2026-267737&ver=1",
-    "desbloqueado": false,
-    "lat": 40.4131,
-    "lng": -3.7345
-  },
-  {
     "id": "INM-SUB-JA-2026-259416",
     "tipo": "inmueble",
     "provincia": "madrid",
@@ -48,86 +22,112 @@
     "expedienteReal": "SUB-JA-2026-259416",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JA-2026-259416&ver=1",
     "desbloqueado": false,
-    "lat": 40.4193,
-    "lng": -3.6864
+    "lat": 40.449,
+    "lng": -3.6743
   },
   {
-    "id": "INM-SUB-JA-2026-258370",
+    "id": "INM-SUB-JA-2026-266962",
     "tipo": "inmueble",
-    "provincia": "barcelona",
-    "titulo": "Inmueble en MARTORELLES (08107)",
-    "ubicacion": "Barcelona • MARTORELLES",
+    "provincia": "madrid",
+    "titulo": "Inmueble en TORREJON DE ARDOZ (28850)",
+    "ubicacion": "Madrid • TORREJON DE ARDOZ",
     "specs": [
-      "Fianza: 32.775 €",
-      "Tasación: 655.499 €",
+      "Fianza: 14.500 €",
+      "Tasación: 290.000 €",
       "Subasta Judicial BOE",
       "Cargas Art. 674 LEC: 0 €"
     ],
-    "precioMercado": "655.499 €",
-    "precioBoe": "196.650 €",
+    "precioMercado": "290.000 €",
+    "precioBoe": "87.000 €",
     "ahorro": "-70% DESCUENTO",
+    "legal": "Cargas: 0,00 € (Canceladas Art. 674 LEC) • Libre de deudas",
+    "img": "assets/templates/inmueble_madrid_residencial.jpg",
+    "badgeVisual": "🏢 RESIDENCIAL MADRID",
+    "tag": "SUBASTA JUDICIAL BOE",
+    "tagClass": "tag-boe",
+    "expedienteReal": "SUB-JA-2026-266962",
+    "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JA-2026-266962&ver=1",
+    "desbloqueado": false,
+    "lat": 40.3804,
+    "lng": -3.7315
+  },
+  {
+    "id": "INM-SUB-AT-2026-26R0886001343",
+    "tipo": "inmueble",
+    "provincia": "barcelona",
+    "titulo": "Inmueble en MEDIONA (08773)",
+    "ubicacion": "Barcelona • MEDIONA",
+    "specs": [
+      "Fianza: 2.370 €",
+      "Tasación: 79.000 €",
+      "Subasta Judicial BOE",
+      "Cargas Art. 674 LEC: 0 €"
+    ],
+    "precioMercado": "79.000 €",
+    "precioBoe": "4.740 €",
+    "ahorro": "-94% DESCUENTO",
     "legal": "Cargas: 0,00 € (Canceladas Art. 674 LEC) • Libre de deudas",
     "img": "assets/templates/inmueble_eixample_bcn.jpg",
     "badgeVisual": "🏛️ DISTRITO EIXAMPLE",
     "tag": "SUBASTA JUDICIAL BOE",
     "tagClass": "tag-boe",
-    "expedienteReal": "SUB-JA-2026-258370",
-    "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JA-2026-258370&ver=1",
+    "expedienteReal": "SUB-AT-2026-26R0886001343",
+    "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R0886001343&ver=1",
     "desbloqueado": false,
-    "lat": 41.4034,
-    "lng": 2.1611
+    "lat": 41.3529,
+    "lng": 2.2029
   },
   {
-    "id": "INM-SUB-JA-2026-266957",
+    "id": "INM-SUB-AT-2026-25R0886001571",
     "tipo": "inmueble",
     "provincia": "barcelona",
-    "titulo": "Inmueble en Barcelona (08015)",
-    "ubicacion": "Barcelona • Barcelona",
+    "titulo": "Inmueble en MEDIONA (08773)",
+    "ubicacion": "Barcelona • MEDIONA",
     "specs": [
-      "Fianza: 34.324 €",
-      "Tasación: 686.473 €",
+      "Fianza: 7.126 €",
+      "Tasación: 178.154 €",
       "Subasta Judicial BOE",
       "Cargas Art. 674 LEC: 0 €"
     ],
-    "precioMercado": "686.473 €",
-    "precioBoe": "205.942 €",
-    "ahorro": "-70% DESCUENTO",
+    "precioMercado": "178.154 €",
+    "precioBoe": "14.252 €",
+    "ahorro": "-92% DESCUENTO",
     "legal": "Cargas: 0,00 € (Canceladas Art. 674 LEC) • Libre de deudas",
     "img": "assets/templates/inmueble_eixample_bcn.jpg",
     "badgeVisual": "🏛️ DISTRITO EIXAMPLE",
     "tag": "SUBASTA JUDICIAL BOE",
     "tagClass": "tag-boe",
-    "expedienteReal": "SUB-JA-2026-266957",
-    "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JA-2026-266957&ver=1",
+    "expedienteReal": "SUB-AT-2026-25R0886001571",
+    "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-25R0886001571&ver=1",
     "desbloqueado": false,
-    "lat": 41.4078,
-    "lng": 2.1489
+    "lat": 41.3497,
+    "lng": 2.1845
   },
   {
-    "id": "INM-SUB-JA-2026-267200",
+    "id": "INM-SUB-AT-2026-26R4686001379",
     "tipo": "inmueble",
     "provincia": "valencia",
-    "titulo": "Inmueble en CARLET (46240)",
-    "ubicacion": "Valencia • CARLET",
+    "titulo": "Inmueble en GANDIA (46701)",
+    "ubicacion": "Valencia • GANDIA",
     "specs": [
-      "Fianza: 5.885 €",
-      "Tasación: 117.693 €",
+      "Fianza: 2.681 €",
+      "Tasación: 53.629 €",
       "Subasta Judicial BOE",
       "Cargas Art. 674 LEC: 0 €"
     ],
-    "precioMercado": "117.693 €",
-    "precioBoe": "35.308 €",
-    "ahorro": "-70% DESCUENTO",
+    "precioMercado": "53.629 €",
+    "precioBoe": "5.363 €",
+    "ahorro": "-90% DESCUENTO",
     "legal": "Cargas: 0,00 € (Canceladas Art. 674 LEC) • Libre de deudas",
     "img": "assets/templates/inmueble_valencia_edificio.jpg",
     "badgeVisual": "🏢 RESIDENCIAL MEDITERRÁNEO",
     "tag": "SUBASTA JUDICIAL BOE",
     "tagClass": "tag-boe",
-    "expedienteReal": "SUB-JA-2026-267200",
-    "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JA-2026-267200&ver=1",
+    "expedienteReal": "SUB-AT-2026-26R4686001379",
+    "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R4686001379&ver=1",
     "desbloqueado": false,
-    "lat": 39.5007,
-    "lng": -0.4139
+    "lat": 39.4311,
+    "lng": -0.3971
   },
   {
     "id": "INM-SUB-JA-2026-267245",
@@ -152,34 +152,8 @@
     "expedienteReal": "SUB-JA-2026-267245",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JA-2026-267245&ver=1",
     "desbloqueado": false,
-    "lat": 39.4665,
-    "lng": -0.3921
-  },
-  {
-    "id": "INM-SUB-JA-2026-263908",
-    "tipo": "inmueble",
-    "provincia": "sevilla",
-    "titulo": "Inmueble en sevilla (41020)",
-    "ubicacion": "Sevilla • sevilla",
-    "specs": [
-      "Fianza: 4.518 €",
-      "Tasación: 90.353 €",
-      "Subasta Judicial BOE",
-      "Cargas Art. 674 LEC: 0 €"
-    ],
-    "precioMercado": "90.353 €",
-    "precioBoe": "27.106 €",
-    "ahorro": "-70% DESCUENTO",
-    "legal": "Cargas: 0,00 € (Canceladas Art. 674 LEC) • Libre de deudas",
-    "img": "assets/templates/inmueble_chalet_piscina.jpg",
-    "badgeVisual": "🏡 CHALET CON PISCINA",
-    "tag": "SUBASTA JUDICIAL BOE",
-    "tagClass": "tag-boe",
-    "expedienteReal": "SUB-JA-2026-263908",
-    "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JA-2026-263908&ver=1",
-    "desbloqueado": false,
-    "lat": 37.4281,
-    "lng": -5.9461
+    "lat": 39.4616,
+    "lng": -0.4038
   },
   {
     "id": "INM-SUB-JA-2026-257246",
@@ -204,34 +178,34 @@
     "expedienteReal": "SUB-JA-2026-257246",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JA-2026-257246&ver=1",
     "desbloqueado": false,
-    "lat": 37.4261,
-    "lng": -6.02
+    "lat": 37.4236,
+    "lng": -5.9875
   },
   {
-    "id": "VEH-SUB-RC-2026-2873000126007",
-    "tipo": "vehiculo",
-    "provincia": "madrid",
-    "titulo": "KIA CARNIVAL",
-    "ubicacion": "Depósito Judicial • Disponible para puja",
+    "id": "INM-SUB-JA-2026-260384",
+    "tipo": "inmueble",
+    "provincia": "sevilla",
+    "titulo": "Inmueble en UTRERA (41710)",
+    "ubicacion": "Sevilla • UTRERA",
     "specs": [
-      "Ficha Técnica Verificada",
-      "Fianza: 230 €",
-      "Subasta Judicial Oficial",
-      "Mandamiento Levantamiento Precintos"
+      "Fianza: 4.809 €",
+      "Tasación: 96.176 €",
+      "Subasta Judicial BOE",
+      "Cargas Art. 674 LEC: 0 €"
     ],
-    "precioMercado": "2.300 €",
-    "precioBoe": "230 €",
-    "ahorro": "-90% DESCUENTO",
-    "legal": "DGT: 0,00 € • Precintos y multas canceladas por Mandamiento Judicial",
-    "img": "assets/templates/vehiculo_coche_oficial.jpg",
-    "badgeVisual": "🚗 VEHÍCULO JUDICIAL",
-    "tag": "DGT / EMBARGO",
-    "tagClass": "tag-dgt",
-    "expedienteReal": "SUB-RC-2026-2873000126007",
-    "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-RC-2026-2873000126007&ver=1",
+    "precioMercado": "96.176 €",
+    "precioBoe": "28.853 €",
+    "ahorro": "-70% DESCUENTO",
+    "legal": "Cargas: 0,00 € (Canceladas Art. 674 LEC) • Libre de deudas",
+    "img": "assets/templates/inmueble_chalet_piscina.jpg",
+    "badgeVisual": "🏡 CHALET CON PISCINA",
+    "tag": "SUBASTA JUDICIAL BOE",
+    "tagClass": "tag-boe",
+    "expedienteReal": "SUB-JA-2026-260384",
+    "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JA-2026-260384&ver=1",
     "desbloqueado": false,
-    "lat": 40.4586,
-    "lng": -3.7576
+    "lat": 37.3867,
+    "lng": -5.9469
   },
   {
     "id": "VEH-SUB-AT-2026-26R3086002032",
@@ -256,34 +230,34 @@
     "expedienteReal": "SUB-AT-2026-26R3086002032",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R3086002032&ver=1",
     "desbloqueado": false,
-    "lat": 40.3822,
-    "lng": -3.711
+    "lat": 40.3739,
+    "lng": -3.6613
   },
   {
-    "id": "VEH-SUB-RC-2026-2873000126006",
+    "id": "VEH-SUB-JV-2026-268462",
     "tipo": "vehiculo",
     "provincia": "madrid",
-    "titulo": "RENAULT MEGANE",
+    "titulo": "MANITOU MRT",
     "ubicacion": "Depósito Judicial • Disponible para puja",
     "specs": [
       "Ficha Técnica Verificada",
-      "Fianza: 143 €",
+      "Fianza: 150 €",
       "Subasta Judicial Oficial",
       "Mandamiento Levantamiento Precintos"
     ],
-    "precioMercado": "1.430 €",
-    "precioBoe": "143 €",
-    "ahorro": "-90% DESCUENTO",
+    "precioMercado": "3.000 €",
+    "precioBoe": "500 €",
+    "ahorro": "-83% DESCUENTO",
     "legal": "DGT: 0,00 € • Precintos y multas canceladas por Mandamiento Judicial",
     "img": "assets/templates/vehiculo_coche_oficial.jpg",
     "badgeVisual": "🚗 VEHÍCULO JUDICIAL",
     "tag": "DGT / EMBARGO",
     "tagClass": "tag-dgt",
-    "expedienteReal": "SUB-RC-2026-2873000126006",
-    "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-RC-2026-2873000126006&ver=1",
+    "expedienteReal": "SUB-JV-2026-268462",
+    "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JV-2026-268462&ver=1",
     "desbloqueado": false,
-    "lat": 40.4271,
-    "lng": -3.6515
+    "lat": 40.4221,
+    "lng": -3.7619
   },
   {
     "id": "VEH-SUB-JA-2026-265587",
@@ -308,8 +282,34 @@
     "expedienteReal": "SUB-JA-2026-265587",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JA-2026-265587&ver=1",
     "desbloqueado": false,
-    "lat": 40.4358,
-    "lng": -3.7625
+    "lat": 40.3872,
+    "lng": -3.6643
+  },
+  {
+    "id": "VEH-SUB-JA-2026-268628",
+    "tipo": "vehiculo",
+    "provincia": "madrid",
+    "titulo": "MERCEDES",
+    "ubicacion": "Depósito Judicial • Disponible para puja",
+    "specs": [
+      "Ficha Técnica Verificada",
+      "Fianza: 135 €",
+      "Subasta Judicial Oficial",
+      "Mandamiento Levantamiento Precintos"
+    ],
+    "precioMercado": "2.700 €",
+    "precioBoe": "1.350 €",
+    "ahorro": "-50% DESCUENTO",
+    "legal": "DGT: 0,00 € • Precintos y multas canceladas por Mandamiento Judicial",
+    "img": "assets/templates/coche_mercedes_b200.jpg",
+    "badgeVisual": "⭐ MERCEDES-BENZ",
+    "tag": "DGT / EMBARGO",
+    "tagClass": "tag-dgt",
+    "expedienteReal": "SUB-JA-2026-268628",
+    "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JA-2026-268628&ver=1",
+    "desbloqueado": false,
+    "lat": 40.3696,
+    "lng": -3.6497
   },
   {
     "id": "EMP-BOE-A-2026-24836",
@@ -334,8 +334,8 @@
     "expedienteReal": "BOE-A-2026-24836",
     "enlaceBoeReal": "https://www.boe.es/boe/dias/2026/11/26/pdfs/BOE-A-2026-24836.pdf",
     "desbloqueado": false,
-    "lat": 40.445,
-    "lng": -3.7192
+    "lat": 40.4088,
+    "lng": -3.6777
   },
   {
     "id": "EMP-BOE-A-2026-24837",
@@ -360,8 +360,8 @@
     "expedienteReal": "BOE-A-2026-24837",
     "enlaceBoeReal": "https://www.boe.es/boe/dias/2026/11/26/pdfs/BOE-A-2026-24837.pdf",
     "desbloqueado": false,
-    "lat": 40.4387,
-    "lng": -3.7337
+    "lat": 40.3921,
+    "lng": -3.7219
   },
   {
     "id": "EMP-BOE-A-2026-24838",
@@ -386,8 +386,8 @@
     "expedienteReal": "BOE-A-2026-24838",
     "enlaceBoeReal": "https://www.boe.es/boe/dias/2026/11/26/pdfs/BOE-A-2026-24838.pdf",
     "desbloqueado": false,
-    "lat": 40.3934,
-    "lng": -3.7233
+    "lat": 40.3882,
+    "lng": -3.7104
   },
   {
     "id": "LIC-BOE-B-2026-38922",
@@ -412,8 +412,8 @@
     "expedienteReal": "BOE-B-2026-38922",
     "enlaceBoeReal": "https://www.boe.es/boe/dias/2026/11/26/pdfs/BOE-B-2026-38922.pdf",
     "desbloqueado": false,
-    "lat": 40.4396,
-    "lng": -3.6883
+    "lat": 40.4274,
+    "lng": -3.6869
   },
   {
     "id": "LIC-BOE-B-2026-38926",
@@ -438,8 +438,8 @@
     "expedienteReal": "BOE-B-2026-38926",
     "enlaceBoeReal": "https://www.boe.es/boe/dias/2026/11/26/pdfs/BOE-B-2026-38926.pdf",
     "desbloqueado": false,
-    "lat": 40.4366,
-    "lng": -3.6824
+    "lat": 40.3974,
+    "lng": -3.7254
   },
   {
     "id": "LIC-BOE-B-2026-38927",
@@ -464,8 +464,8 @@
     "expedienteReal": "BOE-B-2026-38927",
     "enlaceBoeReal": "https://www.boe.es/boe/dias/2026/11/26/pdfs/BOE-B-2026-38927.pdf",
     "desbloqueado": false,
-    "lat": 40.4354,
-    "lng": -3.719
+    "lat": 40.4489,
+    "lng": -3.6879
   },
   {
     "id": "AYU-BDNS-945145",
@@ -490,8 +490,8 @@
     "expedienteReal": "BDNS-945145",
     "enlaceBoeReal": "https://www.infosubvenciones.es/bdnstrans/GE/es/convocatorias/945145",
     "desbloqueado": false,
-    "lat": 40.4199,
-    "lng": -3.6777
+    "lat": 40.3927,
+    "lng": -3.7113
   },
   {
     "id": "AYU-BDNS-945144",
@@ -516,8 +516,8 @@
     "expedienteReal": "BDNS-945144",
     "enlaceBoeReal": "https://www.infosubvenciones.es/bdnstrans/GE/es/convocatorias/945144",
     "desbloqueado": false,
-    "lat": 40.423,
-    "lng": -3.7019
+    "lat": 40.4034,
+    "lng": -3.6723
   },
   {
     "id": "AYU-BDNS-945143",
@@ -542,8 +542,8 @@
     "expedienteReal": "BDNS-945143",
     "enlaceBoeReal": "https://www.infosubvenciones.es/bdnstrans/GE/es/convocatorias/945143",
     "desbloqueado": false,
-    "lat": 40.4305,
-    "lng": -3.7303
+    "lat": 40.3919,
+    "lng": -3.6755
   },
   {
     "id": "EMP-EXTERIORES-01",
