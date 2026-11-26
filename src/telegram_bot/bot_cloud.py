@@ -63,11 +63,13 @@ app_instance = None
 
 async def handle_ping(request):
     """Endpoint de salud para que la nube y UptimeRobot sepan que el servicio está activo."""
+    polling_ok = bool(app_instance and getattr(app_instance, "updater", None) and app_instance.updater.running)
     return web.json_response({
         "status": "online",
         "service": "RadarAlertas Telegram Bot 24/7",
-        "version": "v2.9-multicanal",
-        "bot": "@RadarAletasSubastas_bot"
+        "version": "v3.0-shield",
+        "bot": "@RadarAletasSubastas_bot",
+        "polling_active": polling_ok
     })
 
 async def handle_track_visit(request):
@@ -574,6 +576,31 @@ async def tarea_publicar_chollo_diario(app):
             print(f"Error en tarea_publicar_chollo_diario: {e}")
             await asyncio.sleep(1800)
 
+async def tarea_mantener_polling_telegram(app):
+    """Mantiene vivo el bucle de escucha de Telegram y lo auto-reconecta tras un 502 de Telegram o solapamiento de despliegue en Render."""
+    print("⏳ Esperando 10s tras abrir puerto HTTP para que Render cierre el contenedor anterior...")
+    await asyncio.sleep(10)
+    inicializado = False
+    while True:
+        try:
+            if not inicializado:
+                await app.initialize()
+                await app.start()
+                inicializado = True
+            if not app.updater.running:
+                print("🔌 Conectando / Reconectando polling con api.telegram.org...")
+                await app.updater.start_polling(
+                    allowed_updates=Update.ALL_TYPES,
+                    bootstrap_retries=-1,
+                    drop_pending_updates=False,
+                )
+                print("✅ Bot de Telegram escuchando mensajes activamente (v3.0-shield)...")
+        except asyncio.CancelledError:
+            break
+        except Exception as e:
+            print(f"⚠️ Error en polling Telegram (reintentando en 15s): {e}")
+        await asyncio.sleep(15)
+
 async def main():
     inicializar_bd()
 
@@ -581,11 +608,11 @@ async def main():
         print("❌ Error: TELEGRAM_BOT_TOKEN no configurado en variables de entorno.")
         return
 
-    print("🚀 Iniciando Bot Telegram RadarAlertas en modo Nube 24/7...")
+    print("🚀 Iniciando Bot Telegram RadarAlertas en modo Nube 24/7 (v3.0-shield)...")
 
     # 1. Configurar aplicación Telegram
     global app_instance
-    app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
+    app = ApplicationBuilder().token(TELEGRAM_TOKEN).connect_timeout(15.0).read_timeout(20.0).build()
     app_instance = app
 
     app.add_handler(CommandHandler("start", comando_start))
@@ -603,18 +630,7 @@ async def main():
     app.add_handler(ChatMemberHandler(manejar_chat_member, ChatMemberHandler.MY_CHAT_MEMBER))
     app.add_handler(MessageHandler(filters.ALL, manejar_mensaje_general))
 
-    await app.initialize()
-    await app.start()
-    await app.updater.start_polling(allowed_updates=Update.ALL_TYPES)
-    print("✅ Bot de Telegram escuchando mensajes...")
-
-    # Lanzar tareas en segundo plano (retargeting, renovaciones, emisión diaria y vigilancia de salud)
-    asyncio.create_task(tarea_retargeting_periodica(app))
-    asyncio.create_task(tarea_renovaciones_periodica(app))
-    asyncio.create_task(tarea_publicar_chollo_diario(app))
-    asyncio.create_task(tarea_vigilancia_salud(app))
-
-    # 2. Servidor web HTTP para la Landing Page, Webhook de Stripe y keep-alive en la nube
+    # 2. Arrancar PRIMERO el servidor web HTTP para que Render pase el health-check al instante y cierre el contenedor antiguo sin conflicto
     puerto = int(os.getenv("PORT", 8080))
     server = web.Application()
     server.router.add_get("/", handle_landing_page)
@@ -627,7 +643,6 @@ async def main():
     server.router.add_get("/api/stats", handle_stats_api)
     server.router.add_post("/webhook/stripe", handle_stripe_webhook)
 
-    # Servir carpeta de assets estáticos (imágenes de oportunidades, fotos aéreas, logos)
     assets_dir = Path(__file__).resolve().parent.parent.parent / "assets"
     if assets_dir.exists():
         server.router.add_static("/assets", path=str(assets_dir), name="assets")
@@ -637,6 +652,13 @@ async def main():
     site = web.TCPSite(runner, "0.0.0.0", puerto)
     await site.start()
     print(f"🌍 Servidor Web de salud activo en http://0.0.0.0:{puerto}")
+
+    # 3. Lanzar motor de auto-reconexión de Telegram y tareas en segundo plano
+    asyncio.create_task(tarea_mantener_polling_telegram(app))
+    asyncio.create_task(tarea_retargeting_periodica(app))
+    asyncio.create_task(tarea_renovaciones_periodica(app))
+    asyncio.create_task(tarea_publicar_chollo_diario(app))
+    asyncio.create_task(tarea_vigilancia_salud(app))
 
     try:
         # Mantener en ejecución indefinida
