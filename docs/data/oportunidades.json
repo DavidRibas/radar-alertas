@@ -22,8 +22,8 @@
     "expedienteReal": "SUB-JA-2026-259416",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JA-2026-259416&ver=1",
     "desbloqueado": false,
-    "lat": 40.449,
-    "lng": -3.6743
+    "lat": 40.4298,
+    "lng": -3.6777
   },
   {
     "id": "INM-SUB-JA-2026-266962",
@@ -48,8 +48,8 @@
     "expedienteReal": "SUB-JA-2026-266962",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JA-2026-266962&ver=1",
     "desbloqueado": false,
-    "lat": 40.3804,
-    "lng": -3.7315
+    "lat": 40.3851,
+    "lng": -3.6755
   },
   {
     "id": "INM-SUB-AT-2026-26R0886001343",
@@ -74,8 +74,8 @@
     "expedienteReal": "SUB-AT-2026-26R0886001343",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R0886001343&ver=1",
     "desbloqueado": false,
-    "lat": 41.3529,
-    "lng": 2.2029
+    "lat": 41.4277,
+    "lng": 2.1336
   },
   {
     "id": "INM-SUB-AT-2026-25R0886001571",
@@ -100,8 +100,8 @@
     "expedienteReal": "SUB-AT-2026-25R0886001571",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-25R0886001571&ver=1",
     "desbloqueado": false,
-    "lat": 41.3497,
-    "lng": 2.1845
+    "lat": 41.4142,
+    "lng": 2.1901
   },
   {
     "id": "INM-SUB-AT-2026-26R4686001379",
@@ -126,34 +126,34 @@
     "expedienteReal": "SUB-AT-2026-26R4686001379",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R4686001379&ver=1",
     "desbloqueado": false,
-    "lat": 39.4311,
-    "lng": -0.3971
+    "lat": 39.4346,
+    "lng": -0.372
   },
   {
-    "id": "INM-SUB-JA-2026-267245",
+    "id": "INM-SUB-JA-2023-219233",
     "tipo": "inmueble",
     "provincia": "valencia",
-    "titulo": "Inmueble en PAIPORTA (46200)",
-    "ubicacion": "Valencia • PAIPORTA",
+    "titulo": "Inmueble en ALCÀSSER (46290)",
+    "ubicacion": "Valencia • ALCÀSSER",
     "specs": [
-      "Fianza: 7.004 €",
-      "Tasación: 140.073 €",
+      "Fianza: 4.561 €",
+      "Tasación: 91.213 €",
       "Subasta Judicial BOE",
       "Cargas Art. 674 LEC: 0 €"
     ],
-    "precioMercado": "140.073 €",
-    "precioBoe": "42.022 €",
+    "precioMercado": "91.213 €",
+    "precioBoe": "27.364 €",
     "ahorro": "-70% DESCUENTO",
     "legal": "Cargas: 0,00 € (Canceladas Art. 674 LEC) • Libre de deudas",
     "img": "assets/templates/inmueble_valencia_edificio.jpg",
     "badgeVisual": "🏢 RESIDENCIAL MEDITERRÁNEO",
     "tag": "SUBASTA JUDICIAL BOE",
     "tagClass": "tag-boe",
-    "expedienteReal": "SUB-JA-2026-267245",
-    "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JA-2026-267245&ver=1",
+    "expedienteReal": "SUB-JA-2023-219233",
+    "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JA-2023-219233&ver=1",
     "desbloqueado": false,
-    "lat": 39.4616,
-    "lng": -0.4038
+    "lat": 39.4622,
+    "lng": -0.3762
   },
   {
     "id": "INM-SUB-JA-2026-257246",
@@ -178,8 +178,8 @@
     "expedienteReal": "SUB-JA-2026-257246",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JA-2026-257246&ver=1",
     "desbloqueado": false,
-    "lat": 37.4236,
-    "lng": -5.9875
+    "lat": 37.4216,
+    "lng": -5.9638
   },
   {
     "id": "INM-SUB-JA-2026-260384",
@@ -204,8 +204,8 @@
     "expedienteReal": "SUB-JA-2026-260384",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JA-2026-260384&ver=1",
     "desbloqueado": false,
-    "lat": 37.3867,
-    "lng": -5.9469
+    "lat": 37.421,
+    "lng": -5.9575
   },
   {
     "id": "VEH-SUB-AT-2026-26R3086002032",
@@ -230,8 +230,8 @@
     "expedienteReal": "SUB-AT-2026-26R3086002032",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-AT-2026-26R3086002032&ver=1",
     "desbloqueado": false,
-    "lat": 40.3739,
-    "lng": -3.6613
+    "lat": 40.3927,
+    "lng": -3.6501
   },
   {
     "id": "VEH-SUB-JV-2026-268462",
@@ -256,8 +256,8 @@
     "expedienteReal": "SUB-JV-2026-268462",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JV-2026-268462&ver=1",
     "desbloqueado": false,
-    "lat": 40.4221,
-    "lng": -3.7619
+    "lat": 40.4063,
+    "lng": -3.6792
   },
   {
     "id": "VEH-SUB-JA-2026-265587",
@@ -282,8 +282,8 @@
     "expedienteReal": "SUB-JA-2026-265587",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JA-2026-265587&ver=1",
     "desbloqueado": false,
-    "lat": 40.3872,
-    "lng": -3.6643
+    "lat": 40.3937,
+    "lng": -3.6891
   },
   {
     "id": "VEH-SUB-JA-2026-268628",
@@ -308,15 +308,15 @@
     "expedienteReal": "SUB-JA-2026-268628",
     "enlaceBoeReal": "https://subastas.boe.es/detalleSubasta.php?idSub=SUB-JA-2026-268628&ver=1",
     "desbloqueado": false,
-    "lat": 40.3696,
-    "lng": -3.6497
+    "lat": 40.4635,
+    "lng": -3.6506
   },
   {
-    "id": "EMP-BOE-A-2026-24836",
+    "id": "EMP-BOE-A-2026-24947",
     "tipo": "empleo",
     "provincia": "nacional",
-    "titulo": "Plazas y Bolsas: Ministerio De La Presidencia, Justicia Y",
-    "ubicacion": "Nacional • Ministerio De La Presidencia, ",
+    "titulo": "Plazas y Bolsas: Consejo General Del Poder Judicial",
+    "ubicacion": "Nacional • Consejo General Del Poder Judi",
     "specs": [
       "14 Pagas Oficiales",
       "Retribución +2.150 € / mes",
@@ -331,18 +331,18 @@
     "badgeVisual": "💼 EMPLEO ESTATAL",
     "tag": "CONVOCATORIA BOE",
     "tagClass": "tag-empleo",
-    "expedienteReal": "BOE-A-2026-24836",
-    "enlaceBoeReal": "https://www.boe.es/boe/dias/2026/11/26/pdfs/BOE-A-2026-24836.pdf",
+    "expedienteReal": "BOE-A-2026-24947",
+    "enlaceBoeReal": "https://www.boe.es/boe/dias/2026/11/27/pdfs/BOE-A-2026-24947.pdf",
     "desbloqueado": false,
-    "lat": 40.4088,
-    "lng": -3.6777
+    "lat": 40.3885,
+    "lng": -3.7129
   },
   {
-    "id": "EMP-BOE-A-2026-24837",
+    "id": "EMP-BOE-A-2026-24948",
     "tipo": "empleo",
     "provincia": "nacional",
-    "titulo": "Plazas y Bolsas: Ministerio De La Presidencia, Justicia Y",
-    "ubicacion": "Nacional • Ministerio De La Presidencia, ",
+    "titulo": "Plazas y Bolsas: Ministerio Del Interior",
+    "ubicacion": "Nacional • Ministerio Del Interior",
     "specs": [
       "14 Pagas Oficiales",
       "Retribución +2.150 € / mes",
@@ -357,18 +357,18 @@
     "badgeVisual": "💼 EMPLEO ESTATAL",
     "tag": "CONVOCATORIA BOE",
     "tagClass": "tag-empleo",
-    "expedienteReal": "BOE-A-2026-24837",
-    "enlaceBoeReal": "https://www.boe.es/boe/dias/2026/11/26/pdfs/BOE-A-2026-24837.pdf",
+    "expedienteReal": "BOE-A-2026-24948",
+    "enlaceBoeReal": "https://www.boe.es/boe/dias/2026/11/27/pdfs/BOE-A-2026-24948.pdf",
     "desbloqueado": false,
-    "lat": 40.3921,
-    "lng": -3.7219
+    "lat": 40.4199,
+    "lng": -3.6895
   },
   {
-    "id": "EMP-BOE-A-2026-24838",
+    "id": "EMP-BOE-A-2026-24949",
     "tipo": "empleo",
     "provincia": "nacional",
-    "titulo": "Plazas y Bolsas: Ministerio De Agricultura, Pesca Y Alime",
-    "ubicacion": "Nacional • Ministerio De Agricultura, Pes",
+    "titulo": "Plazas y Bolsas: Tribunal De Cuentas",
+    "ubicacion": "Nacional • Tribunal De Cuentas",
     "specs": [
       "14 Pagas Oficiales",
       "Retribución +2.150 € / mes",
@@ -383,17 +383,17 @@
     "badgeVisual": "💼 EMPLEO ESTATAL",
     "tag": "CONVOCATORIA BOE",
     "tagClass": "tag-empleo",
-    "expedienteReal": "BOE-A-2026-24838",
-    "enlaceBoeReal": "https://www.boe.es/boe/dias/2026/11/26/pdfs/BOE-A-2026-24838.pdf",
+    "expedienteReal": "BOE-A-2026-24949",
+    "enlaceBoeReal": "https://www.boe.es/boe/dias/2026/11/27/pdfs/BOE-A-2026-24949.pdf",
     "desbloqueado": false,
-    "lat": 40.3882,
-    "lng": -3.7104
+    "lat": 40.4016,
+    "lng": -3.7158
   },
   {
-    "id": "LIC-BOE-B-2026-38922",
+    "id": "LIC-BOE-B-2026-39099",
     "tipo": "licitacion",
     "provincia": "nacional",
-    "titulo": "Anuncio de formalización de contratos de: Dirección de la Agencia Estatal Boletín Ofici...",
+    "titulo": "Anuncio de formalización de contratos de: Consejo de Administración del Patrimonio Naci...",
     "ubicacion": "Nacional • Ministerio De La Presidencia, Ju",
     "specs": [
       "Contrato Público Oficial",
@@ -404,22 +404,22 @@
     "precioMercado": "Concurso Público",
     "precioBoe": "Pliego BOE",
     "ahorro": "OFICIAL BOE",
-    "legal": "Expediente Oficial BOE-B-2026-38922 • Contratación del Sector Público",
+    "legal": "Expediente Oficial BOE-B-2026-39099 • Contratación del Sector Público",
     "img": "assets/templates/licitacion_obras_publicas.jpg",
     "badgeVisual": "📋 CONTRATO PÚBLICO",
     "tag": "LICITACIÓN BOE",
     "tagClass": "tag-licit",
-    "expedienteReal": "BOE-B-2026-38922",
-    "enlaceBoeReal": "https://www.boe.es/boe/dias/2026/11/26/pdfs/BOE-B-2026-38922.pdf",
+    "expedienteReal": "BOE-B-2026-39099",
+    "enlaceBoeReal": "https://www.boe.es/boe/dias/2026/11/27/pdfs/BOE-B-2026-39099.pdf",
     "desbloqueado": false,
-    "lat": 40.4274,
-    "lng": -3.6869
+    "lat": 40.4305,
+    "lng": -3.6852
   },
   {
-    "id": "LIC-BOE-B-2026-38926",
+    "id": "LIC-BOE-B-2026-39100",
     "tipo": "licitacion",
     "provincia": "nacional",
-    "titulo": "Anuncio de formalización de contratos de: Jefatura de Intendencia de Asuntos Económicos...",
+    "titulo": "Anuncio de licitación de: Jefatura de Asuntos Económicos del Estado Mayor de la Defensa...",
     "ubicacion": "Nacional • Ministerio De Defensa",
     "specs": [
       "Contrato Público Oficial",
@@ -430,22 +430,22 @@
     "precioMercado": "Concurso Público",
     "precioBoe": "Pliego BOE",
     "ahorro": "OFICIAL BOE",
-    "legal": "Expediente Oficial BOE-B-2026-38926 • Contratación del Sector Público",
+    "legal": "Expediente Oficial BOE-B-2026-39100 • Contratación del Sector Público",
     "img": "assets/templates/licitacion_obras_publicas.jpg",
     "badgeVisual": "📋 CONTRATO PÚBLICO",
     "tag": "LICITACIÓN BOE",
     "tagClass": "tag-licit",
-    "expedienteReal": "BOE-B-2026-38926",
-    "enlaceBoeReal": "https://www.boe.es/boe/dias/2026/11/26/pdfs/BOE-B-2026-38926.pdf",
+    "expedienteReal": "BOE-B-2026-39100",
+    "enlaceBoeReal": "https://www.boe.es/boe/dias/2026/11/27/pdfs/BOE-B-2026-39100.pdf",
     "desbloqueado": false,
-    "lat": 40.3974,
-    "lng": -3.7254
+    "lat": 40.3808,
+    "lng": -3.7175
   },
   {
-    "id": "LIC-BOE-B-2026-38927",
+    "id": "LIC-BOE-B-2026-39102",
     "tipo": "licitacion",
     "provincia": "nacional",
-    "titulo": "Anuncio de formalización de contratos de: Jefatura de Intendencia de Asuntos Económicos...",
+    "titulo": "Anuncio de formalización de contratos de: Jefatura de la Sección Económico Administrati...",
     "ubicacion": "Nacional • Ministerio De Defensa",
     "specs": [
       "Contrato Público Oficial",
@@ -456,23 +456,23 @@
     "precioMercado": "Concurso Público",
     "precioBoe": "Pliego BOE",
     "ahorro": "OFICIAL BOE",
-    "legal": "Expediente Oficial BOE-B-2026-38927 • Contratación del Sector Público",
+    "legal": "Expediente Oficial BOE-B-2026-39102 • Contratación del Sector Público",
     "img": "assets/templates/licitacion_obras_publicas.jpg",
     "badgeVisual": "📋 CONTRATO PÚBLICO",
     "tag": "LICITACIÓN BOE",
     "tagClass": "tag-licit",
-    "expedienteReal": "BOE-B-2026-38927",
-    "enlaceBoeReal": "https://www.boe.es/boe/dias/2026/11/26/pdfs/BOE-B-2026-38927.pdf",
+    "expedienteReal": "BOE-B-2026-39102",
+    "enlaceBoeReal": "https://www.boe.es/boe/dias/2026/11/27/pdfs/BOE-B-2026-39102.pdf",
     "desbloqueado": false,
-    "lat": 40.4489,
-    "lng": -3.6879
+    "lat": 40.3861,
+    "lng": -3.7141
   },
   {
-    "id": "AYU-BDNS-945145",
+    "id": "AYU-BDNS-945401",
     "tipo": "ayuda",
     "provincia": "nacional",
-    "titulo": "Subvención Directa al Club CLUB DEPORTIVO GIMNASIA RITMICA TILAMAR, para la promoción d...",
-    "ubicacion": "Oficial • Tinajo",
+    "titulo": "CATEDRA RAFAEL DEL RIEGO DE BUEN GOBIERNO AÑO 2026",
+    "ubicacion": "Oficial • Principado De Asturias",
     "specs": [
       "Fondo Perdido / Subvención",
       "Registro Oficial BDNS",
@@ -482,23 +482,23 @@
     "precioMercado": "Financiación Bancaria",
     "precioBoe": "Subvención",
     "ahorro": "FONDO PERDIDO",
-    "legal": "Convocatoria Oficial BDNS Nº 945145 • Base de Datos Nacional de Subvenciones",
+    "legal": "Convocatoria Oficial BDNS Nº 945401 • Base de Datos Nacional de Subvenciones",
     "img": "assets/templates/ayuda_fondos_europeos.jpg",
     "badgeVisual": "🇪🇺 SUBVENCIÓN BDNS",
     "tag": "SUBVENCIÓN PÚBLICA",
     "tagClass": "tag-ayuda",
-    "expedienteReal": "BDNS-945145",
-    "enlaceBoeReal": "https://www.infosubvenciones.es/bdnstrans/GE/es/convocatorias/945145",
+    "expedienteReal": "BDNS-945401",
+    "enlaceBoeReal": "https://www.infosubvenciones.es/bdnstrans/GE/es/convocatorias/945401",
     "desbloqueado": false,
-    "lat": 40.3927,
-    "lng": -3.7113
+    "lat": 43.3825,
+    "lng": -5.8551
   },
   {
-    "id": "AYU-BDNS-945144",
+    "id": "AYU-BDNS-945400",
     "tipo": "ayuda",
     "provincia": "nacional",
-    "titulo": "Ayudas para los gastos de funcionamiento y animación de las Estrategias de Desarrollo L...",
-    "ubicacion": "Oficial • Illes Balears",
+    "titulo": "Actuaciones de emergencia en caminos de Fontalba (Tineo)",
+    "ubicacion": "Oficial • Principado De Asturias",
     "specs": [
       "Fondo Perdido / Subvención",
       "Registro Oficial BDNS",
@@ -508,23 +508,23 @@
     "precioMercado": "Financiación Bancaria",
     "precioBoe": "Subvención",
     "ahorro": "FONDO PERDIDO",
-    "legal": "Convocatoria Oficial BDNS Nº 945144 • Base de Datos Nacional de Subvenciones",
+    "legal": "Convocatoria Oficial BDNS Nº 945400 • Base de Datos Nacional de Subvenciones",
     "img": "assets/templates/ayuda_fondos_europeos.jpg",
     "badgeVisual": "🇪🇺 SUBVENCIÓN BDNS",
     "tag": "SUBVENCIÓN PÚBLICA",
     "tagClass": "tag-ayuda",
-    "expedienteReal": "BDNS-945144",
-    "enlaceBoeReal": "https://www.infosubvenciones.es/bdnstrans/GE/es/convocatorias/945144",
+    "expedienteReal": "BDNS-945400",
+    "enlaceBoeReal": "https://www.infosubvenciones.es/bdnstrans/GE/es/convocatorias/945400",
     "desbloqueado": false,
-    "lat": 40.4034,
-    "lng": -3.6723
+    "lat": 43.3516,
+    "lng": -5.8487
   },
   {
-    "id": "AYU-BDNS-945143",
+    "id": "AYU-BDNS-945399",
     "tipo": "ayuda",
     "provincia": "nacional",
-    "titulo": "CONCESIÓN DE UNA SUBVENCIÓN NOMINATIVA A LA FUNDACIÓ CHAMPAGNAT, PARA EL PROYECTO DE LL...",
-    "ubicacion": "Oficial • Lleida",
+    "titulo": "Subvención nominativa a favor de l'Associació Granollers Pedala destinada a promocionar...",
+    "ubicacion": "Oficial • Granollers",
     "specs": [
       "Fondo Perdido / Subvención",
       "Registro Oficial BDNS",
@@ -534,16 +534,16 @@
     "precioMercado": "Financiación Bancaria",
     "precioBoe": "Subvención",
     "ahorro": "FONDO PERDIDO",
-    "legal": "Convocatoria Oficial BDNS Nº 945143 • Base de Datos Nacional de Subvenciones",
+    "legal": "Convocatoria Oficial BDNS Nº 945399 • Base de Datos Nacional de Subvenciones",
     "img": "assets/templates/ayuda_fondos_europeos.jpg",
     "badgeVisual": "🇪🇺 SUBVENCIÓN BDNS",
     "tag": "SUBVENCIÓN PÚBLICA",
     "tagClass": "tag-ayuda",
-    "expedienteReal": "BDNS-945143",
-    "enlaceBoeReal": "https://www.infosubvenciones.es/bdnstrans/GE/es/convocatorias/945143",
+    "expedienteReal": "BDNS-945399",
+    "enlaceBoeReal": "https://www.infosubvenciones.es/bdnstrans/GE/es/convocatorias/945399",
     "desbloqueado": false,
-    "lat": 40.3919,
-    "lng": -3.6755
+    "lat": 40.4078,
+    "lng": -3.7256
   },
   {
     "id": "EMP-EXTERIORES-01",
